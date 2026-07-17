@@ -56,30 +56,30 @@ const emit = defineEmits(['update:activeIndicator'])
 const isOpen = ref(false)
 
 const explicitIndicators = [
-  { id: 'shannon_h', name: 'Land Use Diversity', field: 'shannon_h', file: 'shannon_h.geojson', desc: 'Shannon-H entropy', unit: '' },
-  { id: 'innovation_ratio', name: 'Innovation Ratio', field: 'Innovation_ratio', file: 'innovation_ratio.geojson', desc: 'Ratio of innovative enterprises', unit: '' },
-  { id: 'tech_density', name: 'Tech Enterprise Density', field: 'tech_density', file: 'tech_density.geojson', desc: 'High-tech enterprise density', unit: '/km²' },
-  { id: 'poi_density', name: 'POI Density', field: 'poi_density', file: 'poi_density.geojson', desc: 'Point-of-interest density', unit: '/km²' },
-  { id: 'road_density', name: 'Road Density', field: 'road_density', file: 'road_density.geojson', desc: 'Road network density', unit: 'km/km²' },
-  { id: 'green_ratio', name: 'Green Space Ratio', field: 'green_ratio', file: 'green_ratio.geojson', desc: 'Percentage of green space', unit: '%' },
-  { id: 'floor_ratio', name: 'Floor Area Ratio', field: 'floor_ratio', file: 'floor_ratio.geojson', desc: 'Building floor area ratio', unit: '' },
-  { id: 'building_height', name: 'Avg Building Height', field: 'building_height', file: 'building_height.geojson', desc: 'Average building height', unit: 'm' },
-  { id: 'population', name: 'Population Density', field: 'population', file: 'population.geojson', desc: 'Residential population density', unit: 'p/km²' },
-  { id: 'employment', name: 'Employment Density', field: 'employment', file: 'employment.geojson', desc: 'Workforce density', unit: 'p/km²' },
-  { id: 'commute_flow', name: 'Commute Flow', field: 'commute_flow', file: 'commute_flow.geojson', desc: 'Daily commuting volume', unit: '' },
-  { id: 'night_light', name: 'Night Light Intensity', field: 'night_light', file: 'night_light.geojson', desc: 'Remote sensing night light', unit: 'nW/cm²/sr' },
-  { id: 'wifi_coverage', name: 'WiFi Coverage', field: 'wifi_coverage', file: 'wifi_coverage.geojson', desc: 'Public WiFi hotspot coverage', unit: '%' },
-  { id: 'traffic_index', name: 'Traffic Index', field: 'traffic_index', file: 'traffic_index.geojson', desc: 'Traffic congestion level', unit: '' },
-  { id: 'land_price', name: 'Land Price', field: 'land_price', file: 'land_price.geojson', desc: 'Commercial land value', unit: '¥/m²' }
+  { id: 'x1_bldg_density', name: 'Building Density', field: 'x1_bldg_density', file: 'explicit/x1_bldg_density.geojson', desc: 'Ratio of building area to total area', unit: '%', type: 'explicit' },
+  { id: 'x1_avg_height_m', name: 'Avg Building Height', field: 'x1_avg_height_m', file: 'explicit/x1_avg_height_m.geojson', desc: 'Average building height', unit: 'm', type: 'explicit' },
+  { id: 'x1_cafe_count', name: 'Cafe Count', field: 'x1_cafe_count', file: 'explicit/x1_cafe_count.geojson', desc: 'Number of cafes', unit: '', type: 'explicit' },
+  { id: 'x1_consumer_nearest_m', name: 'Consumer Nearest', field: 'x1_consumer_nearest_m', file: 'explicit/x1_consumer_nearest_m.geojson', desc: 'Distance to nearest consumer facility', unit: 'm', type: 'explicit' },
+  { id: 'x1_cultural_nearest_m', name: 'Cultural Nearest', field: 'x1_cultural_nearest_m', file: 'explicit/x1_cultural_nearest_m.geojson', desc: 'Distance to nearest cultural facility', unit: 'm', type: 'explicit' },
+  { id: 'x1_far_proxy', name: 'FAR Proxy', field: 'x1_far_proxy', file: 'explicit/x1_far_proxy.geojson', desc: 'Floor area ratio proxy', unit: '', type: 'explicit' },
+  { id: 'x1_gdp_grid_value', name: 'GDP Grid Value', field: 'x1_gdp_grid_value', file: 'explicit/x1_gdp_grid_value.geojson', desc: 'GDP per grid cell', unit: '', type: 'explicit' },
+  { id: 'x1_hightech_count', name: 'High-tech Count', field: 'x1_hightech_count', file: 'explicit/x1_hightech_count.geojson', desc: 'Number of high-tech enterprises', unit: '', type: 'explicit' },
+  { id: 'x1_house_price_mean', name: 'House Price Mean', field: 'x1_house_price_mean', file: 'explicit/x1_house_price_mean.geojson', desc: 'Average house price', unit: '', type: 'explicit' },
+  { id: 'x1_infra_nearest_m', name: 'Infrastructure Nearest', field: 'x1_infra_nearest_m', file: 'explicit/x1_infra_nearest_m.geojson', desc: 'Distance to nearest infrastructure', unit: 'm', type: 'explicit' },
+  { id: 'x1_innov_land_share', name: 'Innovation Land Share', field: 'x1_innov_land_share', file: 'explicit/x1_innov_land_share.geojson', desc: 'Share of innovation land use', unit: '%', type: 'explicit' },
+  { id: 'x1_landuse_shannon', name: 'Land Use Shannon', field: 'x1_landuse_shannon', file: 'explicit/x1_landuse_shannon.geojson', desc: 'Land use diversity index', unit: '', type: 'explicit' },
+  { id: 'x1_metro_nearest_m', name: 'Metro Nearest', field: 'x1_metro_nearest_m', file: 'explicit/x1_metro_nearest_m.geojson', desc: 'Distance to nearest metro station', unit: 'm', type: 'explicit' },
+  { id: 'x1_natural_nearest_m', name: 'Natural Nearest', field: 'x1_natural_nearest_m', file: 'explicit/x1_natural_nearest_m.geojson', desc: 'Distance to nearest natural space', unit: 'm', type: 'explicit' },
+  { id: 'x1_social_nearest_m', name: 'Social Nearest', field: 'x1_social_nearest_m', file: 'explicit/x1_social_nearest_m.geojson', desc: 'Distance to nearest social facility', unit: 'm', type: 'explicit' }
 ]
 
 const implicitIndicators = [
-  { id: 'creativity', name: 'Creativity', field: 'creativity', file: 'creativity.geojson', desc: 'Creative atmosphere perception', unit: '' },
-  { id: 'interaction', name: 'Interaction', field: 'interaction', file: 'interaction.geojson', desc: 'Social interaction density', unit: '' },
-  { id: 'integration', name: 'Integration', field: 'integration', file: 'integration.geojson', desc: 'Industry-city integration', unit: '' },
-  { id: 'ecology', name: 'Ecology', field: 'ecology', file: 'ecology.geojson', desc: 'Ecological friendliness', unit: '' },
-  { id: 'culture', name: 'Culture', field: 'culture', file: 'culture.geojson', desc: 'Cultural identity', unit: '' },
-  { id: 'future', name: 'Future', field: 'future', file: 'future.geojson', desc: 'Future-oriented perception', unit: '' }
+  { id: 'x2_questionnaire_identity', name: 'Identity', field: 'x2_questionnaire_identity', file: 'implicit/x2_questionnaire_identity.geojson', desc: 'Sense of place identity', unit: '', type: 'implicit' },
+  { id: 'x2_questionnaire_innovation_atmos', name: 'Innovation Atmosphere', field: 'x2_questionnaire_innovation_atmos', file: 'implicit/x2_questionnaire_innovation_atmos.geojson', desc: 'Perceived innovation atmosphere', unit: '', type: 'implicit' },
+  { id: 'x2_questionnaire_spatial_image', name: 'Spatial Image', field: 'x2_questionnaire_spatial_image', file: 'implicit/x2_questionnaire_spatial_image.geojson', desc: 'Spatial image perception', unit: '', type: 'implicit' },
+  { id: 'x2_questionnaire_tech_influence', name: 'Tech Influence', field: 'x2_questionnaire_tech_influence', file: 'implicit/x2_questionnaire_tech_influence.geojson', desc: 'Technology influence perception', unit: '', type: 'implicit' },
+  { id: 'x2_questionnaire_work_efficiency', name: 'Work Efficiency', field: 'x2_questionnaire_work_efficiency', file: 'implicit/x2_questionnaire_work_efficiency.geojson', desc: 'Perceived work efficiency', unit: '', type: 'implicit' },
+  { id: 'x2_questionnaire_work_wellbeing', name: 'Work Wellbeing', field: 'x2_questionnaire_work_wellbeing', file: 'implicit/x2_questionnaire_work_wellbeing.geojson', desc: 'Work wellbeing perception', unit: '', type: 'implicit' }
 ]
 
 const currentIndicator = computed(() => {

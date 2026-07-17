@@ -7,18 +7,6 @@
         <span class="indicator-badge study-area">STUDY AREA · CENTRAL URBAN</span>
         <span v-if="activeLayer !== 'implicit' && currentIndicator" class="indicator-badge">INDICATOR: {{ currentIndicator.name.toUpperCase() }}</span>
       </div>
-      <div class="layer-toggle">
-        <button
-          v-for="layer in layers"
-          :key="layer.id"
-          class="layer-btn"
-          :class="{ active: activeLayer === layer.id }"
-          @click="$emit('update:activeLayer', layer.id)"
-        >
-          <span class="layer-dot" :style="{ background: layer.color }"></span>
-          {{ layer.label }}
-        </button>
-      </div>
     </div>
     <div ref="mapChart" class="map-chart"></div>
     <div class="map-legend">
@@ -45,9 +33,9 @@ import * as echarts from 'echarts'
 const props = defineProps({
   activeLayer: { type: String, default: 'explicit' },
   indicatorDataCache: { type: Object, default: () => ({}) },
-  activeIndicator: { type: String, default: 'shannon_h' },
+  activeIndicator: { type: String, default: 'x1_bldg_density' },
   boundaryCoords: { type: Array, default: () => [] },
-  mapBounds: { type: Object, default: () => ({ center: [121.458, 31.199], zoom: 5.5 }) },
+  mapBounds: { type: Object, default: () => ({ center: [121.458, 31.199], zoom: 10 }) },
   explicitIndicators: { type: Array, default: () => [] },
   implicitIndicators: { type: Array, default: () => [] }
 })
@@ -72,12 +60,6 @@ const indicatorRange = computed(() => {
   return { min: 0, max: 1 }
 })
 
-const layers = [
-  { id: 'explicit', label: 'EXPLICIT', color: '#e8554e' },
-  { id: 'implicit', label: 'IMPLICIT', color: '#4a9eda' },
-  { id: 'overlay', label: 'OVERLAY', color: '#e8554e' }
-]
-
 const getIndicatorColor = (normalized, isExplicit) => {
   const t = Math.min(1, Math.max(0, normalized))
   if (isExplicit) {
@@ -97,15 +79,15 @@ const getIndicatorColor = (normalized, isExplicit) => {
   } else {
     if (t < 0.5) {
       const k = t / 0.5
-      const r = Math.round(30 + (74 - 30) * k)
-      const g = Math.round(60 + (120 - 60) * k)
-      const b = Math.round(100 + (180 - 100) * k)
+      const r = Math.round(30 + (60 - 30) * k)
+      const g = Math.round(60 + (110 - 60) * k)
+      const b = Math.round(120 + (180 - 120) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.35 + 0.35 * k})`
     } else {
       const k = (t - 0.5) / 0.5
-      const r = Math.round(74 + (140 - 74) * k)
-      const g = Math.round(158 + (200 - 158) * k)
-      const b = Math.round(218 + (255 - 218) * k)
+      const r = Math.round(60 + (100 - 60) * k)
+      const g = Math.round(110 + (170 - 110) * k)
+      const b = Math.round(180 + (240 - 180) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.7 + 0.25 * k})`
     }
   }
@@ -214,37 +196,60 @@ const updateMap = () => {
   }
 
   if (isImplicit || isOverlay) {
-    series.push({
-      name: 'Implicit',
-      type: 'effectScatter',
-      coordinateSystem: 'geo',
-      data: implicitPoints.map(p => ({
-        value: p,
-        itemStyle: {
-          color: '#4a9eda',
-          shadowBlur: 15,
-          shadowColor: 'rgba(74, 158, 218, 0.6)'
-        }
-      })),
-      symbolSize: (val) => val[2] / 4,
-      rippleEffect: { brushType: 'stroke', scale: 2, period: 4 },
-      hoverAnimation: true,
-      zlevel: 3
-    })
-  }
-
-  if (isOverlay) {
-    series.push({
-      name: 'Explicit POI',
-      type: 'scatter',
-      coordinateSystem: 'geo',
-      data: explicitPoints.map(p => ({
-        value: p,
-        itemStyle: { color: '#e8554e', opacity: 0.7 }
-      })),
-      symbolSize: 4,
-      zlevel: 4
-    })
+    const implicitIndicator = props.implicitIndicators[0]
+    if (implicitIndicator && props.indicatorDataCache[implicitIndicator.id]) {
+      const implicitPolygons = props.indicatorDataCache[implicitIndicator.id].polygons
+      const implicitRange = { 
+        min: props.indicatorDataCache[implicitIndicator.id].min, 
+        max: props.indicatorDataCache[implicitIndicator.id].max 
+      }
+      series.push({
+        name: implicitIndicator.name,
+        type: 'custom',
+        coordinateSystem: 'geo',
+        renderItem: (params, api) => {
+          const item = implicitPolygons[params.dataIndex]
+          if (!item) return null
+          const pts = item.coords.map(c => api.coord(c))
+          const normalized = (item.value - implicitRange.min) / (implicitRange.max - implicitRange.min)
+          const color = getIndicatorColor(normalized, false)
+          return {
+            type: 'polygon',
+            shape: { points: pts },
+            style: {
+              fill: color,
+              stroke: 'rgba(74, 158, 218, 0.2)',
+              lineWidth: 0.3
+            },
+            silent: false
+          }
+        },
+        data: implicitPolygons.map(p => ({
+          value: [p.coords[0][0], p.coords[0][1], p.value],
+          coords: p.coords,
+          rawValue: p.value
+        })),
+        zlevel: 2
+      })
+    } else {
+      series.push({
+        name: 'Implicit',
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        data: implicitPoints.map(p => ({
+          value: p,
+          itemStyle: {
+            color: '#4a9eda',
+            shadowBlur: 15,
+            shadowColor: 'rgba(74, 158, 218, 0.6)'
+          }
+        })),
+        symbolSize: (val) => val[2] / 4,
+        rippleEffect: { brushType: 'stroke', scale: 2, period: 4 },
+        hoverAnimation: true,
+        zlevel: 3
+      })
+    }
   }
 
   const option = {
@@ -262,14 +267,8 @@ const updateMap = () => {
       },
       formatter: (params) => {
         if (params.seriesName === 'StudyArea') return null
-        if (params.seriesName === 'Shannon-H' || params.seriesName === 'Indicator') {
-          return `<strong>${indicator?.name || 'Indicator'}</strong><br/>Value: ${params.value[2].toFixed(4)}<br/>Coord: ${params.value[0].toFixed(4)}, ${params.value[1].toFixed(4)}`
-        }
-        if (params.seriesName === 'Implicit') {
-          return `<strong>Innovation Atmosphere</strong><br/>Score: ${params.value[2]}<br/>Coord: ${params.value[0].toFixed(4)}, ${params.value[1].toFixed(4)}`
-        }
-        if (params.seriesName === 'Explicit POI') {
-          return `<strong>Explicit POI</strong><br/>Intensity: ${params.value[2]}<br/>Coord: ${params.value[0].toFixed(4)}, ${params.value[1].toFixed(4)}`
+        if (params.value && params.value.length >= 3) {
+          return `<strong>${params.seriesName || 'Indicator'}</strong><br/>Value: ${params.value[2].toFixed(4)}<br/>Coord: ${params.value[0].toFixed(4)}, ${params.value[1].toFixed(4)}`
         }
         return null
       }
@@ -327,6 +326,7 @@ const registerMapAndInit = async () => {
 watch(() => props.activeLayer, () => { if (mapReady.value) updateMap() })
 watch(() => props.activeIndicator, () => { if (mapReady.value) updateMap() })
 watch(() => props.indicatorDataCache, () => { if (mapReady.value) updateMap() }, { deep: true })
+watch(() => props.mapBounds, () => { if (mapReady.value) updateMap() }, { deep: true })
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)
@@ -407,44 +407,6 @@ onUnmounted(() => {
   background: rgba(232, 85, 78, 0.08);
   border-color: rgba(232, 85, 78, 0.6);
   border-style: dashed;
-}
-
-.layer-toggle {
-  display: flex;
-  gap: 8px;
-}
-
-.layer-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 0.6);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.layer-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.layer-btn.active {
-  background: rgba(232, 85, 78, 0.15);
-  border-color: rgba(232, 85, 78, 0.5);
-  color: #ffffff;
-}
-
-.layer-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
 }
 
 .map-chart {
