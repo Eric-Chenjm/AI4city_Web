@@ -218,22 +218,23 @@ const scrollToItem = (index) => {
   }
 }
 
-const initThreeScene = () => {
+const initThreeScene = async () => {
   if (!canvasRef.value) return
   
-  const width = canvasRef.value.offsetWidth
-  const height = canvasRef.value.offsetHeight
+  // 若 canvas 处于隐藏状态则 offsetWidth/Height 为 0，使用 clientWidth 或窗口尺寸保底
+  const width = canvasRef.value.offsetWidth || canvasRef.value.clientWidth || window.innerWidth
+  const height = canvasRef.value.offsetHeight || canvasRef.value.clientHeight || window.innerHeight
   
   scene = new THREE.Scene()
-  scene.background = new THREE.Color(0x0a1628)
+  scene.background = new THREE.Color(0x050a14)
   
   camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
-  camera.position.set(8, 6, 8)
+  camera.position.set(0, 10, 14)
   
   renderer = new THREE.WebGLRenderer({ 
     canvas: canvasRef.value, 
-    antialias: true,
-    alpha: true
+    antialias: true
+    // 注意：不使用 alpha: true，避免与 scene.background 冲突导致透明白化
   })
   renderer.setSize(width, height)
   renderer.setPixelRatio(window.devicePixelRatio)
@@ -241,61 +242,275 @@ const initThreeScene = () => {
   controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = true
   controls.dampingFactor = 0.05
-  controls.minDistance = 5
-  controls.maxDistance = 20
+  controls.minDistance = 2
+  controls.maxDistance = 40
   
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
   scene.add(ambientLight)
   
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
-  directionalLight.position.set(10, 10, 10)
+  directionalLight.position.set(10, 15, 10)
   scene.add(directionalLight)
   
-  const islandGeometry = new THREE.PlaneGeometry(8, 4)
-  const islandMaterial = new THREE.MeshStandardMaterial({
-    color: 0x1a2a4a,
-    roughness: 0.8,
-    metalness: 0.2,
-    transparent: true,
-    opacity: 0.5
-  })
-  const island = new THREE.Mesh(islandGeometry, islandMaterial)
-  island.rotation.x = -Math.PI / 2
-  scene.add(island)
+  // 经纬度投影与缩放映射 (使用标准 Web 墨卡托投影计算像素坐标，实现像素级完全对准)
+  let centerLng = 121.558
+  let centerLat = 31.2875
   
-  const gridHelper = new THREE.GridHelper(10, 20, 0x2a4a6a, 0x1a3a5a)
-  gridHelper.position.y = -0.01
-  scene.add(gridHelper)
+  // 在 zoom 15 级下的像素投影公式
+  const lngToTileX = (lng) => ((lng + 180) / 360) * 32768
+  const latToTileY = (lat) => {
+    const rad = (lat * Math.PI) / 180
+    return ((1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2) * 32768
+  }
   
-  const zoneData = [
-    { type: 'core', position: [0, 1.5, 0], size: [1.2, 3, 1.2], color: 0xe8554e },
-    { type: 'core', position: [1.5, 1, 0.5], size: [0.8, 2, 0.8], color: 0xe8554e },
-    { type: 'core', position: [-1.5, 1.2, -0.5], size: [1, 2.4, 1], color: 0xe8554e },
-    { type: 'blue', position: [3, 0.8, -1], size: [0.6, 1.6, 0.6], color: 0x4a7ab0 },
-    { type: 'blue', position: [-2.5, 0.6, 1], size: [0.5, 1.2, 0.5], color: 0x4a7ab0 },
-    { type: 'purple', position: [2, 0.7, 1.5], size: [0.5, 1.4, 0.5], color: 0x8a5a9a },
-    { type: 'purple', position: [-3, 0.9, -0.8], size: [0.6, 1.8, 0.6], color: 0x8a5a9a },
-    { type: 'gray', position: [3.5, 0.4, 0], size: [0.4, 0.8, 0.4], color: 0x4a4a5a },
-    { type: 'gray', position: [-2, 0.5, -1.5], size: [0.4, 1, 0.4], color: 0x4a4a5a },
-    { type: 'gray', position: [1, 0.3, -2], size: [0.3, 0.6, 0.3], color: 0x4a4a5a },
-    { type: 'gray', position: [-3.5, 0.4, 1.5], size: [0.4, 0.8, 0.4], color: 0x4a4a5a }
-  ]
+  let centerPx = lngToTileX(centerLng)
+  let centerPy = latToTileY(centerLat)
   
-  zoneData.forEach(data => {
-    const geometry = new THREE.BoxGeometry(...data.size)
-    const material = new THREE.MeshStandardMaterial({
-      color: data.color,
-      roughness: 0.3,
-      metalness: 0.7,
-      emissive: data.color,
-      emissiveIntensity: 0.2
+  // 缩放因子：确保 3D 模型比例与底图瓦片完全等比例缩放
+  const scale = 600.0 * (360 / 32768)
+  
+  let lngToX = (lng) => (lngToTileX(lng) - centerPx) * scale
+  let latToZ = (lat) => -(latToTileY(lat) - centerPy) * scale
+
+  try {
+    // 1. 加载并渲染边界底板
+    const boundRes = await fetch('/data/BoundryToJSON.geojson')
+    const boundGeo = await boundRes.json()
+    if (boundGeo.features && boundGeo.features.length > 0) {
+      const coords = boundGeo.features[0].geometry.coordinates[0]
+      
+      // 动态计算真实的边界 bounding box 中心点以实现完美居中
+      let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity
+      coords.forEach(pt => {
+        if (pt[0] < minLng) minLng = pt[0]
+        if (pt[0] > maxLng) maxLng = pt[0]
+        if (pt[1] < minLat) minLat = pt[1]
+        if (pt[1] > maxLat) maxLat = pt[1]
+      })
+      centerLng = (minLng + maxLng) / 2
+      centerLat = (minLat + maxLat) / 2
+      
+      // 使用精准的几何中心动态更新投影原点和映射函数
+      centerPx = lngToTileX(centerLng)
+      centerPy = latToTileY(centerLat)
+      
+      lngToX = (lng) => (lngToTileX(lng) - centerPx) * scale
+      latToZ = (lat) => -(latToTileY(lat) - centerPy) * scale
+      
+      // 1.1 渲染复兴岛陆地底板
+      const shape = new THREE.Shape()
+      coords.forEach((pt, i) => {
+        const x = lngToX(pt[0])
+        const z = latToZ(pt[1])
+        if (i === 0) shape.moveTo(x, z)
+        else shape.lineTo(x, z)
+      })
+      const islandGeometry = new THREE.ExtrudeGeometry(shape, { depth: 0.15, bevelEnabled: false })
+      const islandMaterial = new THREE.MeshStandardMaterial({
+        color: 0x14223b, // 暗沉亮黑色
+        roughness: 0.9,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.8
+      })
+      const islandMesh = new THREE.Mesh(islandGeometry, islandMaterial)
+      islandMesh.rotation.x = -Math.PI / 2
+      islandMesh.position.y = -0.15 // 底板顶面在 y = 0
+      scene.add(islandMesh)
+
+      // 1.2 加载 CartoDB 暗黑无字瓦片地图底图
+      // zoom 15 高精度（每张约 1.2km），31×31 网格 ≈ 37km×37km，覆盖上海研究区核心范围
+      try {
+        const tileGeometry = new THREE.PlaneGeometry(scale, scale)
+        const textureLoader = new THREE.TextureLoader()
+        textureLoader.setCrossOrigin('anonymous')
+        
+        // zoom-15 瓦片中心索引
+        const centerTx = Math.floor(centerPx)
+        const centerTy = Math.floor(centerPy)
+        
+        // ±15 半径 → 31×31 = 961 张，浏览器异步加载，不阻塞渲染
+        for (let tx = centerTx - 15; tx <= centerTx + 15; tx++) {
+          for (let ty = centerTy - 15; ty <= centerTy + 15; ty++) {
+            const posX = (tx + 0.5 - centerPx) * scale
+            const posZ = (ty + 0.5 - centerPy) * scale
+            
+            const tileUrl = `https://basemaps.cartocdn.com/dark_nolabels/15/${tx}/${ty}.png`
+            
+            textureLoader.load(tileUrl, (texture) => {
+              // 默认 flipY=true：PlaneGeometry 旋转 -PI/2 后 V=1→-Z（北），图像北部正确对齐北方 ✓
+              const tileMat = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true,
+                opacity: 0.85,
+                depthWrite: false,
+                side: THREE.FrontSide
+              })
+              const tileMesh = new THREE.Mesh(tileGeometry, tileMat)
+              tileMesh.rotation.x = -Math.PI / 2
+              tileMesh.position.set(posX, -0.16, posZ)
+              scene.add(tileMesh)
+            }, undefined, (err) => {
+              console.warn(`Tile failed to load: ${tileUrl}`, err)
+            })
+          }
+        }
+      } catch (tileErr) {
+        console.warn('Map tiles initialization failed:', tileErr)
+      }
+    }
+    // 2. 加载公园绿地
+    try {
+      const parkRes = await fetch('/data/复兴岛公园ToJSON.geojson')
+      const parkGeo = await parkRes.json()
+      parkGeo.features.forEach(feat => {
+        const geom = feat.geometry
+        const coords = geom.type === 'Polygon' ? geom.coordinates[0] : geom.coordinates[0][0]
+        if (!coords) return
+        const shape = new THREE.Shape()
+        coords.forEach((pt, i) => {
+          const x = lngToX(pt[0])
+          const z = latToZ(pt[1])
+          if (i === 0) shape.moveTo(x, z)
+          else shape.lineTo(x, z)
+        })
+        const parkGeometry = new THREE.ExtrudeGeometry(shape, { depth: 0.02, bevelEnabled: false })
+        const parkMaterial = new THREE.MeshStandardMaterial({
+          color: 0x1b4332,
+          roughness: 0.9,
+          transparent: true,
+          opacity: 0.8
+        })
+        const parkMesh = new THREE.Mesh(parkGeometry, parkMaterial)
+        parkMesh.rotation.x = -Math.PI / 2
+        parkMesh.position.y = 0.005
+        scene.add(parkMesh)
+      })
+    } catch (e) {
+      console.warn('Park failed to load:', e)
+    }
+
+    // 3. 加载道路
+    try {
+      const roadRes = await fetch('/data/road_FeaturesToJSON.geojson')
+      const roadGeo = await roadRes.json()
+      const roadMaterial = new THREE.LineBasicMaterial({
+        color: 0x4a7ab0,
+        transparent: true,
+        opacity: 0.4
+      })
+      roadGeo.features.forEach(feat => {
+        const geom = feat.geometry
+        const coordsArray = geom.type === 'LineString' ? [geom.coordinates] : geom.coordinates
+        if (!coordsArray) return
+        coordsArray.forEach(coords => {
+          const points = []
+          coords.forEach(pt => {
+            points.push(new THREE.Vector3(lngToX(pt[0]), 0.005, latToZ(pt[1])))
+          })
+          const roadGeom = new THREE.BufferGeometry().setFromPoints(points)
+          const line = new THREE.Line(roadGeom, roadMaterial)
+          scene.add(line)
+        })
+      })
+    } catch (e) {
+      console.warn('Roads failed to load:', e)
+    }
+
+    // 4. 加载建筑物并分类染色
+    const buildRes = await fetch('/data/BuildingsToJSON.geojson')
+    const buildGeo = await buildRes.json()
+    buildGeo.features.forEach(feat => {
+      const geom = feat.geometry
+      const props = feat.properties
+      const height = props.height || 6
+      
+      // 决定建筑颜色（红：核心创新区，紫：潜在触发区，蓝：待活化区，灰：开发中）
+      let color = 0x4a4a5a
+      if (height >= 12) {
+        color = 0xe8554e
+      } else if (height >= 8 && height < 12) {
+        color = 0x8a5a9a
+      } else if (height >= 5 && height < 8) {
+        color = 0x4a7ab0
+      }
+      
+      const coords = geom.type === 'Polygon' ? geom.coordinates[0] : geom.coordinates[0][0]
+      if (!coords) return
+      
+      const shape = new THREE.Shape()
+      coords.forEach((pt, i) => {
+        const x = lngToX(pt[0])
+        const z = latToZ(pt[1])
+        if (i === 0) shape.moveTo(x, z)
+        else shape.lineTo(x, z)
+      })
+      
+      const extrudeSettings = {
+        depth: height * 0.04,
+        bevelEnabled: false
+      }
+      const buildGeom = new THREE.ExtrudeGeometry(shape, extrudeSettings)
+      const buildMat = new THREE.MeshStandardMaterial({
+        color: color,
+        roughness: 0.3,
+        metalness: 0.7,
+        emissive: color,
+        emissiveIntensity: 0.15
+      })
+      const buildMesh = new THREE.Mesh(buildGeom, buildMat)
+      buildMesh.rotation.x = -Math.PI / 2
+      buildMesh.position.y = 0.005
+      buildMesh.castShadow = true
+      buildMesh.receiveShadow = true
+      scene.add(buildMesh)
     })
-    const cube = new THREE.Mesh(geometry, material)
-    cube.position.set(...data.position)
-    cube.castShadow = true
-    cube.receiveShadow = true
-    scene.add(cube)
-  })
+
+  } catch (err) {
+    console.error('GeoJSON rendering failed, falling back to mock objects:', err)
+    
+    const islandGeometry = new THREE.PlaneGeometry(8, 4)
+    const islandMaterial = new THREE.MeshStandardMaterial({
+      color: 0x1a2a4a,
+      roughness: 0.8,
+      metalness: 0.2,
+      transparent: true,
+      opacity: 0.5
+    })
+    const island = new THREE.Mesh(islandGeometry, islandMaterial)
+    island.rotation.x = -Math.PI / 2
+    scene.add(island)
+
+    const zoneData = [
+      { type: 'core', position: [0, 1.5, 0], size: [1.2, 3, 1.2], color: 0xe8554e },
+      { type: 'core', position: [1.5, 1, 0.5], size: [0.8, 2, 0.8], color: 0xe8554e },
+      { type: 'core', position: [-1.5, 1.2, -0.5], size: [1, 2.4, 1], color: 0xe8554e },
+      { type: 'blue', position: [3, 0.8, -1], size: [0.6, 1.6, 0.6], color: 0x4a7ab0 },
+      { type: 'blue', position: [-2.5, 0.6, 1], size: [0.5, 1.2, 0.5], color: 0x4a7ab0 },
+      { type: 'purple', position: [2, 0.7, 1.5], size: [0.5, 1.4, 0.5], color: 0x8a5a9a },
+      { type: 'purple', position: [-3, 0.9, -0.8], size: [0.6, 1.8, 0.6], color: 0x8a5a9a },
+      { type: 'gray', position: [3.5, 0.4, 0], size: [0.4, 0.8, 0.4], color: 0x4a4a5a },
+      { type: 'gray', position: [-2, 0.5, -1.5], size: [0.4, 1, 0.4], color: 0x4a4a5a },
+      { type: 'gray', position: [1, 0.3, -2], size: [0.3, 0.6, 0.3], color: 0x4a4a5a },
+      { type: 'gray', position: [-3.5, 0.4, 1.5], size: [0.4, 0.8, 0.4], color: 0x4a4a5a }
+    ]
+    
+    zoneData.forEach(data => {
+      const geometry = new THREE.BoxGeometry(...data.size)
+      const material = new THREE.MeshStandardMaterial({
+        color: data.color,
+        roughness: 0.3,
+        metalness: 0.7,
+        emissive: data.color,
+        emissiveIntensity: 0.2
+      })
+      const cube = new THREE.Mesh(geometry, material)
+      cube.position.set(...data.position)
+      cube.castShadow = true
+      cube.receiveShadow = true
+      scene.add(cube)
+    })
+  }
   
   const animate = () => {
     animationId = requestAnimationFrame(animate)
@@ -415,7 +630,17 @@ const handleResize = () => {
 
 onMounted(() => {
   nextTick(() => {
-    initThreeScene()
+    // 使用 IntersectionObserver 延迟到第三屏 canvas 进入视口才初始化
+    // 这样可以确保 canvas 处于可见状态，offsetWidth/Height 不为 0
+    if (canvasRef.value) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect()
+          initThreeScene()
+        }
+      }, { threshold: 0.1 })
+      observer.observe(canvasRef.value)
+    }
     initRadarChart()
   })
   
@@ -452,7 +677,7 @@ onUnmounted(() => {
   scroll-snap-stop: always;
   position: relative;
   overflow: hidden;
-  background: #0a1628;
+  background: #050a14;
 }
 
 .screen-1 {
@@ -471,6 +696,7 @@ onUnmounted(() => {
 }
 
 .grid-lines {
+  display: none;
   position: absolute;
   width: 200%;
   height: 200%;
@@ -789,13 +1015,15 @@ onUnmounted(() => {
 
 .legend-panel {
   position: absolute;
-  bottom: 40px;
-  right: 40px;
-  background: rgba(10, 22, 40, 0.9);
-  border: 1px solid rgba(232, 85, 78, 0.3);
-  border-radius: 12px;
-  padding: 20px;
-  backdrop-filter: blur(10px);
+  bottom: 80px;
+  right: 80px;
+  background: rgba(10, 22, 40, 0.85);
+  border: 1px solid rgba(232, 85, 78, 0.4);
+  border-radius: 8px;
+  padding: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
 
 .legend-panel h4 {
