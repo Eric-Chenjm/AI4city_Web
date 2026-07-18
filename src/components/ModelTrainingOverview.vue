@@ -52,17 +52,17 @@
         </div>
       </div>
 
-      <!-- 模型拟合曲线与 SHAP 概要图 (下方铺满，大图展示) -->
+      <!-- 模型拟合曲线与 SHAP 概要图 (下方铺满，大图展示，动态 ECharts 绘制) -->
       <div class="metric-sub-card figures-card">
-        <h4 class="card-header-tag">FIT & GLOBAL SHAP SUMMARY</h4>
+        <h4 class="card-header-tag">FIT & GLOBAL SHAP SUMMARY (DOUBLED SCATTER & IMPORTANCE BAR)</h4>
         <div class="figures-flex">
-          <div class="figure-wrapper" @click="viewBigImage('/cases_data/figures/final_model_fit.png')">
-            <img src="/cases_data/figures/final_model_fit.png" alt="Model Fit" class="fit-img" @error="handleImgError" />
-            <div class="fig-tag">预测拟合散点图 (Scatter)</div>
+          <div class="chart-wrapper">
+            <div ref="fitChartRef" class="fit-chart-container"></div>
+            <div class="fig-tag-dynamic">预测拟合散点图 (Scatter Plot)</div>
           </div>
-          <div class="figure-wrapper" @click="viewBigImage('/cases_data/figures/shap_summary_bar.png')">
-            <img src="/cases_data/figures/shap_summary_bar.png" alt="SHAP Bar" class="fit-img" @error="handleImgError" />
-            <div class="fig-tag">SHAP 特征全局重要性</div>
+          <div class="chart-wrapper">
+            <div ref="shapChartRef" class="fit-chart-container"></div>
+            <div class="fig-tag-dynamic">SHAP 特征全局重要性排行 (Top 20)</div>
           </div>
         </div>
       </div>
@@ -211,7 +211,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import * as echarts from 'echarts'
 
 const props = defineProps({
   activePattern: {
@@ -225,7 +226,12 @@ const emit = defineEmits(['select-pattern'])
 const overviewData = ref({})
 const topPositive = ref([])
 const topNegative = ref([])
-const bigImageSrc = ref(null)
+
+// ECharts 图表容器引用
+const fitChartRef = ref(null)
+const shapChartRef = ref(null)
+let fitChart = null
+let shapChart = null
 
 const defaultSteps = [
   "场景原图",
@@ -282,6 +288,7 @@ const getNodeY = (nodeId, nodes, layoutType) => {
 }
 
 onMounted(async () => {
+  // 1. 读取基本的指标大盘
   try {
     const r1 = await fetch('/cases_data/model_training_overview.json')
     overviewData.value = await r1.json()
@@ -289,10 +296,11 @@ onMounted(async () => {
     console.error("Error reading model overview json:", e)
   }
 
+  // 2. 读取排行榜正向和负向模式
   try {
     const r2 = await fetch('/cases_data/top_positive_patterns.json')
     const posList = await r2.json()
-    topPositive.value = posList.slice(0, 3) // 只展现最显著的 3 个
+    topPositive.value = posList.slice(0, 3)
   } catch (e) {
     console.error("Error reading top positive patterns:", e)
   }
@@ -304,6 +312,193 @@ onMounted(async () => {
   } catch (e) {
     console.error("Error reading top negative patterns:", e)
   }
+
+  // 3. 动态绘制预测拟合散点图 (ECharts Scatter)
+  try {
+    const rFit = await fetch('/cases_data/fit_predictions.json')
+    const fitData = await rFit.json()
+    
+    if (fitChartRef.value) {
+      fitChart = echarts.init(fitChartRef.value)
+      
+      const allVals = fitData.flatMap(d => d)
+      const minVal = Math.floor(Math.min(...allVals) * 0.9 * 10) / 10
+      const maxVal = Math.ceil(Math.max(...allVals) * 1.1 * 10) / 10
+      
+      const option = {
+        backgroundColor: 'transparent',
+        grid: {
+          top: 30,
+          right: 30,
+          bottom: 45,
+          left: 45,
+          containLabel: false
+        },
+        tooltip: {
+          trigger: 'item',
+          backgroundColor: 'rgba(10, 20, 38, 0.95)',
+          borderColor: 'rgba(123, 97, 255, 0.4)',
+          borderWidth: 1,
+          textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit' },
+          formatter: (params) => {
+            return `真实得分 (True): <b>${params.value[0].toFixed(2)}</b><br/>预测评分 (Pred): <b>${params.value[1].toFixed(2)}</b>`
+          }
+        },
+        xAxis: {
+          name: 'True Score',
+          nameLocation: 'middle',
+          nameGap: 24,
+          min: minVal,
+          max: maxVal,
+          axisLabel: { color: 'rgba(255,255,255,0.6)', fontSize: 10, fontFamily: 'Outfit' },
+          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } },
+          splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }
+        },
+        yAxis: {
+          name: 'Fitted Prediction',
+          nameLocation: 'middle',
+          nameGap: 28,
+          min: minVal,
+          max: maxVal,
+          axisLabel: { color: 'rgba(255,255,255,0.6)', fontSize: 10, fontFamily: 'Outfit' },
+          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } },
+          splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }
+        },
+        series: [
+          {
+            type: 'scatter',
+            data: fitData,
+            symbolSize: 6,
+            itemStyle: {
+              color: 'rgba(123, 97, 255, 0.65)',
+              shadowBlur: 6,
+              shadowColor: 'rgba(123, 97, 255, 0.6)',
+              borderColor: 'rgba(255, 255, 255, 0.2)',
+              borderWidth: 0.5
+            }
+          },
+          {
+            type: 'line',
+            data: [[minVal, minVal], [maxVal, maxVal]],
+            symbol: 'none',
+            lineStyle: {
+              color: 'rgba(232, 85, 78, 0.5)',
+              width: 1.5,
+              type: 'dashed'
+            },
+            silent: true,
+            label: {
+              show: true,
+              position: 'end',
+              formatter: 'y = x 理想线',
+              color: 'rgba(232, 85, 78, 0.7)',
+              fontSize: 9,
+              fontFamily: 'Outfit',
+              offset: [-50, -10]
+            }
+          }
+        ]
+      }
+      fitChart.setOption(option)
+    }
+  } catch (e) {
+    console.error("Error drawing fit scatter chart:", e)
+  }
+
+  // 4. 动态绘制 SHAP 特征全局重要性排行 (ECharts Bar)
+  try {
+    const rShap = await fetch('/cases_data/raw_shap_importance.json')
+    const shapData = await rShap.json()
+    
+    // 取前 20，并倒序让最大的显示在最上方
+    const top20 = shapData.slice(0, 20).reverse()
+    const yData = top20.map(d => `${d.feature_display_name} (${d.feature_name})`)
+    const xData = top20.map(d => d.mean_abs_shap)
+    
+    if (shapChartRef.value) {
+      shapChart = echarts.init(shapChartRef.value)
+      
+      const option = {
+        backgroundColor: 'transparent',
+        grid: {
+          top: 15,
+          right: 35,
+          bottom: 35,
+          left: 200,
+          containLabel: false
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' },
+          backgroundColor: 'rgba(10, 20, 38, 0.95)',
+          borderColor: 'rgba(54, 200, 255, 0.4)',
+          borderWidth: 1,
+          textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit' },
+          formatter: (params) => {
+            const p = params[0]
+            return `特征模式: <b>${p.name}</b><br/>Mean |SHAP|: <span style="color:#36c8ff;font-family:monospace;font-weight:bold">${p.value.toFixed(4)}</span>`
+          }
+        },
+        xAxis: {
+          type: 'value',
+          name: 'Mean |SHAP| (Feature Importance)',
+          nameLocation: 'middle',
+          nameGap: 22,
+          axisLabel: { color: 'rgba(255,255,255,0.6)', fontSize: 9, fontFamily: 'Outfit' },
+          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } },
+          splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }
+        },
+        yAxis: {
+          type: 'category',
+          data: yData,
+          axisLabel: {
+            color: 'rgba(255,255,255,0.7)',
+            fontSize: 9.5,
+            fontFamily: 'Outfit',
+            width: 190,
+            overflow: 'truncate',
+            align: 'right'
+          },
+          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } },
+          splitLine: { show: false }
+        },
+        series: [
+          {
+            name: 'Mean SHAP',
+            type: 'bar',
+            data: xData,
+            barWidth: '60%',
+            itemStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                { offset: 0, color: 'rgba(54, 200, 255, 0.25)' },
+                { offset: 1, color: 'rgba(54, 200, 255, 0.85)' }
+              ]),
+              borderRadius: [0, 4, 4, 0],
+              borderColor: 'rgba(54, 200, 255, 0.4)',
+              borderWidth: 0.8
+            }
+          }
+        ]
+      }
+      shapChart.setOption(option)
+    }
+  } catch (e) {
+    console.error("Error drawing shap importance bar chart:", e)
+  }
+
+  // 5. 监听 resize 窗口缩放
+  window.addEventListener('resize', handleResize)
+})
+
+const handleResize = () => {
+  fitChart && fitChart.resize()
+  shapChart && shapChart.resize()
+}
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
+  fitChart && fitChart.dispose()
+  shapChart && shapChart.dispose()
 })
 </script>
 
@@ -505,73 +700,48 @@ onMounted(async () => {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* 拟合图展示 */
+/* 拟合图与 SHAP 条形图动态渲染 */
 .figures-card {
   justify-content: space-between;
 }
 
 .figures-flex {
   display: flex;
-  gap: 16px;
+  gap: 24px;
 }
 
-.figure-wrapper {
+@media (max-width: 992px) {
+  .figures-flex {
+    flex-direction: column;
+  }
+}
+
+.chart-wrapper {
   flex: 1;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
   overflow: hidden;
-  cursor: zoom-in;
   position: relative;
-  transition: border-color 0.2s;
-  height: 280px;
   display: flex;
   flex-direction: column;
+  height: 330px;
+  padding: 12px;
 }
 
-.figure-wrapper:hover {
-  border-color: rgba(123, 97, 255, 0.4);
-}
-
-.fit-img {
+.fit-chart-container {
   width: 100%;
-  height: 250px;
-  object-fit: contain;
-  opacity: 0.75;
-  background: #000;
-  transition: opacity 0.2s;
+  height: 290px;
 }
 
-.figure-wrapper:hover .fit-img {
-  opacity: 0.95;
-}
-
-.fig-tag {
-  font-size: 9px;
-  color: rgba(255, 255, 255, 0.5);
+.fig-tag-dynamic {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.45);
   text-align: center;
-  padding: 3px 0;
-  background: rgba(0, 0, 0, 0.5);
-  margin-top: auto;
+  margin-top: 4px;
   border-top: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-/* 图片缺失样式 */
-.figure-wrapper.missing-figure {
-  height: 110px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(232, 85, 78, 0.03);
-  border-color: rgba(232, 85, 78, 0.15);
-}
-
-.fig-missing-tip {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  color: rgba(232, 85, 78, 0.7);
-  text-align: center;
-  line-height: 1.4;
+  padding-top: 6px;
 }
 
 /* 频繁模式栏 */
