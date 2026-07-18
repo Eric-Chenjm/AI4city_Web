@@ -11,15 +11,14 @@
     </header>
 
     <div class="main-layout">
-      <!-- 左侧控制面板 (Control Panel) -->
-      <aside class="control-panel">
+      <!-- 顶部置顶水平控制栏 (Horizontal Control Bar) -->
+      <div class="horizontal-control-bar">
         <!-- 1. 模式选择与预设场景 -->
-        <div class="panel-section">
+        <div class="control-col scenario-col">
           <div class="section-header">
             <span class="section-index">01</span>
-            <h2 class="section-title">PRESET EXPERIMENT SCENARIOS</h2>
+            <h2 class="section-title">PRESET SCENARIOS</h2>
           </div>
-          
           <div class="scenario-selector">
             <button 
               v-for="scenario in experimentScenarios" 
@@ -28,14 +27,14 @@
               :class="{ active: activeScenarioId === scenario.id }"
               @click="selectPresetScenario(scenario.id)"
             >
-              <div class="scenario-btn-title">{{ scenario.name }}</div>
-              <div class="scenario-btn-meta">人工评级: {{ scenario.manualGrade }} 级</div>
+              <span class="scenario-btn-title">{{ scenario.name }}</span>
+              <span class="scenario-btn-meta"> (人工评级: {{ scenario.manualGrade }} 级)</span>
             </button>
           </div>
         </div>
 
         <!-- 2. 算法模型切换 -->
-        <div class="panel-section">
+        <div class="control-col model-col">
           <div class="section-header">
             <span class="section-index">02</span>
             <h2 class="section-title">INFERENCE ALGORITHM</h2>
@@ -58,38 +57,30 @@
               <span class="tab-sub">开放语义拓扑</span>
             </button>
           </div>
-          <div class="model-description">
-            <p v-if="activeModelName === 'EGTR'">
-              <strong>EGTR (Explicit Graph Topology Recovery)</strong>：侧重于明确提取街景中的物理结构边界、人行道连续性及宏观三元环路网模式，对硬质铺装及人车冲突敏感。
-            </p>
-            <p v-else>
-              <strong>OvSGTR (Open-vocabulary Scene Graph Topology Recovery)</strong>：利用开放词汇语义进行细粒度物体提取（如座椅、遮阳伞、动物），对微观街道家具及慢行社交品质评估更为敏感。
-            </p>
-          </div>
         </div>
 
         <!-- 3. 当前场景描述 -->
-        <div class="panel-section current-info-panel">
+        <div class="control-col diagnosis-col">
           <div class="section-header">
             <span class="section-index">03</span>
             <h2 class="section-title">SCENARIO DIAGNOSIS</h2>
           </div>
-          <div class="info-content">
-            <div class="info-item">
-              <span class="info-label">街区品质诊断:</span>
-              <p class="info-text">{{ currentScenario.desc }}</p>
+          <div class="info-content-horizontal">
+            <div class="diagnosis-desc">
+              <span class="info-label">街区诊断:</span>
+              <span class="info-text">{{ currentScenario.desc }}</span>
             </div>
-            <div class="info-item" v-if="currentModelData">
-              <span class="info-label">优化成果评估:</span>
-              <p class="info-text" :class="currentModelData.status">
+            <div class="diagnosis-status" v-if="currentModelData">
+              <span class="info-label">成果评估:</span>
+              <span class="info-text" :class="currentModelData.status">
                 {{ currentModelData.status === 'success' ? '✔ AI 局部设计优化成功' : '⚠ 局部优化分歧或未成功' }}
-              </p>
+              </span>
             </div>
           </div>
         </div>
-      </aside>
+      </div>
 
-      <!-- 右侧结果展示中心 (Result Panel) -->
+      <!-- 下方全宽结果展示中心 (Result Panel) -->
       <main class="result-panel">
         <!-- 核心加载中 -->
         <div v-if="isAnalyzing" class="tech-analyzing-card">
@@ -150,65 +141,62 @@
             />
           </div>
 
-          <!-- Grid 双列排版列 (B 与 C 并排) -->
-          <div class="dashboard-grid-row">
-            <!-- B. AIGC 提示词看板 -->
-            <div class="dashboard-row border-card prompt-card-row" v-if="currentScenario.prompts">
-              <div class="row-header">
-                <span class="row-index">B</span>
-                <h2 class="row-title">AIGC Local Design Update Prompts (局部设计优化提示词看板)</h2>
+          <!-- B. AIGC 提示词看板 (全宽，重塑为双列排版) -->
+          <div class="dashboard-row border-card prompt-card-row" v-if="currentScenario.prompts">
+            <div class="row-header">
+              <span class="row-index">B</span>
+              <h2 class="row-title">AIGC Local Design Update Prompts (局部设计优化提示词看板)</h2>
+            </div>
+            <div class="prompt-grid">
+              <div class="prompt-item positive-box">
+                <div class="prompt-item-header">
+                  <span class="dot green"></span>
+                  正向优化目标提示词 (Positive AIGC Prompt)
+                  <button class="btn-copy" @click="copyText(currentScenario.prompts.positive)">复制提示词</button>
+                </div>
+                <div class="prompt-text-content">
+                  {{ currentScenario.prompts.positive }}
+                </div>
               </div>
-              <div class="prompt-grid">
-                <div class="prompt-item positive-box">
+              <div class="prompt-sub-grid">
+                <div class="prompt-item negative-box">
                   <div class="prompt-item-header">
-                    <span class="dot green"></span>
-                    正向优化目标提示词 (Positive AIGC Prompt)
-                    <button class="btn-copy" @click="copyText(currentScenario.prompts.positive)">复制提示词</button>
+                    <span class="dot red"></span>
+                    负向限制提示词 (Negative Prompt)
                   </div>
                   <div class="prompt-text-content">
-                    {{ currentScenario.prompts.positive }}
+                    {{ currentScenario.prompts.negative }}
                   </div>
                 </div>
-                <div class="prompt-sub-grid">
-                  <div class="prompt-item negative-box">
-                    <div class="prompt-item-header">
-                      <span class="dot red"></span>
-                      负向限制提示词 (Negative Prompt)
-                    </div>
-                    <div class="prompt-text-content">
-                      {{ currentScenario.prompts.negative }}
-                    </div>
+                <div class="prompt-item retain-box">
+                  <div class="prompt-item-header">
+                    <span class="dot yellow"></span>
+                    强制保留实体 (Retained Elements)
                   </div>
-                  <div class="prompt-item retain-box">
-                    <div class="prompt-item-header">
-                      <span class="dot yellow"></span>
-                      强制保留实体 (Retained Elements)
-                    </div>
-                    <div class="prompt-text-content monospace">
-                      {{ currentScenario.prompts.retain }}
-                    </div>
+                  <div class="prompt-text-content monospace">
+                    {{ currentScenario.prompts.retain }}
                   </div>
                 </div>
-              </div>
-              <div class="prompt-footer-source">
-                <span>提示词来源配置文件: <code>{{ currentScenario.prompts.source }}</code></span>
               </div>
             </div>
-
-            <!-- C. 空间实体增减分析 -->
-            <div class="dashboard-row border-card">
-              <div class="row-header">
-                <span class="row-index">C</span>
-                <h2 class="row-title">Extracted Object Delta Analytics (空间实体增减变化看板)</h2>
-              </div>
-              <MetricsDisplay 
-                :objectsDelta="objectsDelta"
-                :isAnalyzing="isAnalyzing"
-              />
+            <div class="prompt-footer-source">
+              <span>提示词来源配置文件: <code>{{ currentScenario.prompts.source }}</code></span>
             </div>
           </div>
 
-          <!-- D. ECharts 统计分析 -->
+          <!-- C. 空间实体增减分析 (全宽) -->
+          <div class="dashboard-row border-card">
+            <div class="row-header">
+              <span class="row-index">C</span>
+              <h2 class="row-title">Extracted Object Delta Analytics (空间实体增减变化看板)</h2>
+            </div>
+            <MetricsDisplay 
+              :objectsDelta="objectsDelta"
+              :isAnalyzing="isAnalyzing"
+            />
+          </div>
+
+          <!-- D. ECharts 统计分析 (全宽) -->
           <div class="dashboard-row border-card">
             <div class="row-header">
               <span class="row-index">D</span>
@@ -399,23 +387,37 @@ const copyText = (text) => {
 .main-layout {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 32% 68%;
+  display: flex;
+  flex-direction: column;
   gap: 24px;
   max-width: 1700px;
+  width: 100%;
   margin: 0 auto;
 }
 
-.control-panel {
-  display: flex;
-  flex-direction: column;
+.horizontal-control-bar {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr 1.9fr;
   gap: 24px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 24px;
+  padding: 18px 24px;
   backdrop-filter: blur(10px);
-  height: fit-content;
+  align-items: center;
+}
+
+@media (max-width: 1200px) {
+  .horizontal-control-bar {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.control-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .result-panel {
@@ -424,81 +426,55 @@ const copyText = (text) => {
   gap: 24px;
 }
 
-.dashboard-grid-row {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 24px;
-}
-
-@media (max-width: 1200px) {
-  .dashboard-grid-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-.panel-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  transition: all 0.3s;
-}
-
-.disabled-section {
-  opacity: 0.35;
-  pointer-events: none;
-}
-
 .section-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding-bottom: 12px;
+  gap: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--border);
 }
 
 .section-index {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--crimson);
   background: rgba(232, 85, 78, 0.1);
-  padding: 3px 8px;
-  border-radius: 4px;
+  padding: 1px 6px;
+  border-radius: 3px;
 }
 
 .section-title {
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   color: var(--text-primary);
   margin: 0;
 }
 
-.section-tip {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1.4;
-  margin: 0;
-}
-
-/* 预设场景切换列表 */
+/* 预设场景横向切换列表 */
 .scenario-selector {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
 }
 
 .btn-scenario {
-  width: 100%;
-  padding: 12px 16px;
+  flex: 1;
+  padding: 8px 12px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
+  border-radius: 6px;
   color: var(--text-primary);
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-scenario:hover {
@@ -514,42 +490,18 @@ const copyText = (text) => {
 
 .scenario-btn-title {
   font-family: var(--font-body);
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 600;
-  margin-bottom: 4px;
 }
 
 .scenario-btn-meta {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   color: rgba(255, 255, 255, 0.4);
 }
 
 .btn-scenario.active .scenario-btn-meta {
   color: rgba(255, 255, 255, 0.7);
-}
-
-.mode-switch-row {
-  margin-top: 6px;
-}
-
-.btn-mode-switch {
-  width: 100%;
-  padding: 10px;
-  background: transparent;
-  border: 1px dashed rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  font-family: var(--font-body);
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-mode-switch:hover, .btn-mode-switch.active {
-  border-color: var(--crimson);
-  color: var(--crimson);
-  background: rgba(232, 85, 78, 0.04);
 }
 
 /* 算法模型选择 */
@@ -611,33 +563,35 @@ const copyText = (text) => {
 }
 
 /* 诊断大盘 */
-.current-info-panel .info-content {
+.info-content-horizontal {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 10px 14px;
 }
 
-.info-item {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  padding: 12px;
+.diagnosis-desc, .diagnosis-status {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  line-height: 1.4;
 }
 
 .info-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9.5px;
   color: var(--crimson);
   letter-spacing: 1px;
-  display: block;
-  margin-bottom: 6px;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .info-text {
   font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.45;
-  margin: 0;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .info-text.success {
@@ -767,7 +721,7 @@ const copyText = (text) => {
 
 .prompt-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1.2fr 0.8fr;
   gap: 16px;
 }
 
