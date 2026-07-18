@@ -2,28 +2,28 @@
   <div class="gps-case-selector border-card">
     <div class="row-header">
       <span class="row-index">02</span>
-      <h2 class="row-title">GPS Case Directory (GPS 案例空间分类检索)</h2>
+      <h2 class="row-title">{{ t('row02Title') }}</h2>
     </div>
 
     <div class="case-grid">
       <!-- 1. MapLibre 空白深色点位可视化 -->
       <div class="map-wrapper-box">
-        <h4 class="card-header-tag">SPATIAL GPS SITES (无底图经纬度点位聚合)</h4>
+        <h4 class="card-header-tag">SPATIAL GPS SITES</h4>
         <div id="gps-map-container" class="map-container"></div>
         <div class="map-legend">
           <span class="map-dot"></span>
-          <span class="map-legend-txt">复兴岛老旧厂房实测 EXIF 地理点位</span>
+          <span class="map-legend-txt">{{ t('gpsSiteLegend') }}</span>
         </div>
       </div>
 
       <!-- 2. 四大空间类型案例列表 -->
       <div class="case-list-box">
-        <h4 class="card-header-tag">SPACE TYPE CATEGORIES (四大城市空间类别)</h4>
+        <h4 class="card-header-tag">SPACE TYPE CATEGORIES</h4>
         
         <div class="space-categories">
           <!-- 滨水空间 -->
           <div class="space-category-block">
-            <h5 class="cat-header"><span class="cat-icon waterfront"></span>滨水空间 (Waterfront)</h5>
+            <h5 class="cat-header"><span class="cat-icon waterfront"></span>{{ t('waterfront') }}</h5>
             <div class="cat-list">
               <div 
                 v-for="c in waterfrontCases" 
@@ -40,7 +40,7 @@
 
           <!-- 公共空间 -->
           <div class="space-category-block">
-            <h5 class="cat-header"><span class="cat-icon public"></span>公共空间 (Public Space)</h5>
+            <h5 class="cat-header"><span class="cat-icon public"></span>{{ t('publicSpace') }}</h5>
             <div class="cat-list">
               <div 
                 v-for="c in publicCases" 
@@ -57,7 +57,7 @@
 
           <!-- 景观/工业遗存 -->
           <div class="space-category-block">
-            <h5 class="cat-header"><span class="cat-icon heritage"></span>景观/工业遗存 (Heritage)</h5>
+            <h5 class="cat-header"><span class="cat-icon heritage"></span>{{ t('heritage') }}</h5>
             <div class="cat-list">
               <div 
                 v-for="c in heritageCases" 
@@ -74,7 +74,7 @@
 
           <!-- 临时构筑 -->
           <div class="space-category-block">
-            <h5 class="cat-header"><span class="cat-icon temporary"></span>临时构筑 (Temporary)</h5>
+            <h5 class="cat-header"><span class="cat-icon temporary"></span>{{ t('temporary') }}</h5>
             <div class="cat-list">
               <div 
                 v-for="c in temporaryCases" 
@@ -98,6 +98,9 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import { useLang } from '../composables/useLang.js'
+
+const { t, currentLang } = useLang()
 
 const props = defineProps({
   cases: {
@@ -289,8 +292,8 @@ const initMap = () => {
 
     // 交互：点击独立地点选择案例
     map.on('click', 'unclustered-point', (e) => {
-      const props = e.features[0].properties
-      const caseId = props.case_id
+      const featProps = e.features[0].properties
+      const caseId = featProps.case_id
       const matchedCase = geojsonData.features.find(f => f.properties.case_id === caseId)
       
       // 发射选中事件
@@ -298,12 +301,14 @@ const initMap = () => {
 
       // 显示Popup气泡
       const coordinates = e.features[0].geometry.coordinates.slice()
+      const labelType = currentLang.value === 'en' ? 'Type' : '类型'
+      const valType = currentLang.value === 'en' ? featProps.type : featProps.type_zh
       new maplibregl.Popup({ closeButton: false, className: 'map-tech-popup' })
         .setLngLat(coordinates)
         .setHTML(`
           <div style="font-family:'Outfit',sans-serif;font-size:11.5px;color:#fff;padding:4px;">
-            <strong style="color:#7b61ff;">${props.case_name}</strong><br/>
-            类型: <span style="color:#aab8ff;">${props.type_zh}</span>
+            <strong style="color:#7b61ff;">${featProps.case_name}</strong><br/>
+            ${labelType}: <span style="color:#aab8ff;">${valType}</span>
           </div>
         `)
         .addTo(map)

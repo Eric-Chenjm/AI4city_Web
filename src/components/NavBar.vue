@@ -16,6 +16,14 @@
           {{ link.name }}
         </router-link>
       </div>
+
+      <!-- 语言切换按钮 -->
+      <button class="lang-toggle" @click="toggleLang" :title="currentLang === 'en' ? 'Switch to Chinese' : '切换英文'">
+        <span class="lang-option" :class="{ 'lang-active': currentLang === 'zh' }">中</span>
+        <span class="lang-divider">|</span>
+        <span class="lang-option" :class="{ 'lang-active': currentLang === 'en' }">EN</span>
+      </button>
+
       <button class="mobile-menu-btn" @click="toggleMobileMenu">
         <span class="menu-icon">{{ isMobileMenuOpen ? '✕' : '☰' }}</span>
       </button>
@@ -36,6 +44,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useLang } from '../composables/useLang.js'
+
+const { toggleLang, currentLang } = useLang()
 
 const isMobileMenuOpen = ref(false)
 
@@ -130,6 +141,46 @@ const toggleMobileMenu = () => {
   border-radius: 1px;
 }
 
+/* ── 语言切换按钮 ───────────────────────────────── */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 91, 172, 0.08);
+  border: 1px solid rgba(0, 91, 172, 0.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-left: 10px;
+}
+
+.lang-toggle:hover {
+  background: rgba(0, 91, 172, 0.2);
+  border-color: rgba(0, 91, 172, 0.7);
+}
+
+.lang-option {
+  font-family: 'Syncopate', 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.25s ease;
+  user-select: none;
+}
+
+.lang-option.lang-active {
+  color: #36c8ff;
+}
+
+.lang-divider {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 11px;
+  user-select: none;
+}
+
+/* ── Mobile ─────────────────────────────────────── */
 .mobile-menu-btn {
   display: none;
   background: none;
@@ -177,6 +228,10 @@ const toggleMobileMenu = () => {
   .logo-text {
     font-size: 14px;
     letter-spacing: 2px;
+  }
+
+  .lang-toggle {
+    padding: 4px 10px;
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="single-case-evidence-chain border-card">
     <div class="row-header">
       <span class="row-index">03</span>
-      <h2 class="row-title">Case Optimization Evidence Chain (单图空间设计评估与优化证据链)</h2>
+      <h2 class="row-title">{{ t('row03Title') }}</h2>
     </div>
 
     <!-- 1. 三状态导航切换 -->
@@ -12,37 +12,37 @@
         :class="{ active: activeState === 'before' }"
         @click="changeState('before')"
       >
-        <span>Before 优化前</span>
-        <span class="btn-stage-lbl">原图及缺陷诊断</span>
+        <span>{{ t('stageBefore') }}</span>
+        <span class="btn-stage-lbl">{{ t('stageBeforeSub') }}</span>
       </button>
       <button 
         class="btn-stage" 
         :class="{ active: activeState === 'planned' }"
         @click="changeState('planned')"
       >
-        <span>Planned 计划优化</span>
-        <span class="btn-stage-lbl">反事实模式计划</span>
+        <span>{{ t('stagePlanned') }}</span>
+        <span class="btn-stage-lbl">{{ t('stagePlannedSub') }}</span>
       </button>
       <button 
         class="btn-stage" 
         :class="{ active: activeState === 'observed' }"
         @click="changeState('observed')"
       >
-        <span>Observed 优化后</span>
-        <span class="btn-stage-lbl">实际成效对比</span>
+        <span>{{ t('stageObserved') }}</span>
+        <span class="btn-stage-lbl">{{ t('stageObservedSub') }}</span>
       </button>
     </div>
 
     <!-- 加载中 -->
     <div v-if="isFetching" class="tech-loader">
       <div class="ring"></div>
-      <span>FETCHING CASE ASSETS...</span>
+      <span>{{ t('loading') }}</span>
     </div>
 
     <div v-else class="evidence-grid">
       <!-- A. 图像对比与 SVG Bbox 叠加层 -->
       <div class="evidence-left">
-        <h4 class="card-header-tag">IMAGE VIEW & DETECTED BBOX (空间检测与视觉重构)</h4>
+        <h4 class="card-header-tag">{{ t('imageViewTag') }}</h4>
         
         <div class="image-viewport-wrapper">
           <!-- Slide Comparison (仅在 Observed 状态可见) -->
@@ -116,26 +116,26 @@
 
       <!-- B. Cytoscape.js 场景拓扑节点关系图 -->
       <div class="evidence-right">
-        <h4 class="card-header-tag">SCENE GRAPH TOPOLOGY (场景语义关系图谱)</h4>
+        <h4 class="card-header-tag">{{ t('sceneGraphTopology') }}</h4>
         <div id="cy-container" class="cytoscape-container"></div>
         <div class="cy-tip-legend">
-          <span>拖拽节点可调整布局 · 鼠标悬浮查看语义关系</span>
+          <span>{{ t('cyTip') }}</span>
         </div>
       </div>
 
       <!-- C. Plotly.js SHAP 瀑布图 -->
       <div class="evidence-bottom-left">
-        <h4 class="card-header-tag">SHAP WATERFALL (模型打分决策及特征贡献瀑布图)</h4>
+        <h4 class="card-header-tag">{{ t('shapWaterfall') }}</h4>
         <div id="plotly-waterfall-container" class="waterfall-container"></div>
       </div>
 
       <!-- D. 空间诊断报告 -->
       <div class="evidence-bottom-right">
-        <h4 class="card-header-tag">SPATIAL DIAGNOSTIC REPORT (城市设计诊断及优化动作)</h4>
+        <h4 class="card-header-tag">{{ t('spatialDiagnosticReport') }}</h4>
         
         <div class="diagnostic-report-box" v-if="reportContent">
           <div v-if="activeState === 'before'" class="report-section">
-            <h5 class="report-sub">城市设计缺陷分析 (Spatial Defect Diagnosis)</h5>
+            <h5 class="report-sub">{{ t('defectDiagnosis') }}</h5>
             <ul class="report-list">
               <li 
                 v-for="(item, i) in reportContent.defects" 
@@ -148,7 +148,7 @@
           </div>
 
           <div v-else-if="activeState === 'planned'" class="report-section">
-            <h5 class="report-sub">空间优化方向与 AIGC 修改提示 (Planned Actions)</h5>
+            <h5 class="report-sub">{{ t('plannedActions') }}</h5>
             <ul class="report-list">
               <li 
                 v-for="(item, i) in reportContent.actions" 
@@ -161,10 +161,10 @@
           </div>
 
           <div v-else-if="activeState === 'observed'" class="report-section">
-            <h5 class="report-sub">实际成效对比与评估 (Observed Outcomes)</h5>
+            <h5 class="report-sub">{{ t('observedOutcomes') }}</h5>
             <div class="scores-bar">
-              计划提升: <span class="score green">+{{ formatNum(reportContent.planned_gain) }}</span>
-              实际提升: <span class="score green">+{{ formatNum(reportContent.actual_gain) }}</span>
+              {{ t('plannedGain') }} <span class="score green">+{{ formatNum(reportContent.planned_gain) }}</span>
+              {{ t('actualGain') }} <span class="score green">+{{ formatNum(reportContent.actual_gain) }}</span>
             </div>
             <ul class="report-list">
               <li 
@@ -178,7 +178,7 @@
           </div>
         </div>
         <div v-else class="report-empty">
-          <span>暂无诊断报告数据</span>
+          <span>{{ t('noReportData') }}</span>
         </div>
       </div>
     </div>
@@ -189,6 +189,10 @@
 import { ref, watch, onMounted, nextTick } from 'vue'
 import cytoscape from 'cytoscape'
 import Plotly from 'plotly.js-dist-min'
+import { useLang } from '../composables/useLang.js'
+
+const { t, currentLang } = useLang()
+
 
 const props = defineProps({
   caseId: {
@@ -340,16 +344,23 @@ const mockDiagnosticReport = () => {
   
   const defects = topPatterns.map(p => ({
     pattern_name: p.feature_name,
-    description: `场景中识别到了频繁的 [${p.pattern_short}] 空间拓扑结构。该特征目前处于负向抑制或存在明显的优化修复空间，对空间质量贡献约为 ${formatNum(p.contribution)}。`
+    description: currentLang.value === 'en' 
+      ? `Frequent [${p.pattern_short}] spatial topology structure identified. This feature is currently suppressed or has significant optimization space, contributing approximately ${formatNum(p.contribution)} to spatial quality.`
+      : `场景中识别到了频繁的 [${p.pattern_short}] 空间拓扑结构。该特征目前处于负向抑制或存在明显的优化修复空间，对空间质量贡献约为 ${formatNum(p.contribution)}。`
   }))
 
   const actions = topPatterns.map(p => ({
     pattern_name: p.feature_name,
-    action: `重构 ${p.pattern_short.split('-')[0]} 布局`,
-    description: `计划在城市设计中对此子图连接进行反事实更新，目标在于消除人车交织，建议增设绿化带并调整行道树。`
+    action: currentLang.value === 'en'
+      ? `Reconstruct ${p.pattern_short.split('-')[0]} Layout`
+      : `重构 ${p.pattern_short.split('-')[0]} 布局`,
+    description: currentLang.value === 'en'
+      ? `Plan to apply counterfactual updates to this subgraph connection in urban design, aiming to eliminate pedestrian-vehicle conflicts. Adding green belts and adjusting street trees are suggested.`
+      : `计划在城市设计中对此子图连接进行反事实更新，目标在于消除人车交织，建议增设绿化带并调整行道树。`
   }))
 
   return {
+    from_mock: true,
     defects,
     actions,
     planned_gain: caseManifest.value?.scores?.planned - caseManifest.value?.scores?.before || 0.45,
@@ -357,7 +368,9 @@ const mockDiagnosticReport = () => {
     outcomes: [
       {
         pattern_name: topPatterns[0]?.feature_name || 'pattern_default',
-        description: "AI 优化重建了人行道连续性，消除了原本的阻断型关系，实际推演得分大幅响应了优化设计。"
+        description: currentLang.value === 'en'
+          ? "AI optimization reconstructed the continuity of the sidewalk, eliminating the original blockages, and the actual scoring strongly reflected the optimized design."
+          : "AI 优化重建了人行道连续性，消除了原本的阻断型关系，实际推演得分大幅响应了优化设计。"
       }
     ]
   }
@@ -524,7 +537,7 @@ const renderPlotlyWaterfall = () => {
   const baseScore = caseManifest.value?.scores?.before || 4.5
   
   // 组装瀑布图数据
-  const xData = ['基准得分 (Base)']
+  const xData = [currentLang.value === 'en' ? 'Base Score' : '基准得分 (Base)']
   const yData = [baseScore]
   const measure = ['absolute']
   
@@ -535,7 +548,7 @@ const renderPlotlyWaterfall = () => {
   })
   
   // 最后一项是总得分 (Total)
-  xData.push('最终模型打分 (Total)')
+  xData.push(currentLang.value === 'en' ? 'Final Score (Total)' : '最终模型打分 (Total)')
   const currentTotal = activeState.value === 'before' 
     ? caseManifest.value?.scores?.before 
     : (activeState.value === 'planned' ? caseManifest.value?.scores?.planned : caseManifest.value?.scores?.observed)
@@ -620,6 +633,14 @@ watch(() => props.activePattern, (newPattern) => {
 watch(() => props.caseId, () => {
   activeState.value = 'before'
   fetchCaseAssets()
+})
+
+// 监听语言变化，自动翻译重绘图表与重新生成模拟报告
+watch(currentLang, () => {
+  if (reportContent.value && reportContent.value.from_mock) {
+    reportContent.value = mockDiagnosticReport()
+  }
+  renderPlotlyWaterfall()
 })
 
 onMounted(() => {

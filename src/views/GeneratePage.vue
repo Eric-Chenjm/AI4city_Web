@@ -6,13 +6,13 @@
     <header class="page-header">
       <div class="header-line"></div>
       <h1 class="page-title">OvSGTR Spatial Inference & AIGC Refinement</h1>
-      <p class="page-subtitle">AIGC 城市设计评估与推演大盘 · 科学回溯证据链演示平台</p>
+      <p class="page-subtitle">{{ t('pageSubtitle') }}</p>
       <div class="header-line"></div>
     </header>
 
     <!-- 顶层全局提示与缺失文件警报 -->
     <div v-if="missingFilesManifest.length > 0" class="missing-warning-banner">
-      <span class="warning-title">⚠️ 数据完整性校验提示 (Missing Files Checked by sync script):</span>
+      <span class="warning-title">⚠️ {{ t('integrityAlert') }}</span>
       <div class="warning-scroll-box">
         <span v-for="(msg, i) in missingFilesManifest" :key="i" class="warning-item">
           {{ msg }}
@@ -55,6 +55,10 @@ import { ref, onMounted } from 'vue'
 import ModelTrainingOverview from '../components/ModelTrainingOverview.vue'
 import GpsCaseSelector from '../components/GpsCaseSelector.vue'
 import SingleCaseEvidenceChain from '../components/SingleCaseEvidenceChain.vue'
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
+
 
 const isLoading = ref(true)
 const casesList = ref([])
