@@ -25,59 +25,19 @@
               v-for="scenario in experimentScenarios" 
               :key="scenario.id"
               class="btn-scenario" 
-              :class="{ active: mode === 'preset' && activeScenarioId === scenario.id }"
+              :class="{ active: activeScenarioId === scenario.id }"
               @click="selectPresetScenario(scenario.id)"
             >
               <div class="scenario-btn-title">{{ scenario.name }}</div>
               <div class="scenario-btn-meta">人工评级: {{ scenario.manualGrade }} 级</div>
             </button>
           </div>
-
-          <div class="mode-switch-row">
-            <button 
-              class="btn-mode-switch"
-              :class="{ active: mode === 'custom' }"
-              @click="switchToCustomMode"
-            >
-              切换至自定义上传分析 (Custom Upload)
-            </button>
-          </div>
         </div>
 
-        <!-- 2. 自定义上传输入 (仅在自定义模式下高亮展示) -->
-        <div class="panel-section" :class="{ 'disabled-section': mode === 'preset' }">
-          <div class="section-header">
-            <span class="section-index">02</span>
-            <h2 class="section-title">CUSTOM IMAGE INPUT</h2>
-          </div>
-          <p class="section-tip" v-if="mode === 'preset'">当前处于预设实验回溯模式，如需自主测试，请点击上方“切换至自定义上传”。</p>
-          
-          <UploadZone 
-            :originalImage="customOriginalImage"
-            :structureImage="customStructureImage"
-            @upload:original="handleOriginalUpload"
-            @upload:structure="handleStructureUpload"
-            @clear="clearCustomUploads"
-            :disabled="mode === 'preset'"
-          />
-
-          <div class="panel-section action-section" v-if="mode === 'custom'">
-            <button
-              class="btn-analyze"
-              :class="{ disabled: !customOriginalImage || !customStructureImage || isAnalyzing }"
-              :disabled="!customOriginalImage || !customStructureImage || isAnalyzing"
-              @click="runCustomAnalysis"
-            >
-              <span v-if="isAnalyzing" class="btn-loader"></span>
-              <span v-else class="btn-text">{{ isAnalyzing ? 'ANALYZING' : 'START SIMULATION' }}</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 3. 算法模型切换 -->
+        <!-- 2. 算法模型切换 -->
         <div class="panel-section">
           <div class="section-header">
-            <span class="section-index">03</span>
+            <span class="section-index">02</span>
             <h2 class="section-title">INFERENCE ALGORITHM</h2>
           </div>
           <div class="model-tabs">
@@ -108,10 +68,10 @@
           </div>
         </div>
 
-        <!-- 4. 当前场景描述 -->
-        <div class="panel-section current-info-panel" v-if="mode === 'preset'">
+        <!-- 3. 当前场景描述 -->
+        <div class="panel-section current-info-panel">
           <div class="section-header">
-            <span class="section-index">04</span>
+            <span class="section-index">03</span>
             <h2 class="section-title">SCENARIO DIAGNOSIS</h2>
           </div>
           <div class="info-content">
@@ -131,50 +91,8 @@
 
       <!-- 右侧结果展示中心 (Result Panel) -->
       <main class="result-panel">
-        <!-- 评分概览大盘 (Score Overview Dashboard) -->
-        <div class="score-dashboard-card" v-if="!isAnalyzing && hasData">
-          <div class="score-meta">
-            <span class="score-model-tag">{{ activeModelName }} EVALUATIVE SCORE</span>
-            <span class="score-scen-tag">{{ currentScenario.name || 'Custom Scenario' }}</span>
-          </div>
-          <div class="score-flex">
-            <div class="score-block before">
-              <div class="score-num-label">原图得分 (Before)</div>
-              <div class="score-num-val">{{ scoreComparison.beforeScore.toFixed(2) }}</div>
-            </div>
-            <div class="score-trend-arrow" :class="{ down: scoreComparison.afterScore < scoreComparison.beforeScore }">
-              {{ scoreComparison.afterScore >= scoreComparison.beforeScore ? '→' : '→' }}
-            </div>
-            <div class="score-block after">
-              <div class="score-num-label">AI 优化图 (After)</div>
-              <div class="score-num-val" :class="{ down: scoreComparison.afterScore < scoreComparison.beforeScore }">
-                {{ scoreComparison.afterScore.toFixed(2) }}
-              </div>
-            </div>
-            <div class="score-diff-block" :class="{ down: scoreComparison.afterScore < scoreComparison.beforeScore }">
-              <div class="diff-title">得分变化 (Delta)</div>
-              <div class="diff-val">
-                {{ scoreComparison.afterScore >= scoreComparison.beforeScore ? '+' : '' }}{{ (scoreComparison.afterScore - scoreComparison.beforeScore).toFixed(2) }}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 暂无输入空状态 -->
-        <div v-if="!hasData && !isAnalyzing" class="empty-state">
-          <div class="empty-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
-          </div>
-          <p class="empty-title">AWAITING INPUT</p>
-          <p class="empty-desc">请在左侧选择一个预设实验场景，或切换到自定义上传分析以开始。</p>
-        </div>
-
         <!-- 核心加载中 -->
-        <div v-else-if="isAnalyzing" class="tech-analyzing-card">
+        <div v-if="isAnalyzing" class="tech-analyzing-card">
           <div class="hex-loader">
             <div class="loading-ring"></div>
           </div>
@@ -187,8 +105,37 @@
           </div>
         </div>
 
-        <!-- 结果详情展示区 -->
+        <!-- 结果展示区 -->
         <template v-else>
+          <!-- 评分概览大盘 (Score Overview Dashboard) -->
+          <div class="score-dashboard-card" v-if="currentModelData">
+            <div class="score-meta">
+              <span class="score-model-tag">{{ activeModelName }} EVALUATIVE SCORE</span>
+              <span class="score-scen-tag">{{ currentScenario.name }}</span>
+            </div>
+            <div class="score-flex">
+              <div class="score-block before">
+                <div class="score-num-label">原图得分 (Before)</div>
+                <div class="score-num-val">{{ scoreComparison.beforeScore.toFixed(2) }}</div>
+              </div>
+              <div class="score-trend-arrow" :class="{ down: scoreComparison.afterScore < scoreComparison.beforeScore }">
+                {{ scoreComparison.afterScore >= scoreComparison.beforeScore ? '→' : '→' }}
+              </div>
+              <div class="score-block after">
+                <div class="score-num-label">AI 优化图 (After)</div>
+                <div class="score-num-val" :class="{ down: scoreComparison.afterScore < scoreComparison.beforeScore }">
+                  {{ scoreComparison.afterScore.toFixed(2) }}
+                </div>
+              </div>
+              <div class="score-diff-block" :class="{ down: scoreComparison.afterScore < scoreComparison.beforeScore }">
+                <div class="diff-title">得分变化 (Delta)</div>
+                <div class="diff-val">
+                  {{ scoreComparison.afterScore >= scoreComparison.beforeScore ? '+' : '' }}{{ (scoreComparison.afterScore - scoreComparison.beforeScore).toFixed(2) }}
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- A. 场景拓扑图与图片比对 -->
           <div class="dashboard-row border-card">
             <div class="row-header">
@@ -203,59 +150,62 @@
             />
           </div>
 
-          <!-- B. AIGC 提示词看板 -->
-          <div class="dashboard-row border-card prompt-card-row" v-if="currentScenario.prompts">
-            <div class="row-header">
-              <span class="row-index">B</span>
-              <h2 class="row-title">AIGC Local Design Update Prompts (局部设计优化提示词看板)</h2>
-            </div>
-            <div class="prompt-grid">
-              <div class="prompt-item positive-box">
-                <div class="prompt-item-header">
-                  <span class="dot green"></span>
-                  正向优化目标提示词 (Positive AIGC Prompt)
-                  <button class="btn-copy" @click="copyText(currentScenario.prompts.positive)">复制提示词</button>
-                </div>
-                <div class="prompt-text-content">
-                  {{ currentScenario.prompts.positive }}
-                </div>
+          <!-- Grid 双列排版列 (B 与 C 并排) -->
+          <div class="dashboard-grid-row">
+            <!-- B. AIGC 提示词看板 -->
+            <div class="dashboard-row border-card prompt-card-row" v-if="currentScenario.prompts">
+              <div class="row-header">
+                <span class="row-index">B</span>
+                <h2 class="row-title">AIGC Local Design Update Prompts (局部设计优化提示词看板)</h2>
               </div>
-              <div class="prompt-sub-grid">
-                <div class="prompt-item negative-box">
+              <div class="prompt-grid">
+                <div class="prompt-item positive-box">
                   <div class="prompt-item-header">
-                    <span class="dot red"></span>
-                    负向限制提示词 (Negative Prompt)
+                    <span class="dot green"></span>
+                    正向优化目标提示词 (Positive AIGC Prompt)
+                    <button class="btn-copy" @click="copyText(currentScenario.prompts.positive)">复制提示词</button>
                   </div>
                   <div class="prompt-text-content">
-                    {{ currentScenario.prompts.negative }}
+                    {{ currentScenario.prompts.positive }}
                   </div>
                 </div>
-                <div class="prompt-item retain-box">
-                  <div class="prompt-item-header">
-                    <span class="dot yellow"></span>
-                    强制保留实体 (Retained Elements)
+                <div class="prompt-sub-grid">
+                  <div class="prompt-item negative-box">
+                    <div class="prompt-item-header">
+                      <span class="dot red"></span>
+                      负向限制提示词 (Negative Prompt)
+                    </div>
+                    <div class="prompt-text-content">
+                      {{ currentScenario.prompts.negative }}
+                    </div>
                   </div>
-                  <div class="prompt-text-content monospace">
-                    {{ currentScenario.prompts.retain }}
+                  <div class="prompt-item retain-box">
+                    <div class="prompt-item-header">
+                      <span class="dot yellow"></span>
+                      强制保留实体 (Retained Elements)
+                    </div>
+                    <div class="prompt-text-content monospace">
+                      {{ currentScenario.prompts.retain }}
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="prompt-footer-source">
+                <span>提示词来源配置文件: <code>{{ currentScenario.prompts.source }}</code></span>
+              </div>
             </div>
-            <div class="prompt-footer-source">
-              <span>提示词来源配置文件: <code>{{ currentScenario.prompts.source }}</code></span>
-            </div>
-          </div>
 
-          <!-- C. 空间实体增减分析 -->
-          <div class="dashboard-row border-card">
-            <div class="row-header">
-              <span class="row-index">C</span>
-              <h2 class="row-title">Extracted Object Delta Analytics (空间实体增减变化看板)</h2>
+            <!-- C. 空间实体增减分析 -->
+            <div class="dashboard-row border-card">
+              <div class="row-header">
+                <span class="row-index">C</span>
+                <h2 class="row-title">Extracted Object Delta Analytics (空间实体增减变化看板)</h2>
+              </div>
+              <MetricsDisplay 
+                :objectsDelta="objectsDelta"
+                :isAnalyzing="isAnalyzing"
+              />
             </div>
-            <MetricsDisplay 
-              :objectsDelta="objectsDelta"
-              :isAnalyzing="isAnalyzing"
-            />
           </div>
 
           <!-- D. ECharts 统计分析 -->
@@ -279,117 +229,20 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from 'vue'
+import { ref, computed } from 'vue'
 import { experimentScenarios } from '../data/experimentData'
-import UploadZone from '../components/UploadZone.vue'
 import ImageComparison from '../components/ImageComparison.vue'
 import MetricsDisplay from '../components/MetricsDisplay.vue'
 import ChartAnalysis from '../components/ChartAnalysis.vue'
 
-// 交互模式: 'preset' (预设实验验证) 或 'custom' (自定义上传分析)
-const mode = ref('preset')
-
 // 预设实验场景状态
 const activeScenarioId = ref('scenario_06')
 const activeModelName = ref('EGTR')
-
-// 自定义上传状态
-const customOriginalImage = ref(null)
-const customStructureImage = ref(null)
 const isAnalyzing = ref(false)
-const hasCustomData = ref(false)
-
-// 自定义模拟实验数据（用于用户上传新文件时的智能渲染）
-const customData = reactive({
-  name: '自定义测试场景',
-  manualGrade: 3,
-  desc: '自主上传的空间实体解析中。系统将基于频繁子图模式匹配推荐相应的城市局部设计微调方向。',
-  objectsDelta: [],
-  prompts: {
-    source: 'Dynamic AI Generation',
-    positive: '优化目标：强化人行道的连续性，增加沿街公共座椅。减少 building-street-car 负向冲突。',
-    negative: '保持街区真实摄影风格，禁止改变大楼主体结构，禁止添加无关水印。',
-    retain: '主体街道轮廓、建筑群落、现有绿化'
-  },
-  models: {
-    EGTR: {
-      beforeScore: 3.10,
-      afterScore: 4.80,
-      delta: 1.70,
-      status: 'success',
-      shapData: [
-        { pattern: '建筑 - 人行道 - 行人 (链式)', value: 0.65, type: 'positive', desc: '人行系统连续度提升带来正向评分' },
-        { pattern: '车辆 - 街道 - 行人 (链式)', value: -0.22, type: 'negative', desc: '局部的停车人流混行依然拉低得分' }
-      ],
-      sceneGraph: {
-        before: {
-          nodes: [
-            { id: 101, label: 'building', x: 20, y: 35, size: 22 },
-            { id: 102, label: 'street', x: 55, y: 70, size: 18 },
-            { id: 103, label: 'car', x: 80, y: 65, size: 12 }
-          ],
-          links: [
-            { source: 101, target: 102, label: 'next to' },
-            { source: 103, target: 102, label: 'on' }
-          ]
-        },
-        after: {
-          nodes: [
-            { id: 101, label: 'building', x: 20, y: 35, size: 22 },
-            { id: 102, label: 'street', x: 55, y: 70, size: 18 },
-            { id: 104, label: 'sidewalk', x: 45, y: 55, size: 16 },
-            { id: 105, label: 'man', x: 50, y: 58, size: 10 }
-          ],
-          links: [
-            { source: 101, target: 104, label: 'fronting' },
-            { source: 105, target: 104, label: 'walk on' }
-          ]
-        }
-      }
-    },
-    OvSGTR: {
-      beforeScore: 3.40,
-      afterScore: 4.55,
-      delta: 1.15,
-      status: 'success',
-      shapData: [
-        { pattern: '绿化 - 人行道 - 行人 (链式)', value: 0.52, type: 'positive', desc: '增加微观绿化提升步行体验' },
-        { pattern: '座椅 - 人行道 - 行人 (链式)', value: 0.48, type: 'positive', desc: '座椅设施增加了社交活力' }
-      ],
-      sceneGraph: {
-        before: {
-          nodes: [
-            { id: 110, label: 'building', x: 20, y: 35, size: 22 },
-            { id: 111, label: 'sidewalk', x: 50, y: 60, size: 16 }
-          ],
-          links: [
-            { source: 110, target: 111, label: 'near' }
-          ]
-        },
-        after: {
-          nodes: [
-            { id: 110, label: 'building', x: 20, y: 35, size: 22 },
-            { id: 111, label: 'sidewalk', x: 50, y: 60, size: 16 },
-            { id: 112, label: 'chair', x: 60, y: 58, size: 12 },
-            { id: 113, label: 'person', x: 65, y: 54, size: 10 }
-          ],
-          links: [
-            { source: 112, target: 111, label: 'on' },
-            { source: 113, target: 112, label: 'sit' }
-          ]
-        }
-      }
-    }
-  }
-})
 
 // 计算当前激活的场景
 const currentScenario = computed(() => {
-  if (mode.value === 'preset') {
-    return experimentScenarios.find(s => s.id === activeScenarioId.value) || experimentScenarios[0]
-  } else {
-    return customData
-  }
+  return experimentScenarios.find(s => s.id === activeScenarioId.value) || experimentScenarios[0]
 })
 
 // 计算当前激活的模型数据
@@ -407,12 +260,6 @@ const scoreComparison = computed(() => {
   }
 })
 
-// 是否拥有可展示数据
-const hasData = computed(() => {
-  if (mode.value === 'preset') return true
-  return hasCustomData.value
-})
-
 // 实体增减 Delta
 const objectsDelta = computed(() => {
   return currentScenario.value ? currentScenario.value.objectsDelta : []
@@ -428,19 +275,11 @@ const sceneGraph = computed(() => {
   return currentModelData.value ? currentModelData.value.sceneGraph : null
 })
 
-// 图片映射 (预设场景下使用优雅的相对路径；自定义模式下使用用户上传的 Base64 或是图片源)
+// 图片映射 (预设场景下使用优雅的相对路径)
 const imagePaths = computed(() => {
-  if (mode.value === 'preset') {
-    // 假设图片存放于 public/images 下，提供优雅的默认占位及降级
-    return {
-      before: `/images/${activeScenarioId.value}_before.jpg`,
-      after: `/images/${activeScenarioId.value}_after.jpg`
-    }
-  } else {
-    return {
-      before: customOriginalImage.value,
-      after: customStructureImage.value
-    }
+  return {
+    before: `/images/${activeScenarioId.value}_before.jpg`,
+    after: `/images/${activeScenarioId.value}_after.jpg`
   }
 })
 
@@ -459,56 +298,7 @@ const extractedMetrics = computed(() => {
 
 // 场景选择
 const selectPresetScenario = (id) => {
-  mode.value = 'preset'
   activeScenarioId.value = id
-}
-
-// 切换至自定义上传
-const switchToCustomMode = () => {
-  mode.value = 'custom'
-}
-
-// 处理上传
-const handleOriginalUpload = (img) => {
-  customOriginalImage.value = img
-}
-
-const handleStructureUpload = (img) => {
-  customStructureImage.value = img
-}
-
-const clearCustomUploads = () => {
-  customOriginalImage.value = null
-  customStructureImage.value = null
-  hasCustomData.value = false
-}
-
-// 模拟运行自定义算法推理
-const runCustomAnalysis = async () => {
-  if (!customOriginalImage.value || !customStructureImage.value || isAnalyzing.value) return
-  
-  isAnalyzing.value = true
-  
-  // 模拟步骤式计算
-  const steps = document.querySelectorAll('.loader-step')
-  await new Promise(resolve => setTimeout(resolve, 800))
-  if (steps[1]) steps[1].classList.add('active')
-  await new Promise(resolve => setTimeout(resolve, 800))
-  if (steps[2]) steps[2].classList.add('active')
-  await new Promise(resolve => setTimeout(resolve, 900))
-  if (steps[3]) steps[3].classList.add('active')
-  await new Promise(resolve => setTimeout(resolve, 500))
-
-  // 生成模拟实体增减数据
-  customData.objectsDelta = [
-    { name: '人行道 (sidewalk)', value: Math.round(5 + Math.random() * 8), unit: '个', type: 'add', desc: '慢行网络铺装拓宽' },
-    { name: '座椅 (chair)', value: Math.round(2 + Math.random() * 4), unit: '个', type: 'add', desc: '增加休憩空间设施' },
-    { name: '树木 (tree)', value: -Math.round(2 + Math.random() * 6), unit: '棵', type: 'remove', desc: '精简阻断视线的冗余乔木' },
-    { name: '车辆 (car)', value: -Math.round(1 + Math.random() * 4), unit: '辆', type: 'remove', desc: '机动车道空间压缩' }
-  ]
-
-  hasCustomData.value = true
-  isAnalyzing.value = false
 }
 
 // 复制文本工具
@@ -632,6 +422,18 @@ const copyText = (text) => {
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.dashboard-grid-row {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 24px;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-grid-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .panel-section {
@@ -965,7 +767,7 @@ const copyText = (text) => {
 
 .prompt-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1fr;
   gap: 16px;
 }
 
