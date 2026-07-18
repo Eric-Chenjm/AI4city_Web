@@ -13,7 +13,7 @@
           class="nav-link"
           :class="{ active: $route.path === link.path }"
         >
-          {{ link.name }}
+          {{ t(link.key) }}
         </router-link>
       </div>
 
@@ -36,7 +36,7 @@
         class="mobile-link"
         @click="isMobileMenuOpen = false"
       >
-        {{ link.name }}
+        {{ t(link.key) }}
       </router-link>
     </div>
   </nav>
@@ -46,15 +46,15 @@
 import { ref } from 'vue'
 import { useLang } from '../composables/useLang.js'
 
-const { toggleLang, currentLang } = useLang()
+const { toggleLang, currentLang, t } = useLang()
 
 const isMobileMenuOpen = ref(false)
 
 const navLinks = [
-  { name: 'COMPARE', path: '/above' },
-  { name: 'GENERATE', path: '/generate' },
-  { name: 'ANALYZE', path: '/analysis' },
-  { name: 'METHOD', path: '/method' }
+  { key: 'navCompare', path: '/above' },
+  { key: 'navGenerate', path: '/generate' },
+  { key: 'navAnalyze', path: '/analysis' },
+  { key: 'navMethod', path: '/method' }
 ]
 
 const toggleMobileMenu = () => {

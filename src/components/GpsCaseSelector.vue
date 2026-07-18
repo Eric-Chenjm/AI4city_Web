@@ -32,7 +32,7 @@
                 :class="{ active: activeCaseId === c.case_id }"
                 @click="onSelectCase(c)"
               >
-                <div class="case-card-title">{{ c.case_name }}</div>
+                <div class="case-card-title">{{ t(c.case_name) }}</div>
                 <div class="case-card-gps monospace">GPS: {{ c.gps.lat.toFixed(5) }}, {{ c.gps.lng.toFixed(5) }}</div>
               </div>
             </div>
@@ -49,7 +49,7 @@
                 :class="{ active: activeCaseId === c.case_id }"
                 @click="onSelectCase(c)"
               >
-                <div class="case-card-title">{{ c.case_name }}</div>
+                <div class="case-card-title">{{ t(c.case_name) }}</div>
                 <div class="case-card-gps monospace">GPS: {{ c.gps.lat.toFixed(5) }}, {{ c.gps.lng.toFixed(5) }}</div>
               </div>
             </div>
@@ -66,7 +66,7 @@
                 :class="{ active: activeCaseId === c.case_id }"
                 @click="onSelectCase(c)"
               >
-                <div class="case-card-title">{{ c.case_name }}</div>
+                <div class="case-card-title">{{ t(c.case_name) }}</div>
                 <div class="case-card-gps monospace">GPS: {{ c.gps.lat.toFixed(5) }}, {{ c.gps.lng.toFixed(5) }}</div>
               </div>
             </div>
@@ -83,7 +83,7 @@
                 :class="{ active: activeCaseId === c.case_id }"
                 @click="onSelectCase(c)"
               >
-                <div class="case-card-title">{{ c.case_name }}</div>
+                <div class="case-card-title">{{ t(c.case_name) }}</div>
                 <div class="case-card-gps monospace">GPS: {{ c.gps.lat.toFixed(5) }}, {{ c.gps.lng.toFixed(5) }}</div>
               </div>
             </div>
@@ -307,7 +307,7 @@ const initMap = () => {
         .setLngLat(coordinates)
         .setHTML(`
           <div style="font-family:'Outfit',sans-serif;font-size:11.5px;color:#fff;padding:4px;">
-            <strong style="color:#7b61ff;">${featProps.case_name}</strong><br/>
+            <strong style="color:#7b61ff;">${t(featProps.case_name)}</strong><br/>
             ${labelType}: <span style="color:#aab8ff;">${valType}</span>
           </div>
         `)

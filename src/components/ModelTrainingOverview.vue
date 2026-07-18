@@ -174,6 +174,7 @@ const props = defineProps({
 const emit = defineEmits(['select-pattern'])
 
 const overviewData = ref({})
+const bigImageSrc = ref(null)
 const topPositive = ref([])
 const topNegative = ref([])
 

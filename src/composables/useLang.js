@@ -75,10 +75,24 @@ const messages = {
     temporary:       'Temporary',
     gpsType:         'Type:',
 
+    // ── GeneratePage ──────────────────────────────────────────────
+    pageSubtitle:    'AIGC Urban Design Assessment & Spatial Inference Platform',
+    integrityAlert:  'Data Integrity Validation Alert (Missing Files Checked by sync script):',
+
     // ── MetricsDisplay ────────────────────────────────────────────
     unitItem:        'unit(s)',
     entityAdd:       'Spatial Entity Added',
     entityRemove:    'Spatial Entity Suppressed/Reduced',
+
+    // ── GPS Cases Translation ─────────────────────────────────────
+    '杨树浦滨水绿带过渡点 (滨水空间 02)': 'Yangshupu Waterfront Greenbelt (Waterfront 02)',
+    '复兴岛运河滨水休闲步道 (滨水空间 03)': 'Fuxing Island Canal Promenade (Waterfront 03)',
+    '厂房转角开放式漫步小广场 (公共空间 04)': 'Open Corner Pedestrian Plaza (Public Space 04)',
+    '定海路社区生活混合型街道 (公共空间 05)': 'Dinghai Road Mixed Community Street (Public Space 05)',
+    '国棉九厂老厂房红砖围墙界面 (景观/工业遗存 01)': 'Cotton Mill No.9 Red-brick Wall Facade (Heritage 01)',
+    '复兴岛老旧厂房修缮保护立面 (景观/工业遗存 08)': 'Fuxing Island Factory Facade Restoration (Heritage 08)',
+    '厂区外行道绿地口袋休憩点 (临时构筑 06)': 'Roadside Pocket Green Space (Temporary 06)',
+    '老街角非正式集市与售货摊区 (临时构筑 07)': 'Informal Market Street Corner (Temporary 07)',
 
     // ── AbovePage ─────────────────────────────────────────────────
     heroTitle:       'FUXING ISLAND',
