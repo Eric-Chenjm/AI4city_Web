@@ -9,21 +9,21 @@
       </div>
       <div class="hero-content">
         <div class="hero-title-wrapper">
-          <h1 class="hero-title">FUXING ISLAND</h1>
-          <h2 class="hero-subtitle">INNOVATION GRAVITY FIELD</h2>
+          <h1 class="hero-title">{{ t('heroTitle') }}</h1>
+          <h2 class="hero-subtitle">{{ t('heroSubtitle') }}</h2>
         </div>
-        <p class="hero-desc">From Data Diagnosis to Spatial Activation — Multi-modal Indicator-based Innovation Space Identification</p>
+        <p class="hero-desc">{{ t('heroDesc') }}</p>
       </div>
       <button class="explore-btn" @click="scrollToScreen(1)">
-        <span>START EXPLORING</span>
+        <span>{{ t('exploreBtn') }}</span>
         <span class="arrow">↓</span>
       </button>
     </section>
 
     <section class="screen screen-2">
       <div class="gallery-header">
-        <h2 class="section-title">COMPARISON GALLERY</h2>
-        <p class="section-desc">BEFORE vs AIGC RESTORATION</p>
+        <h2 class="section-title">{{ t('screensTitle') }}</h2>
+        <p class="section-desc">{{ t('screensDesc') }}</p>
       </div>
       <div class="gallery-scroll" ref="galleryScroll">
         <div class="gallery-track">
@@ -78,28 +78,28 @@
       <div class="scene-container">
         <canvas ref="canvasRef"></canvas>
         <div class="legend-panel">
-          <h4>ZONE LEGEND</h4>
+          <h4>{{ t('sceneLegendTitle') }}</h4>
           <div class="legend-items">
             <div class="legend-item">
               <span class="legend-color crimson"></span>
-              <span>CORE INNOVATION</span>
+              <span>{{ t('legendCore') }}</span>
             </div>
             <div class="legend-item">
               <span class="legend-color blue"></span>
-              <span>TO BE ACTIVATED</span>
+              <span>{{ t('legendActivated') }}</span>
             </div>
             <div class="legend-item">
               <span class="legend-color purple"></span>
-              <span>POTENTIAL TRIGGER</span>
+              <span>{{ t('legendTrigger') }}</span>
             </div>
             <div class="legend-item">
               <span class="legend-color gray"></span>
-              <span>UNDER DEVELOPMENT</span>
+              <span>{{ t('legendDevelopment') }}</span>
             </div>
           </div>
         </div>
         <div class="scene-hint">
-          <span>DRAG TO ROTATE · SCROLL TO ZOOM</span>
+          <span>{{ t('sceneHint') }}</span>
         </div>
       </div>
     </section>
@@ -135,6 +135,9 @@
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
 
 const canvasRef = ref(null)
 const radarCanvas = ref(null)

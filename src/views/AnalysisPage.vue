@@ -9,12 +9,12 @@
     <header class="page-header">
       <div class="header-top">
         <div class="header-meta">
-          <span class="meta-tag">DATA INTELLIGENCE</span>
+          <span class="meta-tag">{{ t('dataIntelligence') }}</span>
           <span class="meta-sep">/</span>
           <span class="meta-time">{{ currentTime }}</span>
         </div>
-        <h1 class="page-title">SPATIAL DISTRIBUTION ANALYSIS</h1>
-        <p class="page-subtitle">Innovation element collection and clustering visualization across central Shanghai</p>
+        <h1 class="page-title">{{ t('spatialTitle') }}</h1>
+        <p class="page-subtitle">{{ t('spatialSubtitle') }}</p>
       </div>
     </header>
 
@@ -29,12 +29,12 @@
         <div class="source-divider"></div>
         <div class="source-item">
           <span class="source-dot explicit"></span>
-          <span class="source-text"><strong>EXPLICIT</strong> — 15 indicators: land use, density, accessibility, etc.</span>
+          <span class="source-text">{{ t('explicitSource') }}</span>
         </div>
         <div class="source-divider"></div>
         <div class="source-item">
           <span class="source-dot implicit"></span>
-          <span class="source-text"><strong>IMPLICIT</strong> — 6 LLM-derived streetscape perception dimensions</span>
+          <span class="source-text">{{ t('implicitSource') }}</span>
         </div>
       </div>
     </section>
@@ -80,14 +80,14 @@
         <div class="card-header">
           <div class="card-title-group">
             <span class="section-tag">SPATIAL ANALYSIS</span>
-            <h2 class="section-title">REGION CLASSIFICATION & TRAINING SAMPLES</h2>
+            <h2 class="section-title">{{ t('quadrantTitle') }}</h2>
           </div>
         </div>
         <div class="card-body">
           <div class="region-col">
             <div class="col-header">
-              <span class="col-label">FOUR QUADRANT MAP</span>
-              <span class="col-badge">EXPLICIT × IMPLICIT</span>
+              <span class="col-label">{{ t('quadrantMap') }}</span>
+              <span class="col-badge">{{ t('explicitImplicit') }}</span>
             </div>
             <RegionMap
               :regionData="regionData"
@@ -101,8 +101,8 @@
           <div class="divider"></div>
           <div class="samples-col">
             <div class="col-header">
-              <span class="col-label">{{ activeQuadrant ? 'TRAINING DATA SAMPLES' : 'REGION STATISTICS' }}</span>
-              <span class="col-count">{{ filteredSamples.length }} {{ activeQuadrant ? 'SAMPLES' : 'TOTAL' }}</span>
+              <span class="col-label">{{ activeQuadrant ? t('trainingDataSamples') : t('regionStatistics') }}</span>
+              <span class="col-count">{{ filteredSamples.length }} {{ activeQuadrant ? t('samplesBadge') : t('totalBadge') }}</span>
             </div>
             <SampleStats
               v-if="!activeQuadrant"
@@ -144,6 +144,10 @@ import SampleStats from '../components/SampleStats.vue'
 import RegionMap from '../components/RegionMap.vue'
 import PipelineFlow from '../components/PipelineFlow.vue'
 import { transformGeoJson } from '../utils/coordTransform'
+import { useLang } from '../composables/useLang.js'
+
+const { t, currentLang } = useLang()
+
 
 // --- Time ---
 const currentTime = ref('')
@@ -230,10 +234,50 @@ const computeStatistics = () => {
   const decimals = indicator.unit === '%' || indicator.unit === '' ? 4 : 1
 
   statistics.value = [
-    { label: 'MEAN VALUE', value: mean.toFixed(decimals), unit: indicator.unit, color: '#E8D48B', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4', desc: `Average ${indicator.name.toLowerCase()} across study area` },
-    { label: 'STD DEVIATION', value: std.toFixed(decimals), unit: indicator.unit, color: '#E8D48B', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5', desc: 'Spatial variability of the indicator' },
-    { label: 'HIGH VALUE', value: highPercent, unit: '%', color: '#E8D48B', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7', desc: `Grids above median (${midValue.toFixed(2)})` },
-    { label: 'LOW VALUE', value: lowPercent, unit: '%', color: '#F0E0A8', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6', desc: `Grids below 25th percentile (${lowThreshold.toFixed(2)})` }
+    { 
+      label: 'MEAN VALUE', 
+      value: mean.toFixed(decimals), 
+      unit: indicator.unit, 
+      color: '#E8D48B', 
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', 
+      spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4',
+      desc: currentLang.value === 'en' 
+        ? `Average ${t(indicator.name).toLowerCase()} across study area` 
+        : `研究区域内 ${t(indicator.name)} 的空间平均水平`
+    },
+    { 
+      label: 'STD DEVIATION', 
+      value: std.toFixed(decimals), 
+      unit: indicator.unit, 
+      color: '#E8D48B', 
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', 
+      spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5',
+      desc: currentLang.value === 'en'
+        ? 'Spatial variability of the indicator'
+        : '表明该指标在空间分布上的离散变异程度'
+    },
+    { 
+      label: 'HIGH VALUE', 
+      value: highPercent, 
+      unit: '%', 
+      color: '#E8D48B', 
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', 
+      spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7',
+      desc: currentLang.value === 'en'
+        ? `Grids above median (${midValue.toFixed(2)})`
+        : `高于区域中位数 (${midValue.toFixed(2)}) 的空间格网所占百分比`
+    },
+    { 
+      label: 'LOW VALUE', 
+      value: lowPercent, 
+      unit: '%', 
+      color: '#F0E0A8', 
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', 
+      spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6',
+      desc: currentLang.value === 'en'
+        ? `Grids below 25th percentile (${lowThreshold.toFixed(2)})`
+        : `低于区域25%分位数 (${lowThreshold.toFixed(2)}) 的低值格网百分比`
+    }
   ]
 }
 
@@ -309,6 +353,10 @@ const generateMockIndicatorData = (indicatorId) => {
 
 watch(activeIndicator, (newId) => {
   loadIndicatorData(newId)
+})
+
+watch(currentLang, () => {
+  computeStatistics()
 })
 
 // --- Study area boundary ---

@@ -3,7 +3,7 @@
     <!-- Progress Nav -->
     <nav class="progress-nav">
       <div class="nav-brand">
-        <span class="brand-tag">METHODOLOGY</span>
+        <span class="brand-tag">{{ t('methodBrand') }}</span>
       </div>
       <div class="nav-dots">
         <button
@@ -29,9 +29,9 @@
       </div>
       <div class="chapter-content">
         <div class="chapter-header">
-          <span class="chapter-tag">CHAPTER ONE</span>
-          <h1 class="chapter-title">RESEARCH FRAMEWORK</h1>
-          <p class="chapter-desc">A multi-dimensional indicator system fusing explicit geospatial data with implicit streetscape perception to identify innovation space types across Shanghai.</p>
+          <span class="chapter-tag">{{ t('chapterOne') }}</span>
+          <h1 class="chapter-title">{{ t('chapterOneTitle') }}</h1>
+          <p class="chapter-desc">{{ t('chapterOneDesc') }}</p>
         </div>
 
         <!-- Flowchart -->
@@ -66,7 +66,7 @@
         <div class="core-idea">
           <div class="idea-bracket left"></div>
           <p class="idea-text">
-            This research constructs a multi-dimensional indicator system that fuses explicit geospatial data with implicit streetscape perception data, identifying Shanghai's innovation space typologies and generalizing the model to guide Fuxing Island's urban renewal design.
+            {{ t('coreIdeaText') }}
           </p>
           <div class="idea-bracket right"></div>
         </div>
@@ -80,9 +80,9 @@
       </div>
       <div class="chapter-content">
         <div class="chapter-header">
-          <span class="chapter-tag">CHAPTER TWO</span>
-          <h1 class="chapter-title">INDICATOR SYSTEM</h1>
-          <p class="chapter-desc">14 dimensions across two categories — explicit structural data and implicit perceptual signals.</p>
+          <span class="chapter-tag">{{ t('chapterTwo') }}</span>
+          <h1 class="chapter-title">{{ t('chapterTwoTitle') }}</h1>
+          <p class="chapter-desc">{{ t('chapterTwoDesc') }}</p>
         </div>
 
         <div class="indicators-layout">
@@ -90,8 +90,8 @@
           <div class="indicator-column">
             <div class="column-header">
               <span class="column-dot explicit"></span>
-              <h2 class="column-title">EXPLICIT INDICATORS</h2>
-              <span class="column-count">8 DIMENSIONS</span>
+              <h2 class="column-title">{{ t('explicitIndicatorsTitle') }}</h2>
+              <span class="column-count">{{ t('dimensionsCount8') }}</span>
             </div>
             <div class="indicator-list">
               <div class="indicator-item" v-for="(item, i) in explicitIndicators" :key="item.name" :style="{ animationDelay: (i * 0.05) + 's' }">
@@ -111,8 +111,8 @@
           <div class="indicator-column">
             <div class="column-header">
               <span class="column-dot implicit"></span>
-              <h2 class="column-title">IMPLICIT INDICATORS</h2>
-              <span class="column-count">6 DIMENSIONS</span>
+              <h2 class="column-title">{{ t('implicitIndicatorsTitle') }}</h2>
+              <span class="column-count">{{ t('dimensionsCount6') }}</span>
             </div>
             <div class="indicator-list">
               <div class="indicator-item" v-for="(item, i) in implicitIndicators" :key="item.name" :style="{ animationDelay: (i * 0.05) + 's' }">
@@ -128,7 +128,7 @@
             </div>
             <div class="llm-note">
               <span class="note-icon">◈</span>
-              <span class="note-text">Implicit indicators are derived from Large Language Model (LLM) multi-dimensional recognition of streetscape imagery.</span>
+              <span class="note-text">{{ t('llmNoteText') }}</span>
             </div>
           </div>
         </div>
@@ -142,23 +142,23 @@
       </div>
       <div class="chapter-content">
         <div class="chapter-header">
-          <span class="chapter-tag">CHAPTER THREE</span>
-          <h1 class="chapter-title">TECHNICAL IMPLEMENTATION</h1>
-          <p class="chapter-desc">LLM-powered perception scoring and density-based clustering algorithms.</p>
+          <span class="chapter-tag">{{ t('chapterThree') }}</span>
+          <h1 class="chapter-title">{{ t('chapterThreeTitle') }}</h1>
+          <p class="chapter-desc">{{ t('chapterThreeDesc') }}</p>
         </div>
 
         <div class="tech-layout">
           <!-- LLM Pipeline -->
           <div class="tech-card">
             <div class="tech-card-header">
-              <span class="tech-tag">PIPELINE</span>
-              <h3 class="tech-card-title">LLM RECOGNITION FLOW</h3>
+              <span class="tech-tag">{{ t('techPipelineTag') }}</span>
+              <h3 class="tech-card-title">{{ t('techPipelineTitle') }}</h3>
             </div>
             <div class="llm-pipeline">
               <div class="pipeline-stage">
                 <div class="stage-box input">
-                  <span class="stage-label">INPUT</span>
-                  <span class="stage-name">Streetscape Image</span>
+                  <span class="stage-label">{{ t('techInput') }}</span>
+                  <span class="stage-name">{{ t('techInputVal') }}</span>
                 </div>
               </div>
               <div class="pipeline-arrow">
@@ -168,9 +168,9 @@
               </div>
               <div class="pipeline-stage">
                 <div class="stage-box process">
-                  <span class="stage-label">PROCESS</span>
-                  <span class="stage-name">Large Language Model</span>
-                  <span class="stage-sub">Vision-Language Understanding</span>
+                  <span class="stage-label">{{ t('techProcess') }}</span>
+                  <span class="stage-name">{{ t('techProcessVal') }}</span>
+                  <span class="stage-sub">{{ t('techProcessSub') }}</span>
                 </div>
               </div>
               <div class="pipeline-arrow">
@@ -180,8 +180,8 @@
               </div>
               <div class="pipeline-stage">
                 <div class="stage-box output">
-                  <span class="stage-label">OUTPUT</span>
-                  <span class="stage-name">6D Score Vector</span>
+                  <span class="stage-label">{{ t('techOutput') }}</span>
+                  <span class="stage-name">{{ t('techOutputVal') }}</span>
                 </div>
               </div>
             </div>
@@ -203,12 +203,12 @@
           <!-- Clustering Scatter -->
           <div class="tech-card">
             <div class="tech-card-header">
-              <span class="tech-tag">ALGORITHM</span>
-              <h3 class="tech-card-title">DBSCAN CLUSTERING</h3>
+              <span class="tech-tag">{{ t('techClusteringTag') }}</span>
+              <h3 class="tech-card-title">{{ t('techClusteringTitle') }}</h3>
             </div>
             <div ref="scatterChart" class="scatter-chart" @click="handleScatterClick"></div>
             <div class="algo-note">
-              <p><strong>Why DBSCAN?</strong> Unlike K-Means, DBSCAN does not require pre-specifying cluster count and can discover arbitrarily shaped clusters while identifying noise points — ideal for spatial innovation data with irregular distributions.</p>
+              <p><strong>{{ t('dbscanQuestion') }}</strong> {{ t('dbscanAnswer') }}</p>
             </div>
           </div>
         </div>
@@ -222,21 +222,21 @@
       </div>
       <div class="chapter-content">
         <div class="chapter-header">
-          <span class="chapter-tag">CHAPTER FOUR</span>
-          <h1 class="chapter-title">GENERALIZATION & APPLICATION</h1>
-          <p class="chapter-desc">Transferring the Shanghai-trained model to Fuxing Island's renewal design.</p>
+          <span class="chapter-tag">{{ t('chapterFour') }}</span>
+          <h1 class="chapter-title">{{ t('chapterFourTitle') }}</h1>
+          <p class="chapter-desc">{{ t('chapterFourDesc') }}</p>
         </div>
 
         <!-- Transfer Flow -->
         <div class="transfer-flow">
           <div class="transfer-card">
-            <div class="transfer-label">SOURCE DOMAIN</div>
+            <div class="transfer-label">{{ t('sourceDomain') }}</div>
             <div class="transfer-visual shanghai">
               <div class="mini-map">
                 <div class="map-dot" v-for="i in 20" :key="i" :style="getMapDotStyle(i)"></div>
               </div>
-              <span class="transfer-name">SHANGHAI CENTRAL</span>
-              <span class="transfer-sub">Clustering Result</span>
+              <span class="transfer-name">{{ t('shanghaiCentral') }}</span>
+              <span class="transfer-sub">{{ t('clusteringResult') }}</span>
             </div>
           </div>
           <div class="transfer-middle">
@@ -245,16 +245,16 @@
                 <path d="M5 20 L100 20 M90 10 L105 20 L90 30" stroke="currentColor" stroke-width="2" />
               </svg>
             </div>
-            <span class="transfer-label-middle">MODEL GENERALIZATION</span>
+            <span class="transfer-label-middle">{{ t('modelGeneralization') }}</span>
           </div>
           <div class="transfer-card">
-            <div class="transfer-label">TARGET DOMAIN</div>
+            <div class="transfer-label">{{ t('targetDomain') }}</div>
             <div class="transfer-card target">
               <div class="mini-island">
                 <div class="island-shape"></div>
               </div>
-              <span class="transfer-name">FUXING ISLAND</span>
-              <span class="transfer-sub">Renewal Zoning</span>
+              <span class="transfer-name">{{ t('fuxingIslandName') }}</span>
+              <span class="transfer-sub">{{ t('renewalZoning') }}</span>
             </div>
           </div>
         </div>
@@ -271,7 +271,7 @@
             <p class="zone-feature">{{ zone.feature }}</p>
             <div class="zone-divider"></div>
             <div class="zone-strategy">
-              <span class="strategy-label">STRATEGY</span>
+              <span class="strategy-label">{{ t('strategyLabel') }}</span>
               <p class="strategy-text">{{ zone.strategy }}</p>
             </div>
           </div>
@@ -279,7 +279,7 @@
 
         <!-- CTA -->
         <router-link to="/generate" class="cta-button">
-          <span class="cta-text">ENTER GENERATION TOOL</span>
+          <span class="cta-text">{{ t('ctaBtnText') }}</span>
           <span class="cta-arrow">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="5" y1="12" x2="19" y2="12" />
@@ -293,8 +293,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'
 import * as echarts from 'echarts'
+import { useLang } from '../composables/useLang.js'
+
+const { t, currentLang } = useLang()
 
 const containerRef = ref(null)
 const chapter0 = ref(null)
@@ -307,40 +310,40 @@ const activeChapter = ref(0)
 const activeFlowNode = ref(-1)
 const scrollProgress = ref(0)
 
-const chapters = [
-  { id: 0, nav: 'FRAMEWORK' },
-  { id: 1, nav: 'INDICATORS' },
-  { id: 2, nav: 'TECHNOLOGY' },
-  { id: 3, nav: 'APPLICATION' }
-]
+const chapters = computed(() => [
+  { id: 0, nav: currentLang.value === 'en' ? 'FRAMEWORK' : '分析框架' },
+  { id: 1, nav: currentLang.value === 'en' ? 'INDICATORS' : '指标底座' },
+  { id: 2, nav: currentLang.value === 'en' ? 'TECHNOLOGY' : '算法实现' },
+  { id: 3, nav: currentLang.value === 'en' ? 'APPLICATION' : '推演应用' }
+])
 
-const flowSteps = [
-  { id: 1, name: 'Data Collection', detail: 'POI, roads, streetscapes', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>' },
-  { id: 2, name: 'Feature Extraction', detail: 'Explicit + implicit fusion', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>' },
-  { id: 3, name: 'Cluster Analysis', detail: 'DBSCAN density clustering', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/></svg>' },
-  { id: 4, name: 'Spatial Identification', detail: 'Innovation space typology', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>' },
-  { id: 5, name: 'Generalization', detail: 'Transfer to Fuxing Island', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12h18M12 3v18M5 5l14 14M19 5L5 19"/></svg>' }
-]
+const flowSteps = computed(() => [
+  { id: 1, name: currentLang.value === 'en' ? 'Data Collection' : '数据收集', detail: currentLang.value === 'en' ? 'POI, roads, streetscapes' : '路网、POI与街景影像', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>' },
+  { id: 2, name: currentLang.value === 'en' ? 'Feature Extraction' : '特征提取', detail: currentLang.value === 'en' ? 'Explicit + implicit fusion' : '双域融合指标特征工程', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>' },
+  { id: 3, name: currentLang.value === 'en' ? 'Cluster Analysis' : '空间聚类', detail: currentLang.value === 'en' ? 'DBSCAN density clustering' : 'DBSCAN无监督空间聚类', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/></svg>' },
+  { id: 4, name: currentLang.value === 'en' ? 'Spatial Identification' : '空间识别', detail: currentLang.value === 'en' ? 'Innovation space typology' : '自动识别创新空间类型', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>' },
+  { id: 5, name: currentLang.value === 'en' ? 'Generalization' : '空间推演', detail: currentLang.value === 'en' ? 'Transfer to Fuxing Island' : '外推至复兴岛更新实践', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12h18M12 3v18M5 5l14 14M19 5L5 19"/></svg>' }
+])
 
-const explicitIndicators = [
-  { name: 'Tech Institution Density', desc: 'R&D labs, universities, incubators', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>' },
-  { name: 'High-Tech Enterprise', desc: 'Certified tech company count', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>' },
-  { name: 'Transit Accessibility', desc: 'Metro/bus network coverage', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 11h16M8 17v4M16 17v4"/></svg>' },
-  { name: 'Maker Space Count', desc: 'Co-working & maker facilities', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' },
-  { name: 'R&D Investment', desc: 'Research expenditure intensity', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' },
-  { name: 'Patent Output', desc: 'Innovation patent density', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' },
-  { name: 'Talent Agglomeration', desc: 'Skilled workforce concentration', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
-  { name: 'Industry Supporting', desc: 'Land-use diversity (Shannon-H entropy)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 20h20M4 20V8l8-5 8 5v12M9 20v-6h6v6"/></svg>' }
-]
+const explicitIndicators = computed(() => [
+  { name: currentLang.value === 'en' ? 'Tech Institution Density' : '科创科研机构密度', desc: currentLang.value === 'en' ? 'R&D labs, universities, incubators' : '格网内研发实验室、高校和孵化载体数量', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>' },
+  { name: currentLang.value === 'en' ? 'High-Tech Enterprise' : '高新技术企业分布', desc: currentLang.value === 'en' ? 'Certified tech company count' : '官方认定及登记的高新技术企业数', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>' },
+  { name: currentLang.value === 'en' ? 'Transit Accessibility' : '公共交通网络可达', desc: currentLang.value === 'en' ? 'Metro/bus network coverage' : '公交站点与地铁口步行可达覆盖范围', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 11h16M8 17v4M16 17v4"/></svg>' },
+  { name: currentLang.value === 'en' ? 'Maker Space Count' : '众创空间设施数量', desc: currentLang.value === 'en' ? 'Co-working & maker facilities' : '各类共享联合办公、青年创客空间数', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' },
+  { name: currentLang.value === 'en' ? 'R&D Investment' : '科学研究资金投入', desc: currentLang.value === 'en' ? 'Research expenditure intensity' : '区域内各单元研发经费支出密集程度', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' },
+  { name: currentLang.value === 'en' ? 'Patent Output' : '发明专利产出密度', desc: currentLang.value === 'en' ? 'Innovation patent density' : '格网范围内每平方公里专利授权总数', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' },
+  { name: currentLang.value === 'en' ? 'Talent Agglomeration' : '科技创新人才集聚', desc: currentLang.value === 'en' ? 'Skilled workforce concentration' : '高等教育背景及技能创新劳动力比例', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+  { name: currentLang.value === 'en' ? 'Industry Supporting' : '多功能用地混合度', desc: currentLang.value === 'en' ? 'Land-use diversity (Shannon-H entropy)' : '基于香农-威纳指数计算的用地混合度', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 20h20M4 20V8l8-5 8 5v12M9 20v-6h6v6"/></svg>' }
+])
 
-const implicitIndicators = [
-  { name: 'Creativity Density', desc: 'Artistic & creative atmosphere', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.5 0 1-.5 1-1v-1c0-.5.5-1 1-1h2c2.5 0 4-2 4-4.5C20 8 16.5 2 12 2z"/></svg>' },
-  { name: 'Interaction Density', desc: 'Social exchange frequency', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>' },
-  { name: 'City Integration', desc: 'Urban function mixing degree', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>' },
-  { name: 'Eco-Friendliness', desc: 'Green & sustainable perception', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20M12 2a10 10 0 0 0 0 20M12 2a10 10 0 0 1 0 20"/></svg>' },
-  { name: 'Cultural Identity', desc: 'Heritage & local character', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg>' },
-  { name: 'Future Perception', desc: 'Tech-forward & visionary feel', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>' }
-]
+const implicitIndicators = computed(() => [
+  { name: currentLang.value === 'en' ? 'Creativity Density' : '创意活力视觉感知', desc: currentLang.value === 'en' ? 'Artistic & creative atmosphere' : '艺术彩绘、趣味陈设及创意街区感知', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.5 0 1-.5 1-1v-1c0-.5.5-1 1-1h2c2.5 0 4-2 4-4.5C20 8 16.5 2 12 2z"/></svg>' },
+  { name: currentLang.value === 'en' ? 'Interaction Density' : '交往交往活力感知', desc: currentLang.value === 'en' ? 'Social exchange frequency' : '支持人群自发停留与户外交流场景感知', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>' },
+  { name: currentLang.value === 'en' ? 'City Integration' : '生活功能交融感知', desc: currentLang.value === 'en' ? 'Urban function mixing degree' : '日常商业配套与城市界面的整合度', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>' },
+  { name: currentLang.value === 'en' ? 'Eco-Friendliness' : '生态环境友好感知', desc: currentLang.value === 'en' ? 'Green & sustainable perception' : '绿化覆盖茂密程度与生态亲水性视觉感知', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20M12 2a10 10 0 0 0 0 20M12 2a10 10 0 0 1 0 20"/></svg>' },
+  { name: currentLang.value === 'en' ? 'Cultural Identity' : '历史风貌认同感知', desc: currentLang.value === 'en' ? 'Heritage & local character' : '工业遗存、历史风貌和地方特色视觉识别', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg>' },
+  { name: currentLang.value === 'en' ? 'Future Perception' : '未来科创渗透感知', desc: currentLang.value === 'en' ? 'Tech-forward & visionary feel' : '智慧硬件设备、前瞻科技物理感官体验', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>' }
+])
 
 const exampleScores = [
   { name: 'CREAT', value: 82 },
@@ -351,12 +354,12 @@ const exampleScores = [
   { name: 'FUTUR', value: 60 }
 ]
 
-const fuxingZones = [
-  { id: 'core', color: '#005BAC', name: 'Innovation Core', feature: 'High explicit + High implicit — dense innovation ecosystem', strategy: 'Upgrade shared workspaces and creative workshops; strengthen tech-transfer platforms.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8 12 2"/></svg>' },
-  { id: 'activate', color: '#005BAC', name: 'Activation Zone', feature: 'High explicit + Low implicit — infrastructure-ready but lacking atmosphere', strategy: 'Inject cultural programming and public art; activate street-level engagement.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>' },
-  { id: 'catalyst', color: '#00B5D8', name: 'Catalyst Zone', feature: 'Low explicit + High implicit — vibrant atmosphere but lacking formal institutions', strategy: 'Attract anchor tech tenants; formalize creative clusters with policy support.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' },
-  { id: 'develop', color: '#54565A', name: 'Development Zone', feature: 'Dual-low — future potential areas', strategy: 'Phase long-term development; prioritize infrastructure and land preparation.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h18v18H3z M3 9h18 M9 21V9"/></svg>' }
-]
+const fuxingZones = computed(() => [
+  { id: 'core', color: '#005BAC', name: currentLang.value === 'en' ? 'Innovation Core' : '核心创新引领区', feature: currentLang.value === 'en' ? 'High explicit + High implicit — dense innovation ecosystem' : '双高空间 (高显性 & 高隐性) —— 创新网络高密度核心', strategy: currentLang.value === 'en' ? 'Upgrade shared workspaces and creative workshops; strengthen tech-transfer platforms.' : '全面提升共享孵化载体与众创空间能级，强化校企技术转移平台。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8 12 2"/></svg>' },
+  { id: 'activate', color: '#005BAC', name: currentLang.value === 'en' ? 'Activation Zone' : '活力空间唤醒区', feature: currentLang.value === 'en' ? 'High explicit + Low implicit — infrastructure-ready but lacking atmosphere' : '理性空间 (高显性 & 低隐性) —— 设施硬件完备但人本氛围不足', strategy: currentLang.value === 'en' ? 'Inject cultural programming and public art; activate street-level engagement.' : '引入文创策展、公共艺术装置，激活街区底商和人本活动粘性。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>' },
+  { id: 'catalyst', color: '#00B5D8', name: currentLang.value === 'en' ? '催化培育协同区' : '催化培育协同区', feature: currentLang.value === 'en' ? 'Low explicit + High implicit — vibrant atmosphere but lacking formal institutions' : '感性空间 (低显性 & 高隐性) —— 自发交流活跃但缺乏龙头企业', strategy: currentLang.value === 'en' ? 'Attract anchor tech tenants; formalize creative clusters with policy support.' : '制定税收返还等精准产业支持导则，吸引头部科技创新载体入驻。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' },
+  { id: 'develop', color: '#54565A', name: currentLang.value === 'en' ? '生态整备预留区' : '生态整备预留区', feature: currentLang.value === 'en' ? 'Dual-low — future potential areas' : '双低空间 (低显性 & 低隐性) —— 长期战略弹性留白区', strategy: currentLang.value === 'en' ? 'Phase long-term development; prioritize infrastructure and land preparation.' : '分期分批推进，优先保障大尺度生态绿带建设和市政基础设施整备。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h18v18H3z M3 9h18 M9 21V9"/></svg>' }
+])
 
 const getMapDotStyle = (i) => {
   const colors = ['#005BAC', '#005BAC', '#00B5D8', '#54565A']
@@ -378,13 +381,34 @@ let scatterChartInstance = null
 
 const initScatter = () => {
   if (!scatterChart.value) return
+  
+  if (scatterChartInstance) {
+    scatterChartInstance.dispose()
+  }
+  
   scatterChartInstance = echarts.init(scatterChart.value)
 
   const clusterData = {
-    core: { color: '#005BAC', data: [] },
-    activate: { color: '#005BAC', data: [] },
-    catalyst: { color: '#00B5D8', data: [] },
-    develop: { color: '#54565A', data: [] }
+    core: { 
+      name: currentLang.value === 'en' ? 'Innovation Core' : '核心创新区', 
+      color: '#005BAC', 
+      data: [] 
+    },
+    activate: { 
+      name: currentLang.value === 'en' ? 'Activation Zone' : '潜力激活区', 
+      color: '#005BAC', 
+      data: [] 
+    },
+    catalyst: { 
+      name: currentLang.value === 'en' ? 'Catalyst Zone' : '催化培育区', 
+      color: '#00B5D8', 
+      data: [] 
+    },
+    develop: { 
+      name: currentLang.value === 'en' ? 'Development Zone' : '整备开发区', 
+      color: '#54565A', 
+      data: [] 
+    }
   }
 
   // Generate mock scatter data
@@ -413,12 +437,17 @@ const initScatter = () => {
       borderColor: 'rgba(0, 91, 172, 0.3)',
       borderWidth: 1,
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'JetBrains Mono, monospace' },
-      formatter: (params) => `Cluster: ${params.seriesName}<br/>Explicit: ${params.value[0].toFixed(2)}<br/>Implicit: ${params.value[1].toFixed(2)}`
+      formatter: (params) => {
+        const clusterName = clusterData[params.seriesId.split('_').slice(-1)[0]]?.name || params.seriesName
+        return currentLang.value === 'en'
+          ? `Cluster: ${clusterName}<br/>Explicit: ${params.value[0].toFixed(2)}<br/>Implicit: ${params.value[1].toFixed(2)}`
+          : `聚类类别: ${clusterName}<br/>显性维度值: ${params.value[0].toFixed(2)}<br/>隐性维度值: ${params.value[1].toFixed(2)}`
+      }
     },
     grid: { left: '8%', right: '5%', top: '8%', bottom: '12%' },
     xAxis: {
       type: 'value',
-      name: 'EXPLICIT',
+      name: currentLang.value === 'en' ? 'EXPLICIT' : '显性物理底座',
       nameLocation: 'middle',
       nameGap: 28,
       nameTextStyle: { color: 'rgba(255,255,255,0.5)', fontSize: 10, fontFamily: 'JetBrains Mono, monospace' },
@@ -429,7 +458,7 @@ const initScatter = () => {
     },
     yAxis: {
       type: 'value',
-      name: 'IMPLICIT',
+      name: currentLang.value === 'en' ? 'IMPLICIT' : '隐性人本感知',
       nameLocation: 'middle',
       nameGap: 32,
       nameTextStyle: { color: 'rgba(255,255,255,0.5)', fontSize: 10, fontFamily: 'JetBrains Mono, monospace' },
@@ -439,7 +468,8 @@ const initScatter = () => {
       splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } }
     },
     series: Object.keys(clusterData).map(key => ({
-      name: key.charAt(0).toUpperCase() + key.slice(1),
+      id: `series_${key}`,
+      name: clusterData[key].name,
       type: 'scatter',
       data: clusterData[key].data,
       symbolSize: 10,
@@ -457,6 +487,12 @@ const initScatter = () => {
 
   scatterChartInstance.setOption(option)
 }
+
+watch(currentLang, () => {
+  nextTick(() => {
+    initScatter()
+  })
+})
 
 const handleScatterClick = () => {
   // Click handler for scatter interaction
