@@ -1,0 +1,57 @@
+{
+  "case_id": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537",
+  "schema_version": "step3-frontend-case-v1",
+  "case_root": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537",
+  "created_at": "2026-07-17T21:15:38.259942+00:00",
+  "photo": {
+    "before_image": "cases_data/cases/case_04/before.jpg",
+    "observed_image": "cases_data/cases/case_04/observed.png",
+    "capture_time": "2026-07-17T17:53:34.537",
+    "exif_datetime": null,
+    "gps": {
+      "lat": 31.286311,
+      "lng": 121.55733897222223
+    },
+    "image_size": {
+      "width": 3840,
+      "height": 2160
+    }
+  },
+  "scores": {
+    "before": 4.370246410369873,
+    "planned": 4.565615653991699,
+    "observed": 4.276207447052002
+  },
+  "artifacts": {
+    "report_md": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537/05_report/scene_update_report.md",
+    "report_json": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537/05_report/scene_update_report.json",
+    "prompt_json": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537/05_report/image2_prompt.json",
+    "graph_ui": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537/08_frontend_data/graph_ui.json",
+    "trace_index": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537/08_frontend_data/trace_index.json",
+    "waterfalls": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537/08_frontend_data/waterfalls.json",
+    "observed_after_report": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537/08_frontend_data/observed_after_report.json"
+  },
+  "graph_counts": {
+    "before": {
+      "node_count": 30,
+      "edge_count": 150,
+      "source_triplet_count": 150
+    },
+    "planned": {
+      "node_count": 37,
+      "edge_count": 157,
+      "synthetic_node_count": 7,
+      "action_count": 11
+    },
+    "observed": {
+      "node_count": 34,
+      "edge_count": 150,
+      "source_triplet_count": 150
+    }
+  },
+  "flags": {
+    "planned_graph_generated_from_update_plan": true,
+    "observed_graph_available": true,
+    "all_paths_relative_to_output": true
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "method_chain": [
+    "scene images",
+    "OvSGTR scene graph",
+    "gSpan frequent patterns",
+    "node=3 pattern-count features",
+    "XGBoost regression",
+    "SHAP / XGBoost TreeSHAP interpretation"
+  ],
+  "training": {
+    "num_images": 1200,
+    "num_features": 221,
+    "feature_source": "node_num_cluster_3_feature_score_filtered_max.csv",
+    "pattern_metadata_source": "node_num_cluster_3_pattern_metadata.csv"
+  },
+  "metrics": {
+    "cv_rmse_mean": 1.404755718683855,
+    "cv_rmse_std": 0.08677826733817902,
+    "cv_r2_mean": 0.6209397126765609,
+    "cv_r2_std": 0.05172391704975125,
+    "holdout_rmse": 1.4222121412156457,
+    "holdout_r2": 0.6117107522990028
+  },
+  "xgboost_params": {
+    "n_estimators": 600,
+    "max_depth": 4,
+    "learning_rate": 0.03,
+    "subsample": 0.9,
+    "colsample_bytree": 0.8,
+    "min_child_weight": 2,
+    "reg_alpha": 0.0,
+    "reg_lambda": 5.0,
+    "objective": "reg:squarederror",
+    "tree_method": "hist",
+    "device": "cpu",
+    "n_jobs": -1,
+    "random_state": 42
+  },
+  "notes": [
+    "Pattern edges use gSpan label 1; training pattern matching is node-label plus undirected topology.",
+    "Signed positive/negative pattern direction is computed from mean SHAP over shap_values.npy.",
+    "All paths inside this folder are relative for web use."
+  ]
+}

@@ -1,0 +1,241 @@
+{
+  "case_id": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537",
+  "scores": {
+    "before": 4.370246410369873,
+    "planned": 4.565615653991699,
+    "observed": 4.276207447052002,
+    "observed_minus_before": -0.0940389633178711
+  },
+  "graph_delta": {
+    "labels_added": [
+      "bicycle",
+      "cafe table",
+      "motorcycle",
+      "table"
+    ],
+    "labels_removed": [
+      "crowd",
+      "gate",
+      "hedge"
+    ],
+    "before_node_count": 30,
+    "observed_node_count": 34,
+    "before_edge_count": 150,
+    "observed_edge_count": 150
+  },
+  "mapped_actions": [
+    {
+      "action_id": "action_05bc62b90a17",
+      "action_type": "weaken_or_replace_negative_pattern",
+      "feature_name": "pattern_876",
+      "pattern_short": "building - sidewalk - tree",
+      "before_count": 4.0,
+      "planned_count": 0.0,
+      "reason": "active pattern has negative XGBoost contribution",
+      "related_node_ids": [
+        "node_1ac8ddb1be45",
+        "node_1c3c7359abeb",
+        "node_21b091b80779",
+        "node_555455622170",
+        "node_56d35fc8b554",
+        "node_669e4cd49171",
+        "node_67a691543858",
+        "node_797550ae524e",
+        "node_8175b9a03413",
+        "node_94ac2cb53c1c",
+        "node_99bbe77f7c7d",
+        "node_ddef03ce64ab",
+        "node_f9afd2aa0ef2"
+      ],
+      "related_edge_ids": [
+        "edge_76b1ebb365f9",
+        "edge_d21c0c0d5e00",
+        "edge_a6b4e73103e4",
+        "edge_8f0a551a2234",
+        "edge_5700ed58f3e9",
+        "edge_ac28019ea0bc",
+        "edge_33e8c8b0f6b7",
+        "edge_ef0d04d75033",
+        "edge_556e425a017f",
+        "edge_be9d6f01b581",
+        "edge_70cb3e7ec9b2",
+        "edge_51c77b1038e0",
+        "edge_672a946a9487",
+        "edge_3c4b0ff3062b",
+        "edge_42de8f3185e6"
+      ]
+    },
+    {
+      "action_id": "action_75bea1c308c6",
+      "action_type": "weaken_or_replace_negative_pattern",
+      "feature_name": "pattern_472",
+      "pattern_short": "building - tree - street",
+      "before_count": 1.0,
+      "planned_count": 0.0,
+      "reason": "active pattern has negative XGBoost contribution",
+      "related_node_ids": [
+        "node_1c3c7359abeb",
+        "node_216f34c6cd7a",
+        "node_555455622170",
+        "node_56d35fc8b554",
+        "node_67a691543858",
+        "node_797550ae524e",
+        "node_8175b9a03413",
+        "node_8219e3abfc9c",
+        "node_94ac2cb53c1c",
+        "node_99bbe77f7c7d",
+        "node_f9afd2aa0ef2"
+      ],
+      "related_edge_ids": [
+        "edge_4d4f19974780",
+        "edge_39ea7532491a",
+        "edge_746b75db0541",
+        "edge_eda29a28e109",
+        "edge_eae7e5e5ab15",
+        "edge_6bb26bb01faa",
+        "edge_9dbc07c590e8",
+        "edge_cf017fab7036",
+        "edge_90482844a5db",
+        "edge_55c19293d849",
+        "edge_a77bddde89c6",
+        "edge_5822362fcd4a",
+        "edge_0fe21d097709",
+        "edge_234a7aac409e"
+      ]
+    },
+    {
+      "action_id": "action_2b75d7f12ef2",
+      "action_type": "weaken_or_replace_negative_pattern",
+      "feature_name": "pattern_468",
+      "pattern_short": "building - street - sidewalk",
+      "before_count": 3.0,
+      "planned_count": 0.0,
+      "reason": "active pattern has negative XGBoost contribution",
+      "related_node_ids": [
+        "node_1ac8ddb1be45",
+        "node_1c3c7359abeb",
+        "node_216f34c6cd7a",
+        "node_21b091b80779",
+        "node_56d35fc8b554",
+        "node_669e4cd49171",
+        "node_67a691543858",
+        "node_797550ae524e",
+        "node_8219e3abfc9c",
+        "node_94ac2cb53c1c",
+        "node_ddef03ce64ab",
+        "node_f9afd2aa0ef2"
+      ],
+      "related_edge_ids": [
+        "edge_4d4f19974780",
+        "edge_39ea7532491a",
+        "edge_746b75db0541",
+        "edge_eda29a28e109",
+        "edge_eae7e5e5ab15",
+        "edge_6bb26bb01faa",
+        "edge_9dbc07c590e8",
+        "edge_55c19293d849",
+        "edge_a77bddde89c6",
+        "edge_5822362fcd4a",
+        "edge_0fe21d097709",
+        "edge_234a7aac409e"
+      ]
+    },
+    {
+      "action_id": "action_aaba0a24a0dc",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "maker_lab_frontage",
+      "prompt_fragment_id": "prompt_c578ea7ed34e",
+      "related_node_ids": [
+        "node_bc82397ed62c"
+      ],
+      "related_edge_ids": [],
+      "description": "maker_lab_frontage (transparent maker lab): add a realistic visible maker/co-working interior connected to the existing building, wall, door, or window edge."
+    },
+    {
+      "action_id": "action_98d0e32c0849",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "prototype_display",
+      "prompt_fragment_id": "prompt_c83cc827ea5f",
+      "related_node_ids": [
+        "node_f39f0906a15e"
+      ],
+      "related_edge_ids": [],
+      "description": "prototype_display (prototype display wall): add one realistic display zone with abstract diagrams, small models, or material samples anchored to the existing wall/building frontage."
+    },
+    {
+      "action_id": "action_da46b8ad57a0",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "collaboration_seating",
+      "prompt_fragment_id": "prompt_406bcb1d616a",
+      "related_node_ids": [
+        "node_2a494ec40f94"
+      ],
+      "related_edge_ids": [],
+      "description": "collaboration_seating (modular bench/worktable): add realistic modular seating and a worktable near existing trees, sidewalk, or building entrance."
+    },
+    {
+      "action_id": "action_4de6d3068609",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "smart_bench",
+      "prompt_fragment_id": "prompt_985e6df0294a",
+      "related_node_ids": [
+        "node_f94bf3f88add"
+      ],
+      "related_edge_ids": [],
+      "description": "smart_bench (charging smart bench): add one realistic smart bench with subtle charging details near the public path or shaded edge."
+    },
+    {
+      "action_id": "action_e29601d718af",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "rain_garden",
+      "prompt_fragment_id": "prompt_bc07fff0cc01",
+      "related_node_ids": [
+        "node_4ff5b9877747"
+      ],
+      "related_edge_ids": [],
+      "description": "rain_garden (native rain-garden planting): add native planting that links tree/plant nodes to seating and stormwater edge."
+    },
+    {
+      "action_id": "action_2a5ca4c4e26f",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "micro_mobility_dock",
+      "prompt_fragment_id": "prompt_7c37bf09ca2a",
+      "related_node_ids": [
+        "node_45815c83adea"
+      ],
+      "related_edge_ids": [],
+      "description": "micro_mobility_dock (bike/scooter dock): add a compact micro-mobility dock at the street or entrance edge without blocking circulation."
+    },
+    {
+      "action_id": "action_a5b9cfd7074c",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "community_screen",
+      "prompt_fragment_id": "prompt_0604bb930e4e",
+      "related_node_ids": [
+        "node_c62f76ff0d0f"
+      ],
+      "related_edge_ids": [],
+      "description": "community_screen (interactive community screen): add one screen or panel with abstract graphics only, supporting prototype discussion and public information."
+    },
+    {
+      "action_id": "action_c0a79f806a4e",
+      "action_type": "weaken_or_remove_scene_graph_relation",
+      "pattern_short": "closed_boundary",
+      "prompt_fragment_id": "prompt_ada141f31a87",
+      "related_node_ids": [],
+      "related_edge_ids": [],
+      "description": "closed_boundary (wall/fence): partially open or visually soften the closed boundary; do not erase the historic industrial fabric."
+    }
+  ],
+  "notes": [
+    "Observed graph is produced by rerunning OvSGTR on the generated optimized image when available.",
+    "Planned graph is synthesized from update plan when no model-generated planned scene graph exists."
+  ]
+}
