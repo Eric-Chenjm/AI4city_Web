@@ -5,6 +5,7 @@
     {
       "case_id": "case_02",
       "case_name": "杨树浦滨水绿带过渡点 (滨水空间 02)",
+      "case_name_en": "Yangshupu Waterfront Green Belt Transition (Waterfront 02)",
       "type": "waterfront",
       "type_zh": "滨水空间",
       "description": "老旧工业船坞外的防汛墙改造步道，包含沿河木栈道与绿化缓冲带。",
@@ -22,6 +23,7 @@
     {
       "case_id": "case_03",
       "case_name": "复兴岛运河滨水休闲步道 (滨水空间 03)",
+      "case_name_en": "Fuxing Island Canal Waterfront Leisure Trail (Waterfront 03)",
       "type": "waterfront",
       "type_zh": "滨水空间",
       "description": "慢行绿道与驳岸硬质铺装的连接处，主要进行视线拓宽及自行车道规整。",
@@ -39,6 +41,7 @@
     {
       "case_id": "case_04",
       "case_name": "厂房转角开放式漫步小广场 (公共空间 04)",
+      "case_name_en": "Factory Corner Open Strolling Plaza (Public 04)",
       "type": "public",
       "type_zh": "公共空间",
       "description": "厂区转角退界形成的多功能微型集散广场，常有非机动车无序停放。",
@@ -56,6 +59,7 @@
     {
       "case_id": "case_05",
       "case_name": "定海路社区生活混合型街道 (公共空间 05)",
+      "case_name_en": "Dinghai Road Community Mixed-Use Street (Public 05)",
       "type": "public",
       "type_zh": "公共空间",
       "description": "沿街界面活跃，集聚小型便利店、餐饮及生活配套，人车混行特征显著。",
@@ -73,6 +77,7 @@
     {
       "case_id": "case_01",
       "case_name": "国棉九厂老厂房红砖围墙界面 (景观/工业遗存 01)",
+      "case_name_en": "Guomian No.9 Factory Red Brick Wall (Heritage 01)",
       "type": "heritage",
       "type_zh": "景观/工业遗存",
       "description": "历史红砖厂房外的沿街立面，存在首层盲墙过长、视线压迫及人行道狭窄问题。",
@@ -90,6 +95,7 @@
     {
       "case_id": "case_08",
       "case_name": "复兴岛老旧厂房修缮保护立面 (景观/工业遗存 08)",
+      "case_name_en": "Fuxing Island Old Factory Restoration Facade (Heritage 08)",
       "type": "heritage",
       "type_zh": "景观/工业遗存",
       "description": "典型锯齿形老厂房立面修缮区，优化重点在沿街增设工业历史小品及景观橱窗。",
@@ -107,6 +113,7 @@
     {
       "case_id": "case_06",
       "case_name": "厂区外行道绿地口袋休憩点 (临时构筑 06)",
+      "case_name_en": "Factory Street Green Pocket Rest Area (Temporary 06)",
       "type": "temporary",
       "type_zh": "临时构筑",
       "description": "利用道路退让带改造的带状微绿地，计划增设临时装配式遮雨廊架及公共桌椅。",
@@ -124,6 +131,7 @@
     {
       "case_id": "case_07",
       "case_name": "老街角非正式集市与售货摊区 (临时构筑 07)",
+      "case_name_en": "Old Street Corner Informal Market & Vendors (Temporary 07)",
       "type": "temporary",
       "type_zh": "临时构筑",
       "description": "包含临时移动餐车、可折叠遮阳伞及临时展示棚架，优化目标在于规范非正式建构物。",
