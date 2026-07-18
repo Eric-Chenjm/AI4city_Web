@@ -6,10 +6,27 @@
     </div>
 
     <div class="case-grid">
-      <!-- 1. MapLibre 空白深色点位可视化 -->
+      <!-- 1. MapLibre 空白深色点位可视化 + 照片展示 -->
       <div class="map-wrapper-box">
         <h4 class="card-header-tag">{{ t('spatialGpsSites') }}</h4>
-        <div id="gps-map-container" class="map-container"></div>
+        <div class="map-photo-container">
+          <div id="gps-map-container" class="map-container"></div>
+          <!-- 选中地点的照片叠加层：现状 + 更新 -->
+          <transition name="photo-fade">
+            <div v-if="selectedPhotoUrl" class="site-photo-overlay">
+              <!-- 现状框 -->
+              <div class="photo-frame">
+                <div class="photo-badge badge-before">现状</div>
+                <img :src="selectedPhotoUrl" :alt="selectedCaseName" class="site-photo" />
+              </div>
+              <!-- 更新框 -->
+              <div class="photo-frame" v-if="optimizedPhotoUrl">
+                <div class="photo-badge badge-optimized">更新</div>
+                <img :src="optimizedPhotoUrl" :alt="selectedCaseName + ' 更新'" class="site-photo" />
+              </div>
+            </div>
+          </transition>
+        </div>
         <div class="map-legend">
           <span class="map-dot"></span>
           <span class="map-legend-txt">{{ t('gpsSiteLegend') }}</span>
@@ -117,6 +134,11 @@ const emit = defineEmits(['select-case'])
 
 let map = null
 
+// 当前选中地点的照片
+const selectedPhotoUrl = ref(null)
+const optimizedPhotoUrl = ref(null)
+const selectedCaseName = ref('')
+
 // 分类计算属性
 const waterfrontCases = computed(() => props.cases.filter(c => c.type === 'waterfront'))
 const publicCases = computed(() => props.cases.filter(c => c.type === 'public'))
@@ -125,28 +147,57 @@ const temporaryCases = computed(() => props.cases.filter(c => c.type === 'tempor
 
 const onSelectCase = (c) => {
   emit('select-case', c.case_id)
-  
+
   if (map && c.gps) {
     map.flyTo({
       center: [c.gps.lng, c.gps.lat],
       zoom: 16,
       essential: true
     })
+    // 更新高亮点
+    updateSelectedPoint(c.gps.lng, c.gps.lat)
   }
+
+  // 加载并展示该地点的照片（现状 + 更新）
+  selectedCaseName.value = t(c.case_name)
+  selectedPhotoUrl.value = `/cases_data/cases/${c.case_id}/before.jpg`
+  optimizedPhotoUrl.value = `/cases_data/cases/${c.case_id}/optimized.png`
+}
+
+// 更新地图高亮选中点
+const updateSelectedPoint = (lng, lat) => {
+  if (!map || !map.getSource('selected-point')) return
+  map.getSource('selected-point').setData({
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [lng, lat] }
+    }]
+  })
 }
 
 // 初始化地图
 const initMap = () => {
-  // 构建空白深色底图 Style，不加载任何瓦片
-  const blankStyle = {
+  // 使用 CartoDB Dark NoLabels 瓦片底图（与 AbovePage 一致）
+  const cartodbDarkStyle = {
     version: 8,
-    sources: {},
+    sources: {
+      'cartodb-dark': {
+        type: 'raster',
+        tiles: [
+          'https://basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png'
+        ],
+        tileSize: 256,
+        attribution: '&copy; CARTO'
+      }
+    },
     layers: [
       {
-        id: 'background',
-        type: 'background',
+        id: 'cartodb-dark-layer',
+        type: 'raster',
+        source: 'cartodb-dark',
         paint: {
-          'background-color': '#050811'
+          'raster-opacity': 0.85
         }
       }
     ]
@@ -164,7 +215,7 @@ const initMap = () => {
 
   map = new maplibregl.Map({
     container: 'gps-map-container',
-    style: blankStyle,
+    style: cartodbDarkStyle,
     center: [centerLng, centerLat],
     zoom: 14.5,
     minZoom: 12,
@@ -277,6 +328,56 @@ const initMap = () => {
       }
     })
 
+    // 5. 选中点高亮脉冲环
+    map.addSource('selected-point', {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: [] }
+    })
+
+    map.addLayer({
+      id: 'selected-point-pulse',
+      type: 'circle',
+      source: 'selected-point',
+      paint: {
+        'circle-color': 'rgba(255, 215, 0, 0.3)',
+        'circle-radius': 24,
+        'circle-blur': 0.5
+      }
+    })
+
+    // 脉冲动画
+    const animatePulse = () => {
+      let growing = true
+      let radius = 24
+      setInterval(() => {
+        if (!map || !map.getLayer('selected-point-pulse')) return
+        if (growing) {
+          radius += 0.5
+          if (radius >= 30) growing = false
+        } else {
+          radius -= 0.5
+          if (radius <= 20) growing = true
+        }
+        map.setPaintProperty('selected-point-pulse', 'circle-radius', radius)
+        map.setPaintProperty('selected-point-pulse', 'circle-opacity', 0.3 + (30 - radius) * 0.02)
+      }, 50)
+    }
+
+    map.addLayer({
+      id: 'selected-point-highlight',
+      type: 'circle',
+      source: 'selected-point',
+      paint: {
+        'circle-color': '#ffd700',
+        'circle-radius': 10,
+        'circle-stroke-width': 3,
+        'circle-stroke-color': '#ffffff'
+      }
+    })
+
+    // 启动脉冲动画
+    animatePulse()
+
     // 交互：点击聚合点进行缩放
     map.on('click', 'clusters', (e) => {
       const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
@@ -295,9 +396,19 @@ const initMap = () => {
       const featProps = e.features[0].properties
       const caseId = featProps.case_id
       const matchedCase = geojsonData.features.find(f => f.properties.case_id === caseId)
-      
+      const matchedCaseData = props.cases.find(c => c.case_id === caseId)
+
       // 发射选中事件
       emit('select-case', caseId)
+
+      // 更新高亮点
+      const coords = e.features[0].geometry.coordinates
+      updateSelectedPoint(coords[0], coords[1])
+
+      // 加载并展示该地点的照片（现状 + 更新）
+      selectedCaseName.value = t(featProps.case_name)
+      selectedPhotoUrl.value = `/cases_data/cases/${caseId}/before.jpg`
+      optimizedPhotoUrl.value = `/cases_data/cases/${caseId}/optimized.png`
 
       // 显示Popup气泡
       const coordinates = e.features[0].geometry.coordinates.slice()
@@ -319,6 +430,17 @@ const initMap = () => {
     map.on('mouseleave', 'unclustered-point', () => { map.getCanvas().style.cursor = '' })
     map.on('mouseenter', 'clusters', () => { map.getCanvas().style.cursor = 'pointer' })
     map.on('mouseleave', 'clusters', () => { map.getCanvas().style.cursor = '' })
+
+    // 如果有已选中的案例，显示高亮和照片
+    if (props.activeCaseId) {
+      const activeCase = props.cases.find(c => c.case_id === props.activeCaseId)
+      if (activeCase && activeCase.gps) {
+        updateSelectedPoint(activeCase.gps.lng, activeCase.gps.lat)
+        selectedCaseName.value = t(activeCase.case_name)
+        selectedPhotoUrl.value = `/cases_data/cases/${activeCase.case_id}/before.jpg`
+        optimizedPhotoUrl.value = `/cases_data/cases/${activeCase.case_id}/optimized.png`
+      }
+    }
   })
 }
 
@@ -332,6 +454,12 @@ watch(() => props.activeCaseId, (newId) => {
         zoom: 16,
         essential: true
       })
+      // 更新高亮点
+      updateSelectedPoint(c.gps.lng, c.gps.lat)
+      // 同步展示照片（现状 + 更新）
+      selectedCaseName.value = t(c.case_name)
+      selectedPhotoUrl.value = `/cases_data/cases/${c.case_id}/before.jpg`
+      optimizedPhotoUrl.value = `/cases_data/cases/${c.case_id}/optimized.png`
     }
   }
 })
@@ -408,13 +536,89 @@ onMounted(() => {
   flex-direction: column;
 }
 
-.map-container {
+.map-photo-container {
+  position: relative;
   width: 100%;
   height: 380px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
   background: #050811;
+}
+
+/* 照片叠加层 */
+.site-photo-overlay {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  bottom: 8px;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.photo-frame {
+  background: rgba(10, 22, 40, 0.95);
+  border: 1px solid rgba(123, 97, 255, 0.4);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(123, 97, 255, 0.2);
+  width: 220px;
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.photo-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-family: 'Syncopate', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  z-index: 2;
+  text-transform: uppercase;
+}
+
+.badge-before {
+  background: rgba(123, 97, 255, 0.9);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.badge-optimized {
+  background: rgba(74, 222, 128, 0.9);
+  color: #0a1628;
+  border: 1px solid rgba(74, 222, 128, 0.6);
+}
+
+.site-photo {
+  width: 100%;
+  flex: 1;
+  object-fit: cover;
+  display: block;
+}
+
+/* 照片淡入淡出动画 */
+.photo-fade-enter-active,
+.photo-fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.photo-fade-enter-from,
+.photo-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 
 .map-legend {
