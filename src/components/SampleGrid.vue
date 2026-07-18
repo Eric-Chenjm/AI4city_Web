@@ -2,9 +2,9 @@
   <div class="samples-section" :class="{ 'no-border': !bordered }">
     <div class="section-header" v-if="bordered">
       <div class="section-title-group">
-        <span class="section-tag">SAMPLES</span>
-        <h2 class="section-title">TRAINING DATA SAMPLES</h2>
-        <span class="section-count">{{ allSamples.length }} TOTAL</span>
+        <span class="section-tag">{{ t('sgTag') }}</span>
+        <h2 class="section-title">{{ t('trainingDataSamples') }}</h2>
+        <span class="section-count">{{ allSamples.length }} {{ t('totalBadge') }}</span>
       </div>
     </div>
     <div class="samples-body">
@@ -32,6 +32,10 @@
 </template>
 
 <script setup>
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
+
 defineProps({
   allSamples: { type: Array, default: () => [] },
   bordered: { type: Boolean, default: true }

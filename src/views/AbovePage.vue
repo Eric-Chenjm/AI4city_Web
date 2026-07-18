@@ -1,6 +1,28 @@
 <template>
   <div class="scroll-container">
-    <section class="screen screen-1">
+    <!-- Section Nav -->
+    <nav class="section-nav">
+      <div class="nav-brand">
+        <span class="brand-tag">{{ t('navBrand') }}</span>
+      </div>
+      <div class="nav-dots">
+        <button
+          v-for="(section, i) in sections"
+          :key="i"
+          class="nav-dot"
+          :class="{ active: activeSection === i }"
+          @click="scrollToSection(i)"
+        >
+          <span class="dot-marker"></span>
+          <span class="dot-label">{{ section.label }}</span>
+        </button>
+      </div>
+      <div class="nav-progress-bar">
+        <div class="nav-progress-fill" :style="{ width: scrollProgress + '%' }"></div>
+      </div>
+    </nav>
+
+    <section class="screen screen-1" ref="section0">
       <div class="hero-bg">
         <div class="grid-lines"></div>
         <div class="particles">
@@ -20,7 +42,7 @@
       </button>
     </section>
 
-    <section class="screen screen-2">
+    <section class="screen screen-2" ref="section1">
       <div class="gallery-header">
         <h2 class="section-title">{{ t('screensTitle') }}</h2>
         <p class="section-desc">{{ t('screensDesc') }}</p>
@@ -36,13 +58,13 @@
             <div class="comparison-slider" ref="sliderRefs">
               <div class="slider-container">
                 <div class="before-image">
-                  <img :src="item.primary" alt="Before" draggable="false" />
+                  <img :src="item.primary" :alt="t('BEFORE')" draggable="false" />
                 </div>
-                <div 
+                <div
                   class="after-image"
                   :style="{ clipPath: `inset(0 0 0 ${sliderPositions[index]}%)` }"
                 >
-                  <img :src="item.optimized" alt="After" draggable="false" />
+                  <img :src="item.optimized" :alt="t('AFTER')" draggable="false" />
                 </div>
                 <div 
                   class="slider-bar"
@@ -74,7 +96,7 @@
       </div>
     </section>
 
-    <section class="screen screen-3">
+    <section class="screen screen-3" ref="section2">
       <div class="scene-container">
         <canvas ref="canvasRef"></canvas>
         <div class="legend-panel">
@@ -132,67 +154,84 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { useLang } from '../composables/useLang.js'
 
-const { t } = useLang()
+const { t, currentLang } = useLang()
 
 const canvasRef = ref(null)
 const radarCanvas = ref(null)
 const galleryScroll = ref(null)
+const section0 = ref(null)
+const section1 = ref(null)
+const section2 = ref(null)
 const sliderRefs = ref([])
 const currentIndex = ref(0)
 const sliderPositions = ref([50, 50, 50, 50, 50, 50])
 const isDragging = ref(false)
 const dragIndex = ref(0)
 
+const activeSection = ref(0)
+const scrollProgress = ref(0)
+
+const sections = computed(() => [
+  { label: t('navHero') },
+  { label: t('navGallery') },
+  { label: t('navScene') }
+])
+
+const scrollToSection = (index) => {
+  const refs = [section0, section1, section2]
+  refs[index]?.value?.scrollIntoView({ behavior: 'smooth' })
+}
+
 let scene, camera, renderer, controls
 let animationId
 
-const comparisonData = ref([
+const comparisonData = computed(() => [
   {
     id: 1,
     primary: '/gallery/primary/picture_2026_07_17_17_46_53_937.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_46_53_937_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 01',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 01' : '街景对比 01',
+    description: t('screensDesc')
   },
   {
     id: 2,
     primary: '/gallery/primary/picture_2026_07_17_17_51_25_295.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_51_25_295_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 02',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 02' : '街景对比 02',
+    description: t('screensDesc')
   },
   {
     id: 3,
     primary: '/gallery/primary/picture_2026_07_17_17_52_11_783.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_52_11_783_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 03',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 03' : '街景对比 03',
+    description: t('screensDesc')
   },
   {
     id: 4,
     primary: '/gallery/primary/picture_2026_07_17_17_53_34_537.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_53_34_537_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 04',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 04' : '街景对比 04',
+    description: t('screensDesc')
   },
   {
     id: 5,
     primary: '/gallery/primary/picture_2026_07_17_17_54_50_704.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_54_50_704_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 05',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 05' : '街景对比 05',
+    description: t('screensDesc')
   },
   {
     id: 6,
     primary: '/gallery/primary/picture_2026_07_17_18_07_26_046.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_18_07_26_046_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 06',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 06' : '街景对比 06',
+    description: t('screensDesc')
   }
 ])
 
@@ -272,6 +311,75 @@ const scrollToItem = (index) => {
   if (items[index]) {
     items[index].scrollIntoView({ behavior: 'smooth', inline: 'center' })
   }
+}
+
+// ── Gallery Autoplay ──
+const galleryAutoplay = ref(false)
+let autoPlayTimer = null
+let sliderAnimFrame = null
+let galleryObserver = null
+
+const applySliderPosition = (index, percent) => {
+  sliderPositions.value[index] = percent
+  const refs = sliderRefs.value
+  const container = refs?.[index]?.closest('.comparison-slider')
+  if (!container) return
+  const afterImage = container.querySelector('.after-image')
+  const sliderBar = container.querySelector('.slider-bar')
+  if (afterImage) afterImage.style.clipPath = `inset(0 0 0 ${percent}%)`
+  if (sliderBar) sliderBar.style.left = `${percent}%`
+}
+
+const animateSlider = (index, from, to, duration, done) => {
+  const start = performance.now()
+  const step = (now) => {
+    if (!galleryAutoplay.value) return
+    const progress = Math.min((now - start) / duration, 1)
+    const eased = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2
+    applySliderPosition(index, from + (to - from) * eased)
+    if (progress < 1) {
+      sliderAnimFrame = requestAnimationFrame(step)
+    } else {
+      done?.()
+    }
+  }
+  sliderAnimFrame = requestAnimationFrame(step)
+}
+
+const stopAutoplay = () => {
+  galleryAutoplay.value = false
+  clearTimeout(autoPlayTimer)
+  cancelAnimationFrame(sliderAnimFrame)
+  autoPlayTimer = null
+  sliderAnimFrame = null
+}
+
+const playCurrentItem = () => {
+  if (!galleryAutoplay.value) return
+  const idx = currentIndex.value
+  const total = comparisonData.value.length
+
+  applySliderPosition(idx, 100)
+  autoPlayTimer = setTimeout(() => {
+    animateSlider(idx, 100, 0, 2800, () => {
+      autoPlayTimer = setTimeout(() => {
+        if (!galleryAutoplay.value) return
+        const next = (idx + 1) % total
+        currentIndex.value = next
+        const items = document.querySelectorAll('.comparison-item')
+        items[next]?.scrollIntoView({ behavior: 'smooth', inline: 'center' })
+        autoPlayTimer = setTimeout(() => playCurrentItem(), 700)
+      }, 2000)
+    })
+  }, 1500)
+}
+
+const startAutoplay = () => {
+  if (galleryAutoplay.value) return
+  galleryAutoplay.value = true
+  playCurrentItem()
 }
 
 const initThreeScene = async () => {
@@ -569,10 +677,75 @@ const initThreeScene = async () => {
   
   const animate = () => {
     animationId = requestAnimationFrame(animate)
-    controls.update()
+
+    // Camera flyover animation
+    if (cameraAnim.active) {
+      const elapsed = performance.now() - cameraAnim.startTime
+      const progress = Math.min(elapsed / cameraAnim.duration, 1)
+      const eased = progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2
+
+      camera.position.x = cameraAnim.fromPos.x + (cameraAnim.toPos.x - cameraAnim.fromPos.x) * eased
+      camera.position.y = cameraAnim.fromPos.y + (cameraAnim.toPos.y - cameraAnim.fromPos.y) * eased
+      camera.position.z = cameraAnim.fromPos.z + (cameraAnim.toPos.z - cameraAnim.fromPos.z) * eased
+
+      const target = new THREE.Vector3(
+        cameraAnim.fromLook.x + (cameraAnim.toLook.x - cameraAnim.fromLook.x) * eased,
+        cameraAnim.fromLook.y + (cameraAnim.toLook.y - cameraAnim.fromLook.y) * eased,
+        cameraAnim.fromLook.z + (cameraAnim.toLook.z - cameraAnim.fromLook.z) * eased
+      )
+      camera.lookAt(target)
+
+      if (progress >= 1) {
+        cameraAnim.active = false
+        controls.enabled = true
+        controls.target.copy(target)
+        controls.update()
+      }
+    } else {
+      controls.update()
+    }
+
     renderer.render(scene, camera)
   }
   animate()
+}
+
+// ── 3D Camera Flyover ──
+const cameraAnim = {
+  active: false,
+  startTime: 0,
+  duration: 3500,
+  fromPos: { x: 0, y: 0, z: 0 },
+  toPos: { x: 0, y: 25, z: 0.5 },
+  fromLook: { x: 0, y: 0, z: 0 },
+  toLook: { x: 0, y: 0, z: 0 }
+}
+let scene3Observer = null
+let hasFlown = false
+
+const playCameraFlyover = () => {
+  if (!camera || hasFlown) return
+  hasFlown = true
+
+  controls.enabled = false
+  cameraAnim.active = true
+  cameraAnim.startTime = performance.now()
+  cameraAnim.fromPos = { x: camera.position.x, y: camera.position.y, z: camera.position.z }
+  cameraAnim.toPos = { x: 0, y: 28, z: 0.5 }
+  cameraAnim.fromLook = { x: 0, y: 0, z: -2 }
+  cameraAnim.toLook = { x: 0, y: 0, z: 0 }
+}
+
+const resetCameraView = () => {
+  if (!camera) return
+  hasFlown = false
+  controls.enabled = true
+  cameraAnim.active = false
+  camera.position.set(0, 10, 14)
+  controls.target.set(0, 0, 0)
+  controls.update()
 }
 
 const initRadarChart = () => {
@@ -683,7 +856,27 @@ const handleResize = () => {
   }
 }
 
+let scrollContainer = null
+const handleContainerScroll = () => {
+  if (!scrollContainer) return
+  const scrollTop = scrollContainer.scrollTop
+  const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight
+  scrollProgress.value = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
+
+  const sectionRefs = [section0, section1, section2]
+  for (let i = 0; i < sectionRefs.length; i++) {
+    const rect = sectionRefs[i].value?.getBoundingClientRect()
+    if (rect && rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+      activeSection.value = i
+      break
+    }
+  }
+}
+
 onMounted(() => {
+  scrollContainer = document.querySelector('.scroll-container')
+  scrollContainer?.addEventListener('scroll', handleContainerScroll)
+
   nextTick(() => {
     // 使用 IntersectionObserver 延迟到第三屏 canvas 进入视口才初始化
     // 这样可以确保 canvas 处于可见状态，offsetWidth/Height 不为 0
@@ -701,10 +894,53 @@ onMounted(() => {
   
   galleryScroll.value?.addEventListener('scroll', handleGalleryScroll)
   window.addEventListener('resize', handleResize)
+
+  // Gallery autoplay: start when screen-2 is visible
+  if (section1.value) {
+    galleryObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        startAutoplay()
+      } else {
+        stopAutoplay()
+      }
+    }, { threshold: 0.3 })
+    galleryObserver.observe(section1.value)
+  }
+
+  // 3D scene camera flyover: trigger when screen-3 is visible
+  if (section2.value) {
+    scene3Observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        playCameraFlyover()
+      } else {
+        resetCameraView()
+      }
+    }, { threshold: 0.3 })
+    scene3Observer.observe(section2.value)
+  }
+
+  // Pause autoplay on mouse hover, resume on leave
+  if (galleryScroll.value) {
+    galleryScroll.value.addEventListener('mouseenter', stopAutoplay)
+    galleryScroll.value.addEventListener('mouseleave', () => {
+      // Only restart if screen-2 is still visible
+      if (section1.value) {
+        const rect = section1.value.getBoundingClientRect()
+        const visible = rect.top < window.innerHeight && rect.bottom > 0
+        if (visible) startAutoplay()
+      }
+    })
+  }
 })
 
 onUnmounted(() => {
+  stopAutoplay()
+  if (galleryObserver) galleryObserver.disconnect()
+  if (scene3Observer) scene3Observer.disconnect()
+
   galleryScroll.value?.removeEventListener('scroll', handleGalleryScroll)
+  galleryScroll.value?.removeEventListener('mouseenter', stopAutoplay)
+  scrollContainer?.removeEventListener('scroll', handleContainerScroll)
   window.removeEventListener('resize', handleResize)
   
   if (animationId) {
@@ -723,6 +959,102 @@ onUnmounted(() => {
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+}
+
+/* Section Nav */
+.section-nav {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  background: rgba(10, 22, 40, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 91, 172, 0.15);
+}
+
+.section-nav .nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.section-nav .brand-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
+  border: 1px solid rgba(0, 91, 172, 0.3);
+  padding: 4px 12px;
+  border-radius: 3px;
+  letter-spacing: 2px;
+}
+
+.section-nav .nav-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.section-nav .nav-dot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .dot-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-marker {
+  background: #005BAC;
+  box-shadow: 0 0 10px rgba(0, 91, 172, 0.3);
+  transform: scale(1.3);
+}
+
+.section-nav .dot-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-label {
+  color: #005BAC;
+}
+
+.section-nav .nav-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .nav-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #005BAC, #004A8C);
+  transition: width 0.3s ease;
 }
 
 .screen {

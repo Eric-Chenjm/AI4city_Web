@@ -109,7 +109,7 @@
                 :class="{ highlighted: isBboxHighlighted(node) }"
               />
             </svg>
-            <div class="viewport-tag">{{ activeState.toUpperCase() }}</div>
+            <div class="viewport-tag">{{ t(activeState.toUpperCase()) }}</div>
           </div>
         </div>
       </div>
@@ -224,6 +224,12 @@ let cy = null
 const formatNum = (val) => {
   if (val === undefined || val === null) return '0.00'
   return parseFloat(val).toFixed(2)
+}
+
+// 逐词翻译 pattern_short (形如 'car - street - vehicle')
+const translatePatternShort = (s) => {
+  if (!s) return ''
+  return currentLang.value === 'en' ? s : s.split('-').map(w => t(w.trim())).join(' - ')
 }
 
 const changeState = (state) => {
@@ -344,16 +350,16 @@ const mockDiagnosticReport = () => {
   
   const defects = topPatterns.map(p => ({
     pattern_name: p.feature_name,
-    description: currentLang.value === 'en' 
+    description: currentLang.value === 'en'
       ? `Frequent [${p.pattern_short}] spatial topology structure identified. This feature is currently suppressed or has significant optimization space, contributing approximately ${formatNum(p.contribution)} to spatial quality.`
-      : `场景中识别到了频繁的 [${p.pattern_short}] 空间拓扑结构。该特征目前处于负向抑制或存在明显的优化修复空间，对空间质量贡献约为 ${formatNum(p.contribution)}。`
+      : `场景中识别到了频繁的 [${translatePatternShort(p.pattern_short)}] 空间拓扑结构。该特征目前处于负向抑制或存在明显的优化修复空间，对空间质量贡献约为 ${formatNum(p.contribution)}。`
   }))
 
   const actions = topPatterns.map(p => ({
     pattern_name: p.feature_name,
     action: currentLang.value === 'en'
       ? `Reconstruct ${p.pattern_short.split('-')[0]} Layout`
-      : `重构 ${p.pattern_short.split('-')[0]} 布局`,
+      : `重构 ${translatePatternShort(p.pattern_short.split('-')[0].trim())} 布局`,
     description: currentLang.value === 'en'
       ? `Plan to apply counterfactual updates to this subgraph connection in urban design, aiming to eliminate pedestrian-vehicle conflicts. Adding green belts and adjusting street trees are suggested.`
       : `计划在城市设计中对此子图连接进行反事实更新，目标在于消除人车交织，建议增设绿化带并调整行道树。`
@@ -407,15 +413,15 @@ const renderCytoscape = () => {
   const edges = graph.edges || graph.relations || []
   edges.forEach(edge => {
     const s = edge.source || edge.subject_node_id
-    const t = edge.target || edge.object_node_id
+    const tgt = edge.target || edge.object_node_id
     const rel = edge.relation || edge.predicate || 'near'
-    
-    if (slicedNodeIds.has(s) && slicedNodeIds.has(t)) {
+
+    if (slicedNodeIds.has(s) && slicedNodeIds.has(tgt)) {
       elements.push({
         data: {
-          id: `edge-${s}-${t}`,
+          id: `edge-${s}-${tgt}`,
           source: s,
-          target: t,
+          target: tgt,
           label: t(rel)
         }
       })
@@ -538,18 +544,18 @@ const renderPlotlyWaterfall = () => {
   const baseScore = caseManifest.value?.scores?.before || 4.5
   
   // 组装瀑布图数据
-  const xData = [currentLang.value === 'en' ? 'Base Score' : '基准得分 (Base)']
+  const xData = [currentLang.value === 'en' ? 'Base Score' : '基准得分']
   const yData = [baseScore]
   const measure = ['absolute']
-  
+
   topList.forEach(item => {
-    xData.push(item.pattern_short)
+    xData.push(translatePatternShort(item.pattern_short))
     yData.push(parseFloat(item.contribution))
     measure.push('relative')
   })
-  
+
   // 最后一项是总得分 (Total)
-  xData.push(currentLang.value === 'en' ? 'Final Score (Total)' : '最终模型打分 (Total)')
+  xData.push(currentLang.value === 'en' ? 'Final Score (Total)' : '最终模型打分')
   const currentTotal = activeState.value === 'before' 
     ? caseManifest.value?.scores?.before 
     : (activeState.value === 'planned' ? caseManifest.value?.scores?.planned : caseManifest.value?.scores?.observed)
@@ -576,7 +582,7 @@ const renderPlotlyWaterfall = () => {
   
   const layout = {
     title: {
-      text: 'SHAP Value Contributions',
+      text: t('shapValueContributions'),
       font: { color: 'rgba(255,255,255,0.7)', family: 'Syncopate', size: 9 }
     },
     waterfallgap: 0.3,
@@ -641,6 +647,7 @@ watch(currentLang, () => {
   if (reportContent.value && reportContent.value.from_mock) {
     reportContent.value = mockDiagnosticReport()
   }
+  renderCytoscape()
   renderPlotlyWaterfall()
 })
 

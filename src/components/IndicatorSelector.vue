@@ -1,17 +1,17 @@
 <template>
   <div class="indicator-selector">
-    <span class="selector-label">SELECT INDICATOR</span>
+    <span class="selector-label">{{ t('isSelect') }}</span>
     <div class="selector-dropdown" @click="isOpen = !isOpen">
       <div class="selector-display">
         <span class="selector-icon">{{ currentIndicator?.type === 'explicit' ? '◈' : '◉' }}</span>
-        <span class="selector-text">{{ currentIndicator?.name || 'Select...' }}</span>
+        <span class="selector-text">{{ currentIndicator ? t(currentIndicator.name) : t('isPlaceholder') }}</span>
       </div>
       <svg class="selector-arrow" :class="{ open: isOpen }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <polyline points="6 9 12 15 18 9" />
       </svg>
       <div v-if="isOpen" class="selector-options">
         <div class="option-group">
-          <span class="group-label">EXPLICIT INDICATORS (15)</span>
+          <span class="group-label">{{ t('isExplicit') }}</span>
           <div
             v-for="ind in explicitIndicators"
             :key="ind.id"
@@ -20,12 +20,12 @@
             @click.stop="selectIndicator(ind.id)"
           >
             <span class="option-dot explicit"></span>
-            <span class="option-name">{{ ind.name }}</span>
+            <span class="option-name">{{ t(ind.name) }}</span>
             <span v-if="indicatorDataCache[ind.id]" class="option-loaded">✓</span>
           </div>
         </div>
         <div class="option-group">
-          <span class="group-label">IMPLICIT INDICATORS (6)</span>
+          <span class="group-label">{{ t('isImplicit') }}</span>
           <div
             v-for="ind in implicitIndicators"
             :key="ind.id"
@@ -34,7 +34,7 @@
             @click.stop="selectIndicator(ind.id)"
           >
             <span class="option-dot implicit"></span>
-            <span class="option-name">{{ ind.name }}</span>
+            <span class="option-name">{{ t(ind.name) }}</span>
             <span v-if="indicatorDataCache[ind.id]" class="option-loaded">✓</span>
           </div>
         </div>
@@ -45,6 +45,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
 
 const props = defineProps({
   activeIndicator: { type: String, default: 'shannon_h' },

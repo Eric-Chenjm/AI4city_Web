@@ -1,9 +1,9 @@
 <template>
   <div class="pipeline-flow">
     <div class="pipeline-header">
-      <span class="section-tag">METHODOLOGY</span>
-      <h2 class="pipeline-title">TECHNICAL PIPELINE</h2>
-      <span class="pipeline-subtitle">ResNet18 Transfer Learning · 13,000 Streetscape Images → 6 Implicit Indicators</span>
+      <span class="section-tag">{{ t('pfTag') }}</span>
+      <h2 class="pipeline-title">{{ t('pfTitle') }}</h2>
+      <span class="pipeline-subtitle">{{ t('pfDesc') }}</span>
     </div>
 
     <div class="pipeline-body">
@@ -21,12 +21,12 @@
         </div>
         <div class="step-content">
           <span class="step-index">01</span>
-          <h3 class="step-title">DATA COLLECTION</h3>
-          <p class="step-desc">13,0000 streetscape images sampled across Shanghai central urban area</p>
+          <h3 class="step-title">{{ t('pfDataTag') }}</h3>
+          <p class="step-desc">{{ t('pfDataDesc') }}</p>
           <div class="step-tags">
-            <span class="tag">13K Images</span>
-            <span class="tag">SVI Sampling</span>
-            <span class="tag">Central Shanghai</span>
+            <span class="tag">{{ t('pfDataM1') }}</span>
+            <span class="tag">{{ t('pfDataM2') }}</span>
+            <span class="tag">{{ t('pfDataM3') }}</span>
           </div>
         </div>
       </div>
@@ -56,12 +56,12 @@
         </div>
         <div class="step-content">
           <span class="step-index">02</span>
-          <h3 class="step-title">RESNET18 BACKBONE</h3>
-          <p class="step-desc">Pre-trained on ImageNet, frozen convolutional layers for feature extraction</p>
+          <h3 class="step-title">{{ t('pfBackboneTag') }}</h3>
+          <p class="step-desc">{{ t('pfBackboneDesc') }}</p>
           <div class="step-tags">
-            <span class="tag frozen">Frozen Backbone</span>
-            <span class="tag">ImageNet Weights</span>
-            <span class="tag">512-dim Features</span>
+            <span class="tag frozen">{{ t('pfBackboneM1') }}</span>
+            <span class="tag">{{ t('pfBackboneM2') }}</span>
+            <span class="tag">{{ t('pfBackboneM3') }}</span>
           </div>
         </div>
       </div>
@@ -86,12 +86,12 @@
         </div>
         <div class="step-content">
           <span class="step-index">03</span>
-          <h3 class="step-title">TRANSFER LEARNING</h3>
-          <p class="step-desc">Multi-task regression heads fine-tuned on annotated perception scores</p>
+          <h3 class="step-title">{{ t('pfTransferTag') }}</h3>
+          <p class="step-desc">{{ t('pfTransferDesc') }}</p>
           <div class="step-tags">
-            <span class="tag accent">Fine-tuned Head</span>
+            <span class="tag accent">{{ t('pfTransferM1') }}</span>
             <span class="tag">FC 512→6</span>
-            <span class="tag">MSE Loss</span>
+            <span class="tag">{{ t('pfTransferM3') }}</span>
           </div>
         </div>
       </div>
@@ -122,12 +122,12 @@
         </div>
         <div class="step-content">
           <span class="step-index">04</span>
-          <h3 class="step-title">6 IMPLICIT INDICATORS</h3>
-          <p class="step-desc">Predicted perception dimensions per image sample</p>
+          <h3 class="step-title">{{ t('pfIndicatorsTag') }}</h3>
+          <p class="step-desc">{{ t('pfIndicatorsDesc') }}</p>
           <div class="step-tags">
-            <span class="tag">Identity</span>
-            <span class="tag">Innovation</span>
-            <span class="tag">+4 more</span>
+            <span class="tag">{{ t('Identity') }}</span>
+            <span class="tag">{{ t('Innovation') }}</span>
+            <span class="tag">{{ t('pfMore') }}</span>
           </div>
         </div>
       </div>
@@ -152,12 +152,12 @@
         </div>
         <div class="step-content">
           <span class="step-index">05</span>
-          <h3 class="step-title">SPATIAL VISUALIZATION</h3>
-          <p class="step-desc">Interpolated to 500m grid and rendered on Shanghai central area map</p>
+          <h3 class="step-title">{{ t('pfSpatialTag') }}</h3>
+          <p class="step-desc">{{ t('pfSpatialDesc') }}</p>
           <div class="step-tags">
-            <span class="tag">500m Grid</span>
+            <span class="tag">{{ t('pfSpatialM1') }}</span>
             <span class="tag">EPSG:4549</span>
-            <span class="tag">Heat Map</span>
+            <span class="tag">{{ t('pfSpatialM3') }}</span>
           </div>
         </div>
       </div>
@@ -167,22 +167,22 @@
     <div class="pipeline-stats">
       <div class="stat-item">
         <span class="stat-value">13,0000</span>
-        <span class="stat-label">SAMPLE IMAGES</span>
+        <span class="stat-label">{{ t('pfStat1') }}</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-value">ResNet18</span>
-        <span class="stat-label">MODEL ARCHITECTURE</span>
+        <span class="stat-label">{{ t('pfStat2') }}</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-value">6</span>
-        <span class="stat-label">IMPLICIT INDICATORS</span>
+        <span class="stat-label">{{ t('pfStat3') }}</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-value">500m</span>
-        <span class="stat-label">SPATIAL RESOLUTION</span>
+        <span class="stat-label">{{ t('pfStat4') }}</span>
       </div>
     </div>
   </div>
@@ -190,6 +190,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
 
 const activeStep = ref(-1)
 </script>

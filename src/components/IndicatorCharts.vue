@@ -1,17 +1,17 @@
 <template>
   <div class="indicator-charts" :class="{ 'no-border': !bordered }">
     <div class="charts-header" v-if="bordered">
-      <span class="section-tag">CHARTS</span>
-      <h2 class="charts-title">INDICATOR DISTRIBUTION ANALYSIS</h2>
-      <span class="indicator-badge">{{ currentIndicator?.name?.toUpperCase() || 'NO INDICATOR' }}</span>
+      <span class="section-tag">{{ t('icTag') }}</span>
+      <h2 class="charts-title">{{ t('icTitle') }}</h2>
+      <span class="indicator-badge">{{ currentIndicator ? t(currentIndicator.name).toUpperCase() : t('icNone') }}</span>
     </div>
 
     <div class="charts-grid" :class="{ 'single-col': !bordered }">
       <!-- Histogram -->
       <div class="chart-card">
         <div class="chart-card-header">
-          <span class="chart-tag">HISTOGRAM</span>
-          <span class="chart-subtitle">Value distribution across grid cells</span>
+          <span class="chart-tag">{{ t('icHistTag') }}</span>
+          <span class="chart-subtitle">{{ t('icHistDesc') }}</span>
         </div>
         <div ref="histChart" class="chart-canvas"></div>
       </div>
@@ -19,8 +19,8 @@
       <!-- Trend line (sorted by value) -->
       <div class="chart-card">
         <div class="chart-card-header">
-          <span class="chart-tag">TREND</span>
-          <span class="chart-subtitle">Sorted values (high → low)</span>
+          <span class="chart-tag">{{ t('icTrendTag') }}</span>
+          <span class="chart-subtitle">{{ t('icTrendDesc') }}</span>
         </div>
         <div ref="trendChart" class="chart-canvas"></div>
       </div>
@@ -28,8 +28,8 @@
       <!-- Bar chart by quartile -->
       <div class="chart-card">
         <div class="chart-card-header">
-          <span class="chart-tag">QUARTILE</span>
-          <span class="chart-subtitle">Grid count per quartile</span>
+          <span class="chart-tag">{{ t('icQuartileTag') }}</span>
+          <span class="chart-subtitle">{{ t('icQuartileDesc') }}</span>
         </div>
         <div ref="barChart" class="chart-canvas"></div>
       </div>
@@ -37,8 +37,8 @@
       <!-- Donut: share by value range -->
       <div class="chart-card">
         <div class="chart-card-header">
-          <span class="chart-tag">SHARE</span>
-          <span class="chart-subtitle">Grid share per value range</span>
+          <span class="chart-tag">{{ t('icShareTag') }}</span>
+          <span class="chart-subtitle">{{ t('icShareDesc') }}</span>
         </div>
         <div ref="pieChart" class="chart-canvas"></div>
       </div>
@@ -49,6 +49,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import * as echarts from 'echarts'
+import { useLang } from '../composables/useLang.js'
+
+const { t, currentLang } = useLang()
 
 const props = defineProps({
   indicatorDataCache: { type: Object, default: () => ({}) },
@@ -124,7 +127,7 @@ const buildHistogramOption = (values) => {
         const p = params[0]
         const lo = parseFloat(p.axisValue)
         const hi = lo + binSize
-        return `<strong>${p.marker} ${p.seriesName}</strong><br/>Range: ${lo.toFixed(3)} – ${hi.toFixed(3)}<br/>Count: ${p.value}`
+        return `<strong>${p.marker} ${p.seriesName}</strong><br/>${t('icRange')}: ${lo.toFixed(3)} – ${hi.toFixed(3)}<br/>${t('icCount')}: ${p.value}`
       }
     },
     xAxis: {
@@ -132,7 +135,7 @@ const buildHistogramOption = (values) => {
       data: binLabels,
       axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
       axisLabel: { color: 'rgba(255,255,255,0.5)', fontSize: 9, fontFamily: 'JetBrains Mono, monospace', rotate: 30 },
-      name: 'Value',
+      name: t('icValue'),
       nameTextStyle: { color: 'rgba(255,255,255,0.4)', fontSize: 10 }
     },
     yAxis: {
@@ -142,7 +145,7 @@ const buildHistogramOption = (values) => {
       splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } }
     },
     series: [{
-      name: 'Grids',
+      name: t('icGrids'),
       type: 'bar',
       data: bins.map((v, i) => ({
         value: v,
@@ -187,7 +190,7 @@ const buildTrendOption = (values) => {
       splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } }
     },
     series: [{
-      name: 'Value',
+      name: t('icValue'),
       type: 'line',
       data: sampled,
       smooth: true,
@@ -213,10 +216,10 @@ const buildBarOption = (values) => {
   const min = sorted[0]
   const max = sorted[sorted.length - 1]
   const data = [
-    { name: 'Q1 (Lowest)', count: values.filter(v => v >= min && v <= q1).length, range: `${min.toFixed(2)} – ${q1.toFixed(2)}` },
+    { name: t('icQ1'), count: values.filter(v => v >= min && v <= q1).length, range: `${min.toFixed(2)} – ${q1.toFixed(2)}` },
     { name: 'Q2', count: values.filter(v => v > q1 && v <= q2).length, range: `${q1.toFixed(2)} – ${q2.toFixed(2)}` },
     { name: 'Q3', count: values.filter(v => v > q2 && v <= q3).length, range: `${q2.toFixed(2)} – ${q3.toFixed(2)}` },
-    { name: 'Q4 (Highest)', count: values.filter(v => v > q3 && v <= max).length, range: `${q3.toFixed(2)} – ${max.toFixed(2)}` }
+    { name: t('icQ4'), count: values.filter(v => v > q3 && v <= max).length, range: `${q3.toFixed(2)} – ${max.toFixed(2)}` }
   ]
   const barColors = piePalette.value
   return {
@@ -230,7 +233,7 @@ const buildBarOption = (values) => {
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit, sans-serif' },
       formatter: (params) => {
         const p = params[0]
-        return `<strong>${p.name}</strong><br/>Range: ${data[p.dataIndex].range}<br/>Count: ${p.value}`
+        return `<strong>${p.name}</strong><br/>${t('icRange')}: ${data[p.dataIndex].range}<br/>${t('icCount')}: ${p.value}`
       }
     },
     xAxis: {
@@ -246,7 +249,7 @@ const buildBarOption = (values) => {
       splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } }
     },
     series: [{
-      name: 'Grids',
+      name: t('icGrids'),
       type: 'bar',
       data: data.map((d, i) => ({ value: d.count, itemStyle: { color: barColors[i], borderRadius: [4, 4, 0, 0] } })),
       barWidth: '60%',
@@ -268,10 +271,10 @@ const buildPieOption = (values) => {
   const q2 = sorted[Math.floor(sorted.length * 0.5)]
   const q3 = sorted[Math.floor(sorted.length * 0.75)]
   const data = [
-    { name: 'Lowest 25%', value: values.filter(v => v <= q1).length },
+    { name: t('icPie1'), value: values.filter(v => v <= q1).length },
     { name: 'Q2 25-50%', value: values.filter(v => v > q1 && v <= q2).length },
     { name: 'Q3 50-75%', value: values.filter(v => v > q2 && v <= q3).length },
-    { name: 'Top 25%', value: values.filter(v => v > q3).length }
+    { name: t('icPie4'), value: values.filter(v => v > q3).length }
   ]
   const palette = piePalette.value
   return {
@@ -283,7 +286,7 @@ const buildPieOption = (values) => {
       borderWidth: 1,
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit, sans-serif' },
       formatter: (params) => {
-        return `<strong>${params.name}</strong><br/>Grids: ${params.value}<br/>Share: ${params.percent.toFixed(1)}%`
+        return `<strong>${params.name}</strong><br/>${t('icGrids')}: ${params.value}<br/>${t('icShareTip')}: ${params.percent.toFixed(1)}%`
       }
     },
     legend: {
@@ -345,6 +348,10 @@ watch(() => props.indicatorDataCache, () => {
 }, { deep: true })
 
 watch(() => props.activeIndicator, () => {
+  nextTick(() => renderCharts())
+})
+
+watch(currentLang, () => {
   nextTick(() => renderCharts())
 })
 

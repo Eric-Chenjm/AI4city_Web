@@ -49,7 +49,7 @@
             >
               <div class="flow-icon" v-html="step.icon"></div>
               <div class="flow-body">
-                <span class="flow-step">STEP {{ String(i + 1).padStart(2, '0') }}</span>
+                <span class="flow-step">{{ t('STEP') }} {{ String(i + 1).padStart(2, '0') }}</span>
                 <span class="flow-name">{{ step.name }}</span>
                 <span class="flow-detail">{{ step.detail }}</span>
               </div>
@@ -264,7 +264,7 @@
           <div class="zone-card" v-for="(zone, i) in fuxingZones" :key="zone.id" :style="{ animationDelay: (i * 0.1) + 's' }">
             <div class="zone-header">
               <span class="zone-marker" :style="{ background: zone.color }"></span>
-              <span class="zone-type">ZONE {{ String(i + 1).padStart(2, '0') }}</span>
+              <span class="zone-type">{{ t('ZONE') }} {{ String(i + 1).padStart(2, '0') }}</span>
             </div>
             <div class="zone-icon" v-html="zone.icon"></div>
             <h3 class="zone-name">{{ zone.name }}</h3>
@@ -345,20 +345,29 @@ const implicitIndicators = computed(() => [
   { name: currentLang.value === 'en' ? 'Future Perception' : '未来科创渗透感知', desc: currentLang.value === 'en' ? 'Tech-forward & visionary feel' : '智慧硬件设备、前瞻科技物理感官体验', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>' }
 ])
 
-const exampleScores = [
-  { name: 'CREAT', value: 82 },
-  { name: 'INTER', value: 68 },
-  { name: 'INTEG', value: 75 },
-  { name: 'ECO', value: 45 },
-  { name: 'CULT', value: 88 },
-  { name: 'FUTUR', value: 60 }
-]
+const exampleScores = computed(() => currentLang.value === 'en'
+  ? [
+      { name: 'CREAT', value: 82 },
+      { name: 'INTER', value: 68 },
+      { name: 'INTEG', value: 75 },
+      { name: 'ECO', value: 45 },
+      { name: 'CULT', value: 88 },
+      { name: 'FUTUR', value: 60 }
+    ]
+  : [
+      { name: '认同感', value: 82 },
+      { name: '创新氛围', value: 68 },
+      { name: '空间意象', value: 75 },
+      { name: '科技渗透', value: 45 },
+      { name: '工作效率', value: 88 },
+      { name: '幸福感', value: 60 }
+    ])
 
 const fuxingZones = computed(() => [
   { id: 'core', color: '#005BAC', name: currentLang.value === 'en' ? 'Innovation Core' : '核心创新引领区', feature: currentLang.value === 'en' ? 'High explicit + High implicit — dense innovation ecosystem' : '双高空间 (高显性 & 高隐性) —— 创新网络高密度核心', strategy: currentLang.value === 'en' ? 'Upgrade shared workspaces and creative workshops; strengthen tech-transfer platforms.' : '全面提升共享孵化载体与众创空间能级，强化校企技术转移平台。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8 12 2"/></svg>' },
   { id: 'activate', color: '#005BAC', name: currentLang.value === 'en' ? 'Activation Zone' : '活力空间唤醒区', feature: currentLang.value === 'en' ? 'High explicit + Low implicit — infrastructure-ready but lacking atmosphere' : '理性空间 (高显性 & 低隐性) —— 设施硬件完备但人本氛围不足', strategy: currentLang.value === 'en' ? 'Inject cultural programming and public art; activate street-level engagement.' : '引入文创策展、公共艺术装置，激活街区底商和人本活动粘性。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>' },
-  { id: 'catalyst', color: '#00B5D8', name: currentLang.value === 'en' ? '催化培育协同区' : '催化培育协同区', feature: currentLang.value === 'en' ? 'Low explicit + High implicit — vibrant atmosphere but lacking formal institutions' : '感性空间 (低显性 & 高隐性) —— 自发交流活跃但缺乏龙头企业', strategy: currentLang.value === 'en' ? 'Attract anchor tech tenants; formalize creative clusters with policy support.' : '制定税收返还等精准产业支持导则，吸引头部科技创新载体入驻。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' },
-  { id: 'develop', color: '#54565A', name: currentLang.value === 'en' ? '生态整备预留区' : '生态整备预留区', feature: currentLang.value === 'en' ? 'Dual-low — future potential areas' : '双低空间 (低显性 & 低隐性) —— 长期战略弹性留白区', strategy: currentLang.value === 'en' ? 'Phase long-term development; prioritize infrastructure and land preparation.' : '分期分批推进，优先保障大尺度生态绿带建设和市政基础设施整备。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h18v18H3z M3 9h18 M9 21V9"/></svg>' }
+  { id: 'catalyst', color: '#00B5D8', name: currentLang.value === 'en' ? 'Catalyst Zone' : '催化培育协同区', feature: currentLang.value === 'en' ? 'Low explicit + High implicit — vibrant atmosphere but lacking formal institutions' : '感性空间 (低显性 & 高隐性) —— 自发交流活跃但缺乏龙头企业', strategy: currentLang.value === 'en' ? 'Attract anchor tech tenants; formalize creative clusters with policy support.' : '制定税收返还等精准产业支持导则，吸引头部科技创新载体入驻。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' },
+  { id: 'develop', color: '#54565A', name: currentLang.value === 'en' ? 'Development Zone' : '生态整备预留区', feature: currentLang.value === 'en' ? 'Dual-low — future potential areas' : '双低空间 (低显性 & 低隐性) —— 长期战略弹性留白区', strategy: currentLang.value === 'en' ? 'Phase long-term development; prioritize infrastructure and land preparation.' : '分期分批推进，优先保障大尺度生态绿带建设和市政基础设施整备。', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h18v18H3z M3 9h18 M9 21V9"/></svg>' }
 ])
 
 const getMapDotStyle = (i) => {

@@ -3,7 +3,7 @@
     <div class="navbar-container">
       <div class="navbar-logo">
         <img class="logo-icon" src="../assets/dcd19cd3718b.png" alt="Logo" />
-        <span class="logo-text">FUXING ISLAND</span>
+        <span class="logo-text">{{ t('FUXING ISLAND') }}</span>
       </div>
       <div class="navbar-links">
         <router-link 

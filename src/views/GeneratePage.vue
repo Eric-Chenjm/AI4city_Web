@@ -1,9 +1,31 @@
 <template>
   <div class="generate-page">
+    <!-- Section Nav -->
+    <nav class="section-nav">
+      <div class="nav-brand">
+        <span class="brand-tag">{{ t('genNavBrand') }}</span>
+      </div>
+      <div class="nav-dots">
+        <button
+          v-for="(section, i) in sections"
+          :key="i"
+          class="nav-dot"
+          :class="{ active: activeSection === i }"
+          @click="scrollToSection(i)"
+        >
+          <span class="dot-marker"></span>
+          <span class="dot-label">{{ section.label }}</span>
+        </button>
+      </div>
+      <div class="nav-progress-bar">
+        <div class="nav-progress-fill" :style="{ width: scrollProgress + '%' }"></div>
+      </div>
+    </nav>
+
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
-    <header class="page-header">
+    <header class="page-header" ref="sectionOverview">
       <div class="header-line"></div>
       <h1 class="page-title">{{ t('pageTitle') }}</h1>
       <p class="page-subtitle">{{ t('pageSubtitle') }}</p>
@@ -27,21 +49,24 @@
 
     <div v-else class="dashboard-main-layout">
       <!-- 第一部分: 模型训练结果总览 -->
-      <ModelTrainingOverview 
+      <ModelTrainingOverview
+        ref="sectionTraining"
         :activePattern="activePattern"
         @select-pattern="handleSelectPattern"
       />
 
       <!-- 第二部分: GPS 案例分类检索 -->
-      <GpsCaseSelector 
+      <GpsCaseSelector
+        ref="sectionGps"
         :cases="casesList"
         :activeCaseId="activeCaseId"
         @select-case="handleSelectCase"
       />
 
       <!-- 第三部分: 单图优化证据链 -->
-      <SingleCaseEvidenceChain 
+      <SingleCaseEvidenceChain
         v-if="activeCaseId"
+        ref="sectionEvidence"
         :caseId="activeCaseId"
         :activePattern="activePattern"
         @select-node="handleSelectNode"
@@ -51,7 +76,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import ModelTrainingOverview from '../components/ModelTrainingOverview.vue'
 import GpsCaseSelector from '../components/GpsCaseSelector.vue'
 import SingleCaseEvidenceChain from '../components/SingleCaseEvidenceChain.vue'
@@ -59,6 +84,46 @@ import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
 
+// ── Section Nav ──
+const sectionOverview = ref(null)
+const sectionTraining = ref(null)
+const sectionGps = ref(null)
+const sectionEvidence = ref(null)
+const activeSection = ref(0)
+const scrollProgress = ref(0)
+
+const sections = computed(() => [
+  { label: t('genNavOverview') },
+  { label: t('genNavTraining') },
+  { label: t('genNavGps') },
+  { label: t('genNavEvidence') }
+])
+
+const scrollToSection = (index) => {
+  const refs = [sectionOverview, sectionTraining, sectionGps, sectionEvidence]
+  const target = refs[index]?.value
+  if (!target) return
+  const el = target.$el || target
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const handlePageScroll = () => {
+  const scrollTop = window.scrollY
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+  scrollProgress.value = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
+
+  const sectionRefs = [sectionOverview, sectionTraining, sectionGps, sectionEvidence]
+  for (let i = sectionRefs.length - 1; i >= 0; i--) {
+    const target = sectionRefs[i].value
+    const el = target?.$el || target
+    if (!el) continue
+    const rect = el.getBoundingClientRect()
+    if (rect && rect.top <= 160) {
+      activeSection.value = i
+      break
+    }
+  }
+}
 
 const isLoading = ref(true)
 const casesList = ref([])
@@ -124,6 +189,12 @@ onMounted(async () => {
   } finally {
     isLoading.value = false
   }
+
+  window.addEventListener('scroll', handlePageScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handlePageScroll)
 })
 </script>
 
@@ -143,7 +214,7 @@ onMounted(async () => {
   --font-body: 'Outfit', sans-serif;
 
   min-height: 100vh;
-  padding: 40px 32px;
+  padding: 96px 32px 40px;
   position: relative;
   overflow-x: hidden;
   font-family: var(--font-body);
@@ -295,5 +366,107 @@ onMounted(async () => {
 @keyframes pulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
+}
+
+/* Section Nav */
+.section-nav {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  background: rgba(10, 22, 40, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 91, 172, 0.15);
+}
+
+.section-nav .nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.section-nav .brand-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
+  border: 1px solid rgba(0, 91, 172, 0.3);
+  padding: 4px 12px;
+  border-radius: 3px;
+  letter-spacing: 2px;
+}
+
+.section-nav .nav-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.section-nav .nav-dot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .dot-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-marker {
+  background: #005BAC;
+  box-shadow: 0 0 10px rgba(0, 91, 172, 0.3);
+  transform: scale(1.3);
+}
+
+.section-nav .dot-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-label {
+  color: #005BAC;
+}
+
+.section-nav .nav-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .nav-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #005BAC, #004A8C);
+  transition: width 0.3s ease;
+}
+
+/* 锚点防遮挡 */
+.page-header,
+.dashboard-main-layout > * {
+  scroll-margin-top: 140px;
 }
 </style>

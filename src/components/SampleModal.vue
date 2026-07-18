@@ -20,11 +20,11 @@
             </div>
           </div>
           <div class="modal-chart-section">
-            <h3 class="chart-title">IMPLICIT INDICATORS</h3>
+            <h3 class="chart-title">{{ t('smTitle') }}</h3>
             <div ref="radarChart" class="radar-container"></div>
             <div class="score-bars">
               <div v-for="(value, key) in sample.scores" :key="key" class="score-bar-item">
-                <span class="score-label">{{ key }}</span>
+                <span class="score-label">{{ t(key) }}</span>
                 <div class="score-bar-track">
                   <div class="score-bar-fill" :style="{ width: value + '%' }"></div>
                 </div>
@@ -41,6 +41,9 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import * as echarts from 'echarts'
+import { useLang } from '../composables/useLang.js'
+
+const { t, currentLang } = useLang()
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -83,7 +86,7 @@ const initRadar = () => {
   const option = {
     backgroundColor: 'transparent',
     radar: {
-      indicator: dimensions.map(name => ({ name, max: 100 })),
+      indicator: dimensions.map(name => ({ name: t(name), max: 100 })),
       center: ['50%', '50%'],
       radius: '65%',
       shape: 'polygon',
@@ -107,7 +110,7 @@ const initRadar = () => {
       type: 'radar',
       data: [{
         value: values,
-        name: 'Implicit Indicators',
+        name: t('smSeries'),
         symbol: 'circle',
         symbolSize: 6,
         lineStyle: {
@@ -144,6 +147,13 @@ watch(() => props.sample, () => {
     nextTick(() => initRadar())
   }
 }, { deep: true })
+
+// 监听语言变化，自动重绘图表
+watch(currentLang, () => {
+  if (props.visible) {
+    nextTick(() => initRadar())
+  }
+})
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)

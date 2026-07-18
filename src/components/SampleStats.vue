@@ -2,20 +2,20 @@
   <div class="sample-stats" :class="{ 'no-border': !bordered }">
     <div class="section-header" v-if="bordered">
       <div class="section-title-group">
-        <span class="section-tag">REGION STATISTICS</span>
-        <h2 class="section-title">QUADRANT ANALYSIS</h2>
+        <span class="section-tag">{{ t('regionStatistics') }}</span>
+        <h2 class="section-title">{{ t('ssQuadrantAnalysis') }}</h2>
       </div>
     </div>
     <div class="stats-body">
       <!-- Radar Chart -->
       <div class="radar-section">
-        <div class="sub-label">EXPLICIT × IMPLICIT MEDIANS</div>
+        <div class="sub-label">{{ t('ssMedians') }}</div>
         <div ref="radarChart" class="radar-chart"></div>
       </div>
 
       <!-- Quadrant Stats -->
       <div class="quadrant-stats-section">
-        <div class="sub-label">REGION BREAKDOWN</div>
+        <div class="sub-label">{{ t('ssBreakdown') }}</div>
         <div class="quadrant-stats-list">
           <div
             v-for="item in regionQuadrantStats"
@@ -31,19 +31,19 @@
             </div>
             <div class="qs-metrics">
               <div class="qs-metric">
-                <span class="qs-metric-label">GRID COUNT</span>
+                <span class="qs-metric-label">{{ t('ssGridCount') }}</span>
                 <span class="qs-metric-value">{{ item.gridCount }}</span>
               </div>
               <div class="qs-metric">
-                <span class="qs-metric-label">AREA (km²)</span>
+                <span class="qs-metric-label">{{ t('ssArea') }}</span>
                 <span class="qs-metric-value">{{ item.area.toFixed(2) }}</span>
               </div>
               <div class="qs-metric">
-                <span class="qs-metric-label">EXPLICIT MEDIAN</span>
+                <span class="qs-metric-label">{{ t('ssExplicitMedian') }}</span>
                 <span class="qs-metric-value">{{ item.explicitMedian.toFixed(4) }}</span>
               </div>
               <div class="qs-metric">
-                <span class="qs-metric-label">IMPLICIT MEDIAN</span>
+                <span class="qs-metric-label">{{ t('ssImplicitMedian') }}</span>
                 <span class="qs-metric-value">{{ item.implicitMedian.toFixed(4) }}</span>
               </div>
             </div>
@@ -57,7 +57,7 @@
           <path d="M9 11l3 3L22 4" />
           <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
         </svg>
-        <span>Click a quadrant on the map to view sample images</span>
+        <span>{{ t('ssClickHint') }}</span>
       </div>
     </div>
   </div>
@@ -66,6 +66,9 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import * as echarts from 'echarts'
+import { useLang } from '../composables/useLang.js'
+
+const { t, currentLang } = useLang()
 
 const props = defineProps({
   samples: { type: Array, default: () => [] },
@@ -88,12 +91,12 @@ const quadrantColors = {
   LL: 'rgba(84, 86, 90, 0.6)'
 }
 
-const quadrantLabels = {
-  HH: 'High Explicit · High Implicit',
-  HL: 'High Explicit · Low Implicit',
-  LH: 'Low Explicit · High Implicit',
-  LL: 'Low Explicit · Low Implicit'
-}
+const quadrantLabels = computed(() => ({
+  HH: t('quadrantQ1'),
+  HL: t('quadrantQ4'),
+  LH: t('quadrantQ2'),
+  LL: t('quadrantQ3')
+}))
 
 const calcAvg = (samples, dim) => {
   if (!samples.length) return 0
@@ -106,7 +109,7 @@ const regionQuadrantStats = computed(() => {
   if (!props.regionData || !props.regionData.features) {
     return codes.map(code => ({
       code,
-      label: quadrantLabels[code],
+      label: quadrantLabels.value[code],
       color: quadrantColors[code],
       gridCount: 0,
       area: 0,
@@ -124,7 +127,7 @@ const regionQuadrantStats = computed(() => {
     })
     return {
       code,
-      label: quadrantLabels[code],
+      label: quadrantLabels.value[code],
       color: quadrantColors[code],
       gridCount: feature ? feature.properties.grid_count : 0,
       area: feature ? feature.properties.area_km2 : 0,
@@ -176,10 +179,10 @@ const updateRadar = () => {
         const q = regionQuadrantStats.value.find(r => r.code === params.name)
         if (!q) return ''
         return `<strong>${q.label}</strong><br/>
-          <span style="opacity:0.7">Grids: ${q.gridCount}</span><br/>
-          <span style="opacity:0.7">Area: ${q.area.toFixed(2)} km²</span><br/>
-          Explicit Median: ${q.explicitMedian.toFixed(4)}<br/>
-          Implicit Median: ${q.implicitMedian.toFixed(4)}`
+          <span style="opacity:0.7">${t('ssTipGrids')}: ${q.gridCount}</span><br/>
+          <span style="opacity:0.7">${t('ssTipArea')}: ${q.area.toFixed(2)} km²</span><br/>
+          ${t('ssTipExplicit')}: ${q.explicitMedian.toFixed(4)}<br/>
+          ${t('ssTipImplicit')}: ${q.implicitMedian.toFixed(4)}`
       }
     },
     legend: {
@@ -191,8 +194,8 @@ const updateRadar = () => {
     },
     radar: {
       indicator: [
-        { name: 'EXPLICIT', max: maxExplicit * 1.1 },
-        { name: 'IMPLICIT', max: maxImplicit * 1.1 }
+        { name: t('ssRadarExplicit'), max: maxExplicit * 1.1 },
+        { name: t('ssRadarImplicit'), max: maxImplicit * 1.1 }
       ],
       shape: 'polygon',
       center: ['50%', '48%'],
@@ -232,6 +235,11 @@ const handleResize = () => {
 watch(() => props.samples, () => {
   if (chartInstance) updateRadar()
 }, { deep: true })
+
+// 监听语言变化，自动重绘图表
+watch(currentLang, () => {
+  if (chartInstance) updateRadar()
+})
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)

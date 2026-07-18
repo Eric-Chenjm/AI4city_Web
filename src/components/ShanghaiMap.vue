@@ -2,10 +2,10 @@
   <div class="map-container">
     <div class="map-header">
       <div class="map-title-group">
-        <span class="section-tag">MAP</span>
-        <h2 class="map-title">SHANGHAI CENTRAL AREA</h2>
-        <span class="indicator-badge study-area">STUDY AREA · CENTRAL URBAN</span>
-        <span v-if="activeLayer !== 'implicit' && currentIndicator" class="indicator-badge">INDICATOR: {{ currentIndicator.name.toUpperCase() }}</span>
+        <span class="section-tag">{{ t('shmTag') }}</span>
+        <h2 class="map-title">{{ t('shmTitle') }}</h2>
+        <span class="indicator-badge study-area">{{ t('shmSub') }}</span>
+        <span v-if="activeLayer !== 'implicit' && currentIndicator" class="indicator-badge">{{ t('shmIndicator').toUpperCase() }}: {{ t(currentIndicator.name).toUpperCase() }}</span>
       </div>
     </div>
     <div ref="mapChart" class="map-chart"></div>
@@ -14,14 +14,14 @@
         <div class="legend-gradient" :class="activeLayer"></div>
         <div class="legend-labels">
           <span v-if="activeLayer !== 'implicit'">{{ indicatorRange.min.toFixed(2) }}</span>
-          <span v-else>LOW</span>
+          <span v-else>{{ t('shmLow') }}</span>
           <span v-if="activeLayer !== 'implicit'">{{ ((indicatorRange.min + indicatorRange.max) / 2).toFixed(2) }}</span>
-          <span v-else>MID</span>
+          <span v-else>{{ t('shmMid') }}</span>
           <span v-if="activeLayer !== 'implicit'">{{ indicatorRange.max.toFixed(2) }}</span>
-          <span v-else>HIGH</span>
+          <span v-else>{{ t('shmHigh') }}</span>
         </div>
       </div>
-      <div v-if="activeLayer !== 'implicit' && currentIndicator" class="legend-scale-label">{{ currentIndicator.name.toUpperCase() }} ({{ currentIndicator.unit || '' }})</div>
+      <div v-if="activeLayer !== 'implicit' && currentIndicator" class="legend-scale-label">{{ t(currentIndicator.name).toUpperCase() }} ({{ currentIndicator.unit || '' }})</div>
     </div>
   </div>
 </template>
@@ -29,6 +29,9 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import * as echarts from 'echarts'
+import { useLang } from '../composables/useLang.js'
+
+const { t, currentLang } = useLang()
 
 const props = defineProps({
   activeLayer: { type: String, default: 'explicit' },
@@ -168,7 +171,7 @@ const updateMap = () => {
 
   if ((isExplicit || isOverlay) && currentPolygons.length > 0) {
     series.push({
-      name: indicator?.name || 'Indicator',
+      name: indicator ? t(indicator.name) : t('shmIndicator'),
       type: 'custom',
       coordinateSystem: 'geo',
       renderItem: (params, api) => {
@@ -206,7 +209,7 @@ const updateMap = () => {
         max: props.indicatorDataCache[implicitIndicator.id].max 
       }
       series.push({
-        name: implicitIndicator.name,
+        name: t(implicitIndicator.name),
         type: 'custom',
         coordinateSystem: 'geo',
         renderItem: (params, api) => {
@@ -235,7 +238,7 @@ const updateMap = () => {
       })
     } else {
       series.push({
-        name: 'Implicit',
+        name: t('Implicit'),
         type: 'effectScatter',
         coordinateSystem: 'geo',
         data: implicitPoints.map(p => ({
@@ -270,7 +273,7 @@ const updateMap = () => {
       formatter: (params) => {
         if (params.seriesName === 'StudyArea') return null
         if (params.value && params.value.length >= 3) {
-          return `<strong>${params.seriesName || 'Indicator'}</strong><br/>Value: ${params.value[2].toFixed(4)}<br/>Coord: ${params.value[0].toFixed(4)}, ${params.value[1].toFixed(4)}`
+          return `<strong>${params.seriesName || t('shmIndicator')}</strong><br/>${t('shmTipValue')}: ${params.value[2].toFixed(4)}<br/>${t('shmTipCoord')}: ${params.value[0].toFixed(4)}, ${params.value[1].toFixed(4)}`
         }
         return null
       }
@@ -329,6 +332,7 @@ watch(() => props.activeLayer, () => { if (mapReady.value) updateMap() })
 watch(() => props.activeIndicator, () => { if (mapReady.value) updateMap() })
 watch(() => props.indicatorDataCache, () => { if (mapReady.value) updateMap() }, { deep: true })
 watch(() => props.mapBounds, () => { if (mapReady.value) updateMap() }, { deep: true })
+watch(currentLang, () => { if (mapReady.value) updateMap() })
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)

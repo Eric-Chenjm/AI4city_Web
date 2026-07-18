@@ -9,12 +9,12 @@
     <div class="overview-section">
       <h3 class="section-sub-title">{{ t('methodPipeline') }}</h3>
       <div class="pipeline-chain">
-        <div v-for="(step, idx) in overviewData.method_chain || t('defaultSteps')" :key="idx" class="pipeline-step">
+        <div v-for="(step, idx) in methodSteps" :key="idx" class="pipeline-step">
           <div class="step-num">{{ idx + 1 }}</div>
           <div class="step-content">
             <div class="step-label">{{ step }}</div>
           </div>
-          <span v-if="idx < (overviewData.method_chain || t('defaultSteps')).length - 1" class="step-arrow">→</span>
+          <span v-if="idx < methodSteps.length - 1" class="step-arrow">→</span>
         </div>
       </div>
     </div>
@@ -157,7 +157,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import * as echarts from 'echarts'
 import { useLang } from '../composables/useLang.js'
 
@@ -188,6 +188,12 @@ const formatNum = (val, fixed = 3) => {
   if (val === undefined || val === null) return 'N/A'
   return parseFloat(val).toFixed(fixed)
 }
+
+// 方法链步骤：中文模式固定使用字典中文步骤，英文模式优先外部 JSON 的 method_chain
+const methodSteps = computed(() => {
+  if (currentLang.value === 'zh') return t('defaultSteps')
+  return overviewData.value?.method_chain || t('defaultSteps')
+})
 
 const handleImgError = (e) => {
   const el = e.target.parentElement
@@ -252,7 +258,15 @@ const translateFeatureDisplayName = (name) => {
     'window': '窗户',
     'door': '门',
     'vegetation': '植被',
-    'pole': '电线杆'
+    'pole': '电线杆',
+    'animal': '动物',
+    'bag': '包袋',
+    'coat': '外套',
+    'house': '房屋',
+    'jean': '牛仔裤',
+    'tire': '轮胎',
+    'umbrella': '雨伞',
+    'wheel': '车轮'
   }
   let translated = name
   Object.keys(dict).forEach(key => {
@@ -292,13 +306,13 @@ const renderCharts = async () => {
           borderWidth: 1,
           textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit' },
           formatter: (params) => {
-            const labelTrue = currentLang.value === 'en' ? 'True Score' : '真实得分 (True)'
-            const labelPred = currentLang.value === 'en' ? 'Fitted Pred' : '预测评分 (Pred)'
+            const labelTrue = currentLang.value === 'en' ? 'True Score' : '真实得分'
+            const labelPred = currentLang.value === 'en' ? 'Fitted Pred' : '预测评分'
             return `${labelTrue}: <b>${params.value[0].toFixed(2)}</b><br/>${labelPred}: <b>${params.value[1].toFixed(2)}</b>`
           }
         },
         xAxis: {
-          name: currentLang.value === 'en' ? 'True Score' : '真实得分 (True)',
+          name: currentLang.value === 'en' ? 'True Score' : '真实得分',
           nameLocation: 'middle',
           nameGap: 24,
           min: minVal,
@@ -308,7 +322,7 @@ const renderCharts = async () => {
           splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }
         },
         yAxis: {
-          name: currentLang.value === 'en' ? 'Fitted Prediction' : '拟合评分 (Pred)',
+          name: currentLang.value === 'en' ? 'Fitted Prediction' : '拟合评分',
           nameLocation: 'middle',
           nameGap: 28,
           min: minVal,
@@ -391,12 +405,13 @@ const renderCharts = async () => {
           formatter: (params) => {
             const p = params[0]
             const title = currentLang.value === 'en' ? 'Feature Pattern' : '特征模式'
-            return `${title}: <b>${p.name}</b><br/>Mean |SHAP|: <span style="color:#36c8ff;font-family:monospace;font-weight:bold">${p.value.toFixed(4)}</span>`
+            const shapLabel = currentLang.value === 'zh' ? 'SHAP 贡献绝对均值' : 'Mean |SHAP|'
+            return `${title}: <b>${p.name}</b><br/>${shapLabel}: <span style="color:#36c8ff;font-family:monospace;font-weight:bold">${p.value.toFixed(4)}</span>`
           }
         },
         xAxis: {
           type: 'value',
-          name: currentLang.value === 'en' ? 'Mean |SHAP|' : 'SHAP 贡献绝对均值 (Mean |SHAP|)',
+          name: currentLang.value === 'en' ? 'Mean |SHAP|' : 'SHAP 贡献绝对均值',
           nameLocation: 'middle',
           nameGap: 24,
           axisLabel: { color: 'rgba(255,255,255,0.6)', fontSize: 9, fontFamily: 'Outfit' },
@@ -421,7 +436,7 @@ const renderCharts = async () => {
         },
         series: [
           {
-            name: 'Mean SHAP',
+            name: currentLang.value === 'zh' ? 'SHAP 均值' : 'Mean SHAP',
             type: 'bar',
             data: xData,
             barWidth: '60%',
