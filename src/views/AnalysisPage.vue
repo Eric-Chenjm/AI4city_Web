@@ -156,10 +156,10 @@ const updateTime = () => {
 
 // --- Statistics (computed from indicator data) ---
 const statistics = ref([
-  { label: 'MEAN VALUE', value: '--', unit: '', color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4' },
-  { label: 'STD DEVIATION', value: '--', unit: '', color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5' },
-  { label: 'HIGH VALUE', value: '--', unit: '%', color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7' },
-  { label: 'LOW VALUE', value: '--', unit: '%', color: '#00B5D8', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6' }
+  { label: 'MEAN VALUE', value: '--', unit: '', color: '#E8D48B', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4' },
+  { label: 'STD DEVIATION', value: '--', unit: '', color: '#E8D48B', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5' },
+  { label: 'HIGH VALUE', value: '--', unit: '%', color: '#E8D48B', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7' },
+  { label: 'LOW VALUE', value: '--', unit: '%', color: '#F0E0A8', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6' }
 ])
 
 // --- Map layers ---
@@ -230,10 +230,10 @@ const computeStatistics = () => {
   const decimals = indicator.unit === '%' || indicator.unit === '' ? 4 : 1
 
   statistics.value = [
-    { label: 'MEAN VALUE', value: mean.toFixed(decimals), unit: indicator.unit, color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4', desc: `Average ${indicator.name.toLowerCase()} across study area` },
-    { label: 'STD DEVIATION', value: std.toFixed(decimals), unit: indicator.unit, color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5', desc: 'Spatial variability of the indicator' },
-    { label: 'HIGH VALUE', value: highPercent, unit: '%', color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7', desc: `Grids above median (${midValue.toFixed(2)})` },
-    { label: 'LOW VALUE', value: lowPercent, unit: '%', color: '#00B5D8', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6', desc: `Grids below 25th percentile (${lowThreshold.toFixed(2)})` }
+    { label: 'MEAN VALUE', value: mean.toFixed(decimals), unit: indicator.unit, color: '#E8D48B', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4', desc: `Average ${indicator.name.toLowerCase()} across study area` },
+    { label: 'STD DEVIATION', value: std.toFixed(decimals), unit: indicator.unit, color: '#E8D48B', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5', desc: 'Spatial variability of the indicator' },
+    { label: 'HIGH VALUE', value: highPercent, unit: '%', color: '#E8D48B', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7', desc: `Grids above median (${midValue.toFixed(2)})` },
+    { label: 'LOW VALUE', value: lowPercent, unit: '%', color: '#F0E0A8', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6', desc: `Grids below 25th percentile (${lowThreshold.toFixed(2)})` }
   ]
 }
 

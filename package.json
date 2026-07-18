@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cytoscape": "^3.34.0",
     "echarts": "^5.5.0",
-    "jszip": "^3.10.1",
+    "maplibre-gl": "^5.24.0",
+    "plotly.js-dist-min": "^3.7.0",
     "three": "^0.162.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"

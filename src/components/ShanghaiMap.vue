@@ -63,31 +63,33 @@ const indicatorRange = computed(() => {
 const getIndicatorColor = (normalized, isExplicit) => {
   const t = Math.min(1, Math.max(0, normalized))
   if (isExplicit) {
+    // 淡蓝色 -> 紫红色渐变
     if (t < 0.5) {
       const k = t / 0.5
-      const r = Math.round(0 + (0 - 0) * k)
-      const g = Math.round(40 + (91 - 40) * k)
-      const b = Math.round(80 + (172 - 80) * k)
+      const r = Math.round(140 + (180 - 140) * k)
+      const g = Math.round(200 + (100 - 200) * k)
+      const b = Math.round(240 + (220 - 240) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.35 + 0.35 * k})`
     } else {
       const k = (t - 0.5) / 0.5
-      const r = Math.round(0 + (0 - 0) * k)
-      const g = Math.round(91 + (181 - 91) * k)
-      const b = Math.round(172 + (216 - 172) * k)
+      const r = Math.round(180 + (200 - 180) * k)
+      const g = Math.round(100 + (50 - 100) * k)
+      const b = Math.round(220 + (160 - 220) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.7 + 0.25 * k})`
     }
   } else {
+    // 淡青色 -> 品红色渐变 (implicit)
     if (t < 0.5) {
       const k = t / 0.5
-      const r = Math.round(20 + (60 - 20) * k)
-      const g = Math.round(60 + (110 - 60) * k)
-      const b = Math.round(80 + (180 - 80) * k)
+      const r = Math.round(120 + (170 - 120) * k)
+      const g = Math.round(210 + (120 - 210) * k)
+      const b = Math.round(230 + (210 - 230) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.35 + 0.35 * k})`
     } else {
       const k = (t - 0.5) / 0.5
-      const r = Math.round(0 + (100 - 0) * k)
-      const g = Math.round(181 + (220 - 181) * k)
-      const b = Math.round(216 + (245 - 216) * k)
+      const r = Math.round(170 + (210 - 170) * k)
+      const g = Math.round(120 + (60 - 120) * k)
+      const b = Math.round(210 + (170 - 210) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.7 + 0.25 * k})`
     }
   }
@@ -180,7 +182,7 @@ const updateMap = () => {
           shape: { points: pts },
           style: {
             fill: color,
-            stroke: isCurrentExplicit ? 'rgba(0, 91, 172, 0.2)' : 'rgba(0, 181, 216, 0.2)',
+            stroke: isCurrentExplicit ? 'rgba(180, 100, 220, 0.25)' : 'rgba(170, 120, 210, 0.25)',
             lineWidth: 0.3
           },
           silent: false
@@ -441,11 +443,11 @@ onUnmounted(() => {
 
 .legend-gradient.explicit,
 .legend-gradient.overlay {
-  background: linear-gradient(90deg, rgba(0, 40, 80, 0.5), rgba(0, 91, 172, 0.8), rgba(0, 181, 216, 0.9));
+  background: linear-gradient(90deg, rgba(140, 200, 240, 0.5), rgba(180, 100, 220, 0.8), rgba(200, 50, 160, 0.9));
 }
 
 .legend-gradient.implicit {
-  background: linear-gradient(90deg, rgba(20, 60, 80, 0.5), rgba(0, 181, 216, 0.8), rgba(100, 220, 245, 0.9));
+  background: linear-gradient(90deg, rgba(120, 210, 230, 0.5), rgba(170, 120, 210, 0.8), rgba(210, 60, 170, 0.9));
 }
 
 .legend-labels {

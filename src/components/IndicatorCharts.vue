@@ -79,10 +79,9 @@ const isExplicit = computed(() => {
   return props.currentIndicator?.type === 'explicit'
 })
 
-// 显性指标：暖色系（浅绿 -> 深绿）
-// 隐性指标：蓝色系（浅蓝 -> 深蓝）
-const explicitPalette = ['#F7FEF0', '#E9F7E5', '#CEEFCC', '#BFE8C1', '#BCF4C5', '#92C2A6', '#519D78', '#8BCF8B']
-const implicitPalette = ['#E8F4FD', '#B8DFF7', '#88CAF1', '#58B5EB', '#3AA0E0', '#2A8AC9', '#1E74B2', '#155E9B']
+// 淡黄色到蓝色渐变
+const explicitPalette = ['#FFF8E1', '#FFE9A0', '#FFDC6E', '#C8D8F0', '#8EB4E8', '#5A94D8', '#2E6EB8', '#0050A0']
+const implicitPalette = ['#FFF3CC', '#FFDDA0', '#D4C8F0', '#A8B0E8', '#7090D8', '#4070C0', '#2058A8', '#003C80']
 
 const colorGradient = computed(() => {
   const palette = isExplicit.value ? explicitPalette : implicitPalette

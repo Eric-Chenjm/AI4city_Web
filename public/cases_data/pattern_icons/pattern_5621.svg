@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="320" viewBox="0 0 640 320">
+  <defs>
+    <filter id="glow"><feGaussianBlur stdDeviation="3.2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="640" height="320" rx="0" fill="#080b16"/>
+  <rect width="640" height="58" fill="#080b16"/>
+  <text x="24" y="34" class="title">pattern_5621  support=322</text>
+  <text x="616" y="34" text-anchor="end" class="layout-type">closed_triangle</text>
+  <g filter="url(#glow)">
+    <line x1="320" y1="116" x2="170" y2="226" class="edge"/><circle cx="245.0" cy="171.0" r="4" class="edge-joint"/><line x1="320" y1="116" x2="470" y2="226" class="edge"/><circle cx="395.0" cy="171.0" r="4" class="edge-joint"/><line x1="170" y1="226" x2="470" y2="226" class="edge"/><circle cx="320.0" cy="226.0" r="4" class="edge-joint"/>
+    <circle cx="320" cy="116" r="48" class="node-halo"/>
+        <g transform="translate(309.0,92.0)" class="node-icon">
+          <circle cx="12" cy="8" r="5"/>
+          <path d="M12 14 V28 M4 21 H20 M12 28 L5 38 M12 28 L19 38"/>
+        </g><text x="320" y="180" text-anchor="middle" class="node-label">animal</text><circle cx="170" cy="226" r="48" class="node-halo"/>
+        <g transform="translate(159.0,202.0)" class="node-icon">
+          <circle cx="12" cy="8" r="5"/>
+          <path d="M12 14 V28 M4 21 H20 M12 28 L5 38 M12 28 L19 38"/>
+        </g><text x="170" y="290" text-anchor="middle" class="node-label">person</text><circle cx="470" cy="226" r="48" class="node-halo"/>
+        <g transform="translate(452.0,203.0)" class="node-icon">
+          <path d="M13 2 H25 L35 36 H3 Z"/>
+          <path d="M19 7 V14 M19 19 V26 M19 31 V35" class="node-icon-cut"/>
+        </g><text x="470" y="290" text-anchor="middle" class="node-label">sidewalk</text>
+  </g>
+  <style>
+    .title { fill:#dfe8ff; font:600 18px Arial, sans-serif; letter-spacing:0; }
+    .edge { stroke:#7b61ff; stroke-width:4; opacity:.9; }
+    .edge-joint { fill:#36c8ff; opacity:.95; }
+    .node-halo { fill:#101a33; stroke:#36c8ff; stroke-width:2.5; opacity:.95; }
+    .node-icon { fill:none; stroke:#dfe8ff; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+    .node-icon-cut { stroke:#080b16; stroke-width:2.8; }
+    .node-label { fill:#aab8ff; font:500 14px Arial, sans-serif; letter-spacing:0; }
+    .layout-type { fill:#7d8ccf; font:500 12px Arial, sans-serif; letter-spacing:0; }
+    .generic-letter { fill:#dfe8ff; stroke:none; font:700 16px Arial, sans-serif; }
+  </style>
+</svg>

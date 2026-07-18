@@ -22,7 +22,7 @@
         <div class="step-content">
           <span class="step-index">01</span>
           <h3 class="step-title">DATA COLLECTION</h3>
-          <p class="step-desc">13,000 streetscape images sampled across Shanghai central urban area</p>
+          <p class="step-desc">13,0000 streetscape images sampled across Shanghai central urban area</p>
           <div class="step-tags">
             <span class="tag">13K Images</span>
             <span class="tag">SVI Sampling</span>
@@ -166,7 +166,7 @@
     <!-- Bottom stats bar -->
     <div class="pipeline-stats">
       <div class="stat-item">
-        <span class="stat-value">13,000</span>
+        <span class="stat-value">13,0000</span>
         <span class="stat-label">SAMPLE IMAGES</span>
       </div>
       <div class="stat-divider"></div>

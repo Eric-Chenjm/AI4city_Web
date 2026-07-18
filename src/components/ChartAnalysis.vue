@@ -2,29 +2,38 @@
   <div class="chart-analysis">
     <div v-if="isAnalyzing" class="chart-loading">
       <div class="loading-ring"></div>
-      <p>Preparing charts...</p>
+      <p class="loading-text">CALCULATING SHAP VALUE & PLOTTING...</p>
     </div>
     <div v-else class="chart-grid">
-      <div class="chart-item">
+      <!-- 1. SHAP 模式贡献度双向柱状图 -->
+      <div class="chart-item shap-box">
         <div class="chart-header">
-          <span class="chart-tag">BAR CHART</span>
-          <span class="chart-title">Indicator Comparison</span>
+          <span class="chart-tag">SHAP EXPLANATION</span>
+          <span class="chart-title">Frequent Spatial Subgraph Contribution (Δ SHAP)</span>
         </div>
-        <div ref="barChart" class="chart-container"></div>
+        <div ref="shapChartRef" class="chart-container shap-container"></div>
+        <div class="shap-legend">
+          <span class="legend-dot positive"></span><span class="legend-text">推动评分提高 (Positive)</span>
+          <span class="legend-dot negative"></span><span class="legend-text">抑制评分提高 (Negative)</span>
+        </div>
       </div>
-      <div class="chart-item">
+
+      <!-- 2. 评分提升对比图 -->
+      <div class="chart-item score-box">
         <div class="chart-header">
-          <span class="chart-tag">PIE CHART</span>
-          <span class="chart-title">Distribution</span>
+          <span class="chart-tag">SCORE BOOST</span>
+          <span class="chart-title">AIGC Quality Scores</span>
         </div>
-        <div ref="pieChart" class="chart-container"></div>
+        <div ref="scoreChartRef" class="chart-container score-container"></div>
       </div>
-      <div class="chart-item full-width">
+
+      <!-- 3. 六维空间品质雷达图 -->
+      <div class="chart-item radar-box">
         <div class="chart-header">
-          <span class="chart-tag">RADAR</span>
-          <span class="chart-title">Structure Profile</span>
+          <span class="chart-tag">RADAR SPECTRUM</span>
+          <span class="chart-title">Spatial Quality Profile</span>
         </div>
-        <div ref="radarChart" class="chart-container"></div>
+        <div ref="radarChartRef" class="chart-container radar-container"></div>
       </div>
     </div>
   </div>
@@ -35,6 +44,18 @@ import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import * as echarts from 'echarts'
 
 const props = defineProps({
+  shapData: {
+    type: Array,
+    default: () => []
+  },
+  scoreData: {
+    type: Object,
+    default: () => ({ beforeScore: 0, afterScore: 0 })
+  },
+  modelName: {
+    type: String,
+    default: 'EGTR'
+  },
   metrics: {
     type: Object,
     default: () => ({})
@@ -45,49 +66,137 @@ const props = defineProps({
   }
 })
 
-const barChart = ref(null)
-const pieChart = ref(null)
-const radarChart = ref(null)
+const shapChartRef = ref(null)
+const scoreChartRef = ref(null)
+const radarChartRef = ref(null)
 
-let chartBar = null
-let chartPie = null
-let chartRadar = null
+let shapChart = null
+let scoreChart = null
+let radarChart = null
 
-const buildBarOption = () => {
-  const keys = Object.keys(props.metrics)
-  const labels = keys.map(k => props.metrics[k].label.split(' ')[0])
-  const values = keys.map(k => props.metrics[k].value)
-  const colors = keys.map(k => props.metrics[k].color)
-
+// 绘制双向 SHAP 柱状图
+const buildShapOption = () => {
+  const data = props.shapData || []
+  
+  // 提取名称和数值，将数据按数值大小从大到小排序
+  const sortedData = [...data].sort((a, b) => a.value - b.value)
+  const yData = sortedData.map(item => item.pattern)
+  const xData = sortedData.map(item => item.value)
+  
   return {
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'axis',
       axisPointer: { type: 'shadow' },
-      backgroundColor: 'rgba(10, 22, 40, 0.9)',
-      borderColor: 'rgba(0, 91, 172, 0.3)',
+      backgroundColor: 'rgba(10, 22, 40, 0.95)',
+      borderColor: 'rgba(232, 85, 78, 0.4)',
+      textStyle: { color: '#fff', fontSize: 11, fontFamily: 'JetBrains Mono' },
+      formatter: function (params) {
+        const item = sortedData[params[0].dataIndex]
+        const color = item.value >= 0 ? '#e8554e' : '#3b82f6'
+        return `<div style="font-size:11px; font-family:'JetBrains Mono';">
+                  <span style="color:${color}; font-weight:700;">${item.pattern}</span><br/>
+                  贡献值: <span style="font-weight:700;">${item.value >= 0 ? '+' : ''}${item.value}</span><br/>
+                  <span style="color:rgba(255,255,255,0.7); font-size:10px;">${item.desc || ''}</span>
+                </div>`
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '6%',
+      bottom: '3%',
+      top: '5%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'value',
+      axisLine: { show: false },
+      axisLabel: { 
+        color: 'rgba(255, 255, 255, 0.4)', 
+        fontSize: 10,
+        fontFamily: 'JetBrains Mono'
+      },
+      splitLine: { 
+        lineStyle: { 
+          color: 'rgba(255, 255, 255, 0.05)',
+          type: 'dashed'
+        } 
+      }
+    },
+    yAxis: {
+      type: 'category',
+      data: yData,
+      axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+      axisLabel: { 
+        color: '#fff', 
+        fontSize: 10,
+        fontFamily: 'Outfit',
+        width: 140,
+        overflow: 'truncate'
+      },
+      axisTick: { show: false }
+    },
+    series: [{
+      name: 'SHAP Contribution',
+      type: 'bar',
+      data: xData.map(val => {
+        return {
+          value: val,
+          itemStyle: {
+            color: val >= 0 
+              ? new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                  { offset: 0, color: 'rgba(232, 85, 78, 0.2)' },
+                  { offset: 1, color: '#e8554e' }
+                ])
+              : new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                  { offset: 0, color: '#3b82f6' },
+                  { offset: 1, color: 'rgba(59, 130, 246, 0.2)' }
+                ]),
+            borderRadius: val >= 0 ? [0, 4, 4, 0] : [4, 0, 0, 4]
+          }
+        }
+      }),
+      barWidth: '55%'
+    }]
+  }
+}
+
+// 绘制评分对比柱状图
+const buildScoreOption = () => {
+  const beforeVal = props.scoreData?.beforeScore || 0
+  const afterVal = props.scoreData?.afterScore || 0
+  
+  return {
+    backgroundColor: 'transparent',
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      backgroundColor: 'rgba(10, 22, 40, 0.95)',
+      borderColor: 'rgba(232, 85, 78, 0.4)',
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'JetBrains Mono' }
     },
     grid: {
       left: '10%',
-      right: '5%',
-      bottom: '10%',
-      top: '10%',
+      right: '10%',
+      bottom: '12%',
+      top: '15%',
       containLabel: true
     },
     xAxis: {
       type: 'category',
-      data: labels,
+      data: ['优化前 (Before)', 'AI 优化后 (After)'],
       axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
       axisLabel: { 
-        color: 'rgba(255, 255, 255, 0.5)', 
-        fontSize: 10,
-        fontFamily: 'JetBrains Mono'
+        color: 'rgba(255, 255, 255, 0.6)', 
+        fontSize: 11,
+        fontFamily: 'Outfit'
       },
       axisTick: { show: false }
     },
     yAxis: {
       type: 'value',
+      min: 0,
+      max: 10,
       axisLine: { show: false },
       axisLabel: { 
         color: 'rgba(255, 255, 255, 0.4)', 
@@ -98,94 +207,97 @@ const buildBarOption = () => {
     },
     series: [{
       type: 'bar',
-      data: values.map((v, i) => ({ value: v, itemStyle: { color: colors[i], borderRadius: [4, 4, 0, 0] } })),
-      barWidth: '50%',
-      emphasis: { itemStyle: { opacity: 0.8 } }
+      data: [
+        { 
+          value: beforeVal, 
+          itemStyle: { 
+            color: 'rgba(255, 255, 255, 0.25)', 
+            borderRadius: [6, 6, 0, 0],
+            borderColor: 'rgba(255, 255, 255, 0.4)',
+            borderWidth: 1
+          } 
+        },
+        { 
+          value: afterVal, 
+          itemStyle: { 
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#e8554e' },
+              { offset: 1, color: '#991b1b' }
+            ]), 
+            borderRadius: [6, 6, 0, 0],
+            shadowBlur: 10,
+            shadowColor: 'rgba(232, 85, 78, 0.3)'
+          } 
+        }
+      ],
+      barWidth: '40%',
+      label: {
+        show: true,
+        position: 'top',
+        color: '#fff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        fontFamily: 'JetBrains Mono',
+        formatter: '{c}'
+      }
     }]
   }
 }
 
-const buildPieOption = () => {
-  const keys = Object.keys(props.metrics)
-  const data = keys.map(k => ({
-    name: props.metrics[k].label.split(' ')[0],
-    value: props.metrics[k].value,
-    itemStyle: { color: props.metrics[k].color }
-  }))
-
-  return {
-    backgroundColor: 'transparent',
-    tooltip: {
-      trigger: 'item',
-      backgroundColor: 'rgba(10, 22, 40, 0.9)',
-      borderColor: 'rgba(0, 91, 172, 0.3)',
-      textStyle: { color: '#fff', fontSize: 11, fontFamily: 'JetBrains Mono' },
-      formatter: '{b}: {c} ({d}%)'
-    },
-    legend: {
-      orient: 'vertical',
-      right: '5%',
-      top: 'center',
-      textStyle: { color: 'rgba(255, 255, 255, 0.5)', fontSize: 10, fontFamily: 'JetBrains Mono' }
-    },
-    series: [{
-      type: 'pie',
-      radius: ['45%', '70%'],
-      center: ['35%', '50%'],
-      avoidLabelOverlap: false,
-      itemStyle: { borderRadius: 4, borderColor: '#0a1628', borderWidth: 2 },
-      label: { show: false },
-      emphasis: { label: { show: true, color: '#fff', fontSize: 12, fontFamily: 'Syncopate' } },
-      labelLine: { show: false },
-      data: data
-    }]
-  }
-}
-
+// 绘制六维雷达图
 const buildRadarOption = () => {
-  const keys = Object.keys(props.metrics)
-  const indicators = keys.map(k => ({
-    name: props.metrics[k].label.split(' ')[0],
-    max: props.metrics[k].unit === '%' ? 100 : 50
-  }))
-  const values = keys.map(k => props.metrics[k].value)
+  // 六维基础品质指标，若无则使用默认
+  const hasMetrics = props.metrics && Object.keys(props.metrics).length > 0
+  
+  const indicatorNames = hasMetrics 
+    ? Object.keys(props.metrics).map(k => props.metrics[k].label)
+    : ['Building Density', 'Green Coverage', 'Openness', 'Height Variance', 'Street Connectivity', 'Facade Diversity']
+    
+  const values = hasMetrics
+    ? Object.keys(props.metrics).map(k => props.metrics[k].value)
+    : [65, 40, 55, 45, 70, 50]
 
   return {
     backgroundColor: 'transparent',
     tooltip: {
-      backgroundColor: 'rgba(10, 22, 40, 0.9)',
-      borderColor: 'rgba(0, 91, 172, 0.3)',
+      backgroundColor: 'rgba(10, 22, 40, 0.95)',
+      borderColor: 'rgba(232, 85, 78, 0.4)',
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'JetBrains Mono' }
     },
     radar: {
-      indicator: indicators,
+      indicator: indicatorNames.map(name => ({ name, max: 100 })),
       shape: 'polygon',
-      radius: '55%',
-      center: ['50%', '55%'],
+      radius: '62%',
+      center: ['50%', '52%'],
       splitNumber: 4,
       axisName: {
-        color: 'rgba(255, 255, 255, 0.6)',
+        color: 'rgba(255, 255, 255, 0.55)',
         fontSize: 10,
-        fontFamily: 'JetBrains Mono'
+        fontFamily: 'Outfit'
       },
       splitArea: {
         areaStyle: {
-          color: ['rgba(255,255,255,0.02)', 'rgba(255,255,255,0.04)', 'rgba(255,255,255,0.02)', 'rgba(255,255,255,0.04)']
+          color: [
+            'rgba(255,255,255,0.01)', 
+            'rgba(255,255,255,0.03)', 
+            'rgba(255,255,255,0.01)', 
+            'rgba(255,255,255,0.03)'
+          ]
         }
       },
-      splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-      axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.15)' } }
+      splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.08)' } },
+      axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.12)' } }
     },
     series: [{
       type: 'radar',
       data: [{
         value: values,
-        name: 'Structure',
-        lineStyle: { color: '#005BAC', width: 2 },
-        areaStyle: { color: 'rgba(0, 91, 172, 0.25)' },
+        name: 'Quality Matrix',
+        lineStyle: { color: '#e8554e', width: 2 },
+        areaStyle: { color: 'rgba(232, 85, 78, 0.22)' },
         symbol: 'circle',
-        symbolSize: 6,
-        itemStyle: { color: '#005BAC', borderColor: '#0a1628', borderWidth: 2 }
+        symbolSize: 5,
+        itemStyle: { color: '#e8554e', borderColor: '#0a1628', borderWidth: 1.5 }
       }]
     }]
   }
@@ -194,49 +306,59 @@ const buildRadarOption = () => {
 const initCharts = () => {
   if (props.isAnalyzing) return
 
-  if (barChart.value) {
-    if (chartBar) chartBar.dispose()
-    chartBar = echarts.init(barChart.value)
-    chartBar.setOption(buildBarOption())
-  }
-  if (pieChart.value) {
-    if (chartPie) chartPie.dispose()
-    chartPie = echarts.init(pieChart.value)
-    chartPie.setOption(buildPieOption())
-  }
-  if (radarChart.value) {
-    if (chartRadar) chartRadar.dispose()
-    chartRadar = echarts.init(radarChart.value)
-    chartRadar.setOption(buildRadarOption())
-  }
+  nextTick(() => {
+    if (shapChartRef.value) {
+      if (shapChart) shapChart.dispose()
+      shapChart = echarts.init(shapChartRef.value)
+      shapChart.setOption(buildShapOption())
+    }
+    if (scoreChartRef.value) {
+      if (scoreChart) scoreChart.dispose()
+      scoreChart = echarts.init(scoreChartRef.value)
+      scoreChart.setOption(buildScoreOption())
+    }
+    if (radarChartRef.value) {
+      if (radarChart) radarChart.dispose()
+      radarChart = echarts.init(radarChartRef.value)
+      radarChart.setOption(buildRadarOption())
+    }
+  })
 }
 
 const handleResize = () => {
-  chartBar?.resize()
-  chartPie?.resize()
-  chartRadar?.resize()
+  shapChart?.resize()
+  scoreChart?.resize()
+  radarChart?.resize()
 }
 
+watch(() => props.shapData, () => {
+  initCharts()
+}, { deep: true })
+
+watch(() => props.scoreData, () => {
+  initCharts()
+}, { deep: true })
+
 watch(() => props.metrics, () => {
-  nextTick(() => initCharts())
+  initCharts()
 }, { deep: true })
 
 watch(() => props.isAnalyzing, (val) => {
   if (!val) {
-    nextTick(() => initCharts())
+    initCharts()
   }
 })
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)
-  nextTick(() => initCharts())
+  initCharts()
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
-  chartBar?.dispose()
-  chartPie?.dispose()
-  chartRadar?.dispose()
+  shapChart?.dispose()
+  scoreChart?.dispose()
+  radarChart?.dispose()
 })
 </script>
 
@@ -250,15 +372,19 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
-  gap: 12px;
+  padding: 80px 20px;
+  gap: 16px;
+  background: rgba(15, 28, 48, 0.4);
+  border: 1px solid rgba(232, 85, 78, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
 }
 
-.chart-loading .loading-ring {
-  width: 40px;
-  height: 40px;
-  border: 2px solid rgba(0, 91, 172, 0.2);
-  border-top-color: #005BAC;
+.loading-ring {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(232, 85, 78, 0.1);
+  border-top-color: #e8554e;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -267,35 +393,53 @@ onUnmounted(() => {
   to { transform: rotate(360deg); }
 }
 
-.chart-loading p {
+.loading-text {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 2px;
+  color: #e8554e;
+  text-shadow: 0 0 8px rgba(232, 85, 78, 0.4);
   margin: 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
 .chart-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 20px;
 }
 
 .chart-item {
-  background: rgba(15, 28, 48, 0.5);
+  background: rgba(15, 28, 48, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 16px;
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.3s;
 }
 
-.chart-item.full-width {
-  grid-column: span 2;
+.chart-item:hover {
+  border-color: rgba(232, 85, 78, 0.25);
+}
+
+.chart-item.shap-box {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 10px;
 }
 
 .chart-tag {
@@ -311,29 +455,67 @@ onUnmounted(() => {
 
 .chart-title {
   font-family: 'Syncopate', sans-serif;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
   letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .chart-container {
   width: 100%;
+  position: relative;
+}
+
+.shap-container {
+  height: 380px;
+}
+
+.score-container {
   height: 180px;
 }
 
-.chart-item.full-width .chart-container {
-  height: 200px;
+.radar-container {
+  height: 180px;
 }
 
-@media (max-width: 768px) {
+.shap-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legend-dot.positive {
+  background: #e8554e;
+  box-shadow: 0 0 6px rgba(232, 85, 78, 0.6);
+}
+
+.legend-dot.negative {
+  background: #3b82f6;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.6);
+}
+
+.legend-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 1024px) {
   .chart-grid {
     grid-template-columns: 1fr;
   }
-  .chart-item.full-width {
-    grid-column: span 1;
-  }
-  .chart-container {
-    height: 160px;
+  .chart-item.shap-box {
+    grid-row: span 1;
   }
 }
 </style>

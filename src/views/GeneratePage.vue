@@ -5,165 +5,135 @@
 
     <header class="page-header">
       <div class="header-line"></div>
-      <h1 class="page-title">INNOVATION STRUCTURE ANALYZER</h1>
-      <p class="page-subtitle">Upload original image and extracted structure diagram — analyze innovation metrics and visualize indicators</p>
+      <h1 class="page-title">OvSGTR Spatial Inference & AIGC Refinement</h1>
+      <p class="page-subtitle">AIGC 城市设计评估与推演大盘 · 科学回溯证据链演示平台</p>
       <div class="header-line"></div>
     </header>
 
-    <div class="main-layout">
-      <aside class="control-panel">
-        <div class="panel-section">
-          <div class="section-header">
-            <span class="section-index">01</span>
-            <h2 class="section-title">SOURCE INPUT</h2>
-          </div>
-          <UploadZone 
-            :originalImage="originalImage"
-            :structureImage="structureImage"
-            @upload:original="handleOriginalUpload"
-            @upload:structure="handleStructureUpload"
-            @clear="clearAll"
-          />
-        </div>
+    <!-- 顶层全局提示与缺失文件警报 -->
+    <div v-if="missingFilesManifest.length > 0" class="missing-warning-banner">
+      <span class="warning-title">⚠️ 数据完整性校验提示 (Missing Files Checked by sync script):</span>
+      <div class="warning-scroll-box">
+        <span v-for="(msg, i) in missingFilesManifest" :key="i" class="warning-item">
+          {{ msg }}
+        </span>
+      </div>
+    </div>
 
-        <div class="panel-section action-section">
-          <button
-            class="btn-analyze"
-            :class="{ disabled: !originalImage || !structureImage || isAnalyzing }"
-            :disabled="!originalImage || !structureImage || isAnalyzing"
-            @click="analyze"
-          >
-            <span v-if="isAnalyzing" class="btn-loader"></span>
-            <span v-else class="btn-text">{{ isAnalyzing ? 'ANALYZING' : 'START ANALYSIS' }}</span>
-          </button>
-          <button class="btn-reset" @click="clearAll">RESET ALL</button>
-        </div>
-      </aside>
+    <div v-if="isLoading" class="global-loading">
+      <div class="loader-hex"></div>
+      <span class="loading-lbl">INITIALIZING OVSGTR DOCKER & SYNCING CATALOG...</span>
+    </div>
 
-      <main class="result-panel">
-        <div v-if="!originalImage && !structureImage" class="empty-state">
-          <div class="empty-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
-          </div>
-          <p class="empty-title">AWAITING INPUT</p>
-          <p class="empty-desc">Upload original image and structure diagram to begin analysis</p>
-        </div>
+    <div v-else class="dashboard-main-layout">
+      <!-- 第一部分: 模型训练结果总览 -->
+      <ModelTrainingOverview 
+        :activePattern="activePattern"
+        @select-pattern="handleSelectPattern"
+      />
 
-        <template v-else>
-          <div class="comparison-section">
-            <div class="section-header">
-              <span class="section-index">A</span>
-              <h2 class="section-title">VISUAL COMPARISON</h2>
-            </div>
-            <ImageComparison 
-              :originalImage="originalImage" 
-              :structureImage="structureImage"
-              :isAnalyzing="isAnalyzing"
-            />
-          </div>
+      <!-- 第二部分: GPS 案例分类检索 -->
+      <GpsCaseSelector 
+        :cases="casesList"
+        :activeCaseId="activeCaseId"
+        @select-case="handleSelectCase"
+      />
 
-          <div class="metrics-section">
-            <div class="section-header">
-              <span class="section-index">B</span>
-              <h2 class="section-title">EXTRACTED INDICATORS</h2>
-            </div>
-            <MetricsDisplay 
-              :metrics="extractedMetrics"
-              :isAnalyzing="isAnalyzing"
-            />
-          </div>
-
-          <div class="chart-section">
-            <div class="section-header">
-              <span class="section-index">C</span>
-              <h2 class="section-title">INDICATOR ANALYSIS</h2>
-            </div>
-            <ChartAnalysis 
-              :metrics="extractedMetrics"
-              :isAnalyzing="isAnalyzing"
-            />
-          </div>
-        </template>
-      </main>
+      <!-- 第三部分: 单图优化证据链 -->
+      <SingleCaseEvidenceChain 
+        v-if="activeCaseId"
+        :caseId="activeCaseId"
+        :activePattern="activePattern"
+        @select-node="handleSelectNode"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import UploadZone from '../components/UploadZone.vue'
-import ImageComparison from '../components/ImageComparison.vue'
-import MetricsDisplay from '../components/MetricsDisplay.vue'
-import ChartAnalysis from '../components/ChartAnalysis.vue'
+import { ref, onMounted } from 'vue'
+import ModelTrainingOverview from '../components/ModelTrainingOverview.vue'
+import GpsCaseSelector from '../components/GpsCaseSelector.vue'
+import SingleCaseEvidenceChain from '../components/SingleCaseEvidenceChain.vue'
 
-const originalImage = ref(null)
-const structureImage = ref(null)
-const isAnalyzing = ref(false)
+const isLoading = ref(true)
+const casesList = ref([])
+const activeCaseId = ref(null)
+const activePattern = ref(null)
+const missingFilesManifest = ref([])
 
-const extractedMetrics = reactive({
-  buildingDensity: { label: 'Building Density', value: 0, unit: '%', color: '#005BAC', desc: 'Ratio of building area to total area' },
-  greenCoverage: { label: 'Green Coverage', value: 0, unit: '%', color: '#4ade80', desc: 'Percentage of vegetation and green space' },
-  openness: { label: 'Open Space Ratio', value: 0, unit: '%', color: '#60a5fa', desc: 'Proportion of accessible public space' },
-  heightVariance: { label: 'Height Variance', value: 0, unit: 'm', color: '#a78bfa', desc: 'Standard deviation of building heights' },
-  streetConnectivity: { label: 'Street Connectivity', value: 0, unit: 'index', color: '#fb923c', desc: 'Graph connectivity index of street network' },
-  facadeDiversity: { label: 'Facade Diversity', value: 0, unit: '%', color: '#f472b6', desc: 'Visual diversity of building facades' }
-})
-
-const handleOriginalUpload = (imageData) => {
-  originalImage.value = imageData
+// 选定案例
+const handleSelectCase = (caseId) => {
+  activeCaseId.value = caseId
+  // 切换案例时，重置 Pattern 联动高亮状态
+  activePattern.value = null
 }
 
-const handleStructureUpload = (imageData) => {
-  structureImage.value = imageData
+// 选定高亮子图模式
+const handleSelectPattern = (patternName) => {
+  activePattern.value = patternName
 }
 
-const clearAll = () => {
-  originalImage.value = null
-  structureImage.value = null
-  Object.keys(extractedMetrics).forEach(key => {
-    extractedMetrics[key].value = 0
-  })
-}
-
-const analyze = async () => {
-  if (!originalImage.value || !structureImage.value || isAnalyzing.value) return
+// 反向联动：点击 Cytoscape 节点高亮包含该节点的 Pattern
+const handleSelectNode = async (nodeLabel) => {
+  if (!nodeLabel || !activeCaseId.value) return
   
-  isAnalyzing.value = true
-
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  extractedMetrics.buildingDensity.value = Math.round(35 + Math.random() * 30)
-  extractedMetrics.greenCoverage.value = Math.round(15 + Math.random() * 25)
-  extractedMetrics.openness.value = Math.round(20 + Math.random() * 25)
-  extractedMetrics.heightVariance.value = Math.round(15 + Math.random() * 25)
-  extractedMetrics.streetConnectivity.value = Math.round(60 + Math.random() * 30)
-  extractedMetrics.facadeDiversity.value = Math.round(40 + Math.random() * 35)
-
-  isAnalyzing.value = false
+  try {
+    // 拉取当前案例的 waterfalls 列表，寻找包含该 label 的模式
+    const res = await fetch(`/cases_data/cases/${activeCaseId.value}/waterfalls.json`)
+    const data = await res.json()
+    const waterfallList = data.tables?.before || []
+    
+    // 寻找 pattern_short 中包含该节点的模式特征
+    const matched = waterfallList.find(p => 
+      p.pattern_short.toLowerCase().includes(nodeLabel.toLowerCase())
+    )
+    
+    if (matched) {
+      activePattern.value = matched.feature_name
+      // 自动平滑滚动到第一部分的 Patterns 排行榜，增强交互反馈
+      const patEl = document.querySelector('.patterns-section')
+      if (patEl) {
+        patEl.scrollIntoView({ behavior: 'smooth' })
+      }
+    } else {
+      activePattern.value = null
+    }
+  } catch (e) {
+    console.error("Error reverse lookup node to pattern:", e)
+  }
 }
+
+onMounted(async () => {
+  try {
+    const response = await fetch('/cases_data/catalog.json')
+    const catalog = await response.json()
+    casesList.value = catalog.cases || []
+    missingFilesManifest.value = catalog.missing_files_manifest || []
+    
+    if (casesList.value.length > 0) {
+      // 默认选择第一个案例进行初始化
+      activeCaseId.value = casesList.value[0].case_id
+    }
+  } catch (e) {
+    console.error("Error loading cases catalog:", e)
+  } finally {
+    isLoading.value = false
+  }
+})
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap');
-
 .generate-page {
-  --bg-primary: #0a1628;
+  --bg-primary: #050811;
   --bg-card: rgba(15, 28, 48, 0.6);
-  --bg-card-hover: rgba(20, 35, 58, 0.7);
-  --gold: #005BAC;
-  --gold-light: #004A8C;
-  --gold-dim: rgba(0, 91, 172, 0.3);
-  --crimson: #005BAC;
-  --crimson-light: #004A8C;
+  --crimson: #e8554e;
+  --crimson-light: #c7453f;
+  --crimson-dim: rgba(232, 85, 78, 0.15);
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.6);
-  --text-muted: rgba(255, 255, 255, 0.35);
-  --border: rgba(0, 91, 172, 0.15);
-  --border-active: rgba(0, 91, 172, 0.5);
+  --border: rgba(232, 85, 78, 0.15);
+  --border-active: rgba(232, 85, 78, 0.5);
   --font-display: 'Syncopate', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
@@ -174,6 +144,7 @@ const analyze = async () => {
   overflow-x: hidden;
   font-family: var(--font-body);
   color: var(--text-primary);
+  background: var(--bg-primary);
 }
 
 .bg-grid {
@@ -183,8 +154,8 @@ const analyze = async () => {
   width: 100%;
   height: 100%;
   background-image: 
-    linear-gradient(rgba(0, 91, 172, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 91, 172, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(123, 97, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(123, 97, 255, 0.02) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
@@ -192,255 +163,133 @@ const analyze = async () => {
 
 .bg-glow {
   position: fixed;
-  top: 20%;
+  top: 10%;
   right: -10%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(0, 91, 172, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(123, 97, 255, 0.04) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
-  animation: glowDrift 20s ease-in-out infinite;
-}
-
-@keyframes glowDrift {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-50px, 30px); }
 }
 
 .page-header {
   position: relative;
   z-index: 1;
   text-align: center;
-  margin-bottom: 48px;
-  padding: 0 20px;
+  margin-bottom: 32px;
 }
 
 .header-line {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-  margin: 16px auto;
+  background: linear-gradient(90deg, transparent, rgba(123, 97, 255, 0.2), transparent);
+  margin: 12px auto;
   max-width: 400px;
 }
 
 .page-title {
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 700;
-  letter-spacing: 6px;
+  letter-spacing: 5px;
   color: var(--text-primary);
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(123, 97, 255, 0.2);
 }
 
 .page-subtitle {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 13px;
   color: var(--text-secondary);
   letter-spacing: 1px;
-  max-width: 600px;
-  margin: 0 auto;
+  margin-top: 8px;
 }
 
-.main-layout {
+/* 缺失文件警示横幅 */
+.missing-warning-banner {
+  background: rgba(232, 85, 78, 0.08);
+  border: 1px solid rgba(232, 85, 78, 0.3);
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin: 0 auto 24px auto;
+  max-width: 1700px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10;
+  position: relative;
+}
+
+.warning-title {
+  font-size: 11.5px;
+  font-weight: bold;
+  color: #e8554e;
+  white-space: nowrap;
+}
+
+.warning-scroll-box {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.warning-item {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* 布局 */
+.dashboard-main-layout {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 35% 65%;
-  gap: 24px;
-  max-width: 1600px;
+  max-width: 1700px;
   margin: 0 auto;
-}
-
-.control-panel,
-.result-panel {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  backdrop-filter: blur(10px);
-}
-
-.control-panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
 }
 
-.panel-section {
+/* 加载 */
+.global-loading {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
-}
-
-.section-index {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--crimson);
-  background: rgba(0, 91, 172, 0.1);
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-.section-title {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.action-section {
-  margin-top: auto;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.btn-analyze {
-  width: 100%;
-  padding: 14px 24px;
-  background: linear-gradient(135deg, var(--crimson), var(--crimson-light));
-  border: none;
-  border-radius: 8px;
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #ffffff;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  padding: 180px 20px;
+  gap: 20px;
+  z-index: 10;
+  position: relative;
 }
 
-.btn-analyze:hover:not(.disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 91, 172, 0.3);
-}
-
-.btn-analyze.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-loader {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #ffffff;
+.loader-hex {
+  width: 50px;
+  height: 50px;
+  border: 2px solid rgba(123, 97, 255, 0.1);
+  border-top-color: #7b61ff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+  box-shadow: 0 0 12px rgba(123, 97, 255, 0.3);
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-.btn-reset {
-  width: 100%;
-  padding: 12px 24px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+.loading-lbl {
   font-family: var(--font-mono);
   font-size: 11px;
+  color: #7b61ff;
   letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  transition: all 0.2s;
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
-.btn-reset:hover {
-  border-color: rgba(0, 91, 172, 0.5);
-  color: var(--crimson);
-}
-
-.result-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.empty-state {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 60px 20px;
-}
-
-.empty-icon {
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  color: rgba(255, 255, 255, 0.2);
-}
-
-.empty-icon svg {
-  width: 40px;
-  height: 40px;
-}
-
-.empty-title {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0;
-}
-
-.empty-desc {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.3);
-  margin: 0;
-}
-
-.comparison-section,
-.metrics-section,
-.chart-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-@media (max-width: 1024px) {
-  .main-layout {
-    grid-template-columns: 1fr;
-  }
-  .control-panel {
-    order: 2;
-  }
-  .result-panel {
-    order: 1;
-  }
-}
-
-@media (max-width: 768px) {
-  .generate-page {
-    padding: 24px 16px;
-  }
-  .page-title {
-    font-size: 24px;
-    letter-spacing: 4px;
-  }
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 </style>
