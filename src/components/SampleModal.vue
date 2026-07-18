@@ -11,13 +11,16 @@
         <div class="modal-body">
           <div class="modal-image-section">
             <img :src="sample.image" :alt="sample.location" class="modal-image" />
-            <div class="modal-location">
-              <span class="location-icon">📍</span>
-              {{ sample.location }}
+            <div class="modal-image-overlay">
+              <div v-if="sample.region" class="modal-region-badge" :class="'region-' + sample.region">{{ sample.region }}</div>
+              <div class="modal-location">
+                <span class="location-icon">📍</span>
+                {{ sample.location }}
+              </div>
             </div>
           </div>
           <div class="modal-chart-section">
-            <h3 class="chart-title">INNOVATION DIMENSIONS</h3>
+            <h3 class="chart-title">IMPLICIT INDICATORS</h3>
             <div ref="radarChart" class="radar-container"></div>
             <div class="score-bars">
               <div v-for="(value, key) in sample.scores" :key="key" class="score-bar-item">
@@ -46,7 +49,15 @@ const props = defineProps({
     default: () => ({
       image: '',
       location: '',
-      scores: { Creativity: 0, Interaction: 0, Integration: 0, Ecology: 0, Culture: 0, Future: 0 }
+      region: '',
+      scores: {
+        'Identity': 0,
+        'Innovation Atmosphere': 0,
+        'Spatial Image': 0,
+        'Tech Influence': 0,
+        'Workplace Efficiency': 0,
+        'Workplace Wellbeing': 0
+      }
     })
   }
 })
@@ -86,7 +97,7 @@ const initRadar = () => {
         lineStyle: { color: 'rgba(255, 255, 255, 0.1)' }
       },
       splitArea: {
-        areaStyle: { color: ['rgba(232, 85, 78, 0.03)', 'rgba(232, 85, 78, 0.06)', 'rgba(232, 85, 78, 0.09)', 'rgba(232, 85, 78, 0.12)'] }
+        areaStyle: { color: ['rgba(74, 158, 218, 0.03)', 'rgba(74, 158, 218, 0.06)', 'rgba(74, 158, 218, 0.09)', 'rgba(74, 158, 218, 0.12)'] }
       },
       axisLine: {
         lineStyle: { color: 'rgba(255, 255, 255, 0.2)' }
@@ -96,18 +107,18 @@ const initRadar = () => {
       type: 'radar',
       data: [{
         value: values,
-        name: 'Innovation Profile',
+        name: 'Implicit Indicators',
         symbol: 'circle',
         symbolSize: 6,
         lineStyle: {
-          color: '#e8554e',
+          color: '#4a9eda',
           width: 2
         },
         areaStyle: {
-          color: 'rgba(232, 85, 78, 0.3)'
+          color: 'rgba(74, 158, 218, 0.3)'
         },
         itemStyle: {
-          color: '#e8554e',
+          color: '#4a9eda',
           borderColor: '#ffffff',
           borderWidth: 2
         }
@@ -239,12 +250,33 @@ onUnmounted(() => {
   object-fit: cover;
 }
 
-.modal-location {
+.modal-image-overlay {
   position: relative;
   padding: 16px;
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-region-badge {
+  align-self: flex-start;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-family: 'Syncopate', sans-serif;
   font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.region-HH { background: rgba(232, 85, 78, 0.9); color: #fff; }
+.region-HL { background: rgba(232, 140, 100, 0.9); color: #fff; }
+.region-LH { background: rgba(240, 190, 60, 0.9); color: #fff; }
+.region-LL { background: rgba(100, 160, 200, 0.9); color: #fff; }
+
+.modal-location {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
   color: #ffffff;
   letter-spacing: 1px;
   display: flex;
@@ -253,7 +285,7 @@ onUnmounted(() => {
 }
 
 .location-icon {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .modal-chart-section {
@@ -291,9 +323,9 @@ onUnmounted(() => {
 
 .score-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 9px;
   color: rgba(255, 255, 255, 0.6);
-  width: 80px;
+  width: 120px;
   flex-shrink: 0;
 }
 
@@ -307,7 +339,7 @@ onUnmounted(() => {
 
 .score-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #e8554e, #ff9966);
+  background: linear-gradient(90deg, #4a9eda, #6bb8f0);
   border-radius: 3px;
   transition: width 0.3s ease-out;
 }
@@ -315,7 +347,7 @@ onUnmounted(() => {
 .score-value {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: #e8554e;
+  color: #4a9eda;
   font-weight: 600;
   width: 30px;
   text-align: right;

@@ -20,14 +20,10 @@
             <div class="sample-overlay">
               <span class="overlay-icon">+</span>
             </div>
+            <div class="sample-region-badge" :class="'region-' + sample.region">{{ sample.region }}</div>
           </div>
           <div class="sample-info">
             <span class="sample-location">{{ sample.location }}</span>
-            <div class="sample-tags">
-              <span v-for="tag in sample.tags.slice(0, 3)" :key="tag.name" class="sample-tag" :class="{ active: tag.active }">
-                {{ tag.name }}
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -166,37 +162,49 @@ defineEmits(['select'])
   color: #e8554e;
 }
 
+.sample-region-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 2;
+}
+
+.region-HH {
+  background: rgba(232, 85, 78, 0.9);
+  color: #fff;
+}
+
+.region-HL {
+  background: rgba(232, 140, 100, 0.9);
+  color: #fff;
+}
+
+.region-LH {
+  background: rgba(240, 190, 60, 0.9);
+  color: #fff;
+}
+
+.region-LL {
+  background: rgba(100, 160, 200, 0.9);
+  color: #fff;
+}
+
 .sample-info {
-  padding: 10px;
+  padding: 8px 10px;
   flex-shrink: 0;
 }
 
 .sample-location {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 1px;
-}
-
-.sample-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
-}
-
-.sample-tag {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
-  color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 2px 6px;
-  border-radius: 2px;
-}
-
-.sample-tag.active {
-  color: #e8554e;
-  background: rgba(232, 85, 78, 0.15);
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.5px;
 }
 
 @media (max-width: 1200px) {

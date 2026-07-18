@@ -2,23 +2,23 @@
   <div class="sample-stats" :class="{ 'no-border': !bordered }">
     <div class="section-header" v-if="bordered">
       <div class="section-title-group">
-        <span class="section-tag">STATISTICS</span>
-        <h2 class="section-title">SAMPLE STATISTICS</h2>
+        <span class="section-tag">REGION STATISTICS</span>
+        <h2 class="section-title">QUADRANT ANALYSIS</h2>
       </div>
     </div>
     <div class="stats-body">
       <!-- Radar Chart -->
       <div class="radar-section">
-        <div class="sub-label">OVERALL SCORE DISTRIBUTION</div>
+        <div class="sub-label">EXPLICIT × IMPLICIT MEDIANS</div>
         <div ref="radarChart" class="radar-chart"></div>
       </div>
 
       <!-- Quadrant Stats -->
       <div class="quadrant-stats-section">
-        <div class="sub-label">QUADRANT BREAKDOWN</div>
+        <div class="sub-label">REGION BREAKDOWN</div>
         <div class="quadrant-stats-list">
           <div
-            v-for="item in quadrantStats"
+            v-for="item in regionQuadrantStats"
             :key="item.code"
             class="quadrant-stat-card"
             :class="{ active: activeQuadrant === item.code }"
@@ -27,15 +27,24 @@
             <div class="qs-header">
               <div class="qs-color" :style="{ backgroundColor: item.color }"></div>
               <span class="qs-code">{{ item.code }}</span>
-              <span class="qs-count">{{ item.count }} samples</span>
+              <span class="qs-label">{{ item.label }}</span>
             </div>
-            <div class="qs-scores">
-              <div class="qs-score-item" v-for="dim in scoreDimensions" :key="dim">
-                <span class="qs-score-label">{{ dim.slice(0, 4).toUpperCase() }}</span>
-                <div class="qs-score-bar">
-                  <div class="qs-score-fill" :style="{ width: item.avgScores[dim] + '%', backgroundColor: item.color }"></div>
-                </div>
-                <span class="qs-score-value">{{ item.avgScores[dim] }}</span>
+            <div class="qs-metrics">
+              <div class="qs-metric">
+                <span class="qs-metric-label">GRID COUNT</span>
+                <span class="qs-metric-value">{{ item.gridCount }}</span>
+              </div>
+              <div class="qs-metric">
+                <span class="qs-metric-label">AREA (km²)</span>
+                <span class="qs-metric-value">{{ item.area.toFixed(2) }}</span>
+              </div>
+              <div class="qs-metric">
+                <span class="qs-metric-label">EXPLICIT MEDIAN</span>
+                <span class="qs-metric-value">{{ item.explicitMedian.toFixed(4) }}</span>
+              </div>
+              <div class="qs-metric">
+                <span class="qs-metric-label">IMPLICIT MEDIAN</span>
+                <span class="qs-metric-value">{{ item.implicitMedian.toFixed(4) }}</span>
               </div>
             </div>
           </div>
@@ -60,6 +69,7 @@ import * as echarts from 'echarts'
 
 const props = defineProps({
   samples: { type: Array, default: () => [] },
+  regionData: { type: Object, default: null },
   activeQuadrant: { type: String, default: null },
   bordered: { type: Boolean, default: true }
 })
@@ -91,9 +101,22 @@ const calcAvg = (samples, dim) => {
   return Math.round(sum / samples.length)
 }
 
-const quadrantStats = computed(() => {
+const regionQuadrantStats = computed(() => {
   const codes = ['HH', 'HL', 'LH', 'LL']
+  if (!props.regionData || !props.regionData.features) {
+    return codes.map(code => ({
+      code,
+      label: quadrantLabels[code],
+      color: quadrantColors[code],
+      gridCount: 0,
+      area: 0,
+      explicitMedian: 0,
+      implicitMedian: 0,
+      avgScores: scoreDimensions.reduce((acc, dim) => ({ ...acc, [dim]: 0 }), {})
+    }))
+  }
   return codes.map(code => {
+    const feature = props.regionData.features.find(f => f.properties.quadrant_code === code)
     const qsamples = props.samples.filter(s => s.region === code)
     const avgScores = {}
     scoreDimensions.forEach(dim => {
@@ -103,6 +126,10 @@ const quadrantStats = computed(() => {
       code,
       label: quadrantLabels[code],
       color: quadrantColors[code],
+      gridCount: feature ? feature.properties.grid_count : 0,
+      area: feature ? feature.properties.area_km2 : 0,
+      explicitMedian: feature ? feature.properties.explicit_median : 0,
+      implicitMedian: feature ? feature.properties.implicit_median : 0,
       count: qsamples.length,
       avgScores
     }
@@ -126,8 +153,11 @@ const initRadar = () => {
 const updateRadar = () => {
   if (!chartInstance) return
 
-  const quadrantData = quadrantStats.value.map(q => ({
-    value: scoreDimensions.map(d => q.avgScores[d]),
+  const maxExplicit = Math.max(...regionQuadrantStats.value.map(q => q.explicitMedian), 0.1)
+  const maxImplicit = Math.max(...regionQuadrantStats.value.map(q => q.implicitMedian), 0.1)
+
+  const quadrantData = regionQuadrantStats.value.map(q => ({
+    value: [q.explicitMedian, q.implicitMedian],
     name: q.code,
     lineStyle: { color: q.color, width: 1.5 },
     areaStyle: { color: q.color.replace(/[\d.]+\)$/, '0.15)') },
@@ -141,26 +171,35 @@ const updateRadar = () => {
       backgroundColor: 'rgba(10, 22, 40, 0.95)',
       borderColor: 'rgba(232, 85, 78, 0.3)',
       borderWidth: 1,
-      textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit, sans-serif' }
+      textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit, sans-serif' },
+      formatter: (params) => {
+        const q = regionQuadrantStats.value.find(r => r.code === params.name)
+        if (!q) return ''
+        return `<strong>${q.label}</strong><br/>
+          <span style="opacity:0.7">Grids: ${q.gridCount}</span><br/>
+          <span style="opacity:0.7">Area: ${q.area.toFixed(2)} km²</span><br/>
+          Explicit Median: ${q.explicitMedian.toFixed(4)}<br/>
+          Implicit Median: ${q.implicitMedian.toFixed(4)}`
+      }
     },
     legend: {
       bottom: 0,
       textStyle: { color: 'rgba(255,255,255,0.5)', fontSize: 10, fontFamily: 'JetBrains Mono, monospace' },
       itemWidth: 12,
       itemHeight: 8,
-      data: quadrantStats.value.map(q => q.code)
+      data: regionQuadrantStats.value.map(q => q.code)
     },
     radar: {
-      indicator: scoreDimensions.map(d => ({
-        name: d.slice(0, 4).toUpperCase(),
-        max: 100
-      })),
+      indicator: [
+        { name: 'EXPLICIT', max: maxExplicit * 1.1 },
+        { name: 'IMPLICIT', max: maxImplicit * 1.1 }
+      ],
       shape: 'polygon',
       center: ['50%', '48%'],
       radius: '62%',
       axisName: {
         color: 'rgba(255,255,255,0.5)',
-        fontSize: 9,
+        fontSize: 10,
         fontFamily: 'JetBrains Mono, monospace'
       },
       splitLine: {
@@ -179,7 +218,7 @@ const updateRadar = () => {
       type: 'radar',
       data: quadrantData,
       symbol: 'circle',
-      symbolSize: 4
+      symbolSize: 6
     }]
   }
 
@@ -298,45 +337,37 @@ onUnmounted(() => {
   letter-spacing: 1px;
 }
 
-.qs-count {
-  font-family: 'JetBrains Mono', monospace;
+.qs-label {
+  font-family: 'Outfit', sans-serif;
   font-size: 9px;
   color: rgba(255, 255, 255, 0.4);
   margin-left: auto;
 }
 
-.qs-scores {
+.qs-metrics {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
-.qs-score-item {
+.qs-metric {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 6px;
 }
 
-.qs-score-label {
+.qs-metric-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 8px;
   color: rgba(255, 255, 255, 0.4);
-  width: 32px;
-  flex-shrink: 0;
+  letter-spacing: 0.5px;
 }
 
-.qs-score-bar {
-  flex: 1;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.qs-score-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.3s;
+.qs-metric-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: #ffffff;
 }
 
 .qs-score-value {

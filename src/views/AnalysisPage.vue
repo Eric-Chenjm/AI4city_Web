@@ -69,6 +69,11 @@
       />
     </section>
 
+    <!-- Part 2.6: Technical Pipeline -->
+    <section class="pipeline-section">
+      <PipelineFlow />
+    </section>
+
     <!-- Part 3: Region + Samples (Integrated Layout) -->
     <section class="region-samples-section">
       <div class="region-samples-card">
@@ -96,12 +101,13 @@
           <div class="divider"></div>
           <div class="samples-col">
             <div class="col-header">
-              <span class="col-label">{{ activeQuadrant ? 'TRAINING DATA SAMPLES' : 'SAMPLE STATISTICS' }}</span>
+              <span class="col-label">{{ activeQuadrant ? 'TRAINING DATA SAMPLES' : 'REGION STATISTICS' }}</span>
               <span class="col-count">{{ filteredSamples.length }} {{ activeQuadrant ? 'SAMPLES' : 'TOTAL' }}</span>
             </div>
             <SampleStats
               v-if="!activeQuadrant"
               :samples="allSamples"
+              :regionData="regionData"
               :activeQuadrant="activeQuadrant"
               :bordered="false"
               @quadrant-click="handleQuadrantClick"
@@ -136,6 +142,7 @@ import SampleGrid from '../components/SampleGrid.vue'
 import SampleModal from '../components/SampleModal.vue'
 import SampleStats from '../components/SampleStats.vue'
 import RegionMap from '../components/RegionMap.vue'
+import PipelineFlow from '../components/PipelineFlow.vue'
 import { transformGeoJson } from '../utils/coordTransform'
 
 // --- Time ---
@@ -355,35 +362,36 @@ const handleQuadrantClick = (quadrantCode) => {
 }
 
 // --- Samples ---
-const tagNames = ['Creativity', 'Interaction', 'Integration', 'Ecology', 'Culture', 'Future']
-const locations = ['Lujiazui', 'Xintiandi', 'North Bund', 'West Bund', 'M50 District', 'Zhangjiang', 'Hongqiao', 'Jingan', 'Xuhui', 'Yangpu', 'Pudong', 'Putuo']
-const quadrantCodes = ['HH', 'HL', 'LH', 'LL']
-const stylePrompts = [
-  'urban%20street%20with%20modern%20buildings', 'old%20industrial%20area%20with%20brick%20walls', 'riverside%20promenade%20with%20trees',
-  'tech%20park%20with%20glass%20facades', 'cultural%20district%20with%20art%20galleries', 'residential%20street%20with%20shops',
-  'creative%20hub%20with%20colorful%20murals', 'waterfront%20with%20modern%20architecture'
-]
+const allSamples = ref([])
 
-const allSamples = ref(Array.from({ length: 8 }, (_, i) => {
-  const tagCount = 2 + Math.floor(Math.random() * 3)
-  const shuffled = [...tagNames].sort(() => Math.random() - 0.5)
-  const quadrant = quadrantCodes[i % 4]
-  return {
-    id: i + 1,
-    location: locations[i % locations.length],
-    region: quadrant,
-    image: `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${stylePrompts[i % stylePrompts.length]}&image_size=square`,
-    tags: tagNames.map(name => ({ name: name.toUpperCase().slice(0, 4), active: shuffled.includes(name) })).slice(0, tagCount + 1),
-    scores: {
-      Creativity: 40 + Math.floor(Math.random() * 55),
-      Interaction: 35 + Math.floor(Math.random() * 55),
-      Integration: 45 + Math.floor(Math.random() * 50),
-      Ecology: 30 + Math.floor(Math.random() * 60),
-      Culture: 25 + Math.floor(Math.random() * 65),
-      Future: 38 + Math.floor(Math.random() * 55)
-    }
+const loadSampleData = async () => {
+  try {
+    const res = await fetch('/pictures/sampled.geojson')
+    const geojson = await res.json()
+    allSamples.value = geojson.features.map((f, i) => {
+      const props = f.properties
+      return {
+        id: i,
+        image_id: props.image_id,
+        image: `/pictures/sampled_images/${props.image_id}`,
+        location: `${props.x}, ${props.y}`,
+        x: parseFloat(props.x),
+        y: parseFloat(props.y),
+        region: props.quadrant_code,
+        scores: {
+          'Identity': Math.round(props['Identity'] * 100),
+          'Innovation Atmosphere': Math.round(props['Innovation Atmosphere'] * 100),
+          'Spatial Image': Math.round(props['Spatial Image'] * 100),
+          'Tech Influence': Math.round(props['Tech Influence'] * 100),
+          'Workplace Efficiency': Math.round(props['Workplace Efficiency'] * 100),
+          'Workplace Wellbeing': Math.round(props['Workplace Wellbeing'] * 100)
+        }
+      }
+    })
+  } catch (err) {
+    console.warn('Failed to load sample data:', err)
   }
-}))
+}
 
 const filteredSamples = computed(() => {
   if (!activeQuadrant.value) return allSamples.value
@@ -419,6 +427,7 @@ onMounted(() => {
     })
 
   loadRegionData()
+  loadSampleData()
 })
 
 onUnmounted(() => {
@@ -597,6 +606,12 @@ onUnmounted(() => {
 }
 
 .chart-section {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 32px;
+}
+
+.pipeline-section {
   position: relative;
   z-index: 1;
   margin-bottom: 32px;

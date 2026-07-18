@@ -14,7 +14,7 @@ import NavBar from './components/NavBar.vue'
 <style scoped>
 .app-container {
   min-height: 100vh;
-  background: #0a1628;
+  background: #0b1320;
 }
 
 .main-content {

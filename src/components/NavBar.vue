@@ -2,7 +2,7 @@
   <nav class="navbar">
     <div class="navbar-container">
       <div class="navbar-logo">
-        <span class="logo-icon">⚡</span>
+        <img class="logo-icon" src="../assets/dcd19cd3718b.png" alt="Logo" />
         <span class="logo-text">FUXING ISLAND</span>
       </div>
       <div class="navbar-links">
@@ -58,9 +58,9 @@ const toggleMobileMenu = () => {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(10, 22, 40, 0.95);
+  background: rgba(11, 19, 32, 0.95);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(232, 85, 78, 0.2);
+  border-bottom: 1px solid rgba(212, 148, 80, 0.2);
 }
 
 .navbar-container {
@@ -76,18 +76,22 @@ const toggleMobileMenu = () => {
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
 }
 
 .logo-icon {
-  font-size: 28px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: invert(1);
+  mix-blend-mode: screen;
 }
 
 .logo-text {
   font-family: 'Syncopate', sans-serif;
   font-size: 18px;
   font-weight: 700;
-  color: #e8554e;
+  color: #d49450;
   letter-spacing: 3px;
 }
 
@@ -108,11 +112,11 @@ const toggleMobileMenu = () => {
 }
 
 .nav-link:hover {
-  color: #e8554e;
+  color: #d49450;
 }
 
 .nav-link.active {
-  color: #e8554e;
+  color: #d49450;
 }
 
 .nav-link.active::after {
@@ -122,7 +126,7 @@ const toggleMobileMenu = () => {
   left: 0;
   right: 0;
   height: 2px;
-  background: #e8554e;
+  background: #d49450;
   border-radius: 1px;
 }
 
@@ -137,8 +141,8 @@ const toggleMobileMenu = () => {
 
 .mobile-menu {
   display: none;
-  background: rgba(10, 22, 40, 0.98);
-  border-top: 1px solid rgba(232, 85, 78, 0.2);
+  background: rgba(11, 19, 32, 0.98);
+  border-top: 1px solid rgba(212, 148, 80, 0.2);
 }
 
 .mobile-link {
@@ -153,8 +157,8 @@ const toggleMobileMenu = () => {
 }
 
 .mobile-link:hover {
-  background: rgba(232, 85, 78, 0.1);
-  color: #e8554e;
+  background: rgba(212, 148, 80, 0.1);
+  color: #d49450;
 }
 
 @media (max-width: 768px) {

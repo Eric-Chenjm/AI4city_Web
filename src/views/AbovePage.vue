@@ -36,13 +36,13 @@
             <div class="comparison-slider" ref="sliderRefs">
               <div class="slider-container">
                 <div class="before-image">
-                  <div class="placeholder-bg before-bg"></div>
+                  <img :src="item.primary" alt="Before" draggable="false" />
                 </div>
                 <div 
                   class="after-image"
                   :style="{ clipPath: `inset(0 0 0 ${sliderPositions[index]}%)` }"
                 >
-                  <div class="placeholder-bg after-bg"></div>
+                  <img :src="item.optimized" alt="After" draggable="false" />
                 </div>
                 <div 
                   class="slider-bar"
@@ -104,7 +104,7 @@
       </div>
     </section>
 
-    <section class="screen screen-4">
+    <!-- <section class="screen screen-4">
       <div class="dashboard-container">
         <div class="score-section">
           <div class="score-label">INNOVATION VITALITY INDEX</div>
@@ -127,7 +127,7 @@
           <span class="arrow">→</span>
         </router-link>
       </div>
-    </section>
+    </section> -->
   </div>
 </template>
 
@@ -141,7 +141,7 @@ const radarCanvas = ref(null)
 const galleryScroll = ref(null)
 const sliderRefs = ref([])
 const currentIndex = ref(0)
-const sliderPositions = ref([50, 50, 50])
+const sliderPositions = ref([50, 50, 50, 50, 50, 50])
 const isDragging = ref(false)
 const dragIndex = ref(0)
 
@@ -151,18 +151,45 @@ let animationId
 const comparisonData = ref([
   {
     id: 1,
-    title: 'RIVERSIDE TRAIL',
-    description: 'Industrial waterfront transformed into ecological greenway, creating pleasant public space'
+    primary: '/gallery/primary/picture_2026_07_17_17_46_53_937.jpg',
+    optimized: '/gallery/optimized/picture_2026_07_17_17_46_53_937_street_lock_v2_optimized.png',
+    title: 'STREET SCENE 01',
+    description: 'Before vs AIGC Restoration'
   },
   {
     id: 2,
-    title: 'INNOVATION HUB',
-    description: 'Old factory buildings repurposed into modern entrepreneurship and innovation spaces'
+    primary: '/gallery/primary/picture_2026_07_17_17_51_25_295.jpg',
+    optimized: '/gallery/optimized/picture_2026_07_17_17_51_25_295_street_lock_v2_optimized.png',
+    title: 'STREET SCENE 02',
+    description: 'Before vs AIGC Restoration'
   },
   {
     id: 3,
-    title: 'COMMUNITY CENTER',
-    description: 'Integrated public resources to create diverse community service facilities'
+    primary: '/gallery/primary/picture_2026_07_17_17_52_11_783.jpg',
+    optimized: '/gallery/optimized/picture_2026_07_17_17_52_11_783_street_lock_v2_optimized.png',
+    title: 'STREET SCENE 03',
+    description: 'Before vs AIGC Restoration'
+  },
+  {
+    id: 4,
+    primary: '/gallery/primary/picture_2026_07_17_17_53_34_537.jpg',
+    optimized: '/gallery/optimized/picture_2026_07_17_17_53_34_537_street_lock_v2_optimized.png',
+    title: 'STREET SCENE 04',
+    description: 'Before vs AIGC Restoration'
+  },
+  {
+    id: 5,
+    primary: '/gallery/primary/picture_2026_07_17_17_54_50_704.jpg',
+    optimized: '/gallery/optimized/picture_2026_07_17_17_54_50_704_street_lock_v2_optimized.png',
+    title: 'STREET SCENE 05',
+    description: 'Before vs AIGC Restoration'
+  },
+  {
+    id: 6,
+    primary: '/gallery/primary/picture_2026_07_17_18_07_26_046.jpg',
+    optimized: '/gallery/optimized/picture_2026_07_17_18_07_26_046_street_lock_v2_optimized.png',
+    title: 'STREET SCENE 06',
+    description: 'Before vs AIGC Restoration'
   }
 ])
 
@@ -188,20 +215,46 @@ const scrollToScreen = (index) => {
 }
 
 const startDrag = (event, index) => {
+  event.preventDefault()
   isDragging.value = true
   dragIndex.value = index
-  
+  const container = event.currentTarget.closest('.comparison-slider')
+  const afterImage = container.querySelector('.after-image')
+  const sliderBar = container.querySelector('.slider-bar')
+  let rafId = null
+  let pendingPercent = sliderPositions.value[index]
+
+  const applyPosition = (percent) => {
+    afterImage.style.clipPath = `inset(0 0 0 ${percent}%)`
+    sliderBar.style.left = `${percent}%`
+  }
+
   const handleMove = (e) => {
+    e.preventDefault()
     if (!isDragging.value) return
-    const container = e.currentTarget.parentElement
     const rect = container.getBoundingClientRect()
     const clientX = e.clientX || e.touches?.[0]?.clientX
-    const percent = ((clientX - rect.left) / rect.width) * 100
-    sliderPositions.value[index] = Math.max(0, Math.min(100, percent))
+    pendingPercent = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100))
+
+    if (!rafId) {
+      rafId = requestAnimationFrame(() => {
+        rafId = null
+        applyPosition(pendingPercent)
+      })
+    }
   }
   
   const handleEnd = () => {
     isDragging.value = false
+    if (rafId) {
+      cancelAnimationFrame(rafId)
+      rafId = null
+    }
+    sliderPositions.value[index] = pendingPercent
+    document.removeEventListener('mousemove', handleMove)
+    document.removeEventListener('mouseup', handleEnd)
+    document.removeEventListener('touchmove', handleMove)
+    document.removeEventListener('touchend', handleEnd)
   }
   
   document.addEventListener('mousemove', handleMove)
@@ -226,7 +279,7 @@ const initThreeScene = async () => {
   const height = canvasRef.value.offsetHeight || canvasRef.value.clientHeight || window.innerHeight
   
   scene = new THREE.Scene()
-  scene.background = new THREE.Color(0x050a14)
+  scene.background = new THREE.Color(0x060d18)
   
   camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
   camera.position.set(0, 10, 14)
@@ -307,7 +360,7 @@ const initThreeScene = async () => {
       })
       const islandGeometry = new THREE.ExtrudeGeometry(shape, { depth: 0.15, bevelEnabled: false })
       const islandMaterial = new THREE.MeshStandardMaterial({
-        color: 0x14223b, // 暗沉亮黑色
+        color: 0x152035, // 暗沉深蓝
         roughness: 0.9,
         metalness: 0.1,
         transparent: true,
@@ -376,7 +429,7 @@ const initThreeScene = async () => {
         })
         const parkGeometry = new THREE.ExtrudeGeometry(shape, { depth: 0.02, bevelEnabled: false })
         const parkMaterial = new THREE.MeshStandardMaterial({
-          color: 0x1b4332,
+          color: 0x1d3d2e,
           roughness: 0.9,
           transparent: true,
           opacity: 0.8
@@ -395,7 +448,7 @@ const initThreeScene = async () => {
       const roadRes = await fetch('/data/road_FeaturesToJSON.geojson')
       const roadGeo = await roadRes.json()
       const roadMaterial = new THREE.LineBasicMaterial({
-        color: 0x4a7ab0,
+        color: 0x5a8a6a,
         transparent: true,
         opacity: 0.4
       })
@@ -425,14 +478,13 @@ const initThreeScene = async () => {
       const props = feat.properties
       const height = props.height || 6
       
-      // 决定建筑颜色（红：核心创新区，紫：潜在触发区，蓝：待活化区，灰：开发中）
-      let color = 0x4a4a5a
+      let color = 0x4a5560
       if (height >= 12) {
-        color = 0xe8554e
+        color = 0xd49450
       } else if (height >= 8 && height < 12) {
-        color = 0x8a5a9a
+        color = 0x9a7ab0
       } else if (height >= 5 && height < 8) {
-        color = 0x4a7ab0
+        color = 0x7a9a6a
       }
       
       const coords = geom.type === 'Polygon' ? geom.coordinates[0] : geom.coordinates[0][0]
@@ -471,7 +523,7 @@ const initThreeScene = async () => {
     
     const islandGeometry = new THREE.PlaneGeometry(8, 4)
     const islandMaterial = new THREE.MeshStandardMaterial({
-      color: 0x1a2a4a,
+      color: 0x182535,
       roughness: 0.8,
       metalness: 0.2,
       transparent: true,
@@ -482,17 +534,17 @@ const initThreeScene = async () => {
     scene.add(island)
 
     const zoneData = [
-      { type: 'core', position: [0, 1.5, 0], size: [1.2, 3, 1.2], color: 0xe8554e },
-      { type: 'core', position: [1.5, 1, 0.5], size: [0.8, 2, 0.8], color: 0xe8554e },
-      { type: 'core', position: [-1.5, 1.2, -0.5], size: [1, 2.4, 1], color: 0xe8554e },
-      { type: 'blue', position: [3, 0.8, -1], size: [0.6, 1.6, 0.6], color: 0x4a7ab0 },
-      { type: 'blue', position: [-2.5, 0.6, 1], size: [0.5, 1.2, 0.5], color: 0x4a7ab0 },
-      { type: 'purple', position: [2, 0.7, 1.5], size: [0.5, 1.4, 0.5], color: 0x8a5a9a },
-      { type: 'purple', position: [-3, 0.9, -0.8], size: [0.6, 1.8, 0.6], color: 0x8a5a9a },
-      { type: 'gray', position: [3.5, 0.4, 0], size: [0.4, 0.8, 0.4], color: 0x4a4a5a },
-      { type: 'gray', position: [-2, 0.5, -1.5], size: [0.4, 1, 0.4], color: 0x4a4a5a },
-      { type: 'gray', position: [1, 0.3, -2], size: [0.3, 0.6, 0.3], color: 0x4a4a5a },
-      { type: 'gray', position: [-3.5, 0.4, 1.5], size: [0.4, 0.8, 0.4], color: 0x4a4a5a }
+      { type: 'core', position: [0, 1.5, 0], size: [1.2, 3, 1.2], color: 0xd49450 },
+      { type: 'core', position: [1.5, 1, 0.5], size: [0.8, 2, 0.8], color: 0xd49450 },
+      { type: 'core', position: [-1.5, 1.2, -0.5], size: [1, 2.4, 1], color: 0xd49450 },
+      { type: 'blue', position: [3, 0.8, -1], size: [0.6, 1.6, 0.6], color: 0x7a9a6a },
+      { type: 'blue', position: [-2.5, 0.6, 1], size: [0.5, 1.2, 0.5], color: 0x7a9a6a },
+      { type: 'purple', position: [2, 0.7, 1.5], size: [0.5, 1.4, 0.5], color: 0x9a7ab0 },
+      { type: 'purple', position: [-3, 0.9, -0.8], size: [0.6, 1.8, 0.6], color: 0x9a7ab0 },
+      { type: 'gray', position: [3.5, 0.4, 0], size: [0.4, 0.8, 0.4], color: 0x4a5560 },
+      { type: 'gray', position: [-2, 0.5, -1.5], size: [0.4, 1, 0.4], color: 0x4a5560 },
+      { type: 'gray', position: [1, 0.3, -2], size: [0.3, 0.6, 0.3], color: 0x4a5560 },
+      { type: 'gray', position: [-3.5, 0.4, 1.5], size: [0.4, 0.8, 0.4], color: 0x4a5560 }
     ]
     
     zoneData.forEach(data => {
@@ -550,7 +602,7 @@ const initRadarChart = () => {
       else ctx.lineTo(x, y)
     }
     ctx.closePath()
-    ctx.strokeStyle = level === 5 ? 'rgba(232, 85, 78, 0.3)' : 'rgba(255, 255, 255, 0.1)'
+    ctx.strokeStyle = level === 5 ? 'rgba(212, 148, 80, 0.3)' : 'rgba(255, 255, 255, 0.1)'
     ctx.lineWidth = 1
     ctx.stroke()
   }
@@ -581,13 +633,13 @@ const initRadarChart = () => {
   ctx.closePath()
   
   const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius)
-  gradient.addColorStop(0, 'rgba(232, 85, 78, 0.6)')
-  gradient.addColorStop(0.5, 'rgba(166, 58, 53, 0.4)')
-  gradient.addColorStop(1, 'rgba(166, 58, 53, 0.1)')
+  gradient.addColorStop(0, 'rgba(212, 148, 80, 0.6)')
+  gradient.addColorStop(0.5, 'rgba(184, 125, 62, 0.4)')
+  gradient.addColorStop(1, 'rgba(154, 104, 48, 0.1)')
   ctx.fillStyle = gradient
   ctx.fill()
   
-  ctx.strokeStyle = '#e8554e'
+  ctx.strokeStyle = '#d49450'
   ctx.lineWidth = 2
   ctx.stroke()
   
@@ -599,12 +651,12 @@ const initRadarChart = () => {
     
     ctx.beginPath()
     ctx.arc(x, y, 5, 0, Math.PI * 2)
-    ctx.fillStyle = '#e8554e'
+    ctx.fillStyle = '#d49450'
     ctx.fill()
     
     ctx.beginPath()
     ctx.arc(x, y, 8, 0, Math.PI * 2)
-    ctx.strokeStyle = '#e8554e'
+    ctx.strokeStyle = '#d49450'
     ctx.lineWidth = 2
     ctx.stroke()
   })
@@ -677,7 +729,7 @@ onUnmounted(() => {
   scroll-snap-stop: always;
   position: relative;
   overflow: hidden;
-  background: #050a14;
+  background: #060d18;
 }
 
 .screen-1 {
@@ -701,8 +753,8 @@ onUnmounted(() => {
   width: 200%;
   height: 200%;
   background-image: 
-    linear-gradient(rgba(232, 85, 78, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(232, 85, 78, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(212, 148, 80, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 148, 80, 0.05) 1px, transparent 1px);
   background-size: 50px 50px;
   transform: rotate(-5deg);
   animation: gridMove 60s linear infinite;
@@ -722,7 +774,7 @@ onUnmounted(() => {
 .particle {
   position: absolute;
   top: -20px;
-  background: radial-gradient(circle, #e8554e, transparent);
+  background: radial-gradient(circle, #d49450, transparent);
   border-radius: 50%;
   opacity: 0.6;
   animation: particleFall linear infinite;
@@ -764,14 +816,14 @@ onUnmounted(() => {
   color: #ffffff;
   text-transform: uppercase;
   margin-bottom: 8px;
-  text-shadow: 0 0 40px rgba(232, 85, 78, 0.3);
+  text-shadow: 0 0 40px rgba(212, 148, 80, 0.3);
 }
 
 .hero-subtitle {
   font-family: 'Syncopate', sans-serif;
   font-size: 28px;
   font-weight: 300;
-  color: #e8554e;
+  color: #d49450;
   letter-spacing: 8px;
 }
 
@@ -791,10 +843,10 @@ onUnmounted(() => {
   left: 50%;
   transform: translateX(-50%);
   padding: 16px 32px;
-  background: linear-gradient(135deg, #e8554e, #c7453f);
+  background: linear-gradient(135deg, #d49450, #b87d3e);
   border: none;
   border-radius: 40px;
-  color: #0a1628;
+  color: #0b1320;
   font-family: 'Syncopate', sans-serif;
   font-size: 14px;
   font-weight: 700;
@@ -804,12 +856,12 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(232, 85, 78, 0.3);
+  box-shadow: 0 10px 30px rgba(212, 148, 80, 0.3);
 }
 
 .explore-btn:hover {
   transform: translateX(-50%) translateY(-3px);
-  box-shadow: 0 15px 40px rgba(232, 85, 78, 0.4);
+  box-shadow: 0 15px 40px rgba(212, 148, 80, 0.4);
 }
 
 .explore-btn .arrow {
@@ -847,7 +899,7 @@ onUnmounted(() => {
 .section-desc {
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
-  color: #e8554e;
+  color: #d49450;
   letter-spacing: 2px;
 }
 
@@ -871,7 +923,7 @@ onUnmounted(() => {
 }
 
 .gallery-scroll::-webkit-scrollbar-thumb {
-  background: #e8554e;
+  background: #d49450;
   border-radius: 3px;
 }
 
@@ -895,12 +947,16 @@ onUnmounted(() => {
   overflow: hidden;
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .slider-container {
   position: relative;
   width: 100%;
   height: 100%;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .before-image,
@@ -912,17 +968,16 @@ onUnmounted(() => {
   height: 100%;
 }
 
-.placeholder-bg {
+.before-image img,
+.after-image img {
   width: 100%;
   height: 100%;
-}
-
-.before-bg {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
-}
-
-.after-bg {
-  background: linear-gradient(135deg, #4a0e0e 0%, #8b0000 50%, #650000 100%);
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .slider-bar {
@@ -930,28 +985,33 @@ onUnmounted(() => {
   top: 0;
   bottom: 0;
   width: 4px;
-  background: #e8554e;
+  background: #d49450;
   cursor: ew-resize;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .slider-handle {
   width: 40px;
   height: 40px;
-  background: rgba(232, 85, 78, 0.9);
+  background: rgba(212, 148, 80, 0.9);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(232, 85, 78, 0.5);
+  box-shadow: 0 0 20px rgba(212, 148, 80, 0.5);
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .handle-icon {
   font-size: 14px;
-  color: #0a1628;
+  color: #0b1320;
 }
 
 .comparison-info {
@@ -992,7 +1052,7 @@ onUnmounted(() => {
 }
 
 .indicator.active {
-  background: #e8554e;
+  background: #d49450;
   transform: scale(1.2);
 }
 
@@ -1017,8 +1077,8 @@ onUnmounted(() => {
   position: absolute;
   bottom: 80px;
   right: 80px;
-  background: rgba(10, 22, 40, 0.85);
-  border: 1px solid rgba(232, 85, 78, 0.4);
+  background: rgba(11, 19, 32, 0.85);
+  border: 1px solid rgba(212, 148, 80, 0.4);
   border-radius: 8px;
   padding: 16px;
   backdrop-filter: blur(12px);
@@ -1030,7 +1090,7 @@ onUnmounted(() => {
   font-family: 'Syncopate', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #e8554e;
+  color: #d49450;
   margin-bottom: 12px;
   letter-spacing: 1px;
 }
@@ -1056,10 +1116,10 @@ onUnmounted(() => {
   border-radius: 2px;
 }
 
-.legend-color.crimson { background: #e8554e; box-shadow: 0 0 10px rgba(232, 85, 78, 0.5); }
-.legend-color.blue { background: #4a7ab0; box-shadow: 0 0 10px rgba(74, 122, 176, 0.5); }
-.legend-color.purple { background: #8a5a9a; box-shadow: 0 0 10px rgba(138, 90, 154, 0.5); }
-.legend-color.gray { background: #4a4a5a; }
+.legend-color.crimson { background: #d49450; box-shadow: 0 0 10px rgba(212, 148, 80, 0.5); }
+.legend-color.blue { background: #7a9a6a; box-shadow: 0 0 10px rgba(122, 154, 106, 0.5); }
+.legend-color.purple { background: #9a7ab0; box-shadow: 0 0 10px rgba(154, 122, 176, 0.5); }
+.legend-color.gray { background: #4a5560; }
 
 .scene-hint {
   position: absolute;
@@ -1102,8 +1162,8 @@ onUnmounted(() => {
   font-family: 'Syncopate', sans-serif;
   font-size: 96px;
   font-weight: 900;
-  color: #e8554e;
-  text-shadow: 0 0 60px rgba(232, 85, 78, 0.4);
+  color: #d49450;
+  text-shadow: 0 0 60px rgba(212, 148, 80, 0.4);
   line-height: 1;
 }
 
@@ -1140,10 +1200,10 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   padding: 20px 48px;
-  background: linear-gradient(135deg, #e8554e, #c7453f);
+  background: linear-gradient(135deg, #d49450, #b87d3e);
   border: none;
   border-radius: 40px;
-  color: #0a1628;
+  color: #0b1320;
   font-family: 'Syncopate', sans-serif;
   font-size: 16px;
   font-weight: 700;
@@ -1151,12 +1211,12 @@ onUnmounted(() => {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(232, 85, 78, 0.3);
+  box-shadow: 0 10px 30px rgba(212, 148, 80, 0.3);
 }
 
 .enter-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(232, 85, 78, 0.4);
+  box-shadow: 0 15px 40px rgba(212, 148, 80, 0.4);
 }
 
 .enter-btn .arrow {
