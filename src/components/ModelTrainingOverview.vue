@@ -88,17 +88,24 @@
               :class="{ active: activePattern === pat.feature_name }"
               @click="togglePattern(pat.feature_name)"
             >
-              <div class="pattern-card-meta">
-                <span class="pattern-code">{{ pat.feature_name }}</span>
-                <span class="pattern-impact green">SHAP: +{{ formatNum(pat.mean_shap, 4) }}</span>
-              </div>
-              <div class="pattern-visual">
-                <!-- 渲染预先生成的高保真矢量图 -->
+              <div class="pattern-visual-left">
                 <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
               </div>
-              <div class="pattern-stats-row">
-                <span>支持度: <span class="monospace">{{ pat.support }}</span></span>
-                <span>频数: <span class="monospace">{{ pat.total_pattern_count }}</span></span>
+              <div class="pattern-info-right">
+                <div class="pattern-card-meta">
+                  <span class="pattern-code">{{ pat.feature_name }}</span>
+                  <span class="pattern-impact green">SHAP: +{{ formatNum(pat.mean_shap, 4) }}</span>
+                </div>
+                <div class="pattern-stats-grid">
+                  <div class="stats-item">
+                    <span class="stats-lbl">支持度 (Support)</span>
+                    <span class="stats-val monospace">{{ pat.support }}</span>
+                  </div>
+                  <div class="stats-item">
+                    <span class="stats-lbl">子图频数 (Freq)</span>
+                    <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -118,17 +125,24 @@
               :class="{ active: activePattern === pat.feature_name }"
               @click="togglePattern(pat.feature_name)"
             >
-              <div class="pattern-card-meta">
-                <span class="pattern-code">{{ pat.feature_name }}</span>
-                <span class="pattern-impact red">SHAP: {{ formatNum(pat.mean_shap, 4) }}</span>
-              </div>
-              <div class="pattern-visual">
-                <!-- 渲染预先生成的高保真矢量图 -->
+              <div class="pattern-visual-left">
                 <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
               </div>
-              <div class="pattern-stats-row">
-                <span>支持度: <span class="monospace">{{ pat.support }}</span></span>
-                <span>频数: <span class="monospace">{{ pat.total_pattern_count }}</span></span>
+              <div class="pattern-info-right">
+                <div class="pattern-card-meta">
+                  <span class="pattern-code">{{ pat.feature_name }}</span>
+                  <span class="pattern-impact red">SHAP: {{ formatNum(pat.mean_shap, 4) }}</span>
+                </div>
+                <div class="pattern-stats-grid">
+                  <div class="stats-item">
+                    <span class="stats-lbl">支持度 (Support)</span>
+                    <span class="stats-val monospace">{{ pat.support }}</span>
+                  </div>
+                  <div class="stats-item">
+                    <span class="stats-lbl">子图频数 (Freq)</span>
+                    <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -264,11 +278,11 @@ onMounted(async () => {
       const option = {
         backgroundColor: 'transparent',
         grid: {
-          top: 30,
-          right: 30,
-          bottom: 45,
-          left: 45,
-          containLabel: false
+          top: 25,
+          right: 20,
+          bottom: 40,
+          left: 40,
+          containLabel: true
         },
         tooltip: {
           trigger: 'item',
@@ -358,10 +372,10 @@ onMounted(async () => {
         backgroundColor: 'transparent',
         grid: {
           top: 15,
-          right: 35,
+          right: 25,
           bottom: 35,
-          left: 200,
-          containLabel: false
+          left: 10,
+          containLabel: true
         },
         tooltip: {
           trigger: 'axis',
@@ -556,7 +570,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
   gap: 32px;
 }
@@ -576,6 +590,7 @@ onBeforeUnmount(() => {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  flex: 0 0 45%;
 }
 
 .card-header-tag {
@@ -760,9 +775,12 @@ onBeforeUnmount(() => {
   background: rgba(0, 0, 0, 0.22);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
-  padding: 14px;
+  padding: 10px 14px;
   cursor: pointer;
-  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
   transition: all 0.25s ease;
 }
 
@@ -792,48 +810,79 @@ onBeforeUnmount(() => {
   box-shadow: 0 0 12px rgba(232, 85, 78, 0.15);
 }
 
+.pattern-visual-left {
+  flex: 0 0 160px;
+  background: #050811;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+}
+
+.pattern-svg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+
+.pattern-info-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
 .pattern-card-meta {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding-bottom: 4px;
 }
 
 .pattern-code {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   color: #fff;
 }
 
 .pattern-impact {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: bold;
 }
 
 .pattern-impact.green { color: #4ade80; }
 .pattern-impact.red { color: #e8554e; }
 
-.pattern-visual {
-  background: #050811;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  margin-bottom: 10px;
-  padding: 6px;
+.pattern-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
-.pattern-svg-img {
-  width: 100%;
-  height: 90px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
-}
-
-.pattern-stats-row {
+.stats-item {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stats-lbl {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.35);
+  white-space: nowrap;
+}
+
+.stats-val {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
 }
 
 /* 放大看图遮罩 */
