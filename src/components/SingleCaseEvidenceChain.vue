@@ -63,7 +63,7 @@
                   :class="{ highlighted: isBboxHighlighted(node) }"
                 />
               </svg>
-              <div class="viewport-tag left">BEFORE</div>
+              <div class="viewport-tag left">{{ t('BEFORE') }}</div>
             </div>
             
             <!-- 顶层: 优化后图 -->
@@ -82,7 +82,7 @@
                   :class="{ highlighted: isBboxHighlighted(node) }"
                 />
               </svg>
-              <div class="viewport-tag right">OBSERVED</div>
+              <div class="viewport-tag right">{{ t('stageObserved') }}</div>
             </div>
 
             <!-- 滑块拉杆 -->
@@ -394,12 +394,13 @@ const renderCytoscape = () => {
     elements.push({
       data: {
         id: node.node_id,
-        label: node.label
+        label: t(node.label),
+        rawLabel: node.label
       }
     })
   })
   
-  // 查找关系边。部分 JSON 内的 edges 如果是空的，我们根据关系词进行连接，
+  // 查找关系边。部分 JSON 内 Jun edges 如果是空的，我们根据关系词进行连接，
   // 或者直接提取 graph_ui 中的 edges。
   // 在 graph_ui.json 中，有些版本的边在 graph 对象的 relations 里面。
   // 我们来检查 graph 对象的结构：
@@ -415,7 +416,7 @@ const renderCytoscape = () => {
           id: `edge-${s}-${t}`,
           source: s,
           target: t,
-          label: rel
+          label: t(rel)
         }
       })
     }
@@ -429,7 +430,7 @@ const renderCytoscape = () => {
           id: `sim-edge-${i}`,
           source: slicedNodes[i].node_id,
           target: slicedNodes[i+1].node_id,
-          label: 'near'
+          label: t('near')
         }
       })
     }
@@ -519,7 +520,7 @@ const renderCytoscape = () => {
   // 监听点击节点
   cy.on('tap', 'node', (evt) => {
     const node = evt.target
-    emit('select-node', node.data('label'))
+    emit('select-node', node.data('rawLabel'))
   })
 }
 

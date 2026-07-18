@@ -8,7 +8,7 @@
     <div class="case-grid">
       <!-- 1. MapLibre 空白深色点位可视化 -->
       <div class="map-wrapper-box">
-        <h4 class="card-header-tag">SPATIAL GPS SITES</h4>
+        <h4 class="card-header-tag">{{ t('spatialGpsSites') }}</h4>
         <div id="gps-map-container" class="map-container"></div>
         <div class="map-legend">
           <span class="map-dot"></span>
@@ -18,7 +18,7 @@
 
       <!-- 2. 四大空间类型案例列表 -->
       <div class="case-list-box">
-        <h4 class="card-header-tag">SPACE TYPE CATEGORIES</h4>
+        <h4 class="card-header-tag">{{ t('spaceTypeCategories') }}</h4>
         
         <div class="space-categories">
           <!-- 滨水空间 -->

@@ -227,6 +227,41 @@ const getNodeY = (nodeId, nodes, layoutType) => {
   return [40, 45, 50][index] || 45
 }
 
+const translateFeatureDisplayName = (name) => {
+  if (!name) return ''
+  if (currentLang.value === 'en') return name
+  const dict = {
+    'car': '车辆',
+    'plant': '植物',
+    'street': '街道',
+    'vehicle': '交通工具',
+    'bench': '座椅',
+    'sidewalk': '人行道',
+    'tree': '树木',
+    'building': '建筑',
+    'road': '道路',
+    'fence': '围栏',
+    'grass': '草皮',
+    'wall': '墙体',
+    'sky': '天空',
+    'person': '行人',
+    'motorbike': '摩托车',
+    'bicycle': '自行车',
+    'lamp': '路灯',
+    'sign': '标识牌',
+    'window': '窗户',
+    'door': '门',
+    'vegetation': '植被',
+    'pole': '电线杆'
+  }
+  let translated = name
+  Object.keys(dict).forEach(key => {
+    const regex = new RegExp(`\\b${key}\\b`, 'gi')
+    translated = translated.replace(regex, dict[key])
+  })
+  return translated
+}
+
 const renderCharts = async () => {
   // 3. 动态绘制预测拟合散点图 (ECharts Scatter)
   try {
@@ -330,7 +365,7 @@ const renderCharts = async () => {
     
     // 取前 20，并倒序让最大的显示在最上方
     const top20 = shapData.slice(0, 20).reverse()
-    const yData = top20.map(d => `${d.feature_display_name} (${d.feature_name})`)
+    const yData = top20.map(d => `${translateFeatureDisplayName(d.feature_display_name)} (${d.feature_name})`)
     const xData = top20.map(d => d.mean_abs_shap)
     
     if (shapChartRef.value) {
@@ -361,9 +396,9 @@ const renderCharts = async () => {
         },
         xAxis: {
           type: 'value',
-          name: 'Mean |SHAP|',
+          name: currentLang.value === 'en' ? 'Mean |SHAP|' : 'SHAP 贡献绝对均值 (Mean |SHAP|)',
           nameLocation: 'middle',
-          nameGap: 22,
+          nameGap: 24,
           axisLabel: { color: 'rgba(255,255,255,0.6)', fontSize: 9, fontFamily: 'Outfit' },
           axisLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } },
           splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }

@@ -5,7 +5,7 @@
 
     <header class="page-header">
       <div class="header-line"></div>
-      <h1 class="page-title">OvSGTR Spatial Inference & AIGC Refinement</h1>
+      <h1 class="page-title">{{ t('pageTitle') }}</h1>
       <p class="page-subtitle">{{ t('pageSubtitle') }}</p>
       <div class="header-line"></div>
     </header>
@@ -22,7 +22,7 @@
 
     <div v-if="isLoading" class="global-loading">
       <div class="loader-hex"></div>
-      <span class="loading-lbl">INITIALIZING OVSGTR DOCKER & SYNCING CATALOG...</span>
+      <span class="loading-lbl">{{ t('initializingDocker') }}</span>
     </div>
 
     <div v-else class="dashboard-main-layout">
