@@ -1,9 +1,9 @@
 <template>
   <div class="pipeline-flow">
     <div class="pipeline-header">
-      <span class="section-tag">METHODOLOGY</span>
+      <span class="section-tag">{{ $t('method.methodology') }}</span>
       <h2 class="pipeline-title">TECHNICAL PIPELINE</h2>
-      <span class="pipeline-subtitle">ResNet18 Transfer Learning · 13,000 Streetscape Images → 6 Implicit Indicators</span>
+      <span class="pipeline-subtitle">LLM Perception Scoring · 13,000 Streetscape Images → 6 Implicit Indicators</span>
     </div>
 
     <div class="pipeline-body">
@@ -22,7 +22,7 @@
         <div class="step-content">
           <span class="step-index">01</span>
           <h3 class="step-title">DATA COLLECTION</h3>
-          <p class="step-desc">13,0000 streetscape images sampled across Shanghai central urban area</p>
+          <p class="step-desc">13,000 streetscape images sampled across Shanghai central urban area</p>
           <div class="step-tags">
             <span class="tag">13K Images</span>
             <span class="tag">SVI Sampling</span>
@@ -56,12 +56,12 @@
         </div>
         <div class="step-content">
           <span class="step-index">02</span>
-          <h3 class="step-title">RESNET18 BACKBONE</h3>
-          <p class="step-desc">Pre-trained on ImageNet, frozen convolutional layers for feature extraction</p>
+          <h3 class="step-title">LLM PERCEPTION ENGINE</h3>
+          <p class="step-desc">Vision-language model for multi-dimensional streetscape perception scoring</p>
           <div class="step-tags">
-            <span class="tag frozen">Frozen Backbone</span>
-            <span class="tag">ImageNet Weights</span>
-            <span class="tag">512-dim Features</span>
+            <span class="tag">Vision-Language</span>
+            <span class="tag">Multi-modal</span>
+            <span class="tag">6D Score Vector</span>
           </div>
         </div>
       </div>
@@ -86,12 +86,12 @@
         </div>
         <div class="step-content">
           <span class="step-index">03</span>
-          <h3 class="step-title">TRANSFER LEARNING</h3>
-          <p class="step-desc">Multi-task regression heads fine-tuned on annotated perception scores</p>
+          <h3 class="step-title">MULTI-DIMENSIONAL SCORING</h3>
+          <p class="step-desc">6 perception dimensions scored for each streetscape image</p>
           <div class="step-tags">
-            <span class="tag accent">Fine-tuned Head</span>
-            <span class="tag">FC 512→6</span>
-            <span class="tag">MSE Loss</span>
+            <span class="tag accent">6 Dimensions</span>
+            <span class="tag">LLM Scoring</span>
+            <span class="tag">Quality Control</span>
           </div>
         </div>
       </div>
@@ -126,7 +126,7 @@
           <p class="step-desc">Predicted perception dimensions per image sample</p>
           <div class="step-tags">
             <span class="tag">Identity</span>
-            <span class="tag">Innovation</span>
+            <span class="tag">Innovation Atmos.</span>
             <span class="tag">+4 more</span>
           </div>
         </div>
@@ -166,12 +166,12 @@
     <!-- Bottom stats bar -->
     <div class="pipeline-stats">
       <div class="stat-item">
-        <span class="stat-value">13,0000</span>
+        <span class="stat-value">13,000</span>
         <span class="stat-label">SAMPLE IMAGES</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-value">ResNet18</span>
+        <span class="stat-value">LLM</span>
         <span class="stat-label">MODEL ARCHITECTURE</span>
       </div>
       <div class="stat-divider"></div>
@@ -190,7 +190,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const activeStep = ref(-1)
 </script>
 

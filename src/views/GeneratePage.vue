@@ -1,18 +1,40 @@
 <template>
   <div class="generate-page">
+    <!-- Section Nav -->
+    <nav class="section-nav">
+      <div class="nav-brand">
+        <span class="brand-tag">{{ $t('generate.structure') }}</span>
+      </div>
+      <div class="nav-dots">
+        <button
+          v-for="(section, i) in sections"
+          :key="i"
+          class="nav-dot"
+          :class="{ active: activeSection === i }"
+          @click="scrollToSection(i)"
+        >
+          <span class="dot-marker"></span>
+          <span class="dot-label">{{ section.label }}</span>
+        </button>
+      </div>
+      <div class="nav-progress-bar">
+        <div class="nav-progress-fill" :style="{ width: scrollProgress + '%' }"></div>
+      </div>
+    </nav>
+
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
-    <header class="page-header">
+    <header class="page-header" ref="sectionOverview">
       <div class="header-line"></div>
-      <h1 class="page-title">OvSGTR Spatial Inference & AIGC Refinement</h1>
-      <p class="page-subtitle">AIGC 城市设计评估与推演大盘 · 科学回溯证据链演示平台</p>
+      <h1 class="page-title">{{ $t('generate.title') }}</h1>
+      <p class="page-subtitle">{{ $t('generate.subtitle') }}</p>
       <div class="header-line"></div>
     </header>
 
     <!-- 顶层全局提示与缺失文件警报 -->
     <div v-if="missingFilesManifest.length > 0" class="missing-warning-banner">
-      <span class="warning-title">⚠️ 数据完整性校验提示 (Missing Files Checked by sync script):</span>
+      <span class="warning-title">{{ $t('generate.dataIntegrityWarning') }}</span>
       <div class="warning-scroll-box">
         <span v-for="(msg, i) in missingFilesManifest" :key="i" class="warning-item">
           {{ msg }}
@@ -22,25 +44,28 @@
 
     <div v-if="isLoading" class="global-loading">
       <div class="loader-hex"></div>
-      <span class="loading-lbl">INITIALIZING OVSGTR DOCKER & SYNCING CATALOG...</span>
+      <span class="loading-lbl">{{ $t('generate.initializing') }}</span>
     </div>
 
     <div v-else class="dashboard-main-layout">
       <!-- 第一部分: 模型训练结果总览 -->
-      <ModelTrainingOverview 
+      <ModelTrainingOverview
+        ref="sectionComparison"
         :activePattern="activePattern"
         @select-pattern="handleSelectPattern"
       />
 
       <!-- 第二部分: GPS 案例分类检索 -->
-      <GpsCaseSelector 
+      <GpsCaseSelector
+        ref="sectionIndicators"
         :cases="casesList"
         :activeCaseId="activeCaseId"
         @select-case="handleSelectCase"
       />
 
       <!-- 第三部分: 单图优化证据链 -->
-      <SingleCaseEvidenceChain 
+      <SingleCaseEvidenceChain
+        ref="sectionAnalysis"
         v-if="activeCaseId"
         :caseId="activeCaseId"
         :activePattern="activePattern"
@@ -51,16 +76,60 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import ModelTrainingOverview from '../components/ModelTrainingOverview.vue'
 import GpsCaseSelector from '../components/GpsCaseSelector.vue'
 import SingleCaseEvidenceChain from '../components/SingleCaseEvidenceChain.vue'
+
+const { t } = useI18n()
 
 const isLoading = ref(true)
 const casesList = ref([])
 const activeCaseId = ref(null)
 const activePattern = ref(null)
 const missingFilesManifest = ref([])
+
+const sectionOverview = ref(null)
+const sectionComparison = ref(null)
+const sectionIndicators = ref(null)
+const sectionAnalysis = ref(null)
+
+const activeSection = ref(0)
+const scrollProgress = ref(0)
+
+const sections = computed(() => [
+  { label: t('generate.overview') },
+  { label: t('generate.comparison') },
+  { label: t('generate.indicators') },
+  { label: t('generate.analysis') }
+])
+
+const scrollToSection = (index) => {
+  const refs = [sectionOverview, sectionComparison, sectionIndicators, sectionAnalysis]
+  const target = refs[index]?.value
+  if (!target) return
+  const el = target.$el || target
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const handlePageScroll = () => {
+  const scrollTop = window.scrollY
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+  scrollProgress.value = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
+
+  const sectionRefs = [sectionOverview, sectionComparison, sectionIndicators, sectionAnalysis]
+  for (let i = sectionRefs.length - 1; i >= 0; i--) {
+    const target = sectionRefs[i].value
+    if (!target) continue
+    const el = target.$el || target
+    const rect = el.getBoundingClientRect()
+    if (rect.top <= 160) {
+      activeSection.value = i
+      break
+    }
+  }
+}
 
 // 选定案例
 const handleSelectCase = (caseId) => {
@@ -105,12 +174,14 @@ const handleSelectNode = async (nodeLabel) => {
 }
 
 onMounted(async () => {
+  window.addEventListener('scroll', handlePageScroll)
+
   try {
     const response = await fetch('/cases_data/catalog.json')
     const catalog = await response.json()
     casesList.value = catalog.cases || []
     missingFilesManifest.value = catalog.missing_files_manifest || []
-    
+
     if (casesList.value.length > 0) {
       // 默认选择第一个案例进行初始化
       activeCaseId.value = casesList.value[0].case_id
@@ -121,30 +192,130 @@ onMounted(async () => {
     isLoading.value = false
   }
 })
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handlePageScroll)
+})
 </script>
 
 <style scoped>
 .generate-page {
   --bg-primary: #050811;
   --bg-card: rgba(15, 28, 48, 0.6);
-  --crimson: #e8554e;
-  --crimson-light: #c7453f;
-  --crimson-dim: rgba(232, 85, 78, 0.15);
+  --crimson: #005BAC;
+  --crimson-light: #004A8C;
+  --crimson-dim: rgba(0, 91, 172, 0.15);
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.6);
-  --border: rgba(232, 85, 78, 0.15);
-  --border-active: rgba(232, 85, 78, 0.5);
+  --border: rgba(0, 91, 172, 0.15);
+  --border-active: rgba(0, 91, 172, 0.5);
   --font-display: 'Syncopate', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
 
   min-height: 100vh;
-  padding: 40px 32px;
+  padding: 96px 32px 40px;
   position: relative;
   overflow-x: hidden;
   font-family: var(--font-body);
   color: var(--text-primary);
   background: var(--bg-primary);
+}
+
+/* Section Nav */
+.section-nav {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  background: rgba(10, 22, 40, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.section-nav .nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.section-nav .brand-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--crimson);
+  background: rgba(0, 91, 172, 0.1);
+  border: 1px solid var(--crimson-dim);
+  padding: 4px 12px;
+  border-radius: 3px;
+  letter-spacing: 2px;
+}
+
+.section-nav .nav-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.section-nav .nav-dot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .dot-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-marker {
+  background: var(--crimson);
+  box-shadow: 0 0 10px var(--crimson-dim);
+  transform: scale(1.3);
+}
+
+.section-nav .dot-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-label {
+  color: var(--crimson);
+}
+
+.section-nav .nav-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .nav-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--crimson), var(--crimson-light));
+  transition: width 0.3s ease;
 }
 
 .bg-grid {

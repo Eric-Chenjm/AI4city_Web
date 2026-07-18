@@ -2,28 +2,28 @@
   <div class="gps-case-selector border-card">
     <div class="row-header">
       <span class="row-index">02</span>
-      <h2 class="row-title">GPS Case Directory (GPS 案例空间分类检索)</h2>
+      <h2 class="row-title">{{ $t('gen.gpsCaseDirectory') }}</h2>
     </div>
 
     <div class="case-grid">
       <!-- 1. MapLibre 空白深色点位可视化 -->
       <div class="map-wrapper-box">
-        <h4 class="card-header-tag">SPATIAL GPS SITES (无底图经纬度点位聚合)</h4>
+        <h4 class="card-header-tag">{{ $t('gen.spatialGpsSites') }}</h4>
         <div id="gps-map-container" class="map-container"></div>
         <div class="map-legend">
           <span class="map-dot"></span>
-          <span class="map-legend-txt">复兴岛老旧厂房实测 EXIF 地理点位</span>
+          <span class="map-legend-txt">{{ $t('gen.fuxingIslandExif') }}</span>
         </div>
       </div>
 
       <!-- 2. 四大空间类型案例列表 -->
       <div class="case-list-box">
-        <h4 class="card-header-tag">SPACE TYPE CATEGORIES (四大城市空间类别)</h4>
+        <h4 class="card-header-tag">{{ $t('gen.spaceTypeCategories') }}</h4>
         
         <div class="space-categories">
           <!-- 滨水空间 -->
           <div class="space-category-block">
-            <h5 class="cat-header"><span class="cat-icon waterfront"></span>滨水空间 (Waterfront)</h5>
+            <h5 class="cat-header"><span class="cat-icon waterfront"></span>{{ $t('gen.waterfront') }}</h5>
             <div class="cat-list">
               <div 
                 v-for="c in waterfrontCases" 
@@ -32,7 +32,7 @@
                 :class="{ active: activeCaseId === c.case_id }"
                 @click="onSelectCase(c)"
               >
-                <div class="case-card-title">{{ c.case_name }}</div>
+                <div class="case-card-title">{{ getCaseName(c) }}</div>
                 <div class="case-card-gps monospace">GPS: {{ c.gps.lat.toFixed(5) }}, {{ c.gps.lng.toFixed(5) }}</div>
               </div>
             </div>
@@ -40,7 +40,7 @@
 
           <!-- 公共空间 -->
           <div class="space-category-block">
-            <h5 class="cat-header"><span class="cat-icon public"></span>公共空间 (Public Space)</h5>
+            <h5 class="cat-header"><span class="cat-icon public"></span>{{ $t('gen.publicSpace') }}</h5>
             <div class="cat-list">
               <div 
                 v-for="c in publicCases" 
@@ -49,7 +49,7 @@
                 :class="{ active: activeCaseId === c.case_id }"
                 @click="onSelectCase(c)"
               >
-                <div class="case-card-title">{{ c.case_name }}</div>
+                <div class="case-card-title">{{ getCaseName(c) }}</div>
                 <div class="case-card-gps monospace">GPS: {{ c.gps.lat.toFixed(5) }}, {{ c.gps.lng.toFixed(5) }}</div>
               </div>
             </div>
@@ -57,7 +57,7 @@
 
           <!-- 景观/工业遗存 -->
           <div class="space-category-block">
-            <h5 class="cat-header"><span class="cat-icon heritage"></span>景观/工业遗存 (Heritage)</h5>
+            <h5 class="cat-header"><span class="cat-icon heritage"></span>{{ $t('gen.heritage') }}</h5>
             <div class="cat-list">
               <div 
                 v-for="c in heritageCases" 
@@ -66,7 +66,7 @@
                 :class="{ active: activeCaseId === c.case_id }"
                 @click="onSelectCase(c)"
               >
-                <div class="case-card-title">{{ c.case_name }}</div>
+                <div class="case-card-title">{{ getCaseName(c) }}</div>
                 <div class="case-card-gps monospace">GPS: {{ c.gps.lat.toFixed(5) }}, {{ c.gps.lng.toFixed(5) }}</div>
               </div>
             </div>
@@ -74,7 +74,7 @@
 
           <!-- 临时构筑 -->
           <div class="space-category-block">
-            <h5 class="cat-header"><span class="cat-icon temporary"></span>临时构筑 (Temporary)</h5>
+            <h5 class="cat-header"><span class="cat-icon temporary"></span>{{ $t('gen.temporary') }}</h5>
             <div class="cat-list">
               <div 
                 v-for="c in temporaryCases" 
@@ -83,7 +83,7 @@
                 :class="{ active: activeCaseId === c.case_id }"
                 @click="onSelectCase(c)"
               >
-                <div class="case-card-title">{{ c.case_name }}</div>
+                <div class="case-card-title">{{ getCaseName(c) }}</div>
                 <div class="case-card-gps monospace">GPS: {{ c.gps.lat.toFixed(5) }}, {{ c.gps.lng.toFixed(5) }}</div>
               </div>
             </div>
@@ -96,8 +96,16 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+
+const { t, locale } = useI18n()
+
+// 根据语言获取案例名称
+const getCaseName = (c) => {
+  return locale.value === 'zh' ? c.case_name : (c.case_name_en || c.case_name)
+}
 
 const props = defineProps({
   cases: {
@@ -182,6 +190,7 @@ const initMap = () => {
         properties: {
           case_id: c.case_id,
           case_name: c.case_name,
+          case_name_en: c.case_name_en || c.case_name,
           type_zh: c.type_zh,
           type: c.type
         }
@@ -296,14 +305,24 @@ const initMap = () => {
       // 发射选中事件
       emit('select-case', caseId)
 
+      // 根据语言显示类型名和案例名
+      const typeDisplay = {
+        waterfront: t('gen.waterfront'),
+        public: t('gen.publicSpace'),
+        heritage: t('gen.heritage'),
+        temporary: t('gen.temporary')
+      }[props.type] || props.type_zh
+
+      const caseNameDisplay = locale.value === 'zh' ? props.case_name : (props.case_name_en || props.case_name)
+
       // 显示Popup气泡
       const coordinates = e.features[0].geometry.coordinates.slice()
       new maplibregl.Popup({ closeButton: false, className: 'map-tech-popup' })
         .setLngLat(coordinates)
         .setHTML(`
           <div style="font-family:'Outfit',sans-serif;font-size:11.5px;color:#fff;padding:4px;">
-            <strong style="color:#7b61ff;">${props.case_name}</strong><br/>
-            类型: <span style="color:#aab8ff;">${props.type_zh}</span>
+            <strong style="color:#7b61ff;">${caseNameDisplay}</strong><br/>
+            ${t('gen.type')}: <span style="color:#aab8ff;">${typeDisplay}</span>
           </div>
         `)
         .addTo(map)

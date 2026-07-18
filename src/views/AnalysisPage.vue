@@ -1,5 +1,27 @@
 <template>
   <div class="analysis-page">
+    <!-- Section Nav -->
+    <nav class="section-nav">
+      <div class="nav-brand">
+        <span class="brand-tag">ANALYSIS</span>
+      </div>
+      <div class="nav-dots">
+        <button
+          v-for="(section, i) in sections"
+          :key="i"
+          class="nav-dot"
+          :class="{ active: activeSection === i }"
+          @click="scrollToSection(i)"
+        >
+          <span class="dot-marker"></span>
+          <span class="dot-label">{{ section.label }}</span>
+        </button>
+      </div>
+      <div class="nav-progress-bar">
+        <div class="nav-progress-fill" :style="{ width: scrollProgress + '%' }"></div>
+      </div>
+    </nav>
+
     <!-- Decorative background -->
     <div class="bg-grid"></div>
     <div class="bg-glow glow-1"></div>
@@ -9,17 +31,17 @@
     <header class="page-header">
       <div class="header-top">
         <div class="header-meta">
-          <span class="meta-tag">DATA INTELLIGENCE</span>
+          <span class="meta-tag">{{ $t('analyze.dataIntelligence') }}</span>
           <span class="meta-sep">/</span>
           <span class="meta-time">{{ currentTime }}</span>
         </div>
-        <h1 class="page-title">SPATIAL DISTRIBUTION ANALYSIS</h1>
-        <p class="page-subtitle">Innovation element collection and clustering visualization across central Shanghai</p>
+        <h1 class="page-title">{{ $t('analyze.spatialDistribution') }}</h1>
+        <p class="page-subtitle">{{ $t('analyze.subtitle') }}</p>
       </div>
     </header>
 
     <!-- Part 1: Data Source Bar -->
-    <section class="stats-section">
+    <section class="stats-section" ref="sectionOverview">
       <div class="data-source-bar">
         <IndicatorSelector 
           v-model:activeIndicator="activeIndicator" 
@@ -29,18 +51,18 @@
         <div class="source-divider"></div>
         <div class="source-item">
           <span class="source-dot explicit"></span>
-          <span class="source-text"><strong>EXPLICIT</strong> — 15 indicators: land use, density, accessibility, etc.</span>
+          <span class="source-text"><strong>{{ $t('analyze.explicit') }}</strong> {{ $t('analyze.explicitDesc') }}</span>
         </div>
         <div class="source-divider"></div>
         <div class="source-item">
           <span class="source-dot implicit"></span>
-          <span class="source-text"><strong>IMPLICIT</strong> — 6 LLM-derived streetscape perception dimensions</span>
+          <span class="source-text"><strong>{{ $t('analyze.implicit') }}</strong> {{ $t('analyze.implicitDesc') }}</span>
         </div>
       </div>
     </section>
 
     <!-- Part 2: Spatial Distribution -->
-    <section class="spatial-section">
+    <section class="spatial-section" ref="sectionSpatial">
       <div class="spatial-layout">
         <!-- Map (Left) -->
         <ShanghaiMap 
@@ -59,7 +81,7 @@
     </section>
 
     <!-- Part 2.5: Indicator Chart Analysis -->
-    <section class="chart-section">
+    <section class="chart-section" ref="sectionCharts">
       <IndicatorCharts
         :indicatorDataCache="indicatorDataCache"
         :activeIndicator="activeIndicator"
@@ -70,24 +92,24 @@
     </section>
 
     <!-- Part 2.6: Technical Pipeline -->
-    <section class="pipeline-section">
+    <section class="pipeline-section" ref="sectionPipeline">
       <PipelineFlow />
     </section>
 
     <!-- Part 3: Region + Samples (Integrated Layout) -->
-    <section class="region-samples-section">
+    <section class="region-samples-section" ref="sectionRegions">
       <div class="region-samples-card">
         <div class="card-header">
           <div class="card-title-group">
-            <span class="section-tag">SPATIAL ANALYSIS</span>
-            <h2 class="section-title">REGION CLASSIFICATION & TRAINING SAMPLES</h2>
+            <span class="section-tag">{{ $t('analyze.spatialAnalysis') }}</span>
+            <h2 class="section-title">{{ $t('analyze.regionClassification') }}</h2>
           </div>
         </div>
         <div class="card-body">
           <div class="region-col">
             <div class="col-header">
-              <span class="col-label">FOUR QUADRANT MAP</span>
-              <span class="col-badge">EXPLICIT × IMPLICIT</span>
+              <span class="col-label">{{ $t('analyze.fourQuadrantMap') }}</span>
+              <span class="col-badge">{{ $t('analyze.explicitXImplicit') }}</span>
             </div>
             <RegionMap
               :regionData="regionData"
@@ -101,8 +123,8 @@
           <div class="divider"></div>
           <div class="samples-col">
             <div class="col-header">
-              <span class="col-label">{{ activeQuadrant ? 'TRAINING DATA SAMPLES' : 'REGION STATISTICS' }}</span>
-              <span class="col-count">{{ filteredSamples.length }} {{ activeQuadrant ? 'SAMPLES' : 'TOTAL' }}</span>
+              <span class="col-label">{{ activeQuadrant ? $t('analyze.streetDataSamples') : $t('analyze.regionStatistics') }}</span>
+              <span class="col-count">{{ filteredSamples.length }} {{ activeQuadrant ? $t('common.samples') : $t('common.total') }}</span>
             </div>
             <SampleStats
               v-if="!activeQuadrant"
@@ -134,6 +156,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import IndicatorSelector from '../components/IndicatorSelector.vue'
 import ShanghaiMap from '../components/ShanghaiMap.vue'
 import IndicatorCharts from '../components/IndicatorCharts.vue'
@@ -144,6 +167,8 @@ import SampleStats from '../components/SampleStats.vue'
 import RegionMap from '../components/RegionMap.vue'
 import PipelineFlow from '../components/PipelineFlow.vue'
 import { transformGeoJson } from '../utils/coordTransform'
+
+const { t } = useI18n()
 
 // --- Time ---
 const currentTime = ref('')
@@ -191,8 +216,8 @@ const implicitIndicators = [
   { id: 'x2_questionnaire_innovation_atmos', name: 'Innovation Atmosphere', field: 'x2_questionnaire_innovation_atmos', file: 'implicit/x2_questionnaire_innovation_atmos.geojson', desc: 'Perceived innovation atmosphere', unit: '', type: 'implicit' },
   { id: 'x2_questionnaire_spatial_image', name: 'Spatial Image', field: 'x2_questionnaire_spatial_image', file: 'implicit/x2_questionnaire_spatial_image.geojson', desc: 'Spatial image perception', unit: '', type: 'implicit' },
   { id: 'x2_questionnaire_tech_influence', name: 'Tech Influence', field: 'x2_questionnaire_tech_influence', file: 'implicit/x2_questionnaire_tech_influence.geojson', desc: 'Technology influence perception', unit: '', type: 'implicit' },
-  { id: 'x2_questionnaire_work_efficiency', name: 'Work Efficiency', field: 'x2_questionnaire_work_efficiency', file: 'implicit/x2_questionnaire_work_efficiency.geojson', desc: 'Perceived work efficiency', unit: '', type: 'implicit' },
-  { id: 'x2_questionnaire_work_wellbeing', name: 'Work Wellbeing', field: 'x2_questionnaire_work_wellbeing', file: 'implicit/x2_questionnaire_work_wellbeing.geojson', desc: 'Work wellbeing perception', unit: '', type: 'implicit' }
+  { id: 'x2_questionnaire_work_efficiency', name: 'Workplace Efficiency', field: 'x2_questionnaire_work_efficiency', file: 'implicit/x2_questionnaire_work_efficiency.geojson', desc: 'Perceived work efficiency', unit: '', type: 'implicit' },
+  { id: 'x2_questionnaire_work_wellbeing', name: 'Workplace Wellbeing', field: 'x2_questionnaire_work_wellbeing', file: 'implicit/x2_questionnaire_work_wellbeing.geojson', desc: 'Work wellbeing perception', unit: '', type: 'implicit' }
 ]
 
 const activeIndicator = ref('x1_bldg_density')
@@ -411,8 +436,51 @@ const closeModal = () => {
   modalVisible.value = false
 }
 
+// --- Section Nav ---
+const sectionOverview = ref(null)
+const sectionSpatial = ref(null)
+const sectionCharts = ref(null)
+const sectionPipeline = ref(null)
+const sectionRegions = ref(null)
+
+const activeSection = ref(0)
+const scrollProgress = ref(0)
+
+const sections = [
+  { label: 'OVERVIEW' },
+  { label: 'SPATIAL' },
+  { label: 'CHARTS' },
+  { label: 'PIPELINE' },
+  { label: 'REGIONS' }
+]
+
+const scrollToSection = (index) => {
+  const refs = [sectionOverview, sectionSpatial, sectionCharts, sectionPipeline, sectionRegions]
+  refs[index]?.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const handlePageScroll = () => {
+  const scrollTop = window.scrollY
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+  scrollProgress.value = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
+  
+  const sectionRefs = [sectionOverview, sectionSpatial, sectionCharts, sectionPipeline, sectionRegions]
+  for (let i = sectionRefs.length - 1; i >= 0; i--) {
+    const el = sectionRefs[i].value
+    if (el) {
+      const rect = el.getBoundingClientRect()
+      if (rect.top <= 160) {
+        activeSection.value = i
+        break
+      }
+    }
+  }
+}
+
 // --- Lifecycle ---
 onMounted(() => {
+  window.addEventListener('scroll', handlePageScroll)
+
   updateTime()
   timeInterval = setInterval(updateTime, 1000)
 
@@ -431,6 +499,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  window.removeEventListener('scroll', handlePageScroll)
   if (timeInterval) clearInterval(timeInterval)
 })
 </script>
@@ -456,9 +525,105 @@ onUnmounted(() => {
   min-height: 100vh;
   background: var(--bg-primary);
   color: var(--text-primary);
-  padding: 80px 40px;
+  padding: 136px 40px 40px;
   position: relative;
   overflow-x: hidden;
+}
+
+/* Section Nav */
+.section-nav {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  background: rgba(10, 22, 40, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.section-nav .nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.section-nav .brand-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--crimson);
+  background: var(--crimson-dim);
+  border: 1px solid var(--crimson-dim);
+  padding: 4px 12px;
+  border-radius: 3px;
+  letter-spacing: 2px;
+}
+
+.section-nav .nav-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.section-nav .nav-dot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .dot-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-marker {
+  background: var(--crimson);
+  box-shadow: 0 0 10px var(--crimson-dim);
+  transform: scale(1.3);
+}
+
+.section-nav .dot-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-label {
+  color: var(--crimson);
+}
+
+.section-nav .nav-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .nav-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--crimson), var(--blue));
+  transition: width 0.3s ease;
 }
 
 .bg-grid {
@@ -729,7 +894,7 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
-  .analysis-page { padding: 80px 20px; }
+  .analysis-page { padding: 136px 20px 20px; }
   .page-title { font-size: 24px; }
   .data-source-bar { flex-direction: column; align-items: flex-start; }
   .source-divider { width: 100%; height: 1px; }

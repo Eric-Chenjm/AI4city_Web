@@ -3,8 +3,8 @@
     <div class="section-header" v-if="bordered">
       <div class="section-title-group">
         <span class="section-tag">SAMPLES</span>
-        <h2 class="section-title">TRAINING DATA SAMPLES</h2>
-        <span class="section-count">{{ allSamples.length }} TOTAL</span>
+        <h2 class="section-title">{{ $t('analyze.streetDataSamples') }}</h2>
+        <span class="section-count">{{ allSamples.length }} {{ $t('common.total') }}</span>
       </div>
     </div>
     <div class="samples-body">
@@ -32,6 +32,10 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 defineProps({
   allSamples: { type: Array, default: () => [] },
   bordered: { type: Boolean, default: true }

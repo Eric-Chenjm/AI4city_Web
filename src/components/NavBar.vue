@@ -3,7 +3,19 @@
     <div class="navbar-container">
       <div class="navbar-logo">
         <img class="logo-icon" src="../assets/dcd19cd3718b.png" alt="Logo" />
-        <span class="logo-text">FUXING ISLAND</span>
+        <span class="logo-text">INNOVATION GRAVITY FIELD</span>
+      </div>
+      <div class="lang-switch">
+        <button
+          class="lang-btn"
+          :class="{ active: locale === 'en' }"
+          @click="locale = 'en'; localStorage.setItem('locale', 'en')"
+        >EN</button>
+        <button
+          class="lang-btn"
+          :class="{ active: locale === 'zh' }"
+          @click="locale = 'zh'; localStorage.setItem('locale', 'zh')"
+        >中</button>
       </div>
       <div class="navbar-links">
         <router-link 
@@ -13,7 +25,7 @@
           class="nav-link"
           :class="{ active: $route.path === link.path }"
         >
-          {{ link.name }}
+          {{ $t(link.nameKey) }}
         </router-link>
       </div>
       <button class="mobile-menu-btn" @click="toggleMobileMenu">
@@ -28,7 +40,7 @@
         class="mobile-link"
         @click="isMobileMenuOpen = false"
       >
-        {{ link.name }}
+        {{ $t(link.nameKey) }}
       </router-link>
     </div>
   </nav>
@@ -36,15 +48,23 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n()
 
 const isMobileMenuOpen = ref(false)
 
 const navLinks = [
-  { name: 'COMPARE', path: '/above' },
-  { name: 'GENERATE', path: '/generate' },
-  { name: 'ANALYZE', path: '/analysis' },
-  { name: 'METHOD', path: '/method' }
+  { nameKey: 'nav.compare', path: '/above' },
+  { nameKey: 'nav.generate', path: '/generate' },
+  { nameKey: 'nav.analyze', path: '/analysis' },
+  { nameKey: 'nav.method', path: '/method' }
 ]
+
+const toggleLocale = () => {
+  locale.value = locale.value === 'en' ? 'zh' : 'en'
+  localStorage.setItem('locale', locale.value)
+}
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
@@ -93,6 +113,37 @@ const toggleMobileMenu = () => {
   font-weight: 700;
   color: #005BAC;
   letter-spacing: 3px;
+}
+
+.lang-switch {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(0, 91, 172, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 1px;
+}
+
+.lang-btn:hover {
+  color: #ffffff;
+  background: rgba(0, 91, 172, 0.1);
+}
+
+.lang-btn.active {
+  color: #ffffff;
+  background: #005BAC;
 }
 
 .navbar-links {
@@ -177,6 +228,17 @@ const toggleMobileMenu = () => {
   .logo-text {
     font-size: 14px;
     letter-spacing: 2px;
+  }
+
+  .lang-switch {
+    order: 1;
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+  .lang-btn {
+    font-size: 10px;
+    padding: 3px 6px;
   }
 }
 </style>

@@ -2,12 +2,12 @@
   <div class="model-training-overview border-card">
     <div class="row-header">
       <span class="row-index">01</span>
-      <h2 class="row-title">Model Training & Pattern Overview (模型训练与频繁模式总览)</h2>
+      <h2 class="row-title">{{ $t('gen.modelTrainingTitle') }}</h2>
     </div>
 
     <!-- A. 方法链可视化流程 -->
     <div class="overview-section">
-      <h3 class="section-sub-title">1. METHODOLOGY PIPELINE (空间推演方法链)</h3>
+      <h3 class="section-sub-title">{{ $t('gen.methodologyPipeline') }}</h3>
       <div class="pipeline-chain">
         <div v-for="(step, idx) in overviewData.method_chain || defaultSteps" :key="idx" class="pipeline-step">
           <div class="step-num">{{ idx + 1 }}</div>
@@ -28,24 +28,24 @@
           <div class="big-stats-row">
             <div class="stat-unit">
               <span class="stat-num">{{ overviewData.training?.num_images || 1200 }}</span>
-              <span class="stat-lbl">训练图像样本数</span>
+              <span class="stat-lbl">{{ $t('gen.trainingSamples') }}</span>
             </div>
             <div class="stat-unit">
               <span class="stat-num">{{ overviewData.training?.num_features || 221 }}</span>
-              <span class="stat-lbl">gSpan 提取特征数</span>
+              <span class="stat-lbl">{{ $t('gen.gSpanFeatures') }}</span>
             </div>
           </div>
           <div class="stats-table">
             <div class="table-row">
-              <span>交叉验证均方根误差 (CV RMSE):</span>
+              <span>{{ $t('gen.cvRMSE') }}</span>
               <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.cv_rmse_mean) }}</span>
             </div>
             <div class="table-row">
-              <span>交叉验证确定系数 (CV R²):</span>
+              <span>{{ $t('gen.cvR2') }}</span>
               <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.cv_r2_mean) }}</span>
             </div>
             <div class="table-row">
-              <span>独立测试集 R² (Holdout R²):</span>
+              <span>{{ $t('gen.holdoutR2') }}</span>
               <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.holdout_r2) }}</span>
             </div>
           </div>
@@ -58,11 +58,11 @@
         <div class="figures-flex">
           <div class="chart-wrapper">
             <div ref="fitChartRef" class="fit-chart-container"></div>
-            <div class="fig-tag-dynamic">预测拟合散点图 (Scatter Plot)</div>
+            <div class="fig-tag-dynamic">{{ $t('gen.scatterPlot') }}</div>
           </div>
           <div class="chart-wrapper">
             <div ref="shapChartRef" class="fit-chart-container"></div>
-            <div class="fig-tag-dynamic">SHAP 特征全局重要性排行 (Top 20)</div>
+            <div class="fig-tag-dynamic">{{ $t('gen.shapBar') }}</div>
           </div>
         </div>
       </div>
@@ -70,15 +70,15 @@
 
     <!-- C. 频繁空间模式排行榜 (正向与负向) -->
     <div class="overview-section patterns-section">
-      <h3 class="section-sub-title">2. INFLUENTIAL SPATIAL PATTERNS (核心空间子图模式排行)</h3>
-      <p class="pattern-intro-tip">点击下方频繁子图卡片，可将其锁定，联动右侧“单图优化证据链”进行空间缺陷的高亮剖析。</p>
+      <h3 class="section-sub-title">{{ $t('gen.influentialPatterns') }}</h3>
+      <p class="pattern-intro-tip">{{ $t('gen.patternIntroTip') }}</p>
       
       <div class="patterns-grid">
         <!-- C1. 正向提升模式 (Positive Patterns) -->
         <div class="pattern-column">
           <h4 class="column-title positive-title">
             <span class="dot green"></span>
-            推动评分提升模式 (Top Positive by SHAP)
+            {{ $t('gen.positivePatterns') }}
           </h4>
           <div class="pattern-list">
             <div 
@@ -97,11 +97,11 @@
               </div>
               <div class="pattern-stats-grid">
                 <div class="stats-item">
-                  <span class="stats-lbl">支持度 (Support)</span>
+                  <span class="stats-lbl">{{ $t('gen.support') }}</span>
                   <span class="stats-val monospace">{{ pat.support }}</span>
                 </div>
                 <div class="stats-item right-align">
-                  <span class="stats-lbl">子图频数 (Freq)</span>
+                  <span class="stats-lbl">{{ $t('gen.freq') }}</span>
                   <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
                 </div>
               </div>
@@ -113,7 +113,7 @@
         <div class="pattern-column">
           <h4 class="column-title negative-title">
             <span class="dot red"></span>
-            拉低评分抑制模式 (Top Negative by SHAP)
+            {{ $t('gen.negativePatterns') }}
           </h4>
           <div class="pattern-list">
             <div 
@@ -132,11 +132,11 @@
               </div>
               <div class="pattern-stats-grid">
                 <div class="stats-item">
-                  <span class="stats-lbl">支持度 (Support)</span>
+                  <span class="stats-lbl">{{ $t('gen.support') }}</span>
                   <span class="stats-val monospace">{{ pat.support }}</span>
                 </div>
                 <div class="stats-item right-align">
-                  <span class="stats-lbl">子图频数 (Freq)</span>
+                  <span class="stats-lbl">{{ $t('gen.freq') }}</span>
                   <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
                 </div>
               </div>
@@ -150,15 +150,18 @@
     <div v-if="bigImageSrc" class="img-modal-overlay" @click="bigImageSrc = null">
       <div class="img-modal-content">
         <img :src="bigImageSrc" alt="Big Overview" class="modal-big-img" />
-        <p class="modal-hint">点击任意空白处关闭弹窗</p>
+        <p class="modal-hint">{{ $t('gen.modalHint') }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useI18n } from 'vue-i18n'
 import * as echarts from 'echarts'
+
+const { t } = useI18n()
 
 const props = defineProps({
   activePattern: {
@@ -179,14 +182,14 @@ const shapChartRef = ref(null)
 let fitChart = null
 let shapChart = null
 
-const defaultSteps = [
-  "场景原图",
-  "OvSGTR 场景结构",
-  "gSpan 频繁子图挖掘",
-  "Pattern-count 特征化",
-  "XGBoost 空间评分",
-  "TreeSHAP 贡献度分析"
-]
+const defaultSteps = computed(() => [
+  t('gen.stepOriginal'),
+  t('gen.stepOvSGTR'),
+  t('gen.stepGSpan'),
+  t('gen.stepPatternCount'),
+  t('gen.stepXGBoost'),
+  t('gen.stepTreeSHAP')
+])
 
 const formatNum = (val, fixed = 3) => {
   if (val === undefined || val === null) return 'N/A'
@@ -197,7 +200,7 @@ const handleImgError = (e) => {
   // 若图片缺失，在容器内添加优雅的降级文字标记，满足不伪造数据的原则
   const el = e.target.parentElement
   el.classList.add('missing-figure')
-  el.innerHTML = '<span class="fig-missing-tip">⚠️ 静态分析图表未就位<br/>(File Missing)</span>'
+  el.innerHTML = `<span class="fig-missing-tip">⚠️ ${t('gen.figMissing')}<br/>(File Missing)</span>`
 }
 
 const viewBigImage = (src) => {
@@ -287,7 +290,7 @@ onMounted(async () => {
           borderWidth: 1,
           textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit' },
           formatter: (params) => {
-            return `真实得分 (True): <b>${params.value[0].toFixed(2)}</b><br/>预测评分 (Pred): <b>${params.value[1].toFixed(2)}</b>`
+            return `${t('gen.trueScore')}: <b>${params.value[0].toFixed(2)}</b><br/>${t('gen.predScore')}: <b>${params.value[1].toFixed(2)}</b>`
           }
         },
         xAxis: {
@@ -336,7 +339,7 @@ onMounted(async () => {
             label: {
               show: true,
               position: 'end',
-              formatter: 'y = x 理想线',
+              formatter: t('gen.idealLine'),
               color: 'rgba(232, 85, 78, 0.7)',
               fontSize: 9,
               fontFamily: 'Outfit',
@@ -382,7 +385,7 @@ onMounted(async () => {
           textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit' },
           formatter: (params) => {
             const p = params[0]
-            return `特征模式: <b>${p.name}</b><br/>Mean |SHAP|: <span style="color:#36c8ff;font-family:monospace;font-weight:bold">${p.value.toFixed(4)}</span>`
+            return `${t('gen.featurePattern')}: <b>${p.name}</b><br/>${t('gen.meanSHAP')}: <span style="color:#36c8ff;font-family:monospace;font-weight:bold">${p.value.toFixed(4)}</span>`
           }
         },
         xAxis: {

@@ -2,15 +2,15 @@
   <div class="sample-stats" :class="{ 'no-border': !bordered }">
     <div class="section-header" v-if="bordered">
       <div class="section-title-group">
-        <span class="section-tag">REGION STATISTICS</span>
+        <span class="section-tag">{{ $t('analyze.regionStatistics') }}</span>
         <h2 class="section-title">QUADRANT ANALYSIS</h2>
       </div>
     </div>
     <div class="stats-body">
-      <!-- Radar Chart -->
-      <div class="radar-section">
-        <div class="sub-label">EXPLICIT × IMPLICIT MEDIANS</div>
-        <div ref="radarChart" class="radar-chart"></div>
+      <!-- Pie Chart -->
+      <div class="pie-section">
+        <div class="sub-label">QUADRANT AREA DISTRIBUTION</div>
+        <div ref="pieChart" class="pie-chart"></div>
       </div>
 
       <!-- Quadrant Stats -->
@@ -31,19 +31,19 @@
             </div>
             <div class="qs-metrics">
               <div class="qs-metric">
-                <span class="qs-metric-label">GRID COUNT</span>
+                <span class="qs-metric-label">{{ $t('common.gridCount') }}</span>
                 <span class="qs-metric-value">{{ item.gridCount }}</span>
               </div>
               <div class="qs-metric">
-                <span class="qs-metric-label">AREA (km²)</span>
+                <span class="qs-metric-label">{{ $t('common.area') }} (km²)</span>
                 <span class="qs-metric-value">{{ item.area.toFixed(2) }}</span>
               </div>
               <div class="qs-metric">
-                <span class="qs-metric-label">EXPLICIT MEDIAN</span>
+                <span class="qs-metric-label">{{ $t('common.explicitMedian') }}</span>
                 <span class="qs-metric-value">{{ item.explicitMedian.toFixed(4) }}</span>
               </div>
               <div class="qs-metric">
-                <span class="qs-metric-label">IMPLICIT MEDIAN</span>
+                <span class="qs-metric-label">{{ $t('common.implicitMedian') }}</span>
                 <span class="qs-metric-value">{{ item.implicitMedian.toFixed(4) }}</span>
               </div>
             </div>
@@ -65,7 +65,10 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 import * as echarts from 'echarts'
+
+const { t } = useI18n()
 
 const props = defineProps({
   samples: { type: Array, default: () => [] },
@@ -76,10 +79,10 @@ const props = defineProps({
 
 const emit = defineEmits(['quadrant-click'])
 
-const radarChart = ref(null)
+const pieChart = ref(null)
 let chartInstance = null
 
-const scoreDimensions = ['Creativity', 'Interaction', 'Integration', 'Ecology', 'Culture', 'Future']
+const scoreDimensions = ['Identity', 'Innovation Atmosphere', 'Spatial Image', 'Tech Influence', 'Workplace Efficiency', 'Workplace Wellbeing']
 
 const quadrantColors = {
   HH: 'rgba(0, 91, 172, 0.8)',
@@ -88,12 +91,12 @@ const quadrantColors = {
   LL: 'rgba(84, 86, 90, 0.6)'
 }
 
-const quadrantLabels = {
-  HH: 'High Explicit · High Implicit',
-  HL: 'High Explicit · Low Implicit',
-  LH: 'Low Explicit · High Implicit',
-  LL: 'Low Explicit · Low Implicit'
-}
+const quadrantLabels = computed(() => ({
+  HH: t('common.highExplicitHighImplicit'),
+  HL: t('common.highExplicitLowImplicit'),
+  LH: t('common.lowExplicitHighImplicit'),
+  LL: t('common.lowExplicitLowImplicit')
+}))
 
 const calcAvg = (samples, dim) => {
   if (!samples.length) return 0
@@ -106,7 +109,7 @@ const regionQuadrantStats = computed(() => {
   if (!props.regionData || !props.regionData.features) {
     return codes.map(code => ({
       code,
-      label: quadrantLabels[code],
+      label: quadrantLabels.value[code],
       color: quadrantColors[code],
       gridCount: 0,
       area: 0,
@@ -124,7 +127,7 @@ const regionQuadrantStats = computed(() => {
     })
     return {
       code,
-      label: quadrantLabels[code],
+      label: quadrantLabels.value[code],
       color: quadrantColors[code],
       gridCount: feature ? feature.properties.grid_count : 0,
       area: feature ? feature.properties.area_km2 : 0,
@@ -144,23 +147,24 @@ const overallAvg = computed(() => {
   return result
 })
 
-const initRadar = () => {
-  if (!radarChart.value) return
-  chartInstance = echarts.init(radarChart.value)
-  updateRadar()
+const initPie = () => {
+  if (!pieChart.value) return
+  chartInstance = echarts.init(pieChart.value)
+  updatePie()
 }
 
-const updateRadar = () => {
+const updatePie = () => {
   if (!chartInstance) return
 
-  const maxExplicit = Math.max(...regionQuadrantStats.value.map(q => q.explicitMedian), 0.1)
-  const maxImplicit = Math.max(...regionQuadrantStats.value.map(q => q.implicitMedian), 0.1)
+  const totalArea = regionQuadrantStats.value.reduce((sum, q) => sum + q.area, 0)
 
-  const quadrantData = regionQuadrantStats.value.map(q => ({
-    value: [q.explicitMedian, q.implicitMedian],
+  const pieData = regionQuadrantStats.value.map(q => ({
     name: q.code,
-    lineStyle: { color: q.color, width: 1.5 },
-    areaStyle: { color: q.color.replace(/[\d.]+\)$/, '0.15)') },
+    value: q.area,
+    label: q.label,
+    gridCount: q.gridCount,
+    explicitMedian: q.explicitMedian,
+    implicitMedian: q.implicitMedian,
     itemStyle: { color: q.color }
   }))
 
@@ -173,52 +177,50 @@ const updateRadar = () => {
       borderWidth: 1,
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit, sans-serif' },
       formatter: (params) => {
-        const q = regionQuadrantStats.value.find(r => r.code === params.name)
-        if (!q) return ''
-        return `<strong>${q.label}</strong><br/>
-          <span style="opacity:0.7">Grids: ${q.gridCount}</span><br/>
-          <span style="opacity:0.7">Area: ${q.area.toFixed(2)} km²</span><br/>
-          Explicit Median: ${q.explicitMedian.toFixed(4)}<br/>
-          Implicit Median: ${q.implicitMedian.toFixed(4)}`
+        return `<strong>${params.data.label}</strong><br/>
+          <span style="opacity:0.7">Grids: ${params.data.gridCount}</span><br/>
+          Area: ${params.data.value.toFixed(2)} km² (${params.percent}%)<br/>
+          Explicit Median: ${params.data.explicitMedian.toFixed(4)}<br/>
+          Implicit Median: ${params.data.implicitMedian.toFixed(4)}`
       }
     },
     legend: {
-      bottom: 0,
+      bottom: 4,
       textStyle: { color: 'rgba(255,255,255,0.5)', fontSize: 10, fontFamily: 'JetBrains Mono, monospace' },
       itemWidth: 12,
       itemHeight: 8,
       data: regionQuadrantStats.value.map(q => q.code)
     },
-    radar: {
-      indicator: [
-        { name: 'EXPLICIT', max: maxExplicit * 1.1 },
-        { name: 'IMPLICIT', max: maxImplicit * 1.1 }
-      ],
-      shape: 'polygon',
-      center: ['50%', '48%'],
-      radius: '62%',
-      axisName: {
-        color: 'rgba(255,255,255,0.5)',
+    series: [{
+      type: 'pie',
+      radius: ['35%', '62%'],
+      center: ['50%', '45%'],
+      avoidLabelOverlap: true,
+      itemStyle: {
+        borderColor: 'rgba(10, 22, 40, 0.9)',
+        borderWidth: 2
+      },
+      label: {
+        show: true,
+        color: 'rgba(255,255,255,0.7)',
         fontSize: 10,
-        fontFamily: 'JetBrains Mono, monospace'
+        fontFamily: 'JetBrains Mono, monospace',
+        formatter: '{b}\n{d}%'
       },
-      splitLine: {
-        lineStyle: { color: 'rgba(255,255,255,0.08)' }
+      labelLine: {
+        lineStyle: { color: 'rgba(255,255,255,0.2)' }
       },
-      splitArea: {
-        areaStyle: {
-          color: ['rgba(255,255,255,0.01)', 'rgba(255,255,255,0.03)']
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 12,
+          shadowColor: 'rgba(0, 91, 172, 0.3)'
+        },
+        label: {
+          fontSize: 11,
+          fontWeight: 'bold'
         }
       },
-      axisLine: {
-        lineStyle: { color: 'rgba(255,255,255,0.1)' }
-      }
-    },
-    series: [{
-      type: 'radar',
-      data: quadrantData,
-      symbol: 'circle',
-      symbolSize: 6
+      data: pieData
     }]
   }
 
@@ -229,13 +231,13 @@ const handleResize = () => {
   if (chartInstance) chartInstance.resize()
 }
 
-watch(() => props.samples, () => {
-  if (chartInstance) updateRadar()
+watch(() => [props.samples, props.regionData], () => {
+  if (chartInstance) updatePie()
 }, { deep: true })
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)
-  nextTick(() => initRadar())
+  nextTick(() => initPie())
 })
 
 onUnmounted(() => {
@@ -262,7 +264,7 @@ onUnmounted(() => {
   min-height: 0;
 }
 
-.radar-section {
+.pie-section {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -270,7 +272,7 @@ onUnmounted(() => {
   min-height: 0;
 }
 
-.radar-chart {
+.pie-chart {
   width: 100%;
   flex: 1;
   min-height: 180px;
