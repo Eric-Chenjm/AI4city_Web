@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Syncopate:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-primary: #0b1320;
-  --bg-secondary: #0f1a2b;
-  --bg-card: rgba(15, 26, 43, 0.8);
-  --accent-primary: #d49450;
-  --accent-secondary: #b87d3e;
-  --accent-dark: #9a6830;
+  --bg-primary: #0a1628;
+  --bg-secondary: #0f1e33;
+  --bg-card: rgba(15, 30, 51, 0.8);
+  --accent-primary: #005BAC;
+  --accent-secondary: #004A8C;
+  --accent-dark: #003D73;
+  --accent-cyan: #00B5D8;
+  --accent-copper: #B8742A;
   --text-primary: #ffffff;
-  --text-secondary: #8e99a8;
-  --text-muted: #5c6b7e;
-  --border-color: rgba(212, 148, 80, 0.2);
+  --text-secondary: #a0aec0;
+  --text-muted: #718096;
+  --border-color: rgba(0, 91, 172, 0.2);
   --border-light: rgba(255, 255, 255, 0.1);
 }
 
@@ -55,7 +57,7 @@ body {
 }
 
 ::selection {
-  background: rgba(212, 148, 80, 0.3);
+  background: rgba(0, 91, 172, 0.3);
   color: var(--text-primary);
 }
 

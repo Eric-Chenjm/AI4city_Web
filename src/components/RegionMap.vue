@@ -62,10 +62,10 @@ const mapReady = ref(false)
 const viewAdjusted = ref(false)
 
 const quadrants = [
-  { code: 'HH', label: 'High Explicit · High Implicit', color: 'rgba(232, 85, 78, 0.7)', borderColor: 'rgba(232, 85, 78, 1)' },
-  { code: 'HL', label: 'High Explicit · Low Implicit', color: 'rgba(232, 140, 100, 0.6)', borderColor: 'rgba(232, 140, 100, 0.9)' },
-  { code: 'LH', label: 'Low Explicit · High Implicit', color: 'rgba(240, 190, 60, 0.7)', borderColor: 'rgba(240, 190, 60, 1)' },
-  { code: 'LL', label: 'Low Explicit · Low Implicit', color: 'rgba(100, 160, 200, 0.5)', borderColor: 'rgba(100, 160, 200, 0.8)' }
+  { code: 'HH', label: 'High Explicit · High Implicit', color: 'rgba(0, 91, 172, 0.7)', borderColor: 'rgba(0, 91, 172, 1)' },
+  { code: 'HL', label: 'High Explicit · Low Implicit', color: 'rgba(184, 116, 42, 0.6)', borderColor: 'rgba(184, 116, 42, 0.9)' },
+  { code: 'LH', label: 'Low Explicit · High Implicit', color: 'rgba(0, 181, 216, 0.7)', borderColor: 'rgba(0, 181, 216, 1)' },
+  { code: 'LL', label: 'Low Explicit · Low Implicit', color: 'rgba(84, 86, 90, 0.5)', borderColor: 'rgba(84, 86, 90, 0.8)' }
 ]
 
 const quadrantStats = computed(() => {
@@ -132,8 +132,8 @@ const updateMap = () => {
           type: 'polygon',
           shape: { points: pts },
           style: {
-            fill: 'rgba(232, 85, 78, 0.03)',
-            stroke: '#e8554e',
+            fill: 'rgba(0, 91, 172, 0.03)',
+            stroke: '#005BAC',
             lineWidth: 1.5,
             lineDash: [4, 3]
           },
@@ -183,7 +183,7 @@ const updateMap = () => {
     tooltip: {
       trigger: 'item',
       backgroundColor: 'rgba(10, 22, 40, 0.95)',
-      borderColor: 'rgba(232, 85, 78, 0.3)',
+      borderColor: 'rgba(0, 91, 172, 0.3)',
       borderWidth: 1,
       padding: [12, 16],
       textStyle: {
@@ -212,15 +212,15 @@ const updateMap = () => {
       label: { show: false },
       itemStyle: {
         areaColor: 'rgba(20, 35, 58, 0.4)',
-        borderColor: 'rgba(232, 85, 78, 0.15)',
+        borderColor: 'rgba(0, 91, 172, 0.15)',
         borderWidth: 0.8
       },
       emphasis: {
         itemStyle: {
           areaColor: 'rgba(30, 50, 80, 0.7)',
-          borderColor: 'rgba(232, 85, 78, 0.4)'
+          borderColor: 'rgba(0, 91, 172, 0.4)'
         },
-        label: { show: true, color: '#e8554e', fontSize: 10 }
+        label: { show: true, color: '#005BAC', fontSize: 10 }
       },
       scaleLimit: { min: 1, max: 20 }
     },
@@ -370,8 +370,8 @@ onUnmounted(() => {
 .section-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #e8554e;
-  background: rgba(232, 85, 78, 0.1);
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
   padding: 4px 10px;
   border-radius: 3px;
   letter-spacing: 1px;
@@ -389,12 +389,12 @@ onUnmounted(() => {
 .indicator-badge {
   display: inline-block;
   padding: 4px 10px;
-  background: rgba(74, 158, 218, 0.12);
-  border: 1px solid rgba(74, 158, 218, 0.4);
+  background: rgba(0, 181, 216, 0.12);
+  border: 1px solid rgba(0, 181, 216, 0.4);
   border-radius: 3px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #4a9eda;
+  color: #00B5D8;
   letter-spacing: 1px;
   vertical-align: middle;
 }
@@ -460,8 +460,8 @@ onUnmounted(() => {
 }
 
 .legend-item.active {
-  background: rgba(232, 85, 78, 0.08);
-  border-color: rgba(232, 85, 78, 0.4);
+  background: rgba(0, 91, 172, 0.08);
+  border-color: rgba(0, 91, 172, 0.4);
 }
 
 .legend-color {
@@ -527,11 +527,11 @@ onUnmounted(() => {
 }
 
 .x-label {
-  color: rgba(232, 85, 78, 0.6);
+  color: rgba(0, 91, 172, 0.6);
 }
 
 .y-label {
-  color: rgba(74, 158, 218, 0.6);
+  color: rgba(0, 181, 216, 0.6);
 }
 
 .reset-btn {
@@ -551,9 +551,9 @@ onUnmounted(() => {
 }
 
 .reset-btn:hover {
-  background: rgba(232, 85, 78, 0.1);
-  border-color: rgba(232, 85, 78, 0.3);
-  color: #e8554e;
+  background: rgba(0, 91, 172, 0.1);
+  border-color: rgba(0, 91, 172, 0.3);
+  color: #005BAC;
 }
 
 .reset-btn svg {

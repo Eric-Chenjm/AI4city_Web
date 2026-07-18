@@ -103,8 +103,8 @@ const getBarWidth = (stat) => {
 .section-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #e8554e;
-  background: rgba(232, 85, 78, 0.1);
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
   padding: 4px 10px;
   border-radius: 3px;
   letter-spacing: 1px;
@@ -139,13 +139,13 @@ const getBarWidth = (stat) => {
 }
 
 .indicator-icon.explicit {
-  background: rgba(232, 85, 78, 0.15);
-  color: #e8554e;
+  background: rgba(0, 91, 172, 0.15);
+  color: #005BAC;
 }
 
 .indicator-icon.implicit {
-  background: rgba(74, 158, 218, 0.15);
-  color: #4a9eda;
+  background: rgba(0, 181, 216, 0.15);
+  color: #00B5D8;
 }
 
 .indicator-info {

@@ -80,8 +80,8 @@ defineProps({
   border-radius: 50%;
 }
 
-.label-dot.original { background: #5a7a9a; }
-.label-dot.structure { background: #e8554e; }
+.label-dot.original { background: #54565A; }
+.label-dot.structure { background: #005BAC; }
 
 .image-wrapper {
   flex: 1;
@@ -109,8 +109,8 @@ defineProps({
 }
 
 .image-placeholder.pending {
-  background: rgba(232, 85, 78, 0.05);
-  color: rgba(232, 85, 78, 0.4);
+  background: rgba(0, 91, 172, 0.05);
+  color: rgba(0, 91, 172, 0.4);
 }
 
 .vs-divider {
@@ -121,7 +121,7 @@ defineProps({
   font-family: 'Syncopate', sans-serif;
   font-size: 18px;
   font-weight: 700;
-  color: rgba(232, 85, 78, 0.5);
+  color: rgba(0, 91, 172, 0.5);
 }
 
 .loading-overlay {
@@ -141,8 +141,8 @@ defineProps({
 .loading-ring {
   width: 48px;
   height: 48px;
-  border: 2px solid rgba(232, 85, 78, 0.2);
-  border-top-color: #e8554e;
+  border: 2px solid rgba(0, 91, 172, 0.2);
+  border-top-color: #005BAC;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -155,7 +155,7 @@ defineProps({
   font-family: 'Syncopate', sans-serif;
   font-size: 14px;
   font-weight: 700;
-  color: #e8554e;
+  color: #005BAC;
   letter-spacing: 2px;
   margin: 0;
 }

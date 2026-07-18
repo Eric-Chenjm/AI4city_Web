@@ -33,8 +33,8 @@
 
       <div class="pipeline-connector">
         <svg viewBox="0 0 100 20" preserveAspectRatio="none">
-          <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(232,85,78,0.3)" stroke-width="1.5" stroke-dasharray="4 3" />
-          <polygon points="95,5 100,10 95,15" fill="rgba(232,85,78,0.6)" />
+          <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(0,91,172,0.3)" stroke-width="1.5" stroke-dasharray="4 3" />
+          <polygon points="95,5 100,10 95,15" fill="rgba(0,91,172,0.6)" />
         </svg>
       </div>
 
@@ -68,8 +68,8 @@
 
       <div class="pipeline-connector">
         <svg viewBox="0 0 100 20" preserveAspectRatio="none">
-          <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(232,85,78,0.3)" stroke-width="1.5" stroke-dasharray="4 3" />
-          <polygon points="95,5 100,10 95,15" fill="rgba(232,85,78,0.6)" />
+          <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(0,91,172,0.3)" stroke-width="1.5" stroke-dasharray="4 3" />
+          <polygon points="95,5 100,10 95,15" fill="rgba(0,91,172,0.6)" />
         </svg>
       </div>
 
@@ -98,8 +98,8 @@
 
       <div class="pipeline-connector">
         <svg viewBox="0 0 100 20" preserveAspectRatio="none">
-          <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(232,85,78,0.3)" stroke-width="1.5" stroke-dasharray="4 3" />
-          <polygon points="95,5 100,10 95,15" fill="rgba(232,85,78,0.6)" />
+          <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(0,91,172,0.3)" stroke-width="1.5" stroke-dasharray="4 3" />
+          <polygon points="95,5 100,10 95,15" fill="rgba(0,91,172,0.6)" />
         </svg>
       </div>
 
@@ -134,8 +134,8 @@
 
       <div class="pipeline-connector">
         <svg viewBox="0 0 100 20" preserveAspectRatio="none">
-          <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(232,85,78,0.3)" stroke-width="1.5" stroke-dasharray="4 3" />
-          <polygon points="95,5 100,10 95,15" fill="rgba(232,85,78,0.6)" />
+          <line x1="0" y1="10" x2="100" y2="10" stroke="rgba(0,91,172,0.3)" stroke-width="1.5" stroke-dasharray="4 3" />
+          <polygon points="95,5 100,10 95,15" fill="rgba(0,91,172,0.6)" />
         </svg>
       </div>
 
@@ -214,8 +214,8 @@ const activeStep = ref(-1)
 .section-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #e8554e;
-  background: rgba(232, 85, 78, 0.1);
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
   padding: 4px 10px;
   border-radius: 3px;
   letter-spacing: 1px;
@@ -259,7 +259,7 @@ const activeStep = ref(-1)
 }
 
 .pipeline-step.active {
-  background: rgba(232, 85, 78, 0.05);
+  background: rgba(0, 91, 172, 0.05);
 }
 
 .step-node {
@@ -285,10 +285,10 @@ const activeStep = ref(-1)
 }
 
 .pipeline-step.active .node-icon {
-  border-color: #e8554e;
-  color: #e8554e;
-  background: rgba(232, 85, 78, 0.1);
-  box-shadow: 0 0 20px rgba(232, 85, 78, 0.3);
+  border-color: #005BAC;
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
+  box-shadow: 0 0 20px rgba(0, 91, 172, 0.3);
 }
 
 .node-pulse {
@@ -298,7 +298,7 @@ const activeStep = ref(-1)
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: 1.5px solid rgba(232, 85, 78, 0.4);
+  border: 1.5px solid rgba(0, 91, 172, 0.4);
   opacity: 0;
   animation: pulse 2.5s ease-out infinite;
 }
@@ -337,7 +337,7 @@ const activeStep = ref(-1)
 }
 
 .pipeline-step.active .step-title {
-  color: #e8554e;
+  color: #005BAC;
 }
 
 .step-desc {
@@ -367,13 +367,13 @@ const activeStep = ref(-1)
 }
 
 .tag.frozen {
-  color: rgba(150, 160, 180, 0.8);
-  background: rgba(150, 160, 180, 0.08);
+  color: rgba(84, 86, 90, 0.8);
+  background: rgba(84, 86, 90, 0.08);
 }
 
 .tag.accent {
-  color: #e8554e;
-  background: rgba(232, 85, 78, 0.1);
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
 }
 
 .pipeline-connector {
@@ -412,7 +412,7 @@ const activeStep = ref(-1)
   font-family: 'Syncopate', sans-serif;
   font-size: 18px;
   font-weight: 700;
-  color: #e8554e;
+  color: #005BAC;
   letter-spacing: 1px;
 }
 

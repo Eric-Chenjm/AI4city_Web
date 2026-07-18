@@ -82,10 +82,10 @@ let chartInstance = null
 const scoreDimensions = ['Creativity', 'Interaction', 'Integration', 'Ecology', 'Culture', 'Future']
 
 const quadrantColors = {
-  HH: 'rgba(232, 85, 78, 0.8)',
-  HL: 'rgba(232, 140, 100, 0.7)',
-  LH: 'rgba(240, 190, 60, 0.8)',
-  LL: 'rgba(100, 160, 200, 0.6)'
+  HH: 'rgba(0, 91, 172, 0.8)',
+  HL: 'rgba(184, 116, 42, 0.7)',
+  LH: 'rgba(0, 181, 216, 0.8)',
+  LL: 'rgba(84, 86, 90, 0.6)'
 }
 
 const quadrantLabels = {
@@ -169,7 +169,7 @@ const updateRadar = () => {
     tooltip: {
       trigger: 'item',
       backgroundColor: 'rgba(10, 22, 40, 0.95)',
-      borderColor: 'rgba(232, 85, 78, 0.3)',
+      borderColor: 'rgba(0, 91, 172, 0.3)',
       borderWidth: 1,
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit, sans-serif' },
       formatter: (params) => {
@@ -311,8 +311,8 @@ onUnmounted(() => {
 }
 
 .quadrant-stat-card.active {
-  background: rgba(232, 85, 78, 0.06);
-  border-color: rgba(232, 85, 78, 0.3);
+  background: rgba(0, 91, 172, 0.06);
+  border-color: rgba(0, 91, 172, 0.3);
 }
 
 .qs-header {
@@ -384,8 +384,8 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
-  background: rgba(232, 85, 78, 0.04);
-  border: 1px solid rgba(232, 85, 78, 0.12);
+  background: rgba(0, 91, 172, 0.04);
+  border: 1px solid rgba(0, 91, 172, 0.12);
   border-radius: 6px;
   font-family: 'Outfit', sans-serif;
   font-size: 10px;
@@ -396,7 +396,7 @@ onUnmounted(() => {
 .stats-hint svg {
   width: 14px;
   height: 14px;
-  color: rgba(232, 85, 78, 0.5);
+  color: rgba(0, 91, 172, 0.5);
   flex-shrink: 0;
 }
 

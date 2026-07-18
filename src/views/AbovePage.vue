@@ -279,7 +279,7 @@ const initThreeScene = async () => {
   const height = canvasRef.value.offsetHeight || canvasRef.value.clientHeight || window.innerHeight
   
   scene = new THREE.Scene()
-  scene.background = new THREE.Color(0x060d18)
+  scene.background = new THREE.Color(0x050a14)
   
   camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
   camera.position.set(0, 10, 14)
@@ -360,7 +360,7 @@ const initThreeScene = async () => {
       })
       const islandGeometry = new THREE.ExtrudeGeometry(shape, { depth: 0.15, bevelEnabled: false })
       const islandMaterial = new THREE.MeshStandardMaterial({
-        color: 0x152035, // 暗沉深蓝
+        color: 0x14223b, // 暗沉亮黑色
         roughness: 0.9,
         metalness: 0.1,
         transparent: true,
@@ -429,7 +429,7 @@ const initThreeScene = async () => {
         })
         const parkGeometry = new THREE.ExtrudeGeometry(shape, { depth: 0.02, bevelEnabled: false })
         const parkMaterial = new THREE.MeshStandardMaterial({
-          color: 0x1d3d2e,
+          color: 0x1b4332,
           roughness: 0.9,
           transparent: true,
           opacity: 0.8
@@ -448,7 +448,7 @@ const initThreeScene = async () => {
       const roadRes = await fetch('/data/road_FeaturesToJSON.geojson')
       const roadGeo = await roadRes.json()
       const roadMaterial = new THREE.LineBasicMaterial({
-        color: 0x5a8a6a,
+        color: 0x00B5D8,
         transparent: true,
         opacity: 0.4
       })
@@ -478,13 +478,13 @@ const initThreeScene = async () => {
       const props = feat.properties
       const height = props.height || 6
       
-      let color = 0x4a5560
+      let color = 0x54565A
       if (height >= 12) {
-        color = 0xd49450
+        color = 0x005BAC
       } else if (height >= 8 && height < 12) {
-        color = 0x9a7ab0
+        color = 0x009BB8
       } else if (height >= 5 && height < 8) {
-        color = 0x7a9a6a
+        color = 0x00B5D8
       }
       
       const coords = geom.type === 'Polygon' ? geom.coordinates[0] : geom.coordinates[0][0]
@@ -523,7 +523,7 @@ const initThreeScene = async () => {
     
     const islandGeometry = new THREE.PlaneGeometry(8, 4)
     const islandMaterial = new THREE.MeshStandardMaterial({
-      color: 0x182535,
+      color: 0x1a2a4a,
       roughness: 0.8,
       metalness: 0.2,
       transparent: true,
@@ -534,17 +534,17 @@ const initThreeScene = async () => {
     scene.add(island)
 
     const zoneData = [
-      { type: 'core', position: [0, 1.5, 0], size: [1.2, 3, 1.2], color: 0xd49450 },
-      { type: 'core', position: [1.5, 1, 0.5], size: [0.8, 2, 0.8], color: 0xd49450 },
-      { type: 'core', position: [-1.5, 1.2, -0.5], size: [1, 2.4, 1], color: 0xd49450 },
-      { type: 'blue', position: [3, 0.8, -1], size: [0.6, 1.6, 0.6], color: 0x7a9a6a },
-      { type: 'blue', position: [-2.5, 0.6, 1], size: [0.5, 1.2, 0.5], color: 0x7a9a6a },
-      { type: 'purple', position: [2, 0.7, 1.5], size: [0.5, 1.4, 0.5], color: 0x9a7ab0 },
-      { type: 'purple', position: [-3, 0.9, -0.8], size: [0.6, 1.8, 0.6], color: 0x9a7ab0 },
-      { type: 'gray', position: [3.5, 0.4, 0], size: [0.4, 0.8, 0.4], color: 0x4a5560 },
-      { type: 'gray', position: [-2, 0.5, -1.5], size: [0.4, 1, 0.4], color: 0x4a5560 },
-      { type: 'gray', position: [1, 0.3, -2], size: [0.3, 0.6, 0.3], color: 0x4a5560 },
-      { type: 'gray', position: [-3.5, 0.4, 1.5], size: [0.4, 0.8, 0.4], color: 0x4a5560 }
+      { type: 'core', position: [0, 1.5, 0], size: [1.2, 3, 1.2], color: 0x005BAC },
+      { type: 'core', position: [1.5, 1, 0.5], size: [0.8, 2, 0.8], color: 0x005BAC },
+      { type: 'core', position: [-1.5, 1.2, -0.5], size: [1, 2.4, 1], color: 0x005BAC },
+      { type: 'blue', position: [3, 0.8, -1], size: [0.6, 1.6, 0.6], color: 0x00B5D8 },
+      { type: 'blue', position: [-2.5, 0.6, 1], size: [0.5, 1.2, 0.5], color: 0x00B5D8 },
+      { type: 'purple', position: [2, 0.7, 1.5], size: [0.5, 1.4, 0.5], color: 0x009BB8 },
+      { type: 'purple', position: [-3, 0.9, -0.8], size: [0.6, 1.8, 0.6], color: 0x009BB8 },
+      { type: 'gray', position: [3.5, 0.4, 0], size: [0.4, 0.8, 0.4], color: 0x54565A },
+      { type: 'gray', position: [-2, 0.5, -1.5], size: [0.4, 1, 0.4], color: 0x54565A },
+      { type: 'gray', position: [1, 0.3, -2], size: [0.3, 0.6, 0.3], color: 0x54565A },
+      { type: 'gray', position: [-3.5, 0.4, 1.5], size: [0.4, 0.8, 0.4], color: 0x54565A }
     ]
     
     zoneData.forEach(data => {
@@ -602,7 +602,7 @@ const initRadarChart = () => {
       else ctx.lineTo(x, y)
     }
     ctx.closePath()
-    ctx.strokeStyle = level === 5 ? 'rgba(212, 148, 80, 0.3)' : 'rgba(255, 255, 255, 0.1)'
+    ctx.strokeStyle = level === 5 ? 'rgba(0, 91, 172, 0.3)' : 'rgba(255, 255, 255, 0.1)'
     ctx.lineWidth = 1
     ctx.stroke()
   }
@@ -633,13 +633,13 @@ const initRadarChart = () => {
   ctx.closePath()
   
   const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius)
-  gradient.addColorStop(0, 'rgba(212, 148, 80, 0.6)')
-  gradient.addColorStop(0.5, 'rgba(184, 125, 62, 0.4)')
-  gradient.addColorStop(1, 'rgba(154, 104, 48, 0.1)')
+  gradient.addColorStop(0, 'rgba(0, 91, 172, 0.6)')
+  gradient.addColorStop(0.5, 'rgba(0, 74, 140, 0.4)')
+  gradient.addColorStop(1, 'rgba(0, 74, 140, 0.1)')
   ctx.fillStyle = gradient
   ctx.fill()
   
-  ctx.strokeStyle = '#d49450'
+  ctx.strokeStyle = '#005BAC'
   ctx.lineWidth = 2
   ctx.stroke()
   
@@ -651,12 +651,12 @@ const initRadarChart = () => {
     
     ctx.beginPath()
     ctx.arc(x, y, 5, 0, Math.PI * 2)
-    ctx.fillStyle = '#d49450'
+    ctx.fillStyle = '#005BAC'
     ctx.fill()
     
     ctx.beginPath()
     ctx.arc(x, y, 8, 0, Math.PI * 2)
-    ctx.strokeStyle = '#d49450'
+    ctx.strokeStyle = '#005BAC'
     ctx.lineWidth = 2
     ctx.stroke()
   })
@@ -729,7 +729,7 @@ onUnmounted(() => {
   scroll-snap-stop: always;
   position: relative;
   overflow: hidden;
-  background: #060d18;
+  background: #050a14;
 }
 
 .screen-1 {
@@ -753,8 +753,8 @@ onUnmounted(() => {
   width: 200%;
   height: 200%;
   background-image: 
-    linear-gradient(rgba(212, 148, 80, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 148, 80, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(0, 91, 172, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 91, 172, 0.05) 1px, transparent 1px);
   background-size: 50px 50px;
   transform: rotate(-5deg);
   animation: gridMove 60s linear infinite;
@@ -774,7 +774,7 @@ onUnmounted(() => {
 .particle {
   position: absolute;
   top: -20px;
-  background: radial-gradient(circle, #d49450, transparent);
+  background: radial-gradient(circle, #005BAC, transparent);
   border-radius: 50%;
   opacity: 0.6;
   animation: particleFall linear infinite;
@@ -816,14 +816,14 @@ onUnmounted(() => {
   color: #ffffff;
   text-transform: uppercase;
   margin-bottom: 8px;
-  text-shadow: 0 0 40px rgba(212, 148, 80, 0.3);
+  text-shadow: 0 0 40px rgba(0, 91, 172, 0.3);
 }
 
 .hero-subtitle {
   font-family: 'Syncopate', sans-serif;
   font-size: 28px;
   font-weight: 300;
-  color: #d49450;
+  color: #005BAC;
   letter-spacing: 8px;
 }
 
@@ -843,10 +843,10 @@ onUnmounted(() => {
   left: 50%;
   transform: translateX(-50%);
   padding: 16px 32px;
-  background: linear-gradient(135deg, #d49450, #b87d3e);
+  background: linear-gradient(135deg, #005BAC, #004A8C);
   border: none;
   border-radius: 40px;
-  color: #0b1320;
+  color: #0a1628;
   font-family: 'Syncopate', sans-serif;
   font-size: 14px;
   font-weight: 700;
@@ -856,12 +856,12 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(212, 148, 80, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 91, 172, 0.3);
 }
 
 .explore-btn:hover {
   transform: translateX(-50%) translateY(-3px);
-  box-shadow: 0 15px 40px rgba(212, 148, 80, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 91, 172, 0.4);
 }
 
 .explore-btn .arrow {
@@ -899,7 +899,7 @@ onUnmounted(() => {
 .section-desc {
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
-  color: #d49450;
+  color: #005BAC;
   letter-spacing: 2px;
 }
 
@@ -923,7 +923,7 @@ onUnmounted(() => {
 }
 
 .gallery-scroll::-webkit-scrollbar-thumb {
-  background: #d49450;
+  background: #005BAC;
   border-radius: 3px;
 }
 
@@ -985,7 +985,7 @@ onUnmounted(() => {
   top: 0;
   bottom: 0;
   width: 4px;
-  background: #d49450;
+  background: #005BAC;
   cursor: ew-resize;
   z-index: 10;
   display: flex;
@@ -998,12 +998,12 @@ onUnmounted(() => {
 .slider-handle {
   width: 40px;
   height: 40px;
-  background: rgba(212, 148, 80, 0.9);
+  background: rgba(0, 91, 172, 0.9);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(212, 148, 80, 0.5);
+  box-shadow: 0 0 20px rgba(0, 91, 172, 0.5);
   outline: none;
   user-select: none;
   -webkit-user-select: none;
@@ -1011,7 +1011,7 @@ onUnmounted(() => {
 
 .handle-icon {
   font-size: 14px;
-  color: #0b1320;
+  color: #0a1628;
 }
 
 .comparison-info {
@@ -1052,7 +1052,7 @@ onUnmounted(() => {
 }
 
 .indicator.active {
-  background: #d49450;
+  background: #005BAC;
   transform: scale(1.2);
 }
 
@@ -1077,8 +1077,8 @@ onUnmounted(() => {
   position: absolute;
   bottom: 80px;
   right: 80px;
-  background: rgba(11, 19, 32, 0.85);
-  border: 1px solid rgba(212, 148, 80, 0.4);
+  background: rgba(10, 22, 40, 0.85);
+  border: 1px solid rgba(0, 91, 172, 0.4);
   border-radius: 8px;
   padding: 16px;
   backdrop-filter: blur(12px);
@@ -1090,7 +1090,7 @@ onUnmounted(() => {
   font-family: 'Syncopate', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #d49450;
+  color: #005BAC;
   margin-bottom: 12px;
   letter-spacing: 1px;
 }
@@ -1116,10 +1116,10 @@ onUnmounted(() => {
   border-radius: 2px;
 }
 
-.legend-color.crimson { background: #d49450; box-shadow: 0 0 10px rgba(212, 148, 80, 0.5); }
-.legend-color.blue { background: #7a9a6a; box-shadow: 0 0 10px rgba(122, 154, 106, 0.5); }
-.legend-color.purple { background: #9a7ab0; box-shadow: 0 0 10px rgba(154, 122, 176, 0.5); }
-.legend-color.gray { background: #4a5560; }
+.legend-color.crimson { background: #005BAC; box-shadow: 0 0 10px rgba(0, 91, 172, 0.5); }
+.legend-color.blue { background: #00B5D8; box-shadow: 0 0 10px rgba(0, 181, 216, 0.5); }
+.legend-color.purple { background: #009BB8; box-shadow: 0 0 10px rgba(0, 155, 184, 0.5); }
+.legend-color.gray { background: #54565A; }
 
 .scene-hint {
   position: absolute;
@@ -1162,8 +1162,8 @@ onUnmounted(() => {
   font-family: 'Syncopate', sans-serif;
   font-size: 96px;
   font-weight: 900;
-  color: #d49450;
-  text-shadow: 0 0 60px rgba(212, 148, 80, 0.4);
+  color: #005BAC;
+  text-shadow: 0 0 60px rgba(0, 91, 172, 0.4);
   line-height: 1;
 }
 
@@ -1200,10 +1200,10 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   padding: 20px 48px;
-  background: linear-gradient(135deg, #d49450, #b87d3e);
+  background: linear-gradient(135deg, #005BAC, #004A8C);
   border: none;
   border-radius: 40px;
-  color: #0b1320;
+  color: #0a1628;
   font-family: 'Syncopate', sans-serif;
   font-size: 16px;
   font-weight: 700;
@@ -1211,12 +1211,12 @@ onUnmounted(() => {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(212, 148, 80, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 91, 172, 0.3);
 }
 
 .enter-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(212, 148, 80, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 91, 172, 0.4);
 }
 
 .enter-btn .arrow {

@@ -58,9 +58,9 @@ const toggleMobileMenu = () => {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(11, 19, 32, 0.95);
+  background: rgba(10, 22, 40, 0.95);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(212, 148, 80, 0.2);
+  border-bottom: 1px solid rgba(0, 91, 172, 0.2);
 }
 
 .navbar-container {
@@ -91,7 +91,7 @@ const toggleMobileMenu = () => {
   font-family: 'Syncopate', sans-serif;
   font-size: 18px;
   font-weight: 700;
-  color: #d49450;
+  color: #005BAC;
   letter-spacing: 3px;
 }
 
@@ -112,11 +112,11 @@ const toggleMobileMenu = () => {
 }
 
 .nav-link:hover {
-  color: #d49450;
+  color: #005BAC;
 }
 
 .nav-link.active {
-  color: #d49450;
+  color: #005BAC;
 }
 
 .nav-link.active::after {
@@ -126,7 +126,7 @@ const toggleMobileMenu = () => {
   left: 0;
   right: 0;
   height: 2px;
-  background: #d49450;
+  background: #005BAC;
   border-radius: 1px;
 }
 
@@ -141,8 +141,8 @@ const toggleMobileMenu = () => {
 
 .mobile-menu {
   display: none;
-  background: rgba(11, 19, 32, 0.98);
-  border-top: 1px solid rgba(212, 148, 80, 0.2);
+  background: rgba(10, 22, 40, 0.98);
+  border-top: 1px solid rgba(0, 91, 172, 0.2);
 }
 
 .mobile-link {
@@ -157,8 +157,8 @@ const toggleMobileMenu = () => {
 }
 
 .mobile-link:hover {
-  background: rgba(212, 148, 80, 0.1);
-  color: #d49450;
+  background: rgba(0, 91, 172, 0.1);
+  color: #005BAC;
 }
 
 @media (max-width: 768px) {

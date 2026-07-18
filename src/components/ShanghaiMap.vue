@@ -65,29 +65,29 @@ const getIndicatorColor = (normalized, isExplicit) => {
   if (isExplicit) {
     if (t < 0.5) {
       const k = t / 0.5
-      const r = Math.round(120 + (232 - 120) * k)
-      const g = Math.round(40 + (85 - 40) * k)
-      const b = Math.round(40 + (78 - 40) * k)
+      const r = Math.round(0 + (0 - 0) * k)
+      const g = Math.round(40 + (91 - 40) * k)
+      const b = Math.round(80 + (172 - 80) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.35 + 0.35 * k})`
     } else {
       const k = (t - 0.5) / 0.5
-      const r = Math.round(232 + (255 - 232) * k)
-      const g = Math.round(85 + (170 - 85) * k)
-      const b = Math.round(78 + (90 - 78) * k)
+      const r = Math.round(0 + (0 - 0) * k)
+      const g = Math.round(91 + (181 - 91) * k)
+      const b = Math.round(172 + (216 - 172) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.7 + 0.25 * k})`
     }
   } else {
     if (t < 0.5) {
       const k = t / 0.5
-      const r = Math.round(30 + (60 - 30) * k)
+      const r = Math.round(20 + (60 - 20) * k)
       const g = Math.round(60 + (110 - 60) * k)
-      const b = Math.round(120 + (180 - 120) * k)
+      const b = Math.round(80 + (180 - 80) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.35 + 0.35 * k})`
     } else {
       const k = (t - 0.5) / 0.5
-      const r = Math.round(60 + (100 - 60) * k)
-      const g = Math.round(110 + (170 - 110) * k)
-      const b = Math.round(180 + (240 - 180) * k)
+      const r = Math.round(0 + (100 - 0) * k)
+      const g = Math.round(181 + (220 - 181) * k)
+      const b = Math.round(216 + (245 - 216) * k)
       return `rgba(${r}, ${g}, ${b}, ${0.7 + 0.25 * k})`
     }
   }
@@ -145,8 +145,8 @@ const updateMap = () => {
           type: 'polygon',
           shape: { points: pts },
           style: {
-            fill: 'rgba(232, 85, 78, 0.03)',
-            stroke: '#e8554e',
+            fill: 'rgba(0, 91, 172, 0.03)',
+            stroke: '#005BAC',
             lineWidth: 1.5,
             lineDash: [4, 3]
           },
@@ -180,7 +180,7 @@ const updateMap = () => {
           shape: { points: pts },
           style: {
             fill: color,
-            stroke: isCurrentExplicit ? 'rgba(232, 85, 78, 0.2)' : 'rgba(74, 158, 218, 0.2)',
+            stroke: isCurrentExplicit ? 'rgba(0, 91, 172, 0.2)' : 'rgba(0, 181, 216, 0.2)',
             lineWidth: 0.3
           },
           silent: false
@@ -218,7 +218,7 @@ const updateMap = () => {
             shape: { points: pts },
             style: {
               fill: color,
-              stroke: 'rgba(74, 158, 218, 0.2)',
+              stroke: 'rgba(0, 181, 216, 0.2)',
               lineWidth: 0.3
             },
             silent: false
@@ -239,9 +239,9 @@ const updateMap = () => {
         data: implicitPoints.map(p => ({
           value: p,
           itemStyle: {
-            color: '#4a9eda',
+            color: '#00B5D8',
             shadowBlur: 15,
-            shadowColor: 'rgba(74, 158, 218, 0.6)'
+            shadowColor: 'rgba(0, 181, 216, 0.6)'
           }
         })),
         symbolSize: (val) => val[2] / 4,
@@ -257,7 +257,7 @@ const updateMap = () => {
     tooltip: {
       trigger: 'item',
       backgroundColor: 'rgba(10, 22, 40, 0.95)',
-      borderColor: 'rgba(232, 85, 78, 0.3)',
+      borderColor: 'rgba(0, 91, 172, 0.3)',
       borderWidth: 1,
       padding: [12, 16],
       textStyle: {
@@ -281,15 +281,15 @@ const updateMap = () => {
       label: { show: false },
       itemStyle: {
         areaColor: 'rgba(20, 35, 58, 0.4)',
-        borderColor: 'rgba(232, 85, 78, 0.15)',
+        borderColor: 'rgba(0, 91, 172, 0.15)',
         borderWidth: 0.8
       },
       emphasis: {
         itemStyle: {
           areaColor: 'rgba(30, 50, 80, 0.7)',
-          borderColor: 'rgba(232, 85, 78, 0.4)'
+          borderColor: 'rgba(0, 91, 172, 0.4)'
         },
-        label: { show: true, color: '#e8554e', fontSize: 10 }
+        label: { show: true, color: '#005BAC', fontSize: 10 }
       },
       scaleLimit: { min: 1, max: 20 }
     },
@@ -373,8 +373,8 @@ onUnmounted(() => {
 .section-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #e8554e;
-  background: rgba(232, 85, 78, 0.1);
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
   padding: 4px 10px;
   border-radius: 3px;
   letter-spacing: 1px;
@@ -393,19 +393,19 @@ onUnmounted(() => {
   display: inline-block;
   margin-left: 12px;
   padding: 4px 10px;
-  background: rgba(232, 85, 78, 0.12);
-  border: 1px solid rgba(232, 85, 78, 0.4);
+  background: rgba(0, 91, 172, 0.12);
+  border: 1px solid rgba(0, 91, 172, 0.4);
   border-radius: 3px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #e8554e;
+  color: #005BAC;
   letter-spacing: 1px;
   vertical-align: middle;
 }
 
 .indicator-badge.study-area {
-  background: rgba(232, 85, 78, 0.08);
-  border-color: rgba(232, 85, 78, 0.6);
+  background: rgba(0, 91, 172, 0.08);
+  border-color: rgba(0, 91, 172, 0.6);
   border-style: dashed;
 }
 
@@ -441,11 +441,11 @@ onUnmounted(() => {
 
 .legend-gradient.explicit,
 .legend-gradient.overlay {
-  background: linear-gradient(90deg, rgba(120, 40, 40, 0.5), rgba(232, 85, 78, 0.8), rgba(255, 170, 90, 0.9));
+  background: linear-gradient(90deg, rgba(0, 40, 80, 0.5), rgba(0, 91, 172, 0.8), rgba(0, 181, 216, 0.9));
 }
 
 .legend-gradient.implicit {
-  background: linear-gradient(90deg, rgba(30, 60, 100, 0.5), rgba(74, 158, 218, 0.8), rgba(140, 200, 255, 0.9));
+  background: linear-gradient(90deg, rgba(20, 60, 80, 0.5), rgba(0, 181, 216, 0.8), rgba(100, 220, 245, 0.9));
 }
 
 .legend-labels {

@@ -105,7 +105,7 @@ const structureImage = ref(null)
 const isAnalyzing = ref(false)
 
 const extractedMetrics = reactive({
-  buildingDensity: { label: 'Building Density', value: 0, unit: '%', color: '#e8554e', desc: 'Ratio of building area to total area' },
+  buildingDensity: { label: 'Building Density', value: 0, unit: '%', color: '#005BAC', desc: 'Ratio of building area to total area' },
   greenCoverage: { label: 'Green Coverage', value: 0, unit: '%', color: '#4ade80', desc: 'Percentage of vegetation and green space' },
   openness: { label: 'Open Space Ratio', value: 0, unit: '%', color: '#60a5fa', desc: 'Proportion of accessible public space' },
   heightVariance: { label: 'Height Variance', value: 0, unit: 'm', color: '#a78bfa', desc: 'Standard deviation of building heights' },
@@ -154,16 +154,16 @@ const analyze = async () => {
   --bg-primary: #0a1628;
   --bg-card: rgba(15, 28, 48, 0.6);
   --bg-card-hover: rgba(20, 35, 58, 0.7);
-  --gold: #e8554e;
-  --gold-light: #c7453f;
-  --gold-dim: rgba(232, 85, 78, 0.3);
-  --crimson: #e8554e;
-  --crimson-light: #c7453f;
+  --gold: #005BAC;
+  --gold-light: #004A8C;
+  --gold-dim: rgba(0, 91, 172, 0.3);
+  --crimson: #005BAC;
+  --crimson-light: #004A8C;
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.6);
   --text-muted: rgba(255, 255, 255, 0.35);
-  --border: rgba(232, 85, 78, 0.15);
-  --border-active: rgba(232, 85, 78, 0.5);
+  --border: rgba(0, 91, 172, 0.15);
+  --border-active: rgba(0, 91, 172, 0.5);
   --font-display: 'Syncopate', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
@@ -183,8 +183,8 @@ const analyze = async () => {
   width: 100%;
   height: 100%;
   background-image: 
-    linear-gradient(rgba(232, 85, 78, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(232, 85, 78, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(0, 91, 172, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 91, 172, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
@@ -196,7 +196,7 @@ const analyze = async () => {
   right: -10%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(212, 168, 75, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 91, 172, 0.08) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
   animation: glowDrift 20s ease-in-out infinite;
@@ -285,7 +285,7 @@ const analyze = async () => {
   font-size: 11px;
   font-weight: 700;
   color: var(--crimson);
-  background: rgba(232, 85, 78, 0.1);
+  background: rgba(0, 91, 172, 0.1);
   padding: 4px 8px;
   border-radius: 4px;
 }
@@ -326,7 +326,7 @@ const analyze = async () => {
 
 .btn-analyze:hover:not(.disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(232, 85, 78, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 91, 172, 0.3);
 }
 
 .btn-analyze.disabled {
@@ -362,7 +362,7 @@ const analyze = async () => {
 }
 
 .btn-reset:hover {
-  border-color: rgba(232, 85, 78, 0.5);
+  border-color: rgba(0, 91, 172, 0.5);
   color: var(--crimson);
 }
 

@@ -352,14 +352,14 @@ const exampleScores = [
 ]
 
 const fuxingZones = [
-  { id: 'core', color: '#e8554e', name: 'Innovation Core', feature: 'High explicit + High implicit — dense innovation ecosystem', strategy: 'Upgrade shared workspaces and creative workshops; strengthen tech-transfer platforms.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8 12 2"/></svg>' },
-  { id: 'activate', color: '#e8554e', name: 'Activation Zone', feature: 'High explicit + Low implicit — infrastructure-ready but lacking atmosphere', strategy: 'Inject cultural programming and public art; activate street-level engagement.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>' },
-  { id: 'catalyst', color: '#8a5acf', name: 'Catalyst Zone', feature: 'Low explicit + High implicit — vibrant atmosphere but lacking formal institutions', strategy: 'Attract anchor tech tenants; formalize creative clusters with policy support.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' },
-  { id: 'develop', color: '#6a7a8a', name: 'Development Zone', feature: 'Dual-low — future potential areas', strategy: 'Phase long-term development; prioritize infrastructure and land preparation.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h18v18H3z M3 9h18 M9 21V9"/></svg>' }
+  { id: 'core', color: '#005BAC', name: 'Innovation Core', feature: 'High explicit + High implicit — dense innovation ecosystem', strategy: 'Upgrade shared workspaces and creative workshops; strengthen tech-transfer platforms.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8 12 2"/></svg>' },
+  { id: 'activate', color: '#005BAC', name: 'Activation Zone', feature: 'High explicit + Low implicit — infrastructure-ready but lacking atmosphere', strategy: 'Inject cultural programming and public art; activate street-level engagement.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>' },
+  { id: 'catalyst', color: '#00B5D8', name: 'Catalyst Zone', feature: 'Low explicit + High implicit — vibrant atmosphere but lacking formal institutions', strategy: 'Attract anchor tech tenants; formalize creative clusters with policy support.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' },
+  { id: 'develop', color: '#54565A', name: 'Development Zone', feature: 'Dual-low — future potential areas', strategy: 'Phase long-term development; prioritize infrastructure and land preparation.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h18v18H3z M3 9h18 M9 21V9"/></svg>' }
 ]
 
 const getMapDotStyle = (i) => {
-  const colors = ['#e8554e', '#e8554e', '#8a5acf', '#6a7a8a']
+  const colors = ['#005BAC', '#005BAC', '#00B5D8', '#54565A']
   const color = colors[i % 4]
   const left = 10 + (i * 37) % 80
   const top = 15 + (i * 53) % 70
@@ -381,10 +381,10 @@ const initScatter = () => {
   scatterChartInstance = echarts.init(scatterChart.value)
 
   const clusterData = {
-    core: { color: '#e8554e', data: [] },
-    activate: { color: '#e8554e', data: [] },
-    catalyst: { color: '#8a5acf', data: [] },
-    develop: { color: '#6a7a8a', data: [] }
+    core: { color: '#005BAC', data: [] },
+    activate: { color: '#005BAC', data: [] },
+    catalyst: { color: '#00B5D8', data: [] },
+    develop: { color: '#54565A', data: [] }
   }
 
   // Generate mock scatter data
@@ -410,7 +410,7 @@ const initScatter = () => {
     backgroundColor: 'transparent',
     tooltip: {
       backgroundColor: 'rgba(10, 22, 40, 0.95)',
-      borderColor: 'rgba(212, 168, 75, 0.3)',
+      borderColor: 'rgba(0, 91, 172, 0.3)',
       borderWidth: 1,
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'JetBrains Mono, monospace' },
       formatter: (params) => `Cluster: ${params.seriesName}<br/>Explicit: ${params.value[0].toFixed(2)}<br/>Implicit: ${params.value[1].toFixed(2)}`
@@ -509,19 +509,19 @@ onUnmounted(() => {
 .method-page {
   --bg-primary: #0a1628;
   --bg-card: rgba(15, 28, 48, 0.6);
-  --gold: #e8554e;
-  --gold-light: #c7453f;
-  --gold-dim: rgba(232, 85, 78, 0.3);
-  --crimson: #e8554e;
-  --crimson-dim: rgba(232, 85, 78, 0.3);
-  --blue: #4a9eda;
-  --purple: #8a5acf;
-  --gray: #6a7a8a;
+  --gold: #005BAC;
+  --gold-light: #004A8C;
+  --gold-dim: rgba(0, 91, 172, 0.3);
+  --crimson: #005BAC;
+  --crimson-dim: rgba(0, 91, 172, 0.3);
+  --blue: #00B5D8;
+  --purple: #00B5D8;
+  --gray: #54565A;
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.6);
   --text-muted: rgba(255, 255, 255, 0.35);
-  --border: rgba(232, 85, 78, 0.15);
-  --border-active: rgba(232, 85, 78, 0.5);
+  --border: rgba(0, 91, 172, 0.15);
+  --border-active: rgba(0, 91, 172, 0.5);
   --font-display: 'Syncopate', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
@@ -562,7 +562,7 @@ onUnmounted(() => {
   font-size: 10px;
   font-weight: 700;
   color: var(--gold);
-  background: rgba(212, 168, 75, 0.1);
+  background: rgba(0, 91, 172, 0.1);
   border: 1px solid var(--gold-dim);
   padding: 4px 12px;
   border-radius: 3px;
@@ -654,7 +654,7 @@ onUnmounted(() => {
   font-family: var(--font-display);
   font-size: 280px;
   font-weight: 700;
-  color: rgba(212, 168, 75, 0.03);
+  color: rgba(0, 91, 172, 0.03);
   letter-spacing: -10px;
   line-height: 1;
 }
@@ -678,7 +678,7 @@ onUnmounted(() => {
   font-size: 10px;
   font-weight: 700;
   color: var(--gold);
-  background: rgba(212, 168, 75, 0.1);
+  background: rgba(0, 91, 172, 0.1);
   border: 1px solid var(--gold-dim);
   padding: 4px 12px;
   border-radius: 3px;
@@ -734,10 +734,10 @@ onUnmounted(() => {
 
 .flow-node:hover,
 .flow-node.active {
-  background: rgba(212, 168, 75, 0.08);
+  background: rgba(0, 91, 172, 0.08);
   border-color: var(--gold);
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(212, 168, 75, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 91, 172, 0.15);
 }
 
 .flow-node.visited {
@@ -751,7 +751,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(212, 168, 75, 0.08);
+  background: rgba(0, 91, 172, 0.08);
   border-radius: 8px;
 }
 
@@ -858,7 +858,7 @@ onUnmounted(() => {
 }
 
 .column-dot.explicit { background: var(--crimson); box-shadow: 0 0 10px var(--crimson-dim); }
-.column-dot.implicit { background: var(--blue); box-shadow: 0 0 10px rgba(74, 158, 218, 0.3); }
+.column-dot.implicit { background: var(--blue); box-shadow: 0 0 10px rgba(0, 181, 216, 0.3); }
 
 .column-title {
   font-family: var(--font-mono);
@@ -873,7 +873,7 @@ onUnmounted(() => {
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--gold);
-  background: rgba(212, 168, 75, 0.1);
+  background: rgba(0, 91, 172, 0.1);
   padding: 2px 8px;
   border-radius: 3px;
 }
@@ -902,7 +902,7 @@ onUnmounted(() => {
 }
 
 .indicator-item:hover {
-  background: rgba(212, 168, 75, 0.05);
+  background: rgba(0, 91, 172, 0.05);
   border-color: var(--border-active);
 }
 
@@ -913,7 +913,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(212, 168, 75, 0.06);
+  background: rgba(0, 91, 172, 0.06);
   border-radius: 6px;
 }
 
@@ -956,8 +956,8 @@ onUnmounted(() => {
   align-items: center;
   gap: 10px;
   padding: 12px;
-  background: rgba(74, 158, 218, 0.08);
-  border: 1px solid rgba(74, 158, 218, 0.2);
+  background: rgba(0, 181, 216, 0.08);
+  border: 1px solid rgba(0, 181, 216, 0.2);
   border-radius: 8px;
   margin-top: 12px;
 }
@@ -1012,7 +1012,7 @@ onUnmounted(() => {
   font-size: 9px;
   font-weight: 700;
   color: var(--crimson);
-  background: rgba(232, 85, 78, 0.1);
+  background: rgba(0, 91, 172, 0.1);
   border: 1px solid var(--crimson-dim);
   padding: 2px 8px;
   border-radius: 3px;
@@ -1050,18 +1050,18 @@ onUnmounted(() => {
 }
 
 .stage-box.input {
-  background: rgba(232, 85, 78, 0.1);
+  background: rgba(0, 91, 172, 0.1);
   border: 1px solid var(--crimson-dim);
 }
 
 .stage-box.process {
-  background: rgba(212, 168, 75, 0.1);
+  background: rgba(0, 91, 172, 0.1);
   border: 1px solid var(--gold-dim);
 }
 
 .stage-box.output {
-  background: rgba(74, 158, 218, 0.1);
-  border: 1px solid rgba(74, 158, 218, 0.3);
+  background: rgba(0, 181, 216, 0.1);
+  border: 1px solid rgba(0, 181, 216, 0.3);
 }
 
 .stage-label {
@@ -1403,7 +1403,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   padding: 16px 36px;
-  background: linear-gradient(135deg, var(--crimson), #b03a36);
+  background: linear-gradient(135deg, var(--crimson), #003D73);
   border: none;
   border-radius: 40px;
   color: #ffffff;
@@ -1414,12 +1414,12 @@ onUnmounted(() => {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(232, 85, 78, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 91, 172, 0.3);
 }
 
 .cta-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(232, 85, 78, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 91, 172, 0.4);
 }
 
 .cta-arrow svg {

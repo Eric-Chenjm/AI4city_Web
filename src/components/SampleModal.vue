@@ -97,7 +97,7 @@ const initRadar = () => {
         lineStyle: { color: 'rgba(255, 255, 255, 0.1)' }
       },
       splitArea: {
-        areaStyle: { color: ['rgba(74, 158, 218, 0.03)', 'rgba(74, 158, 218, 0.06)', 'rgba(74, 158, 218, 0.09)', 'rgba(74, 158, 218, 0.12)'] }
+        areaStyle: { color: ['rgba(0, 181, 216, 0.03)', 'rgba(0, 181, 216, 0.06)', 'rgba(0, 181, 216, 0.09)', 'rgba(0, 181, 216, 0.12)'] }
       },
       axisLine: {
         lineStyle: { color: 'rgba(255, 255, 255, 0.2)' }
@@ -111,14 +111,14 @@ const initRadar = () => {
         symbol: 'circle',
         symbolSize: 6,
         lineStyle: {
-          color: '#4a9eda',
+          color: '#00B5D8',
           width: 2
         },
         areaStyle: {
-          color: 'rgba(74, 158, 218, 0.3)'
+          color: 'rgba(0, 181, 216, 0.3)'
         },
         itemStyle: {
-          color: '#4a9eda',
+          color: '#00B5D8',
           borderColor: '#ffffff',
           borderWidth: 2
         }
@@ -178,7 +178,7 @@ onUnmounted(() => {
 
 .modal-content {
   background: rgba(10, 22, 40, 0.98);
-  border: 1px solid rgba(232, 85, 78, 0.3);
+  border: 1px solid rgba(0, 91, 172, 0.3);
   border-radius: 16px;
   max-width: 900px;
   width: 90%;
@@ -218,9 +218,9 @@ onUnmounted(() => {
 }
 
 .modal-close:hover {
-  background: rgba(232, 85, 78, 0.2);
-  border-color: rgba(232, 85, 78, 0.4);
-  color: #e8554e;
+  background: rgba(0, 91, 172, 0.2);
+  border-color: rgba(0, 91, 172, 0.4);
+  color: #005BAC;
 }
 
 .modal-close svg {
@@ -269,10 +269,10 @@ onUnmounted(() => {
   letter-spacing: 2px;
 }
 
-.region-HH { background: rgba(232, 85, 78, 0.9); color: #fff; }
-.region-HL { background: rgba(232, 140, 100, 0.9); color: #fff; }
-.region-LH { background: rgba(240, 190, 60, 0.9); color: #fff; }
-.region-LL { background: rgba(100, 160, 200, 0.9); color: #fff; }
+.region-HH { background: rgba(0, 91, 172, 0.9); color: #fff; }
+.region-HL { background: rgba(184, 116, 42, 0.9); color: #fff; }
+.region-LH { background: rgba(0, 181, 216, 0.9); color: #fff; }
+.region-LL { background: rgba(84, 86, 90, 0.9); color: #fff; }
 
 .modal-location {
   font-family: 'JetBrains Mono', monospace;
@@ -339,7 +339,7 @@ onUnmounted(() => {
 
 .score-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4a9eda, #6bb8f0);
+  background: linear-gradient(90deg, #00B5D8, #33D4F0);
   border-radius: 3px;
   transition: width 0.3s ease-out;
 }
@@ -347,7 +347,7 @@ onUnmounted(() => {
 .score-value {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: #4a9eda;
+  color: #00B5D8;
   font-weight: 600;
   width: 30px;
   text-align: right;

@@ -75,8 +75,8 @@ defineEmits(['select'])
 .section-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #e8554e;
-  background: rgba(232, 85, 78, 0.1);
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
   padding: 4px 10px;
   border-radius: 3px;
   letter-spacing: 1px;
@@ -117,7 +117,7 @@ defineEmits(['select'])
 }
 
 .sample-card:hover {
-  border-color: rgba(232, 85, 78, 0.4);
+  border-color: rgba(0, 91, 172, 0.4);
   transform: translateY(-2px);
 }
 
@@ -159,7 +159,7 @@ defineEmits(['select'])
 .overlay-icon {
   font-family: 'Syncopate', sans-serif;
   font-size: 32px;
-  color: #e8554e;
+  color: #005BAC;
 }
 
 .sample-region-badge {
@@ -176,22 +176,22 @@ defineEmits(['select'])
 }
 
 .region-HH {
-  background: rgba(232, 85, 78, 0.9);
+  background: rgba(0, 91, 172, 0.9);
   color: #fff;
 }
 
 .region-HL {
-  background: rgba(232, 140, 100, 0.9);
+  background: rgba(184, 116, 42, 0.9);
   color: #fff;
 }
 
 .region-LH {
-  background: rgba(240, 190, 60, 0.9);
+  background: rgba(0, 181, 216, 0.9);
   color: #fff;
 }
 
 .region-LL {
-  background: rgba(100, 160, 200, 0.9);
+  background: rgba(84, 86, 90, 0.9);
   color: #fff;
 }
 

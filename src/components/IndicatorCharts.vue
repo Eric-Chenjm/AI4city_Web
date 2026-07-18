@@ -384,8 +384,8 @@ onUnmounted(() => {
 .section-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #2a8ac9;
-  background: rgba(42, 138, 201, 0.12);
+  color: #009BB8;
+  background: rgba(0, 155, 184, 0.12);
   padding: 4px 10px;
   border-radius: 3px;
   letter-spacing: 1px;
@@ -404,12 +404,12 @@ onUnmounted(() => {
   display: inline-block;
   margin-left: auto;
   padding: 4px 10px;
-  background: rgba(42, 138, 201, 0.1);
-  border: 1px solid rgba(42, 138, 201, 0.4);
+  background: rgba(0, 155, 184, 0.1);
+  border: 1px solid rgba(0, 155, 184, 0.4);
   border-radius: 3px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #2a8ac9;
+  color: #009BB8;
   letter-spacing: 1px;
 }
 
@@ -437,8 +437,8 @@ onUnmounted(() => {
 .chart-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
-  color: #2a8ac9;
-  background: rgba(42, 138, 201, 0.1);
+  color: #009BB8;
+  background: rgba(0, 155, 184, 0.1);
   padding: 3px 8px;
   border-radius: 3px;
   letter-spacing: 1.2px;

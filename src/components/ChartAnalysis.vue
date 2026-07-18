@@ -65,7 +65,7 @@ const buildBarOption = () => {
       trigger: 'axis',
       axisPointer: { type: 'shadow' },
       backgroundColor: 'rgba(10, 22, 40, 0.9)',
-      borderColor: 'rgba(232, 85, 78, 0.3)',
+      borderColor: 'rgba(0, 91, 172, 0.3)',
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'JetBrains Mono' }
     },
     grid: {
@@ -118,7 +118,7 @@ const buildPieOption = () => {
     tooltip: {
       trigger: 'item',
       backgroundColor: 'rgba(10, 22, 40, 0.9)',
-      borderColor: 'rgba(232, 85, 78, 0.3)',
+      borderColor: 'rgba(0, 91, 172, 0.3)',
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'JetBrains Mono' },
       formatter: '{b}: {c} ({d}%)'
     },
@@ -154,7 +154,7 @@ const buildRadarOption = () => {
     backgroundColor: 'transparent',
     tooltip: {
       backgroundColor: 'rgba(10, 22, 40, 0.9)',
-      borderColor: 'rgba(232, 85, 78, 0.3)',
+      borderColor: 'rgba(0, 91, 172, 0.3)',
       textStyle: { color: '#fff', fontSize: 11, fontFamily: 'JetBrains Mono' }
     },
     radar: {
@@ -181,11 +181,11 @@ const buildRadarOption = () => {
       data: [{
         value: values,
         name: 'Structure',
-        lineStyle: { color: '#e8554e', width: 2 },
-        areaStyle: { color: 'rgba(232, 85, 78, 0.25)' },
+        lineStyle: { color: '#005BAC', width: 2 },
+        areaStyle: { color: 'rgba(0, 91, 172, 0.25)' },
         symbol: 'circle',
         symbolSize: 6,
-        itemStyle: { color: '#e8554e', borderColor: '#0a1628', borderWidth: 2 }
+        itemStyle: { color: '#005BAC', borderColor: '#0a1628', borderWidth: 2 }
       }]
     }]
   }
@@ -257,8 +257,8 @@ onUnmounted(() => {
 .chart-loading .loading-ring {
   width: 40px;
   height: 40px;
-  border: 2px solid rgba(232, 85, 78, 0.2);
-  border-top-color: #e8554e;
+  border: 2px solid rgba(0, 91, 172, 0.2);
+  border-top-color: #005BAC;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -305,8 +305,8 @@ onUnmounted(() => {
   letter-spacing: 1.5px;
   padding: 3px 8px;
   border-radius: 3px;
-  color: #e8554e;
-  background: rgba(232, 85, 78, 0.15);
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.15);
 }
 
 .chart-title {

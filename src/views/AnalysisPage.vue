@@ -156,10 +156,10 @@ const updateTime = () => {
 
 // --- Statistics (computed from indicator data) ---
 const statistics = ref([
-  { label: 'MEAN VALUE', value: '--', unit: '', color: '#e8554e', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4' },
-  { label: 'STD DEVIATION', value: '--', unit: '', color: '#e8554e', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5' },
-  { label: 'HIGH VALUE', value: '--', unit: '%', color: '#e8554e', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7' },
-  { label: 'LOW VALUE', value: '--', unit: '%', color: '#4a9eda', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6' }
+  { label: 'MEAN VALUE', value: '--', unit: '', color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4' },
+  { label: 'STD DEVIATION', value: '--', unit: '', color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5' },
+  { label: 'HIGH VALUE', value: '--', unit: '%', color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7' },
+  { label: 'LOW VALUE', value: '--', unit: '%', color: '#00B5D8', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6' }
 ])
 
 // --- Map layers ---
@@ -230,10 +230,10 @@ const computeStatistics = () => {
   const decimals = indicator.unit === '%' || indicator.unit === '' ? 4 : 1
 
   statistics.value = [
-    { label: 'MEAN VALUE', value: mean.toFixed(decimals), unit: indicator.unit, color: '#e8554e', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4', desc: `Average ${indicator.name.toLowerCase()} across study area` },
-    { label: 'STD DEVIATION', value: std.toFixed(decimals), unit: indicator.unit, color: '#e8554e', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5', desc: 'Spatial variability of the indicator' },
-    { label: 'HIGH VALUE', value: highPercent, unit: '%', color: '#e8554e', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7', desc: `Grids above median (${midValue.toFixed(2)})` },
-    { label: 'LOW VALUE', value: lowPercent, unit: '%', color: '#4a9eda', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6', desc: `Grids below 25th percentile (${lowThreshold.toFixed(2)})` }
+    { label: 'MEAN VALUE', value: mean.toFixed(decimals), unit: indicator.unit, color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>', spark: '0,18 10,15 20,17 30,10 40,12 50,6 60,4', desc: `Average ${indicator.name.toLowerCase()} across study area` },
+    { label: 'STD DEVIATION', value: std.toFixed(decimals), unit: indicator.unit, color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/></svg>', spark: '0,12 10,8 20,14 30,6 40,10 50,8 60,5', desc: 'Spatial variability of the indicator' },
+    { label: 'HIGH VALUE', value: highPercent, unit: '%', color: '#005BAC', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>', spark: '0,15 10,14 20,12 30,13 40,9 50,11 60,7', desc: `Grids above median (${midValue.toFixed(2)})` },
+    { label: 'LOW VALUE', value: lowPercent, unit: '%', color: '#00B5D8', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>', spark: '0,16 10,13 20,15 30,9 40,11 50,7 60,6', desc: `Grids below 25th percentile (${lowThreshold.toFixed(2)})` }
   ]
 }
 
@@ -445,10 +445,10 @@ onUnmounted(() => {
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --text-muted: rgba(255, 255, 255, 0.4);
-  --crimson: #e8554e;
-  --crimson-dim: rgba(232, 85, 78, 0.3);
-  --blue: #4a9eda;
-  --blue-dim: rgba(74, 158, 218, 0.3);
+  --crimson: #005BAC;
+  --crimson-dim: rgba(0, 91, 172, 0.3);
+  --blue: #00B5D8;
+  --blue-dim: rgba(0, 181, 216, 0.3);
   --font-display: 'Syncopate', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
@@ -488,13 +488,13 @@ onUnmounted(() => {
 .glow-1 {
   top: -10%;
   left: -5%;
-  background: radial-gradient(circle, rgba(232, 85, 78, 0.06), transparent 70%);
+  background: radial-gradient(circle, rgba(0, 91, 172, 0.06), transparent 70%);
 }
 
 .glow-2 {
   bottom: -10%;
   right: -5%;
-  background: radial-gradient(circle, rgba(74, 158, 218, 0.06), transparent 70%);
+  background: radial-gradient(circle, rgba(0, 181, 216, 0.06), transparent 70%);
 }
 
 .page-header {
@@ -515,7 +515,7 @@ onUnmounted(() => {
 }
 
 .meta-tag {
-  color: #e8554e;
+  color: #005BAC;
 }
 
 .meta-sep {
@@ -693,12 +693,12 @@ onUnmounted(() => {
 
 .col-badge {
   padding: 3px 8px;
-  background: rgba(74, 158, 218, 0.1);
-  border: 1px solid rgba(74, 158, 218, 0.3);
+  background: rgba(0, 181, 216, 0.1);
+  border: 1px solid rgba(0, 181, 216, 0.3);
   border-radius: 3px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
-  color: #4a9eda;
+  color: #00B5D8;
   letter-spacing: 1px;
 }
 

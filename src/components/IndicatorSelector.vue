@@ -118,7 +118,7 @@ defineExpose({ explicitIndicators, implicitIndicators })
   align-items: center;
   gap: 8px;
   background: rgba(20, 40, 65, 0.6);
-  border: 1px solid rgba(232, 85, 78, 0.3);
+  border: 1px solid rgba(0, 91, 172, 0.3);
   border-radius: 6px;
   padding: 8px 14px;
   cursor: pointer;
@@ -127,7 +127,7 @@ defineExpose({ explicitIndicators, implicitIndicators })
 }
 
 .selector-dropdown:hover {
-  border-color: rgba(232, 85, 78, 0.6);
+  border-color: rgba(0, 91, 172, 0.6);
   background: rgba(20, 40, 65, 0.8);
 }
 
@@ -139,7 +139,7 @@ defineExpose({ explicitIndicators, implicitIndicators })
 
 .selector-icon {
   font-size: 14px;
-  color: #e8554e;
+  color: #005BAC;
 }
 
 .selector-text {
@@ -168,7 +168,7 @@ defineExpose({ explicitIndicators, implicitIndicators })
   left: 0;
   right: 0;
   background: rgba(10, 22, 40, 0.98);
-  border: 1px solid rgba(232, 85, 78, 0.3);
+  border: 1px solid rgba(0, 91, 172, 0.3);
   border-radius: 8px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
   max-height: 400px;
@@ -192,7 +192,7 @@ defineExpose({ explicitIndicators, implicitIndicators })
   font-size: 9px;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 1.5px;
-  background: rgba(232, 85, 78, 0.05);
+  background: rgba(0, 91, 172, 0.05);
 }
 
 .option-item {
@@ -205,11 +205,11 @@ defineExpose({ explicitIndicators, implicitIndicators })
 }
 
 .option-item:hover {
-  background: rgba(232, 85, 78, 0.1);
+  background: rgba(0, 91, 172, 0.1);
 }
 
 .option-item.active {
-  background: rgba(232, 85, 78, 0.15);
+  background: rgba(0, 91, 172, 0.15);
 }
 
 .option-dot {
@@ -219,8 +219,8 @@ defineExpose({ explicitIndicators, implicitIndicators })
   flex-shrink: 0;
 }
 
-.option-dot.explicit { background: #e8554e; }
-.option-dot.implicit { background: #4a9eda; }
+.option-dot.explicit { background: #005BAC; }
+.option-dot.implicit { background: #00B5D8; }
 
 .option-name {
   flex: 1;
@@ -235,7 +235,7 @@ defineExpose({ explicitIndicators, implicitIndicators })
 
 .option-loaded {
   font-size: 11px;
-  color: #e8554e;
+  color: #005BAC;
   font-weight: 600;
 }
 </style>

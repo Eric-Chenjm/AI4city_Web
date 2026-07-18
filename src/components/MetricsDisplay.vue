@@ -91,7 +91,7 @@ defineProps({
 }
 
 .metric-card:hover {
-  border-color: rgba(232, 85, 78, 0.3);
+  border-color: rgba(0, 91, 172, 0.3);
   background: rgba(20, 35, 58, 0.6);
 }
 

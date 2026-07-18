@@ -131,7 +131,7 @@ const processFile = (file, type) => {
 .upload-item {
   flex: 1;
   background: rgba(255, 255, 255, 0.03);
-  border: 2px dashed rgba(232, 85, 78, 0.3);
+  border: 2px dashed rgba(0, 91, 172, 0.3);
   border-radius: 12px;
   padding: 20px;
   cursor: pointer;
@@ -145,13 +145,13 @@ const processFile = (file, type) => {
 }
 
 .upload-item:hover {
-  border-color: rgba(232, 85, 78, 0.6);
-  background: rgba(232, 85, 78, 0.05);
+  border-color: rgba(0, 91, 172, 0.6);
+  background: rgba(0, 91, 172, 0.05);
 }
 
 .upload-item.hasImage {
   border-style: solid;
-  border-color: rgba(232, 85, 78, 0.5);
+  border-color: rgba(0, 91, 172, 0.5);
   padding: 0;
   min-height: 150px;
 }
@@ -171,15 +171,15 @@ const processFile = (file, type) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(232, 85, 78, 0.4);
+  border: 2px solid rgba(0, 91, 172, 0.4);
   border-radius: 50%;
-  color: rgba(232, 85, 78, 0.8);
+  color: rgba(0, 91, 172, 0.8);
   transition: all 0.3s ease;
 }
 
 .upload-item:hover .upload-icon-wrapper {
-  border-color: #e8554e;
-  color: #e8554e;
+  border-color: #005BAC;
+  color: #005BAC;
   transform: scale(1.1);
 }
 
@@ -236,8 +236,8 @@ const processFile = (file, type) => {
 }
 
 .clear-btn:hover {
-  background: rgba(232, 85, 78, 0.8);
-  border-color: #e8554e;
+  background: rgba(0, 91, 172, 0.8);
+  border-color: #005BAC;
 }
 
 .clear-btn svg {
@@ -277,7 +277,7 @@ const processFile = (file, type) => {
 }
 
 .btn-clear-all:hover {
-  border-color: rgba(232, 85, 78, 0.5);
+  border-color: rgba(0, 91, 172, 0.5);
   color: var(--crimson);
 }
 
