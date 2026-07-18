@@ -2,35 +2,41 @@
   <div class="metrics-display">
     <div v-if="isAnalyzing" class="loading-state">
       <div class="loading-grid">
-        <div v-for="i in 6" :key="i" class="metric-skeleton"></div>
+        <div v-for="i in 6" :key="i" class="metric-skeleton">
+          <div class="skeleton-line title"></div>
+          <div class="skeleton-line value"></div>
+          <div class="skeleton-line desc"></div>
+        </div>
       </div>
     </div>
+    
     <div v-else class="metrics-grid">
       <div 
-        v-for="(metric, key) in metrics" 
-        :key="key" 
+        v-for="(item, index) in objectsDelta" 
+        :key="index" 
         class="metric-card"
+        :class="item.type"
       >
         <div class="metric-header">
-          <span class="metric-dot" :style="{ background: metric.color }"></span>
-          <span class="metric-label">{{ metric.label }}</span>
+          <span class="metric-indicator" :class="item.type"></span>
+          <span class="metric-label">{{ item.name }}</span>
         </div>
+        
         <div class="metric-value-row">
-          <span class="metric-value" :style="{ color: metric.color }">
-            {{ metric.value }}
+          <span class="metric-sign" :class="item.type">
+            {{ item.type === 'add' ? '+' : '' }}
           </span>
-          <span class="metric-unit">{{ metric.unit }}</span>
+          <span class="metric-value" :class="item.type">
+            {{ Math.abs(item.value) }}
+          </span>
+          <span class="metric-unit">{{ item.unit || '个' }}</span>
         </div>
-        <div class="metric-bar">
-          <div 
-            class="metric-bar-fill" 
-            :style="{ 
-              width: metric.unit === '%' ? `${metric.value}%` : `${(metric.value / 100) * 100}%`,
-              background: metric.color 
-            }"
-          ></div>
+
+        <div class="metric-badge" :class="item.type">
+          {{ item.type === 'add' ? '空间实体增加' : '空间实体压制/消减' }}
         </div>
-        <p class="metric-desc">{{ metric.desc }}</p>
+        
+        <p class="metric-desc">{{ item.desc }}</p>
       </div>
     </div>
   </div>
@@ -38,9 +44,9 @@
 
 <script setup>
 defineProps({
-  metrics: {
-    type: Object,
-    default: () => ({})
+  objectsDelta: {
+    type: Array,
+    default: () => []
   },
   isAnalyzing: {
     type: Boolean,
@@ -55,64 +61,113 @@ defineProps({
 }
 
 .loading-state {
-  padding: 16px;
+  padding: 10px;
 }
 
 .loading-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 
 .metric-skeleton {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 16px;
+  background: rgba(15, 28, 48, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.skeleton-line.title {
+  width: 60%;
+  height: 12px;
+}
+
+.skeleton-line.value {
+  width: 40%;
+  height: 28px;
+}
+
+.skeleton-line.desc {
+  width: 90%;
+  height: 10px;
 }
 
 @keyframes pulse {
   0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
+  50% { opacity: 0.7; }
 }
 
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 
 .metric-card {
-  background: rgba(15, 28, 48, 0.5);
+  background: rgba(15, 28, 48, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 16px;
+  border-radius: 12px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .metric-card:hover {
-  border-color: rgba(232, 85, 78, 0.3);
-  background: rgba(20, 35, 58, 0.6);
+  transform: translateY(-2px);
+}
+
+.metric-card.add:hover {
+  border-color: rgba(74, 222, 128, 0.4);
+  box-shadow: 0 6px 20px rgba(74, 222, 128, 0.1);
+  background: rgba(20, 38, 30, 0.5);
+}
+
+.metric-card.remove:hover {
+  border-color: rgba(232, 85, 78, 0.4);
+  box-shadow: 0 6px 20px rgba(232, 85, 78, 0.1);
+  background: rgba(38, 20, 20, 0.5);
 }
 
 .metric-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.metric-dot {
+.metric-indicator {
   width: 6px;
   height: 6px;
   border-radius: 50%;
 }
 
+.metric-indicator.add {
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+
+.metric-indicator.remove {
+  background: #e8554e;
+  box-shadow: 0 0 6px #e8554e;
+}
+
 .metric-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 10px;
+  font-weight: 500;
   letter-spacing: 1px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
 }
 
@@ -123,55 +178,77 @@ defineProps({
   margin-bottom: 8px;
 }
 
+.metric-sign {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.metric-sign.add { color: #4ade80; }
+.metric-sign.remove { color: #e8554e; }
+
 .metric-value {
   font-family: 'Syncopate', sans-serif;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   letter-spacing: 1px;
 }
 
+.metric-value.add {
+  color: #4ade80;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+}
+
+.metric-value.remove {
+  color: #e8554e;
+  text-shadow: 0 0 10px rgba(232, 85, 78, 0.3);
+}
+
 .metric-unit {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.4);
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-left: 2px;
 }
 
-.metric-bar {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 8px;
+.metric-badge {
+  display: inline-block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  font-weight: 500;
 }
 
-.metric-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.8s ease-out;
+.metric-badge.add {
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.metric-badge.remove {
+  background: rgba(232, 85, 78, 0.1);
+  color: #e8554e;
+  border: 1px solid rgba(232, 85, 78, 0.2);
 }
 
 .metric-desc {
   font-family: 'Outfit', sans-serif;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-@media (max-width: 768px) {
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .loading-grid {
+@media (max-width: 1024px) {
+  .metrics-grid, .loading-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 480px) {
-  .metrics-grid {
-    grid-template-columns: 1fr;
-  }
-  .loading-grid {
+@media (max-width: 640px) {
+  .metrics-grid, .loading-grid {
     grid-template-columns: 1fr;
   }
 }
