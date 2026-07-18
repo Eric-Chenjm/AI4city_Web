@@ -236,7 +236,7 @@ onMounted(async () => {
   try {
     const r2 = await fetch('/cases_data/top_positive_patterns.json')
     const posList = await r2.json()
-    topPositive.value = posList.slice(0, 3)
+    topPositive.value = posList.slice(0, 10)
   } catch (e) {
     console.error("Error reading top positive patterns:", e)
   }
@@ -244,7 +244,7 @@ onMounted(async () => {
   try {
     const r3 = await fetch('/cases_data/top_negative_patterns.json')
     const negList = await r3.json()
-    topNegative.value = negList.slice(0, 3)
+    topNegative.value = negList.slice(0, 10)
   } catch (e) {
     console.error("Error reading top negative patterns:", e)
   }
@@ -733,6 +733,27 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-height: 680px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.pattern-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pattern-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.01);
+  border-radius: 2px;
+}
+
+.pattern-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+}
+
+.pattern-list::-webkit-scrollbar-thumb:hover {
+  background: var(--crimson);
 }
 
 .pattern-card {
