@@ -88,23 +88,21 @@
               :class="{ active: activePattern === pat.feature_name }"
               @click="togglePattern(pat.feature_name)"
             >
-              <div class="pattern-visual-left">
+              <div class="pattern-card-meta">
+                <span class="pattern-code">{{ pat.feature_name }}</span>
+                <span class="pattern-impact green">SHAP: +{{ formatNum(pat.mean_shap, 4) }}</span>
+              </div>
+              <div class="pattern-visual-container">
                 <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
               </div>
-              <div class="pattern-info-right">
-                <div class="pattern-card-meta">
-                  <span class="pattern-code">{{ pat.feature_name }}</span>
-                  <span class="pattern-impact green">SHAP: +{{ formatNum(pat.mean_shap, 4) }}</span>
+              <div class="pattern-stats-grid">
+                <div class="stats-item">
+                  <span class="stats-lbl">支持度 (Support)</span>
+                  <span class="stats-val monospace">{{ pat.support }}</span>
                 </div>
-                <div class="pattern-stats-grid">
-                  <div class="stats-item">
-                    <span class="stats-lbl">支持度 (Support)</span>
-                    <span class="stats-val monospace">{{ pat.support }}</span>
-                  </div>
-                  <div class="stats-item">
-                    <span class="stats-lbl">子图频数 (Freq)</span>
-                    <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
-                  </div>
+                <div class="stats-item right-align">
+                  <span class="stats-lbl">子图频数 (Freq)</span>
+                  <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
                 </div>
               </div>
             </div>
@@ -125,23 +123,21 @@
               :class="{ active: activePattern === pat.feature_name }"
               @click="togglePattern(pat.feature_name)"
             >
-              <div class="pattern-visual-left">
+              <div class="pattern-card-meta">
+                <span class="pattern-code">{{ pat.feature_name }}</span>
+                <span class="pattern-impact red">SHAP: {{ formatNum(pat.mean_shap, 4) }}</span>
+              </div>
+              <div class="pattern-visual-container">
                 <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
               </div>
-              <div class="pattern-info-right">
-                <div class="pattern-card-meta">
-                  <span class="pattern-code">{{ pat.feature_name }}</span>
-                  <span class="pattern-impact red">SHAP: {{ formatNum(pat.mean_shap, 4) }}</span>
+              <div class="pattern-stats-grid">
+                <div class="stats-item">
+                  <span class="stats-lbl">支持度 (Support)</span>
+                  <span class="stats-val monospace">{{ pat.support }}</span>
                 </div>
-                <div class="pattern-stats-grid">
-                  <div class="stats-item">
-                    <span class="stats-lbl">支持度 (Support)</span>
-                    <span class="stats-val monospace">{{ pat.support }}</span>
-                  </div>
-                  <div class="stats-item">
-                    <span class="stats-lbl">子图频数 (Freq)</span>
-                    <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
-                  </div>
+                <div class="stats-item right-align">
+                  <span class="stats-lbl">子图频数 (Freq)</span>
+                  <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
                 </div>
               </div>
             </div>
@@ -748,7 +744,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-height: 680px;
+  max-height: 800px;
   overflow-y: auto;
   padding-right: 6px;
 }
@@ -775,17 +771,17 @@ onBeforeUnmount(() => {
   background: rgba(0, 0, 0, 0.22);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
-  padding: 10px 14px;
+  padding: 14px;
   cursor: pointer;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 14px;
+  flex-direction: column;
+  gap: 12px;
   transition: all 0.25s ease;
 }
 
 .pattern-card:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 .pattern-card.positive:hover {
@@ -810,51 +806,41 @@ onBeforeUnmount(() => {
   box-shadow: 0 0 12px rgba(232, 85, 78, 0.15);
 }
 
-.pattern-visual-left {
-  flex: 0 0 160px;
+.pattern-visual-container {
   background: #050811;
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.03);
-  padding: 4px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80px;
+  height: 180px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 .pattern-svg-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
-}
-
-.pattern-info-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 0;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
 }
 
 .pattern-card-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  padding-bottom: 4px;
 }
 
 .pattern-code {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 700;
   color: #fff;
 }
 
 .pattern-impact {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: bold;
 }
 
@@ -862,9 +848,11 @@ onBeforeUnmount(() => {
 .pattern-impact.red { color: #e8554e; }
 
 .pattern-stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  padding-top: 8px;
 }
 
 .stats-item {
@@ -873,14 +861,17 @@ onBeforeUnmount(() => {
   gap: 2px;
 }
 
+.stats-item.right-align {
+  align-items: flex-end;
+}
+
 .stats-lbl {
   font-size: 9px;
   color: rgba(255, 255, 255, 0.35);
-  white-space: nowrap;
 }
 
 .stats-val {
-  font-size: 10px;
+  font-size: 10.5px;
   color: rgba(255, 255, 255, 0.7);
   font-weight: 600;
 }
