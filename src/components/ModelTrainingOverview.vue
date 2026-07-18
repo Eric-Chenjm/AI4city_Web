@@ -19,130 +19,125 @@
       </div>
     </div>
 
-    <!-- 核心大屏仪表盘双栏网格 -->
-    <div class="overview-grid-layout">
-      <!-- 左侧大栏: 60% 宽度 (数据概览与拟合/SHAP大盘) -->
-      <div class="overview-left-column">
-        <!-- 样本数据面板 -->
-        <div class="metric-sub-card training-assets-card">
-          <h4 class="card-header-tag">TRAINING ASSETS</h4>
-          <div class="training-assets-content">
-            <div class="big-stats-row">
-              <div class="stat-unit">
-                <span class="stat-num">{{ overviewData.training?.num_images || 1200 }}</span>
-                <span class="stat-lbl">训练图像样本数</span>
-              </div>
-              <div class="stat-unit">
-                <span class="stat-num">{{ overviewData.training?.num_features || 221 }}</span>
-                <span class="stat-lbl">gSpan 提取特征数</span>
-              </div>
+    <!-- B. 模型参数与精度面板 -->
+    <div class="overview-layout">
+      <!-- 样本数据面板 (置顶铺满) -->
+      <div class="metric-sub-card training-assets-card">
+        <h4 class="card-header-tag">TRAINING ASSETS</h4>
+        <div class="training-assets-content">
+          <div class="big-stats-row">
+            <div class="stat-unit">
+              <span class="stat-num">{{ overviewData.training?.num_images || 1200 }}</span>
+              <span class="stat-lbl">训练图像样本数</span>
             </div>
-            <div class="stats-table">
-              <div class="table-row">
-                <span>交叉验证均方根误差 (CV RMSE):</span>
-                <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.cv_rmse_mean) }}</span>
-              </div>
-              <div class="table-row">
-                <span>交叉验证确定系数 (CV R²):</span>
-                <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.cv_r2_mean) }}</span>
-              </div>
-              <div class="table-row">
-                <span>独立测试集 R² (Holdout R²):</span>
-                <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.holdout_r2) }}</span>
-              </div>
+            <div class="stat-unit">
+              <span class="stat-num">{{ overviewData.training?.num_features || 221 }}</span>
+              <span class="stat-lbl">gSpan 提取特征数</span>
             </div>
           </div>
-        </div>
-
-        <!-- 模型拟合曲线与 SHAP 概要图 (动态 ECharts 绘制) -->
-        <div class="metric-sub-card figures-card">
-          <h4 class="card-header-tag">FIT & GLOBAL SHAP SUMMARY (DOUBLED SCATTER & IMPORTANCE BAR)</h4>
-          <div class="figures-flex">
-            <div class="chart-wrapper">
-              <div ref="fitChartRef" class="fit-chart-container"></div>
-              <div class="fig-tag-dynamic">预测拟合散点图 (Scatter Plot)</div>
+          <div class="stats-table">
+            <div class="table-row">
+              <span>交叉验证均方根误差 (CV RMSE):</span>
+              <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.cv_rmse_mean) }}</span>
             </div>
-            <div class="chart-wrapper">
-              <div ref="shapChartRef" class="fit-chart-container"></div>
-              <div class="fig-tag-dynamic">SHAP 特征全局重要性排行 (Top 20)</div>
+            <div class="table-row">
+              <span>交叉验证确定系数 (CV R²):</span>
+              <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.cv_r2_mean) }}</span>
+            </div>
+            <div class="table-row">
+              <span>独立测试集 R² (Holdout R²):</span>
+              <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.holdout_r2) }}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 右侧大栏: 40% 宽度 (频繁空间子图模式排行) -->
-      <div class="overview-right-column">
-        <div class="metric-sub-card patterns-card-container">
-          <h4 class="card-header-tag">INFLUENTIAL SPATIAL PATTERNS</h4>
-          <p class="pattern-intro-tip">点击频繁子图卡片可将其锁定，联动证据链剖析。</p>
-          
-          <div class="patterns-column-layout">
-            <!-- C1. 正向提升模式 (Positive Patterns) -->
-            <div class="pattern-column">
-              <h4 class="column-title positive-title">
-                <span class="dot green"></span>
-                推动评分提升模式 (Top Positive by SHAP)
-              </h4>
-              <div class="pattern-list">
-                <div 
-                  v-for="pat in topPositive" 
-                  :key="pat.feature_name" 
-                  class="pattern-card positive"
-                  :class="{ active: activePattern === pat.feature_name }"
-                  @click="togglePattern(pat.feature_name)"
-                >
-                  <div class="pattern-card-meta">
-                    <span class="pattern-code">{{ pat.feature_name }}</span>
-                    <span class="pattern-impact green">SHAP: +{{ formatNum(pat.mean_shap, 4) }}</span>
-                  </div>
-                  <div class="pattern-visual-container">
-                    <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
-                  </div>
-                  <div class="pattern-stats-grid">
-                    <div class="stats-item">
-                      <span class="stats-lbl">支持度 (Support)</span>
-                      <span class="stats-val monospace">{{ pat.support }}</span>
-                    </div>
-                    <div class="stats-item right-align">
-                      <span class="stats-lbl">子图频数 (Freq)</span>
-                      <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
-                    </div>
-                  </div>
+      <!-- 模型拟合曲线与 SHAP 概要图 (下方铺满，大图展示，动态 ECharts 绘制) -->
+      <div class="metric-sub-card figures-card">
+        <h4 class="card-header-tag">FIT & GLOBAL SHAP SUMMARY (DOUBLED SCATTER & IMPORTANCE BAR)</h4>
+        <div class="figures-flex">
+          <div class="chart-wrapper">
+            <div ref="fitChartRef" class="fit-chart-container"></div>
+            <div class="fig-tag-dynamic">预测拟合散点图 (Scatter Plot)</div>
+          </div>
+          <div class="chart-wrapper">
+            <div ref="shapChartRef" class="fit-chart-container"></div>
+            <div class="fig-tag-dynamic">SHAP 特征全局重要性排行 (Top 20)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C. 频繁空间模式排行榜 (正向与负向) -->
+    <div class="overview-section patterns-section">
+      <h3 class="section-sub-title">2. INFLUENTIAL SPATIAL PATTERNS (核心空间子图模式排行)</h3>
+      <p class="pattern-intro-tip">点击下方频繁子图卡片，可将其锁定，联动右侧“单图优化证据链”进行空间缺陷的高亮剖析。</p>
+      
+      <div class="patterns-grid">
+        <!-- C1. 正向提升模式 (Positive Patterns) -->
+        <div class="pattern-column">
+          <h4 class="column-title positive-title">
+            <span class="dot green"></span>
+            推动评分提升模式 (Top Positive by SHAP)
+          </h4>
+          <div class="pattern-list">
+            <div 
+              v-for="pat in topPositive" 
+              :key="pat.feature_name" 
+              class="pattern-card positive"
+              :class="{ active: activePattern === pat.feature_name }"
+              @click="togglePattern(pat.feature_name)"
+            >
+              <div class="pattern-card-meta">
+                <span class="pattern-code">{{ pat.feature_name }}</span>
+                <span class="pattern-impact green">SHAP: +{{ formatNum(pat.mean_shap, 4) }}</span>
+              </div>
+              <div class="pattern-visual-container">
+                <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
+              </div>
+              <div class="pattern-stats-grid">
+                <div class="stats-item">
+                  <span class="stats-lbl">支持度 (Support)</span>
+                  <span class="stats-val monospace">{{ pat.support }}</span>
+                </div>
+                <div class="stats-item right-align">
+                  <span class="stats-lbl">子图频数 (Freq)</span>
+                  <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            <!-- C2. 负向抑制模式 (Negative Patterns) -->
-            <div class="pattern-column">
-              <h4 class="column-title negative-title">
-                <span class="dot red"></span>
-                拉低评分抑制模式 (Top Negative by SHAP)
-              </h4>
-              <div class="pattern-list">
-                <div 
-                  v-for="pat in topNegative" 
-                  :key="pat.feature_name" 
-                  class="pattern-card negative"
-                  :class="{ active: activePattern === pat.feature_name }"
-                  @click="togglePattern(pat.feature_name)"
-                >
-                  <div class="pattern-card-meta">
-                    <span class="pattern-code">{{ pat.feature_name }}</span>
-                    <span class="pattern-impact red">SHAP: {{ formatNum(pat.mean_shap, 4) }}</span>
-                  </div>
-                  <div class="pattern-visual-container">
-                    <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
-                  </div>
-                  <div class="pattern-stats-grid">
-                    <div class="stats-item">
-                      <span class="stats-lbl">支持度 (Support)</span>
-                      <span class="stats-val monospace">{{ pat.support }}</span>
-                    </div>
-                    <div class="stats-item right-align">
-                      <span class="stats-lbl">子图频数 (Freq)</span>
-                      <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
-                    </div>
-                  </div>
+        <!-- C2. 负向抑制模式 (Negative Patterns) -->
+        <div class="pattern-column">
+          <h4 class="column-title negative-title">
+            <span class="dot red"></span>
+            拉低评分抑制模式 (Top Negative by SHAP)
+          </h4>
+          <div class="pattern-list">
+            <div 
+              v-for="pat in topNegative" 
+              :key="pat.feature_name" 
+              class="pattern-card negative"
+              :class="{ active: activePattern === pat.feature_name }"
+              @click="togglePattern(pat.feature_name)"
+            >
+              <div class="pattern-card-meta">
+                <span class="pattern-code">{{ pat.feature_name }}</span>
+                <span class="pattern-impact red">SHAP: {{ formatNum(pat.mean_shap, 4) }}</span>
+              </div>
+              <div class="pattern-visual-container">
+                <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
+              </div>
+              <div class="pattern-stats-grid">
+                <div class="stats-item">
+                  <span class="stats-lbl">支持度 (Support)</span>
+                  <span class="stats-val monospace">{{ pat.support }}</span>
+                </div>
+                <div class="stats-item right-align">
+                  <span class="stats-lbl">子图频数 (Freq)</span>
+                  <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
                 </div>
               </div>
             </div>
@@ -150,7 +145,6 @@
         </div>
       </div>
     </div>
-
 
     <!-- 弹窗放大看图 -->
     <div v-if="bigImageSrc" class="img-modal-overlay" @click="bigImageSrc = null">
@@ -560,29 +554,12 @@ onBeforeUnmount(() => {
   margin-left: 4px;
 }
 
-/* 核心大屏双栏 Grid */
-.overview-grid-layout {
-  display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
+/* 大盘栅格 */
+.overview-layout {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
   margin-bottom: 24px;
-}
-
-@media (max-width: 1200px) {
-  .overview-grid-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
-.overview-left-column {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.overview-right-column {
-  display: flex;
-  flex-direction: column;
 }
 
 .training-assets-content {
@@ -726,25 +703,15 @@ onBeforeUnmount(() => {
   margin: -4px 0 16px 0;
 }
 
-.patterns-column-layout {
+.patterns-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 12px;
-  flex: 1;
-}
-
-.patterns-card-container {
-  padding: 20px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  gap: 20px;
 }
 
 .pattern-column {
   display: flex;
   flex-direction: column;
-  min-width: 0;
 }
 
 .column-title {
@@ -777,7 +744,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-height: 420px;
+  max-height: 800px;
   overflow-y: auto;
   padding-right: 6px;
 }
