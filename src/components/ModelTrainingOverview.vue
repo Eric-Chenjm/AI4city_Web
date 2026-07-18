@@ -93,41 +93,8 @@
                 <span class="pattern-impact green">SHAP: +{{ formatNum(pat.mean_shap, 4) }}</span>
               </div>
               <div class="pattern-visual">
-                <!-- 纯前端轻量拓扑渲染 -->
-                <svg viewBox="0 0 260 110" class="pattern-svg">
-                  <g v-for="(link, i) in pat.edges" :key="i">
-                    <line 
-                      :x1="getNodeX(link.source_pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :y1="getNodeY(link.source_pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :x2="getNodeX(link.target_pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :y2="getNodeY(link.target_pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      class="pat-svg-edge"
-                    />
-                  </g>
-                  <g v-for="node in pat.nodes" :key="node.pattern_node_id">
-                    <circle 
-                      :cx="getNodeX(node.pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :cy="getNodeY(node.pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      r="16"
-                      class="pat-svg-node"
-                    />
-                    <!-- 极简节点图标 -->
-                    <text 
-                      :x="getNodeX(node.pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :y="(getNodeY(node.pattern_node_id, pat.nodes, pat.layout_type) + 4) + '%'"
-                      class="pat-node-letter"
-                    >
-                      {{ node.label.substring(0, 1).toUpperCase() }}
-                    </text>
-                    <text 
-                      :x="getNodeX(node.pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :y="(getNodeY(node.pattern_node_id, pat.nodes, pat.layout_type) + 26) + '%'"
-                      class="pat-node-lbl"
-                    >
-                      {{ node.label }}
-                    </text>
-                  </g>
-                </svg>
+                <!-- 渲染预先生成的高保真矢量图 -->
+                <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
               </div>
               <div class="pattern-stats-row">
                 <span>支持度: <span class="monospace">{{ pat.support }}</span></span>
@@ -156,39 +123,8 @@
                 <span class="pattern-impact red">SHAP: {{ formatNum(pat.mean_shap, 4) }}</span>
               </div>
               <div class="pattern-visual">
-                <svg viewBox="0 0 260 110" class="pattern-svg">
-                  <g v-for="(link, i) in pat.edges" :key="i">
-                    <line 
-                      :x1="getNodeX(link.source_pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :y1="getNodeY(link.source_pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :x2="getNodeX(link.target_pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :y2="getNodeY(link.target_pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      class="pat-svg-edge"
-                    />
-                  </g>
-                  <g v-for="node in pat.nodes" :key="node.pattern_node_id">
-                    <circle 
-                      :cx="getNodeX(node.pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :cy="getNodeY(node.pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      r="16"
-                      class="pat-svg-node negative"
-                    />
-                    <text 
-                      :x="getNodeX(node.pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :y="(getNodeY(node.pattern_node_id, pat.nodes, pat.layout_type) + 4) + '%'"
-                      class="pat-node-letter"
-                    >
-                      {{ node.label.substring(0, 1).toUpperCase() }}
-                    </text>
-                    <text 
-                      :x="getNodeX(node.pattern_node_id, pat.nodes, pat.layout_type) + '%'"
-                      :y="(getNodeY(node.pattern_node_id, pat.nodes, pat.layout_type) + 26) + '%'"
-                      class="pat-node-lbl"
-                    >
-                      {{ node.label }}
-                    </text>
-                  </g>
-                </svg>
+                <!-- 渲染预先生成的高保真矢量图 -->
+                <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
               </div>
               <div class="pattern-stats-row">
                 <span>支持度: <span class="monospace">{{ pat.support }}</span></span>
@@ -865,41 +801,11 @@ onBeforeUnmount(() => {
   padding: 6px;
 }
 
-.pattern-svg {
+.pattern-svg-img {
   width: 100%;
   height: 90px;
-}
-
-.pat-svg-edge {
-  stroke: rgba(123, 97, 255, 0.6);
-  stroke-width: 3;
-}
-
-.pat-svg-node {
-  fill: #101a33;
-  stroke: #36c8ff;
-  stroke-width: 2;
-  filter: drop-shadow(0 0 4px rgba(54, 200, 255, 0.5));
-}
-
-.pat-svg-node.negative {
-  stroke: #e8554e;
-  filter: drop-shadow(0 0 4px rgba(232, 85, 78, 0.5));
-}
-
-.pat-node-letter {
-  fill: #fff;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  font-weight: bold;
-  text-anchor: middle;
-}
-
-.pat-node-lbl {
-  fill: #aab8ff;
-  font-family: 'Outfit', sans-serif;
-  font-size: 8px;
-  text-anchor: middle;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
 }
 
 .pattern-stats-row {
