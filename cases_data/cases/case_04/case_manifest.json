@@ -1,0 +1,57 @@
+{
+  "case_id": "progressive_v2_public_space_01_l03",
+  "schema_version": "step3-frontend-case-v1",
+  "case_root": "progressive_v2_public_space_01_l03",
+  "created_at": "2026-07-18T21:01:21.800133+00:00",
+  "photo": {
+    "before_image": "cases_data/cases/case_04/before.jpg",
+    "observed_image": "cases_data/cases/case_04/observed.png",
+    "capture_time": null,
+    "exif_datetime": null,
+    "gps": {
+      "lat": 31.28634,
+      "lng": 121.55731
+    },
+    "image_size": {
+      "width": 4096,
+      "height": 3072
+    }
+  },
+  "scores": {
+    "before": 5.394323825836182,
+    "planned": 5.959456443786621,
+    "observed": 6.035214424133301
+  },
+  "artifacts": {
+    "report_md": "progressive_v2_public_space_01_l03/05_report/scene_update_report.md",
+    "report_json": "progressive_v2_public_space_01_l03/05_report/scene_update_report.json",
+    "prompt_json": "progressive_v2_public_space_01_l03/05_report/image2_prompt.json",
+    "graph_ui": "progressive_v2_public_space_01_l03/08_frontend_data/graph_ui.json",
+    "trace_index": "progressive_v2_public_space_01_l03/08_frontend_data/trace_index.json",
+    "waterfalls": "progressive_v2_public_space_01_l03/08_frontend_data/waterfalls.json",
+    "observed_after_report": "progressive_v2_public_space_01_l03/08_frontend_data/observed_after_report.json"
+  },
+  "graph_counts": {
+    "before": {
+      "node_count": 42,
+      "edge_count": 150,
+      "source_triplet_count": 150
+    },
+    "planned": {
+      "node_count": 60,
+      "edge_count": 168,
+      "synthetic_node_count": 18,
+      "action_count": 29
+    },
+    "observed": {
+      "node_count": 32,
+      "edge_count": 150,
+      "source_triplet_count": 150
+    }
+  },
+  "flags": {
+    "planned_graph_generated_from_update_plan": true,
+    "observed_graph_available": true,
+    "all_paths_relative_to_output": true
+  }
+}

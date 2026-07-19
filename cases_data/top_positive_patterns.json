@@ -1,0 +1,272 @@
+[
+  {
+    "feature_name": "pattern_2744",
+    "pattern_id": 2744,
+    "support": 292.0,
+    "total_pattern_count": 530.0,
+    "mean_shap": 0.00967645738273859,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_2744.svg"
+  },
+  {
+    "feature_name": "pattern_6636",
+    "pattern_id": 6636,
+    "support": 287.0,
+    "total_pattern_count": 385.0,
+    "mean_shap": 0.008911039680242538,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_6636.svg"
+  },
+  {
+    "feature_name": "pattern_5457",
+    "pattern_id": 5457,
+    "support": 159.0,
+    "total_pattern_count": 195.0,
+    "mean_shap": 0.007872438989579678,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_5457.svg"
+  },
+  {
+    "feature_name": "pattern_4980",
+    "pattern_id": 4980,
+    "support": 309.0,
+    "total_pattern_count": 799.0,
+    "mean_shap": 0.007862315513193607,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_4980.svg"
+  },
+  {
+    "feature_name": "pattern_6157",
+    "pattern_id": 6157,
+    "support": 533.0,
+    "total_pattern_count": 1003.0,
+    "mean_shap": 0.006303740199655294,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_6157.svg"
+  },
+  {
+    "feature_name": "pattern_1351",
+    "pattern_id": 1351,
+    "support": 166.0,
+    "total_pattern_count": 363.0,
+    "mean_shap": 0.006058563478291035,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_1351.svg"
+  },
+  {
+    "feature_name": "pattern_877",
+    "pattern_id": 877,
+    "support": 204.0,
+    "total_pattern_count": 217.0,
+    "mean_shap": 0.005826527718454599,
+    "layout_type": "closed_triangle",
+    "svg": "pattern_icons/pattern_877.svg"
+  },
+  {
+    "feature_name": "pattern_6082",
+    "pattern_id": 6082,
+    "support": 539.0,
+    "total_pattern_count": 730.0,
+    "mean_shap": 0.005659054033458233,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_6082.svg"
+  },
+  {
+    "feature_name": "pattern_641",
+    "pattern_id": 641,
+    "support": 412.0,
+    "total_pattern_count": 465.0,
+    "mean_shap": 0.0053423140197992325,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_641.svg"
+  },
+  {
+    "feature_name": "pattern_4790",
+    "pattern_id": 4790,
+    "support": 399.0,
+    "total_pattern_count": 1614.0,
+    "mean_shap": 0.005199154373258352,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_4790.svg"
+  },
+  {
+    "feature_name": "pattern_4665",
+    "pattern_id": 4665,
+    "support": 240.0,
+    "total_pattern_count": 373.0,
+    "mean_shap": 0.004513500723987818,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_4665.svg"
+  },
+  {
+    "feature_name": "pattern_2375",
+    "pattern_id": 2375,
+    "support": 423.0,
+    "total_pattern_count": 1189.0,
+    "mean_shap": 0.0044768438674509525,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_2375.svg"
+  },
+  {
+    "feature_name": "pattern_5621",
+    "pattern_id": 5621,
+    "support": 322.0,
+    "total_pattern_count": 352.0,
+    "mean_shap": 0.003707574913278222,
+    "layout_type": "closed_triangle",
+    "svg": "pattern_icons/pattern_5621.svg"
+  },
+  {
+    "feature_name": "pattern_1617",
+    "pattern_id": 1617,
+    "support": 223.0,
+    "total_pattern_count": 363.0,
+    "mean_shap": 0.003697172738611698,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_1617.svg"
+  },
+  {
+    "feature_name": "pattern_338",
+    "pattern_id": 338,
+    "support": 333.0,
+    "total_pattern_count": 393.0,
+    "mean_shap": 0.0034450460225343704,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_338.svg"
+  },
+  {
+    "feature_name": "pattern_3846",
+    "pattern_id": 3846,
+    "support": 444.0,
+    "total_pattern_count": 662.0,
+    "mean_shap": 0.0033847696613520384,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_3846.svg"
+  },
+  {
+    "feature_name": "pattern_859",
+    "pattern_id": 859,
+    "support": 158.0,
+    "total_pattern_count": 186.0,
+    "mean_shap": 0.0031935281585901976,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_859.svg"
+  },
+  {
+    "feature_name": "pattern_4439",
+    "pattern_id": 4439,
+    "support": 323.0,
+    "total_pattern_count": 582.0,
+    "mean_shap": 0.0029263708274811506,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_4439.svg"
+  },
+  {
+    "feature_name": "pattern_423",
+    "pattern_id": 423,
+    "support": 157.0,
+    "total_pattern_count": 226.0,
+    "mean_shap": 0.0028606075793504715,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_423.svg"
+  },
+  {
+    "feature_name": "pattern_4768",
+    "pattern_id": 4768,
+    "support": 300.0,
+    "total_pattern_count": 593.0,
+    "mean_shap": 0.0025618630461394787,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_4768.svg"
+  },
+  {
+    "feature_name": "pattern_233",
+    "pattern_id": 233,
+    "support": 223.0,
+    "total_pattern_count": 661.0,
+    "mean_shap": 0.0025522825308144093,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_233.svg"
+  },
+  {
+    "feature_name": "pattern_1782",
+    "pattern_id": 1782,
+    "support": 213.0,
+    "total_pattern_count": 281.0,
+    "mean_shap": 0.0024838566314429045,
+    "layout_type": "closed_triangle",
+    "svg": "pattern_icons/pattern_1782.svg"
+  },
+  {
+    "feature_name": "pattern_337",
+    "pattern_id": 337,
+    "support": 160.0,
+    "total_pattern_count": 162.0,
+    "mean_shap": 0.002386774169281125,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_337.svg"
+  },
+  {
+    "feature_name": "pattern_2981",
+    "pattern_id": 2981,
+    "support": 250.0,
+    "total_pattern_count": 392.0,
+    "mean_shap": 0.002339425031095743,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_2981.svg"
+  },
+  {
+    "feature_name": "pattern_85",
+    "pattern_id": 85,
+    "support": 339.0,
+    "total_pattern_count": 697.0,
+    "mean_shap": 0.002267915988340974,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_85.svg"
+  },
+  {
+    "feature_name": "pattern_6066",
+    "pattern_id": 6066,
+    "support": 172.0,
+    "total_pattern_count": 250.0,
+    "mean_shap": 0.0022604642435908318,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_6066.svg"
+  },
+  {
+    "feature_name": "pattern_3196",
+    "pattern_id": 3196,
+    "support": 346.0,
+    "total_pattern_count": 572.0,
+    "mean_shap": 0.0021976360585540533,
+    "layout_type": "closed_triangle",
+    "svg": "pattern_icons/pattern_3196.svg"
+  },
+  {
+    "feature_name": "pattern_3635",
+    "pattern_id": 3635,
+    "support": 362.0,
+    "total_pattern_count": 744.0,
+    "mean_shap": 0.001976085128262639,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_3635.svg"
+  },
+  {
+    "feature_name": "pattern_1024",
+    "pattern_id": 1024,
+    "support": 320.0,
+    "total_pattern_count": 570.0,
+    "mean_shap": 0.001954323146492243,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_1024.svg"
+  },
+  {
+    "feature_name": "pattern_5822",
+    "pattern_id": 5822,
+    "support": 207.0,
+    "total_pattern_count": 234.0,
+    "mean_shap": 0.001890429062768817,
+    "layout_type": "center_linked_pair",
+    "svg": "pattern_icons/pattern_5822.svg"
+  }
+]

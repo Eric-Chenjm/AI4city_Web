@@ -1,0 +1,1107 @@
+[
+  {
+    "feature_name": "pattern_954",
+    "feature_display_name": "car street vehicle",
+    "mean_abs_shap": 0.63269687
+  },
+  {
+    "feature_name": "pattern_1109",
+    "feature_display_name": "car street vehicle",
+    "mean_abs_shap": 0.23235308
+  },
+  {
+    "feature_name": "pattern_338",
+    "feature_display_name": "bench sidewalk tree",
+    "mean_abs_shap": 0.12874909
+  },
+  {
+    "feature_name": "pattern_233",
+    "feature_display_name": "bench person person",
+    "mean_abs_shap": 0.1189724
+  },
+  {
+    "feature_name": "pattern_5708",
+    "feature_display_name": "animal sidewalk bench",
+    "mean_abs_shap": 0.1148415
+  },
+  {
+    "feature_name": "pattern_5866",
+    "feature_display_name": "animal sidewalk person",
+    "mean_abs_shap": 0.10424857
+  },
+  {
+    "feature_name": "pattern_85",
+    "feature_display_name": "bench plant tree",
+    "mean_abs_shap": 0.099759914
+  },
+  {
+    "feature_name": "pattern_99",
+    "feature_display_name": "bench plant sidewalk",
+    "mean_abs_shap": 0.097506136
+  },
+  {
+    "feature_name": "pattern_337",
+    "feature_display_name": "bench sidewalk street",
+    "mean_abs_shap": 0.09355257
+  },
+  {
+    "feature_name": "pattern_423",
+    "feature_display_name": "building street house",
+    "mean_abs_shap": 0.08240805
+  },
+  {
+    "feature_name": "pattern_6017",
+    "feature_display_name": "animal sidewalk umbrella",
+    "mean_abs_shap": 0.07135949
+  },
+  {
+    "feature_name": "pattern_4980",
+    "feature_display_name": "animal bench person",
+    "mean_abs_shap": 0.06734946
+  },
+  {
+    "feature_name": "pattern_6589",
+    "feature_display_name": "plant vehicle tree",
+    "mean_abs_shap": 0.06475182
+  },
+  {
+    "feature_name": "pattern_2744",
+    "feature_display_name": "car plant tree",
+    "mean_abs_shap": 0.06391719
+  },
+  {
+    "feature_name": "pattern_862",
+    "feature_display_name": "building house plant",
+    "mean_abs_shap": 0.060902495
+  },
+  {
+    "feature_name": "pattern_3930",
+    "feature_display_name": "animal umbrella person",
+    "mean_abs_shap": 0.05806458
+  },
+  {
+    "feature_name": "pattern_6117",
+    "feature_display_name": "plant tree plant",
+    "mean_abs_shap": 0.05607823
+  },
+  {
+    "feature_name": "pattern_403",
+    "feature_display_name": "bench sidewalk bench",
+    "mean_abs_shap": 0.055219814
+  },
+  {
+    "feature_name": "pattern_3195",
+    "feature_display_name": "animal coat person",
+    "mean_abs_shap": 0.054779764
+  },
+  {
+    "feature_name": "pattern_2981",
+    "feature_display_name": "car house vehicle",
+    "mean_abs_shap": 0.05443117
+  },
+  {
+    "feature_name": "pattern_6082",
+    "feature_display_name": "plant tree sidewalk",
+    "mean_abs_shap": 0.053918604
+  },
+  {
+    "feature_name": "pattern_5768",
+    "feature_display_name": "animal sidewalk plant",
+    "mean_abs_shap": 0.05272422
+  },
+  {
+    "feature_name": "pattern_5457",
+    "feature_display_name": "animal bench plant",
+    "mean_abs_shap": 0.04853839
+  },
+  {
+    "feature_name": "pattern_6377",
+    "feature_display_name": "sidewalk tree tree",
+    "mean_abs_shap": 0.045869295
+  },
+  {
+    "feature_name": "pattern_877",
+    "feature_display_name": "building sidewalk tree",
+    "mean_abs_shap": 0.04562533
+  },
+  {
+    "feature_name": "pattern_2430",
+    "feature_display_name": "car plant sidewalk",
+    "mean_abs_shap": 0.045086786
+  },
+  {
+    "feature_name": "pattern_4768",
+    "feature_display_name": "coat person coat",
+    "mean_abs_shap": 0.03946194
+  },
+  {
+    "feature_name": "pattern_3893",
+    "feature_display_name": "animal coat plant",
+    "mean_abs_shap": 0.03945023
+  },
+  {
+    "feature_name": "pattern_859",
+    "feature_display_name": "building plant vehicle",
+    "mean_abs_shap": 0.039157987
+  },
+  {
+    "feature_name": "pattern_6284",
+    "feature_display_name": "house tree plant",
+    "mean_abs_shap": 0.036490027
+  },
+  {
+    "feature_name": "pattern_1024",
+    "feature_display_name": "car street car",
+    "mean_abs_shap": 0.0357643
+  },
+  {
+    "feature_name": "pattern_5698",
+    "feature_display_name": "animal person plant",
+    "mean_abs_shap": 0.035612617
+  },
+  {
+    "feature_name": "pattern_206",
+    "feature_display_name": "bench bench sidewalk",
+    "mean_abs_shap": 0.034684964
+  },
+  {
+    "feature_name": "pattern_4665",
+    "feature_display_name": "building car house",
+    "mean_abs_shap": 0.03320057
+  },
+  {
+    "feature_name": "pattern_1351",
+    "feature_display_name": "car vehicle wheel",
+    "mean_abs_shap": 0.032127675
+  },
+  {
+    "feature_name": "pattern_289",
+    "feature_display_name": "bench person sidewalk",
+    "mean_abs_shap": 0.03211668
+  },
+  {
+    "feature_name": "pattern_47",
+    "feature_display_name": "bench tree sidewalk",
+    "mean_abs_shap": 0.03202778
+  },
+  {
+    "feature_name": "pattern_5694",
+    "feature_display_name": "animal person tree",
+    "mean_abs_shap": 0.030320244
+  },
+  {
+    "feature_name": "pattern_861",
+    "feature_display_name": "building house tree",
+    "mean_abs_shap": 0.027857246
+  },
+  {
+    "feature_name": "pattern_6498",
+    "feature_display_name": "plant plant street",
+    "mean_abs_shap": 0.025763493
+  },
+  {
+    "feature_name": "pattern_6153",
+    "feature_display_name": "plant tree vehicle",
+    "mean_abs_shap": 0.025679868
+  },
+  {
+    "feature_name": "pattern_2119",
+    "feature_display_name": "car person street",
+    "mean_abs_shap": 0.025537467
+  },
+  {
+    "feature_name": "pattern_194",
+    "feature_display_name": "bench plant plant",
+    "mean_abs_shap": 0.025305085
+  },
+  {
+    "feature_name": "pattern_6539",
+    "feature_display_name": "plant plant sidewalk",
+    "mean_abs_shap": 0.025200885
+  },
+  {
+    "feature_name": "pattern_641",
+    "feature_display_name": "building tree sidewalk",
+    "mean_abs_shap": 0.025073081
+  },
+  {
+    "feature_name": "pattern_893",
+    "feature_display_name": "plant street tree",
+    "mean_abs_shap": 0.024349172
+  },
+  {
+    "feature_name": "pattern_4790",
+    "feature_display_name": "coat person person",
+    "mean_abs_shap": 0.02357451
+  },
+  {
+    "feature_name": "pattern_6491",
+    "feature_display_name": "animal jean person",
+    "mean_abs_shap": 0.023398094
+  },
+  {
+    "feature_name": "pattern_344",
+    "feature_display_name": "bench sidewalk person",
+    "mean_abs_shap": 0.023027292
+  },
+  {
+    "feature_name": "pattern_3635",
+    "feature_display_name": "animal coat animal",
+    "mean_abs_shap": 0.022477746
+  },
+  {
+    "feature_name": "pattern_1617",
+    "feature_display_name": "car car car",
+    "mean_abs_shap": 0.022380423
+  },
+  {
+    "feature_name": "pattern_2375",
+    "feature_display_name": "car plant tree",
+    "mean_abs_shap": 0.02134134
+  },
+  {
+    "feature_name": "pattern_5621",
+    "feature_display_name": "animal person sidewalk",
+    "mean_abs_shap": 0.020140994
+  },
+  {
+    "feature_name": "pattern_6000",
+    "feature_display_name": "animal sidewalk tree",
+    "mean_abs_shap": 0.019605357
+  },
+  {
+    "feature_name": "pattern_6236",
+    "feature_display_name": "plant sidewalk plant",
+    "mean_abs_shap": 0.019155165
+  },
+  {
+    "feature_name": "pattern_6158",
+    "feature_display_name": "plant sidewalk tree",
+    "mean_abs_shap": 0.018927263
+  },
+  {
+    "feature_name": "pattern_3179",
+    "feature_display_name": "animal car person",
+    "mean_abs_shap": 0.018578066
+  },
+  {
+    "feature_name": "pattern_880",
+    "feature_display_name": "building sidewalk house",
+    "mean_abs_shap": 0.018280001
+  },
+  {
+    "feature_name": "pattern_2122",
+    "feature_display_name": "car person tree",
+    "mean_abs_shap": 0.017917978
+  },
+  {
+    "feature_name": "pattern_6593",
+    "feature_display_name": "animal tree plant",
+    "mean_abs_shap": 0.01778223
+  },
+  {
+    "feature_name": "pattern_1353",
+    "feature_display_name": "car vehicle tree",
+    "mean_abs_shap": 0.017611938
+  },
+  {
+    "feature_name": "pattern_5411",
+    "feature_display_name": "animal bench plant",
+    "mean_abs_shap": 0.017535012
+  },
+  {
+    "feature_name": "pattern_3175",
+    "feature_display_name": "street vehicle tree",
+    "mean_abs_shap": 0.017300284
+  },
+  {
+    "feature_name": "pattern_6351",
+    "feature_display_name": "person sidewalk person",
+    "mean_abs_shap": 0.017084174
+  },
+  {
+    "feature_name": "pattern_633",
+    "feature_display_name": "building tree person",
+    "mean_abs_shap": 0.017058797
+  },
+  {
+    "feature_name": "pattern_2344",
+    "feature_display_name": "car plant vehicle",
+    "mean_abs_shap": 0.016909998
+  },
+  {
+    "feature_name": "pattern_3824",
+    "feature_display_name": "animal coat coat",
+    "mean_abs_shap": 0.01684343
+  },
+  {
+    "feature_name": "pattern_4800",
+    "feature_display_name": "coat person sidewalk",
+    "mean_abs_shap": 0.016442442
+  },
+  {
+    "feature_name": "pattern_6636",
+    "feature_display_name": "animal tree person",
+    "mean_abs_shap": 0.015506943
+  },
+  {
+    "feature_name": "pattern_6157",
+    "feature_display_name": "plant sidewalk tree",
+    "mean_abs_shap": 0.014537422
+  },
+  {
+    "feature_name": "pattern_161",
+    "feature_display_name": "bench plant tree",
+    "mean_abs_shap": 0.014447492
+  },
+  {
+    "feature_name": "pattern_952",
+    "feature_display_name": "house street vehicle",
+    "mean_abs_shap": 0.014374671
+  },
+  {
+    "feature_name": "pattern_2049",
+    "feature_display_name": "car car sidewalk",
+    "mean_abs_shap": 0.013923364
+  },
+  {
+    "feature_name": "pattern_888",
+    "feature_display_name": "street tree vehicle",
+    "mean_abs_shap": 0.013166763
+  },
+  {
+    "feature_name": "pattern_3034",
+    "feature_display_name": "car sidewalk street",
+    "mean_abs_shap": 0.012941615
+  },
+  {
+    "feature_name": "pattern_938",
+    "feature_display_name": "plant street sidewalk",
+    "mean_abs_shap": 0.012934516
+  },
+  {
+    "feature_name": "pattern_3196",
+    "feature_display_name": "animal coat person",
+    "mean_abs_shap": 0.012902436
+  },
+  {
+    "feature_name": "pattern_3188",
+    "feature_display_name": "animal street vehicle",
+    "mean_abs_shap": 0.012399585
+  },
+  {
+    "feature_name": "pattern_3190",
+    "feature_display_name": "animal street plant",
+    "mean_abs_shap": 0.012273446
+  },
+  {
+    "feature_name": "pattern_76",
+    "feature_display_name": "bench tree tree",
+    "mean_abs_shap": 0.012196257
+  },
+  {
+    "feature_name": "pattern_2110",
+    "feature_display_name": "car tire vehicle",
+    "mean_abs_shap": 0.011855352
+  },
+  {
+    "feature_name": "pattern_21",
+    "feature_display_name": "bench building sidewalk",
+    "mean_abs_shap": 0.011624596
+  },
+  {
+    "feature_name": "pattern_4981",
+    "feature_display_name": "animal bench person",
+    "mean_abs_shap": 0.01145102
+  },
+  {
+    "feature_name": "pattern_3752",
+    "feature_display_name": "animal coat person",
+    "mean_abs_shap": 0.011373294
+  },
+  {
+    "feature_name": "pattern_5597",
+    "feature_display_name": "animal person sidewalk",
+    "mean_abs_shap": 0.010981026
+  },
+  {
+    "feature_name": "pattern_6319",
+    "feature_display_name": "person sidewalk plant",
+    "mean_abs_shap": 0.010633119
+  },
+  {
+    "feature_name": "pattern_5822",
+    "feature_display_name": "animal sidewalk building",
+    "mean_abs_shap": 0.010503756
+  },
+  {
+    "feature_name": "pattern_535",
+    "feature_display_name": "building tree plant",
+    "mean_abs_shap": 0.010416593
+  },
+  {
+    "feature_name": "pattern_3173",
+    "feature_display_name": "street vehicle vehicle",
+    "mean_abs_shap": 0.010380168
+  },
+  {
+    "feature_name": "pattern_489",
+    "feature_display_name": "building tree car",
+    "mean_abs_shap": 0.0102800885
+  },
+  {
+    "feature_name": "pattern_251",
+    "feature_display_name": "bench person coat",
+    "mean_abs_shap": 0.009982433
+  },
+  {
+    "feature_name": "pattern_8",
+    "feature_display_name": "bench building tree",
+    "mean_abs_shap": 0.00996856
+  },
+  {
+    "feature_name": "pattern_6540",
+    "feature_display_name": "plant plant sidewalk",
+    "mean_abs_shap": 0.009794558
+  },
+  {
+    "feature_name": "pattern_4719",
+    "feature_display_name": "building car tree",
+    "mean_abs_shap": 0.009778801
+  },
+  {
+    "feature_name": "pattern_665",
+    "feature_display_name": "building tree vehicle",
+    "mean_abs_shap": 0.009712952
+  },
+  {
+    "feature_name": "pattern_6148",
+    "feature_display_name": "plant tree vehicle",
+    "mean_abs_shap": 0.009633979
+  },
+  {
+    "feature_name": "pattern_390",
+    "feature_display_name": "bench sidewalk tree",
+    "mean_abs_shap": 0.00954308
+  },
+  {
+    "feature_name": "pattern_4970",
+    "feature_display_name": "animal bench animal",
+    "mean_abs_shap": 0.009507902
+  },
+  {
+    "feature_name": "pattern_894",
+    "feature_display_name": "plant street tree",
+    "mean_abs_shap": 0.009407515
+  },
+  {
+    "feature_name": "pattern_4439",
+    "feature_display_name": "building car vehicle",
+    "mean_abs_shap": 0.009332021
+  },
+  {
+    "feature_name": "pattern_1782",
+    "feature_display_name": "car car plant",
+    "mean_abs_shap": 0.009180256
+  },
+  {
+    "feature_name": "pattern_930",
+    "feature_display_name": "plant street vehicle",
+    "mean_abs_shap": 0.008950472
+  },
+  {
+    "feature_name": "pattern_5690",
+    "feature_display_name": "animal person person",
+    "mean_abs_shap": 0.008753429
+  },
+  {
+    "feature_name": "pattern_330",
+    "feature_display_name": "bench person tree",
+    "mean_abs_shap": 0.008572971
+  },
+  {
+    "feature_name": "pattern_84",
+    "feature_display_name": "bench plant street",
+    "mean_abs_shap": 0.0081605995
+  },
+  {
+    "feature_name": "pattern_2992",
+    "feature_display_name": "car house plant",
+    "mean_abs_shap": 0.007962149
+  },
+  {
+    "feature_name": "pattern_6314",
+    "feature_display_name": "person tree sidewalk",
+    "mean_abs_shap": 0.007892346
+  },
+  {
+    "feature_name": "pattern_3846",
+    "feature_display_name": "animal coat sidewalk",
+    "mean_abs_shap": 0.007856679
+  },
+  {
+    "feature_name": "pattern_6066",
+    "feature_display_name": "bench car vehicle",
+    "mean_abs_shap": 0.0075467825
+  },
+  {
+    "feature_name": "pattern_688",
+    "feature_display_name": "building plant street",
+    "mean_abs_shap": 0.007464264
+  },
+  {
+    "feature_name": "pattern_335",
+    "feature_display_name": "bench sidewalk building",
+    "mean_abs_shap": 0.0073081073
+  },
+  {
+    "feature_name": "pattern_6369",
+    "feature_display_name": "person sidewalk tree",
+    "mean_abs_shap": 0.0071436395
+  },
+  {
+    "feature_name": "pattern_5825",
+    "feature_display_name": "animal sidewalk tree",
+    "mean_abs_shap": 0.007104409
+  },
+  {
+    "feature_name": "pattern_6670",
+    "feature_display_name": "animal tree tree",
+    "mean_abs_shap": 0.007072621
+  },
+  {
+    "feature_name": "pattern_6610",
+    "feature_display_name": "animal tree building",
+    "mean_abs_shap": 0.0070350757
+  },
+  {
+    "feature_name": "pattern_782",
+    "feature_display_name": "building plant sidewalk",
+    "mean_abs_shap": 0.0070108715
+  },
+  {
+    "feature_name": "pattern_4717",
+    "feature_display_name": "building car street",
+    "mean_abs_shap": 0.006975076
+  },
+  {
+    "feature_name": "pattern_6292",
+    "feature_display_name": "house tree sidewalk",
+    "mean_abs_shap": 0.0068734456
+  },
+  {
+    "feature_name": "pattern_2",
+    "feature_display_name": "bench building tree",
+    "mean_abs_shap": 0.0068718884
+  },
+  {
+    "feature_name": "pattern_4834",
+    "feature_display_name": "animal animal coat",
+    "mean_abs_shap": 0.006773901
+  },
+  {
+    "feature_name": "pattern_4378",
+    "feature_display_name": "building car street",
+    "mean_abs_shap": 0.006726085
+  },
+  {
+    "feature_name": "pattern_6378",
+    "feature_display_name": "sidewalk tree tree",
+    "mean_abs_shap": 0.0066748466
+  },
+  {
+    "feature_name": "pattern_5672",
+    "feature_display_name": "animal person tree",
+    "mean_abs_shap": 0.006501152
+  },
+  {
+    "feature_name": "pattern_5202",
+    "feature_display_name": "animal bench sidewalk",
+    "mean_abs_shap": 0.0061304537
+  },
+  {
+    "feature_name": "pattern_27",
+    "feature_display_name": "bench street tree",
+    "mean_abs_shap": 0.0060566156
+  },
+  {
+    "feature_name": "pattern_1349",
+    "feature_display_name": "car vehicle vehicle",
+    "mean_abs_shap": 0.0058063064
+  },
+  {
+    "feature_name": "pattern_5826",
+    "feature_display_name": "animal sidewalk tree",
+    "mean_abs_shap": 0.005779632
+  },
+  {
+    "feature_name": "pattern_5372",
+    "feature_display_name": "animal bench person",
+    "mean_abs_shap": 0.0056528323
+  },
+  {
+    "feature_name": "pattern_6340",
+    "feature_display_name": "person sidewalk tree",
+    "mean_abs_shap": 0.0055758166
+  },
+  {
+    "feature_name": "pattern_3187",
+    "feature_display_name": "animal street car",
+    "mean_abs_shap": 0.005540155
+  },
+  {
+    "feature_name": "pattern_6073",
+    "feature_display_name": "bench car building",
+    "mean_abs_shap": 0.005453378
+  },
+  {
+    "feature_name": "pattern_4961",
+    "feature_display_name": "animal animal person",
+    "mean_abs_shap": 0.005445422
+  },
+  {
+    "feature_name": "pattern_6298",
+    "feature_display_name": "house sidewalk tree",
+    "mean_abs_shap": 0.005430243
+  },
+  {
+    "feature_name": "pattern_4687",
+    "feature_display_name": "building car sidewalk",
+    "mean_abs_shap": 0.005426391
+  },
+  {
+    "feature_name": "pattern_783",
+    "feature_display_name": "building plant sidewalk",
+    "mean_abs_shap": 0.005370461
+  },
+  {
+    "feature_name": "pattern_6387",
+    "feature_display_name": "animal plant tree",
+    "mean_abs_shap": 0.0053039766
+  },
+  {
+    "feature_name": "pattern_1159",
+    "feature_display_name": "car street plant",
+    "mean_abs_shap": 0.005261065
+  },
+  {
+    "feature_name": "pattern_6420",
+    "feature_display_name": "animal plant person",
+    "mean_abs_shap": 0.0052455217
+  },
+  {
+    "feature_name": "pattern_424",
+    "feature_display_name": "building street tree",
+    "mean_abs_shap": 0.005188189
+  },
+  {
+    "feature_name": "pattern_6489",
+    "feature_display_name": "animal bag coat",
+    "mean_abs_shap": 0.004994624
+  },
+  {
+    "feature_name": "pattern_2021",
+    "feature_display_name": "car car house",
+    "mean_abs_shap": 0.0049886117
+  },
+  {
+    "feature_name": "pattern_2260",
+    "feature_display_name": "car plant street",
+    "mean_abs_shap": 0.004857761
+  },
+  {
+    "feature_name": "pattern_884",
+    "feature_display_name": "street tree tree",
+    "mean_abs_shap": 0.004724263
+  },
+  {
+    "feature_name": "pattern_6422",
+    "feature_display_name": "animal plant sidewalk",
+    "mean_abs_shap": 0.004688265
+  },
+  {
+    "feature_name": "pattern_3159",
+    "feature_display_name": "car sidewalk vehicle",
+    "mean_abs_shap": 0.0046451483
+  },
+  {
+    "feature_name": "pattern_5388",
+    "feature_display_name": "animal bench sidewalk",
+    "mean_abs_shap": 0.00455428
+  },
+  {
+    "feature_name": "pattern_472",
+    "feature_display_name": "building tree street",
+    "mean_abs_shap": 0.0044640605
+  },
+  {
+    "feature_name": "pattern_412",
+    "feature_display_name": "building street plant",
+    "mean_abs_shap": 0.004348011
+  },
+  {
+    "feature_name": "pattern_3182",
+    "feature_display_name": "animal car plant",
+    "mean_abs_shap": 0.0042930017
+  },
+  {
+    "feature_name": "pattern_6071",
+    "feature_display_name": "bench car street",
+    "mean_abs_shap": 0.004271342
+  },
+  {
+    "feature_name": "pattern_6305",
+    "feature_display_name": "person tree plant",
+    "mean_abs_shap": 0.004216579
+  },
+  {
+    "feature_name": "pattern_57",
+    "feature_display_name": "bench tree plant",
+    "mean_abs_shap": 0.004129375
+  },
+  {
+    "feature_name": "pattern_876",
+    "feature_display_name": "building sidewalk tree",
+    "mean_abs_shap": 0.004019204
+  },
+  {
+    "feature_name": "pattern_5300",
+    "feature_display_name": "animal bench coat",
+    "mean_abs_shap": 0.003987273
+  },
+  {
+    "feature_name": "pattern_6482",
+    "feature_display_name": "sidewalk vehicle tree",
+    "mean_abs_shap": 0.0039341003
+  },
+  {
+    "feature_name": "pattern_881",
+    "feature_display_name": "building sidewalk person",
+    "mean_abs_shap": 0.0038845467
+  },
+  {
+    "feature_name": "pattern_2231",
+    "feature_display_name": "car tree tree",
+    "mean_abs_shap": 0.003859227
+  },
+  {
+    "feature_name": "pattern_29",
+    "feature_display_name": "bench tree building",
+    "mean_abs_shap": 0.0037613495
+  },
+  {
+    "feature_name": "pattern_679",
+    "feature_display_name": "building plant street",
+    "mean_abs_shap": 0.0037551208
+  },
+  {
+    "feature_name": "pattern_3911",
+    "feature_display_name": "animal coat tree",
+    "mean_abs_shap": 0.003710926
+  },
+  {
+    "feature_name": "pattern_940",
+    "feature_display_name": "plant street plant",
+    "mean_abs_shap": 0.003710306
+  },
+  {
+    "feature_name": "pattern_4720",
+    "feature_display_name": "building car plant",
+    "mean_abs_shap": 0.0036963304
+  },
+  {
+    "feature_name": "pattern_5972",
+    "feature_display_name": "animal sidewalk animal",
+    "mean_abs_shap": 0.0034665077
+  },
+  {
+    "feature_name": "pattern_238",
+    "feature_display_name": "bench person sidewalk",
+    "mean_abs_shap": 0.0034471015
+  },
+  {
+    "feature_name": "pattern_120",
+    "feature_display_name": "bench plant sidewalk",
+    "mean_abs_shap": 0.0034088413
+  },
+  {
+    "feature_name": "pattern_1618",
+    "feature_display_name": "car car car",
+    "mean_abs_shap": 0.0033165093
+  },
+  {
+    "feature_name": "pattern_6453",
+    "feature_display_name": "animal plant sidewalk",
+    "mean_abs_shap": 0.0032420824
+  },
+  {
+    "feature_name": "pattern_950",
+    "feature_display_name": "person street tree",
+    "mean_abs_shap": 0.003227971
+  },
+  {
+    "feature_name": "pattern_886",
+    "feature_display_name": "street tree vehicle",
+    "mean_abs_shap": 0.003217179
+  },
+  {
+    "feature_name": "pattern_6385",
+    "feature_display_name": "animal plant building",
+    "mean_abs_shap": 0.0032091264
+  },
+  {
+    "feature_name": "pattern_365",
+    "feature_display_name": "bench sidewalk plant",
+    "mean_abs_shap": 0.003192746
+  },
+  {
+    "feature_name": "pattern_4584",
+    "feature_display_name": "building car plant",
+    "mean_abs_shap": 0.0031173818
+  },
+  {
+    "feature_name": "pattern_6300",
+    "feature_display_name": "person plant tree",
+    "mean_abs_shap": 0.0031072437
+  },
+  {
+    "feature_name": "pattern_6303",
+    "feature_display_name": "person plant sidewalk",
+    "mean_abs_shap": 0.0030890275
+  },
+  {
+    "feature_name": "pattern_3116",
+    "feature_display_name": "car sidewalk tire",
+    "mean_abs_shap": 0.003051528
+  },
+  {
+    "feature_name": "pattern_6281",
+    "feature_display_name": "plant sidewalk vehicle",
+    "mean_abs_shap": 0.0030284415
+  },
+  {
+    "feature_name": "pattern_1781",
+    "feature_display_name": "car car plant",
+    "mean_abs_shap": 0.00300916
+  },
+  {
+    "feature_name": "pattern_1358",
+    "feature_display_name": "car vehicle plant",
+    "mean_abs_shap": 0.0029483724
+  },
+  {
+    "feature_name": "pattern_6381",
+    "feature_display_name": "sidewalk tree tree",
+    "mean_abs_shap": 0.00288805
+  },
+  {
+    "feature_name": "pattern_4554",
+    "feature_display_name": "building car person",
+    "mean_abs_shap": 0.0027217588
+  },
+  {
+    "feature_name": "pattern_2121",
+    "feature_display_name": "car person vehicle",
+    "mean_abs_shap": 0.0026991018
+  },
+  {
+    "feature_name": "pattern_81",
+    "feature_display_name": "bench plant building",
+    "mean_abs_shap": 0.0026685474
+  },
+  {
+    "feature_name": "pattern_3101",
+    "feature_display_name": "car sidewalk vehicle",
+    "mean_abs_shap": 0.0026218502
+  },
+  {
+    "feature_name": "pattern_6492",
+    "feature_display_name": "animal jean sidewalk",
+    "mean_abs_shap": 0.0025952153
+  },
+  {
+    "feature_name": "pattern_2050",
+    "feature_display_name": "car car sidewalk",
+    "mean_abs_shap": 0.0025228658
+  },
+  {
+    "feature_name": "pattern_6496",
+    "feature_display_name": "tree tree vehicle",
+    "mean_abs_shap": 0.0025103057
+  },
+  {
+    "feature_name": "pattern_1369",
+    "feature_display_name": "car car street",
+    "mean_abs_shap": 0.0023623956
+  },
+  {
+    "feature_name": "pattern_1241",
+    "feature_display_name": "car street sidewalk",
+    "mean_abs_shap": 0.002216673
+  },
+  {
+    "feature_name": "pattern_2849",
+    "feature_display_name": "car plant plant",
+    "mean_abs_shap": 0.002202374
+  },
+  {
+    "feature_name": "pattern_5268",
+    "feature_display_name": "animal bench tree",
+    "mean_abs_shap": 0.0021979827
+  },
+  {
+    "feature_name": "pattern_1614",
+    "feature_display_name": "car car tire",
+    "mean_abs_shap": 0.0021923922
+  },
+  {
+    "feature_name": "pattern_4793",
+    "feature_display_name": "coat person tree",
+    "mean_abs_shap": 0.0020921482
+  },
+  {
+    "feature_name": "pattern_891",
+    "feature_display_name": "street tree tree",
+    "mean_abs_shap": 0.0020006227
+  },
+  {
+    "feature_name": "pattern_1583",
+    "feature_display_name": "car car vehicle",
+    "mean_abs_shap": 0.0019871832
+  },
+  {
+    "feature_name": "pattern_6485",
+    "feature_display_name": "sidewalk street vehicle",
+    "mean_abs_shap": 0.0019425835
+  },
+  {
+    "feature_name": "pattern_2256",
+    "feature_display_name": "car tree tree",
+    "mean_abs_shap": 0.0019305222
+  },
+  {
+    "feature_name": "pattern_468",
+    "feature_display_name": "building street sidewalk",
+    "mean_abs_shap": 0.0019099615
+  },
+  {
+    "feature_name": "pattern_79",
+    "feature_display_name": "bench tree tree",
+    "mean_abs_shap": 0.0015541408
+  },
+  {
+    "feature_name": "pattern_1342",
+    "feature_display_name": "car vehicle car",
+    "mean_abs_shap": 0.0015411617
+  },
+  {
+    "feature_name": "pattern_1243",
+    "feature_display_name": "car street tree",
+    "mean_abs_shap": 0.0014943448
+  },
+  {
+    "feature_name": "pattern_826",
+    "feature_display_name": "building plant car",
+    "mean_abs_shap": 0.0014206695
+  },
+  {
+    "feature_name": "pattern_2368",
+    "feature_display_name": "car plant tire",
+    "mean_abs_shap": 0.001312665
+  },
+  {
+    "feature_name": "pattern_6317",
+    "feature_display_name": "person tree tree",
+    "mean_abs_shap": 0.0012892818
+  },
+  {
+    "feature_name": "pattern_6096",
+    "feature_display_name": "plant tree street",
+    "mean_abs_shap": 0.0012854144
+  },
+  {
+    "feature_name": "pattern_1737",
+    "feature_display_name": "car car tree",
+    "mean_abs_shap": 0.0012507266
+  },
+  {
+    "feature_name": "pattern_931",
+    "feature_display_name": "plant street vehicle",
+    "mean_abs_shap": 0.0011601774
+  },
+  {
+    "feature_name": "pattern_331",
+    "feature_display_name": "bench person tree",
+    "mean_abs_shap": 0.0010685037
+  },
+  {
+    "feature_name": "pattern_4455",
+    "feature_display_name": "building car car",
+    "mean_abs_shap": 0.001065989
+  },
+  {
+    "feature_name": "pattern_463",
+    "feature_display_name": "building street vehicle",
+    "mean_abs_shap": 0.0010100072
+  },
+  {
+    "feature_name": "pattern_3178",
+    "feature_display_name": "animal car vehicle",
+    "mean_abs_shap": 0.0009823143
+  },
+  {
+    "feature_name": "pattern_4555",
+    "feature_display_name": "building car building",
+    "mean_abs_shap": 0.00095929217
+  },
+  {
+    "feature_name": "pattern_5450",
+    "feature_display_name": "animal bench tree",
+    "mean_abs_shap": 0.0009228577
+  },
+  {
+    "feature_name": "pattern_3177",
+    "feature_display_name": "animal car street",
+    "mean_abs_shap": 0.00082370546
+  },
+  {
+    "feature_name": "pattern_4552",
+    "feature_display_name": "building car tire",
+    "mean_abs_shap": 0.0008044144
+  },
+  {
+    "feature_name": "pattern_6585",
+    "feature_display_name": "plant vehicle street",
+    "mean_abs_shap": 0.0007423702
+  },
+  {
+    "feature_name": "pattern_3022",
+    "feature_display_name": "car house sidewalk",
+    "mean_abs_shap": 0.0007222269
+  },
+  {
+    "feature_name": "pattern_5269",
+    "feature_display_name": "animal bench tree",
+    "mean_abs_shap": 0.0005588137
+  },
+  {
+    "feature_name": "pattern_890",
+    "feature_display_name": "street tree tree",
+    "mean_abs_shap": 0.0005537876
+  },
+  {
+    "feature_name": "pattern_1352",
+    "feature_display_name": "car vehicle sidewalk",
+    "mean_abs_shap": 0.00053258496
+  },
+  {
+    "feature_name": "pattern_3192",
+    "feature_display_name": "animal street tree",
+    "mean_abs_shap": 0.00049763586
+  },
+  {
+    "feature_name": "pattern_4966",
+    "feature_display_name": "animal animal sidewalk",
+    "mean_abs_shap": 0.00046751142
+  }
+]
