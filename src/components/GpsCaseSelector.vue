@@ -160,8 +160,8 @@ const onSelectCase = (c) => {
 
   // 加载并展示该地点的照片（现状 + 更新）
   selectedCaseName.value = t(c.case_name)
-  selectedPhotoUrl.value = `/cases_data/cases/${c.case_id}/before.jpg`
-  optimizedPhotoUrl.value = `/cases_data/cases/${c.case_id}/optimized.png`
+  selectedPhotoUrl.value = `cases_data/cases/${c.case_id}/before.jpg`
+  optimizedPhotoUrl.value = `cases_data/cases/${c.case_id}/optimized.png`
 }
 
 // 更新地图高亮选中点
@@ -408,8 +408,8 @@ const initMap = () => {
 
       // 加载并展示该地点的照片（现状 + 更新）
       selectedCaseName.value = t(featProps.case_name)
-      selectedPhotoUrl.value = `/cases_data/cases/${caseId}/before.jpg`
-      optimizedPhotoUrl.value = `/cases_data/cases/${caseId}/optimized.png`
+      selectedPhotoUrl.value = `cases_data/cases/${caseId}/before.jpg`
+      optimizedPhotoUrl.value = `cases_data/cases/${caseId}/optimized.png`
 
       // 显示Popup气泡
       const coordinates = e.features[0].geometry.coordinates.slice()
@@ -438,8 +438,8 @@ const initMap = () => {
       if (activeCase && activeCase.gps) {
         updateSelectedPoint(activeCase.gps.lng, activeCase.gps.lat)
         selectedCaseName.value = t(activeCase.case_name)
-        selectedPhotoUrl.value = `/cases_data/cases/${activeCase.case_id}/before.jpg`
-        optimizedPhotoUrl.value = `/cases_data/cases/${activeCase.case_id}/optimized.png`
+        selectedPhotoUrl.value = `cases_data/cases/${activeCase.case_id}/before.jpg`
+        optimizedPhotoUrl.value = `cases_data/cases/${activeCase.case_id}/optimized.png`
       }
     }
   })
@@ -459,8 +459,8 @@ watch(() => props.activeCaseId, (newId) => {
       updateSelectedPoint(c.gps.lng, c.gps.lat)
       // 同步展示照片（现状 + 更新）
       selectedCaseName.value = t(c.case_name)
-      selectedPhotoUrl.value = `/cases_data/cases/${c.case_id}/before.jpg`
-      optimizedPhotoUrl.value = `/cases_data/cases/${c.case_id}/optimized.png`
+      selectedPhotoUrl.value = `cases_data/cases/${c.case_id}/before.jpg`
+      optimizedPhotoUrl.value = `cases_data/cases/${c.case_id}/optimized.png`
     }
   }
 })

@@ -199,8 +199,8 @@ const galleryIndices = ['001', '002', '006', '008', '019', '020', '021', '033', 
 const comparisonData = computed(() =>
   galleryIndices.map((idx, i) => ({
     id: i + 1,
-    primary: `/gallery/primary/${idx}_before.jpg`,
-    optimized: `/gallery/optimized/${idx}_after.png`,
+    primary: `gallery/primary/${idx}_before.jpg`,
+    optimized: `gallery/optimized/${idx}_after.png`,
     title: currentLang.value === 'en' ? `STREET SCENE ${String(i + 1).padStart(2, '0')}` : `街景对比 ${String(i + 1).padStart(2, '0')}`,
     description: t('screensDesc')
   }))
@@ -410,7 +410,7 @@ const initThreeScene = async () => {
 
   try {
     // 1. 加载并渲染边界底板
-    const boundRes = await fetch('/data/BoundryToJSON.geojson')
+    const boundRes = await fetch('data/BoundryToJSON.geojson')
     const boundGeo = await boundRes.json()
     if (boundGeo.features && boundGeo.features.length > 0) {
       const coords = boundGeo.features[0].geometry.coordinates[0]
@@ -498,7 +498,7 @@ const initThreeScene = async () => {
     }
     // 2. 加载公园绿地
     try {
-      const parkRes = await fetch('/data/复兴岛公园ToJSON.geojson')
+      const parkRes = await fetch('data/复兴岛公园ToJSON.geojson')
       const parkGeo = await parkRes.json()
       parkGeo.features.forEach(feat => {
         const geom = feat.geometry
@@ -529,7 +529,7 @@ const initThreeScene = async () => {
 
     // 3. 加载道路
     try {
-      const roadRes = await fetch('/data/road_FeaturesToJSON.geojson')
+      const roadRes = await fetch('data/road_FeaturesToJSON.geojson')
       const roadGeo = await roadRes.json()
       const roadMaterial = new THREE.LineBasicMaterial({
         color: 0x00B5D8,
@@ -555,7 +555,7 @@ const initThreeScene = async () => {
     }
 
     // 4. 加载建筑物并分类染色
-    const buildRes = await fetch('/data/BuildingsToJSON.geojson')
+    const buildRes = await fetch('data/BuildingsToJSON.geojson')
     const buildGeo = await buildRes.json()
     buildGeo.features.forEach(feat => {
       const geom = feat.geometry

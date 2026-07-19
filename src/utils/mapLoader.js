@@ -6,7 +6,7 @@ export const loadShanghaiMap = () => {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), 10000)
 
-  shanghaiMapPromise = fetch('/data/shanghai_full.json', { signal: controller.signal })
+  shanghaiMapPromise = fetch('data/shanghai_full.json', { signal: controller.signal })
     .then(async (res) => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()

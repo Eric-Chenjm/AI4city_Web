@@ -93,7 +93,7 @@
                 <span class="pattern-impact green">SHAP: +{{ formatNum(pat.mean_shap, 4) }}</span>
               </div>
               <div class="pattern-visual-container">
-                <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
+                <img :src="'cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
               </div>
               <div class="pattern-stats-grid">
                 <div class="stats-item">
@@ -128,7 +128,7 @@
                 <span class="pattern-impact red">SHAP: {{ formatNum(pat.mean_shap, 4) }}</span>
               </div>
               <div class="pattern-visual-container">
-                <img :src="'/cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
+                <img :src="'cases_data/' + pat.svg" class="pattern-svg-img" alt="Spatial Pattern" />
               </div>
               <div class="pattern-stats-grid">
                 <div class="stats-item">
@@ -279,7 +279,7 @@ const translateFeatureDisplayName = (name) => {
 const renderCharts = async () => {
   // 3. 动态绘制预测拟合散点图 (ECharts Scatter)
   try {
-    const rFit = await fetch('/cases_data/fit_predictions.json')
+    const rFit = await fetch('cases_data/fit_predictions.json')
     const fitData = await rFit.json()
     
     if (fitChartRef.value) {
@@ -374,7 +374,7 @@ const renderCharts = async () => {
 
   // 4. 动态绘制 SHAP 特征全局重要性排行 (ECharts Bar)
   try {
-    const rShap = await fetch('/cases_data/raw_shap_importance.json')
+    const rShap = await fetch('cases_data/raw_shap_importance.json')
     const shapData = await rShap.json()
     
     // 取前 20，并倒序让最大的显示在最上方
@@ -462,7 +462,7 @@ const renderCharts = async () => {
 onMounted(async () => {
   // 1. 读取基本的指标大盘
   try {
-    const r1 = await fetch('/cases_data/model_training_overview.json')
+    const r1 = await fetch('cases_data/model_training_overview.json')
     overviewData.value = await r1.json()
   } catch (e) {
     console.error("Error reading model overview json:", e)
@@ -470,7 +470,7 @@ onMounted(async () => {
 
   // 2. 读取排行榜正向和负向模式
   try {
-    const r2 = await fetch('/cases_data/top_positive_patterns.json')
+    const r2 = await fetch('cases_data/top_positive_patterns.json')
     const posList = await r2.json()
     topPositive.value = posList.slice(0, 10)
   } catch (e) {
@@ -478,7 +478,7 @@ onMounted(async () => {
   }
 
   try {
-    const r3 = await fetch('/cases_data/top_negative_patterns.json')
+    const r3 = await fetch('cases_data/top_negative_patterns.json')
     const negList = await r3.json()
     topNegative.value = negList.slice(0, 10)
   } catch (e) {

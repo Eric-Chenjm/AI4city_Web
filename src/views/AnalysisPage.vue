@@ -351,7 +351,7 @@ const loadIndicatorData = async (indicatorId) => {
   if (!indicator) return
   
   try {
-    const res = await fetch(`/data/${indicator.file}`)
+    const res = await fetch(`data/${indicator.file}`)
     const geojson = await res.json()
     const transformedGeojson = transformGeoJson(geojson)
     const polygons = []
@@ -461,7 +461,7 @@ const activeQuadrant = ref(null)
 
 const loadRegionData = async () => {
   try {
-    const res = await fetch('/data/region/maincity_four_quadrant_regions.geojson')
+    const res = await fetch('data/region/maincity_four_quadrant_regions.geojson')
     regionData.value = await res.json()
   } catch (err) {
     console.warn('Failed to load region data:', err)
@@ -477,14 +477,14 @@ const allSamples = ref([])
 
 const loadSampleData = async () => {
   try {
-    const res = await fetch('/pictures/sampled.geojson')
+    const res = await fetch('pictures/sampled.geojson')
     const geojson = await res.json()
     allSamples.value = geojson.features.map((f, i) => {
       const props = f.properties
       return {
         id: i,
         image_id: props.image_id,
-        image: `/pictures/sampled_images/${props.image_id}`,
+        image: `pictures/sampled_images/${props.image_id}`,
         location: `${props.x}, ${props.y}`,
         x: parseFloat(props.x),
         y: parseFloat(props.y),
@@ -529,7 +529,7 @@ onMounted(() => {
   updateTime()
   timeInterval = setInterval(updateTime, 1000)
 
-  fetch('/data/boudanry.geojson')
+  fetch('data/boudanry.geojson')
     .then(r => r.json())
     .then(boundaryJson => {
       computeBounds(boundaryJson)

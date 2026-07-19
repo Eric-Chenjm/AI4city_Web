@@ -150,7 +150,7 @@ const handleSelectNode = async (nodeLabel) => {
   
   try {
     // 拉取当前案例的 waterfalls 列表，寻找包含该 label 的模式
-    const res = await fetch(`/cases_data/cases/${activeCaseId.value}/waterfalls.json`)
+    const res = await fetch(`cases_data/cases/${activeCaseId.value}/waterfalls.json`)
     const data = await res.json()
     const waterfallList = data.tables?.before || []
     
@@ -178,7 +178,7 @@ onMounted(async () => {
   window.addEventListener('scroll', handlePageScroll)
 
   try {
-    const response = await fetch('/cases_data/catalog.json')
+    const response = await fetch('cases_data/catalog.json')
     const catalog = await response.json()
     casesList.value = catalog.cases || []
     missingFilesManifest.value = catalog.missing_files_manifest || []

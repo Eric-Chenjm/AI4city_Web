@@ -305,9 +305,9 @@ const getBboxNodes = (state) => {
 // 获取图像相对路径
 const getImgUrl = (state) => {
   if (state === 'observed') {
-    return `/cases_data/cases/${props.caseId}/observed.png`
+    return `cases_data/cases/${props.caseId}/observed.png`
   }
-  return `/cases_data/cases/${props.caseId}/before.jpg`
+  return `cases_data/cases/${props.caseId}/before.jpg`
 }
 
 // 左右拖拽 Slider 滑动条
@@ -342,20 +342,20 @@ const fetchCaseAssets = async () => {
 
   try {
     // 1. 读取 case_manifest.json
-    const r1 = await fetch(`/cases_data/cases/${props.caseId}/case_manifest.json`)
+    const r1 = await fetch(`cases_data/cases/${props.caseId}/case_manifest.json`)
     caseManifest.value = await r1.json()
 
     // 2. 读取 graph_ui.json
-    const r2 = await fetch(`/cases_data/cases/${props.caseId}/graph_ui.json`)
+    const r2 = await fetch(`cases_data/cases/${props.caseId}/graph_ui.json`)
     graphUiData.value = await r2.json()
 
     // 3. 读取 waterfalls.json
-    const r3 = await fetch(`/cases_data/cases/${props.caseId}/waterfalls.json`)
+    const r3 = await fetch(`cases_data/cases/${props.caseId}/waterfalls.json`)
     waterfallsData.value = await r3.json()
 
     // 4. 读取 observed_after_report.json 或者是缺陷诊断报告
     try {
-      const r4 = await fetch(`/cases_data/cases/${props.caseId}/observed_after_report.json`)
+      const r4 = await fetch(`cases_data/cases/${props.caseId}/observed_after_report.json`)
       const resReport = await r4.json()
       
       // 如果 observed_after_report 文件确实是缺失的（我们同步脚本降级生成的带有 status），
