@@ -2,7 +2,7 @@
   <div class="single-case-evidence-chain border-card">
     <div class="row-header">
       <span class="row-index">03</span>
-      <h2 class="row-title">{{ $t('gen.evidenceChainTitle') }}</h2>
+      <h2 class="row-title">{{ t('row03Title') }}</h2>
     </div>
 
     <!-- 1. 三状态导航切换 -->
@@ -12,37 +12,37 @@
         :class="{ active: activeState === 'before' }"
         @click="changeState('before')"
       >
-        <span>{{ $t('gen.before') }}</span>
-        <span class="btn-stage-lbl">{{ $t('gen.beforeSub') }}</span>
+        <span>{{ t('stageBefore') }}</span>
+        <span class="btn-stage-lbl">{{ t('stageBeforeSub') }}</span>
       </button>
       <button 
         class="btn-stage" 
         :class="{ active: activeState === 'planned' }"
         @click="changeState('planned')"
       >
-        <span>{{ $t('gen.planned') }}</span>
-        <span class="btn-stage-lbl">{{ $t('gen.plannedSub') }}</span>
+        <span>{{ t('stagePlanned') }}</span>
+        <span class="btn-stage-lbl">{{ t('stagePlannedSub') }}</span>
       </button>
       <button 
         class="btn-stage" 
         :class="{ active: activeState === 'observed' }"
         @click="changeState('observed')"
       >
-        <span>{{ $t('gen.observed') }}</span>
-        <span class="btn-stage-lbl">{{ $t('gen.observedSub') }}</span>
+        <span>{{ t('stageObserved') }}</span>
+        <span class="btn-stage-lbl">{{ t('stageObservedSub') }}</span>
       </button>
     </div>
 
     <!-- 加载中 -->
     <div v-if="isFetching" class="tech-loader">
       <div class="ring"></div>
-      <span>FETCHING CASE ASSETS...</span>
+      <span>{{ t('loading') }}</span>
     </div>
 
     <div v-else class="evidence-grid">
       <!-- A. 图像对比与 SVG Bbox 叠加层 -->
       <div class="evidence-left">
-        <h4 class="card-header-tag">{{ $t('gen.imageViewBbox') }}</h4>
+        <h4 class="card-header-tag">{{ t('imageViewTag') }}</h4>
         
         <div class="image-viewport-wrapper">
           <!-- Slide Comparison (仅在 Observed 状态可见) -->
@@ -63,7 +63,7 @@
                   :class="{ highlighted: isBboxHighlighted(node) }"
                 />
               </svg>
-              <div class="viewport-tag left">BEFORE</div>
+              <div class="viewport-tag left">{{ t('BEFORE') }}</div>
             </div>
             
             <!-- 顶层: 优化后图 -->
@@ -82,7 +82,7 @@
                   :class="{ highlighted: isBboxHighlighted(node) }"
                 />
               </svg>
-              <div class="viewport-tag right">OBSERVED</div>
+              <div class="viewport-tag right">{{ t('stageObserved') }}</div>
             </div>
 
             <!-- 滑块拉杆 -->
@@ -109,33 +109,33 @@
                 :class="{ highlighted: isBboxHighlighted(node) }"
               />
             </svg>
-            <div class="viewport-tag">{{ activeState.toUpperCase() }}</div>
+            <div class="viewport-tag">{{ t(activeState.toUpperCase()) }}</div>
           </div>
         </div>
       </div>
 
       <!-- B. Cytoscape.js 场景拓扑节点关系图 -->
       <div class="evidence-right">
-        <h4 class="card-header-tag">{{ $t('gen.sceneGraphTopology') }}</h4>
+        <h4 class="card-header-tag">{{ t('sceneGraphTopology') }}</h4>
         <div id="cy-container" class="cytoscape-container"></div>
         <div class="cy-tip-legend">
-          <span>{{ $t('gen.cytoscapeHint') }}</span>
+          <span>{{ t('cyTip') }}</span>
         </div>
       </div>
 
       <!-- C. Plotly.js SHAP 瀑布图 -->
       <div class="evidence-bottom-left">
-        <h4 class="card-header-tag">{{ $t('gen.shapWaterfall') }}</h4>
+        <h4 class="card-header-tag">{{ t('shapWaterfall') }}</h4>
         <div id="plotly-waterfall-container" class="waterfall-container"></div>
       </div>
 
       <!-- D. 空间诊断报告 -->
       <div class="evidence-bottom-right">
-        <h4 class="card-header-tag">{{ $t('gen.spatialDiagnostic') }}</h4>
+        <h4 class="card-header-tag">{{ t('spatialDiagnosticReport') }}</h4>
         
         <div class="diagnostic-report-box" v-if="reportContent">
           <div v-if="activeState === 'before'" class="report-section">
-            <h5 class="report-sub">{{ $t('gen.defectAnalysis') }}</h5>
+            <h5 class="report-sub">{{ t('defectDiagnosis') }}</h5>
             <ul class="report-list">
               <li 
                 v-for="(item, i) in reportContent.defects" 
@@ -148,7 +148,7 @@
           </div>
 
           <div v-else-if="activeState === 'planned'" class="report-section">
-            <h5 class="report-sub">{{ $t('gen.plannedActions') }}</h5>
+            <h5 class="report-sub">{{ t('plannedActions') }}</h5>
             <ul class="report-list">
               <li 
                 v-for="(item, i) in reportContent.actions" 
@@ -161,10 +161,10 @@
           </div>
 
           <div v-else-if="activeState === 'observed'" class="report-section">
-            <h5 class="report-sub">{{ $t('gen.observedOutcomes') }}</h5>
+            <h5 class="report-sub">{{ t('observedOutcomes') }}</h5>
             <div class="scores-bar">
-              {{ $t('gen.plannedGain') }} <span class="score green">+{{ formatNum(reportContent.planned_gain) }}</span>
-              {{ $t('gen.actualGain') }} <span class="score green">+{{ formatNum(reportContent.actual_gain) }}</span>
+              {{ t('plannedGain') }} <span class="score green">+{{ formatNum(reportContent.planned_gain) }}</span>
+              {{ t('actualGain') }} <span class="score green">+{{ formatNum(reportContent.actual_gain) }}</span>
             </div>
             <ul class="report-list">
               <li 
@@ -178,7 +178,7 @@
           </div>
         </div>
         <div v-else class="report-empty">
-          <span>{{ $t('gen.noReportData') }}</span>
+          <span>{{ t('noReportData') }}</span>
         </div>
       </div>
     </div>
@@ -187,11 +187,12 @@
 
 <script setup>
 import { ref, watch, onMounted, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
 import cytoscape from 'cytoscape'
 import Plotly from 'plotly.js-dist-min'
+import { useLang } from '../composables/useLang.js'
 
-const { t } = useI18n()
+const { t, currentLang } = useLang()
+
 
 const props = defineProps({
   caseId: {
@@ -223,6 +224,12 @@ let cy = null
 const formatNum = (val) => {
   if (val === undefined || val === null) return '0.00'
   return parseFloat(val).toFixed(2)
+}
+
+// 逐词翻译 pattern_short (形如 'car - street - vehicle')
+const translatePatternShort = (s) => {
+  if (!s) return ''
+  return currentLang.value === 'en' ? s : s.split('-').map(w => t(w.trim())).join(' - ')
 }
 
 const changeState = (state) => {
@@ -343,16 +350,23 @@ const mockDiagnosticReport = () => {
   
   const defects = topPatterns.map(p => ({
     pattern_name: p.feature_name,
-    description: t('gen.fallbackDesc', { short: p.pattern_short, score: formatNum(p.contribution) })
+    description: currentLang.value === 'en'
+      ? `Frequent [${p.pattern_short}] spatial topology structure identified. This feature is currently suppressed or has significant optimization space, contributing approximately ${formatNum(p.contribution)} to spatial quality.`
+      : `场景中识别到了频繁的 [${translatePatternShort(p.pattern_short)}] 空间拓扑结构。该特征目前处于负向抑制或存在明显的优化修复空间，对空间质量贡献约为 ${formatNum(p.contribution)}。`
   }))
 
   const actions = topPatterns.map(p => ({
     pattern_name: p.feature_name,
-    action: t('gen.reconstructAction', { short: p.pattern_short.split('-')[0] }),
-    description: t('gen.plannedActionDesc')
+    action: currentLang.value === 'en'
+      ? `Reconstruct ${p.pattern_short.split('-')[0]} Layout`
+      : `重构 ${translatePatternShort(p.pattern_short.split('-')[0].trim())} 布局`,
+    description: currentLang.value === 'en'
+      ? `Plan to apply counterfactual updates to this subgraph connection in urban design, aiming to eliminate pedestrian-vehicle conflicts. Adding green belts and adjusting street trees are suggested.`
+      : `计划在城市设计中对此子图连接进行反事实更新，目标在于消除人车交织，建议增设绿化带并调整行道树。`
   }))
 
   return {
+    from_mock: true,
     defects,
     actions,
     planned_gain: caseManifest.value?.scores?.planned - caseManifest.value?.scores?.before || 0.45,
@@ -360,7 +374,9 @@ const mockDiagnosticReport = () => {
     outcomes: [
       {
         pattern_name: topPatterns[0]?.feature_name || 'pattern_default',
-        description: t('gen.aiOptimizationDesc')
+        description: currentLang.value === 'en'
+          ? "AI optimization reconstructed the continuity of the sidewalk, eliminating the original blockages, and the actual scoring strongly reflected the optimized design."
+          : "AI 优化重建了人行道连续性，消除了原本的阻断型关系，实际推演得分大幅响应了优化设计。"
       }
     ]
   }
@@ -384,12 +400,13 @@ const renderCytoscape = () => {
     elements.push({
       data: {
         id: node.node_id,
-        label: node.label
+        label: t(node.label),
+        rawLabel: node.label
       }
     })
   })
   
-  // 查找关系边。部分 JSON 内的 edges 如果是空的，我们根据关系词进行连接，
+  // 查找关系边。部分 JSON 内 Jun edges 如果是空的，我们根据关系词进行连接，
   // 或者直接提取 graph_ui 中的 edges。
   // 在 graph_ui.json 中，有些版本的边在 graph 对象的 relations 里面。
   // 我们来检查 graph 对象的结构：
@@ -398,14 +415,14 @@ const renderCytoscape = () => {
     const s = edge.source || edge.subject_node_id
     const tgt = edge.target || edge.object_node_id
     const rel = edge.relation || edge.predicate || 'near'
-    
+
     if (slicedNodeIds.has(s) && slicedNodeIds.has(tgt)) {
       elements.push({
         data: {
           id: `edge-${s}-${tgt}`,
           source: s,
           target: tgt,
-          label: rel
+          label: t(rel)
         }
       })
     }
@@ -419,7 +436,7 @@ const renderCytoscape = () => {
           id: `sim-edge-${i}`,
           source: slicedNodes[i].node_id,
           target: slicedNodes[i+1].node_id,
-          label: 'near'
+          label: t('near')
         }
       })
     }
@@ -509,7 +526,7 @@ const renderCytoscape = () => {
   // 监听点击节点
   cy.on('tap', 'node', (evt) => {
     const node = evt.target
-    emit('select-node', node.data('label'))
+    emit('select-node', node.data('rawLabel'))
   })
 }
 
@@ -527,18 +544,18 @@ const renderPlotlyWaterfall = () => {
   const baseScore = caseManifest.value?.scores?.before || 4.5
   
   // 组装瀑布图数据
-  const xData = [t('gen.baseScore')]
+  const xData = [currentLang.value === 'en' ? 'Base Score' : '基准得分']
   const yData = [baseScore]
   const measure = ['absolute']
-  
+
   topList.forEach(item => {
-    xData.push(item.pattern_short)
+    xData.push(translatePatternShort(item.pattern_short))
     yData.push(parseFloat(item.contribution))
     measure.push('relative')
   })
-  
+
   // 最后一项是总得分 (Total)
-  xData.push(t('gen.totalScore'))
+  xData.push(currentLang.value === 'en' ? 'Final Score (Total)' : '最终模型打分')
   const currentTotal = activeState.value === 'before' 
     ? caseManifest.value?.scores?.before 
     : (activeState.value === 'planned' ? caseManifest.value?.scores?.planned : caseManifest.value?.scores?.observed)
@@ -565,7 +582,7 @@ const renderPlotlyWaterfall = () => {
   
   const layout = {
     title: {
-      text: 'SHAP Value Contributions',
+      text: t('shapValueContributions'),
       font: { color: 'rgba(255,255,255,0.7)', family: 'Syncopate', size: 9 }
     },
     waterfallgap: 0.3,
@@ -623,6 +640,15 @@ watch(() => props.activePattern, (newPattern) => {
 watch(() => props.caseId, () => {
   activeState.value = 'before'
   fetchCaseAssets()
+})
+
+// 监听语言变化，自动翻译重绘图表与重新生成模拟报告
+watch(currentLang, () => {
+  if (reportContent.value && reportContent.value.from_mock) {
+    reportContent.value = mockDiagnosticReport()
+  }
+  renderCytoscape()
+  renderPlotlyWaterfall()
 })
 
 onMounted(() => {

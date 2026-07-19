@@ -2,19 +2,19 @@
   <div class="model-training-overview border-card">
     <div class="row-header">
       <span class="row-index">01</span>
-      <h2 class="row-title">{{ $t('gen.modelTrainingTitle') }}</h2>
+      <h2 class="row-title">{{ t('row01Title') }}</h2>
     </div>
 
     <!-- A. 方法链可视化流程 -->
     <div class="overview-section">
-      <h3 class="section-sub-title">{{ $t('gen.methodologyPipeline') }}</h3>
+      <h3 class="section-sub-title">{{ t('methodPipeline') }}</h3>
       <div class="pipeline-chain">
-        <div v-for="(step, idx) in overviewData.method_chain || defaultSteps" :key="idx" class="pipeline-step">
+        <div v-for="(step, idx) in methodSteps" :key="idx" class="pipeline-step">
           <div class="step-num">{{ idx + 1 }}</div>
           <div class="step-content">
             <div class="step-label">{{ step }}</div>
           </div>
-          <span v-if="idx < (overviewData.method_chain || defaultSteps).length - 1" class="step-arrow">→</span>
+          <span v-if="idx < methodSteps.length - 1" class="step-arrow">→</span>
         </div>
       </div>
     </div>
@@ -23,29 +23,29 @@
     <div class="overview-layout">
       <!-- 样本数据面板 (置顶铺满) -->
       <div class="metric-sub-card training-assets-card">
-        <h4 class="card-header-tag">TRAINING ASSETS</h4>
+        <h4 class="card-header-tag">{{ t('trainingAssetsTag') }}</h4>
         <div class="training-assets-content">
           <div class="big-stats-row">
             <div class="stat-unit">
               <span class="stat-num">{{ overviewData.training?.num_images || 1200 }}</span>
-              <span class="stat-lbl">{{ $t('gen.trainingSamples') }}</span>
+              <span class="stat-lbl">{{ t('trainImages') }}</span>
             </div>
             <div class="stat-unit">
               <span class="stat-num">{{ overviewData.training?.num_features || 221 }}</span>
-              <span class="stat-lbl">{{ $t('gen.gSpanFeatures') }}</span>
+              <span class="stat-lbl">{{ t('trainFeatures') }}</span>
             </div>
           </div>
           <div class="stats-table">
             <div class="table-row">
-              <span>{{ $t('gen.cvRMSE') }}</span>
+              <span>{{ t('cvRmse') }}</span>
               <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.cv_rmse_mean) }}</span>
             </div>
             <div class="table-row">
-              <span>{{ $t('gen.cvR2') }}</span>
+              <span>{{ t('cvR2') }}</span>
               <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.cv_r2_mean) }}</span>
             </div>
             <div class="table-row">
-              <span>{{ $t('gen.holdoutR2') }}</span>
+              <span>{{ t('holdoutR2') }}</span>
               <span class="monospace text-highlight">{{ formatNum(overviewData.metrics?.holdout_r2) }}</span>
             </div>
           </div>
@@ -54,15 +54,15 @@
 
       <!-- 模型拟合曲线与 SHAP 概要图 (下方铺满，大图展示，动态 ECharts 绘制) -->
       <div class="metric-sub-card figures-card">
-        <h4 class="card-header-tag">FIT & GLOBAL SHAP SUMMARY (DOUBLED SCATTER & IMPORTANCE BAR)</h4>
+        <h4 class="card-header-tag">{{ t('fitShapTag') }}</h4>
         <div class="figures-flex">
           <div class="chart-wrapper">
             <div ref="fitChartRef" class="fit-chart-container"></div>
-            <div class="fig-tag-dynamic">{{ $t('gen.scatterPlot') }}</div>
+            <div class="fig-tag-dynamic">{{ t('scatterPlot') }}</div>
           </div>
           <div class="chart-wrapper">
             <div ref="shapChartRef" class="fit-chart-container"></div>
-            <div class="fig-tag-dynamic">{{ $t('gen.shapBar') }}</div>
+            <div class="fig-tag-dynamic">{{ t('shapRanking') }}</div>
           </div>
         </div>
       </div>
@@ -70,15 +70,15 @@
 
     <!-- C. 频繁空间模式排行榜 (正向与负向) -->
     <div class="overview-section patterns-section">
-      <h3 class="section-sub-title">{{ $t('gen.influentialPatterns') }}</h3>
-      <p class="pattern-intro-tip">{{ $t('gen.patternIntroTip') }}</p>
+      <h3 class="section-sub-title">{{ t('patternSection') }}</h3>
+      <p class="pattern-intro-tip">{{ t('patternTip') }}</p>
       
       <div class="patterns-grid">
         <!-- C1. 正向提升模式 (Positive Patterns) -->
         <div class="pattern-column">
           <h4 class="column-title positive-title">
             <span class="dot green"></span>
-            {{ $t('gen.positivePatterns') }}
+            {{ t('posTitle') }}
           </h4>
           <div class="pattern-list">
             <div 
@@ -97,11 +97,11 @@
               </div>
               <div class="pattern-stats-grid">
                 <div class="stats-item">
-                  <span class="stats-lbl">{{ $t('gen.support') }}</span>
+                  <span class="stats-lbl">{{ t('support') }}</span>
                   <span class="stats-val monospace">{{ pat.support }}</span>
                 </div>
                 <div class="stats-item right-align">
-                  <span class="stats-lbl">{{ $t('gen.freq') }}</span>
+                  <span class="stats-lbl">{{ t('freq') }}</span>
                   <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
                 </div>
               </div>
@@ -113,7 +113,7 @@
         <div class="pattern-column">
           <h4 class="column-title negative-title">
             <span class="dot red"></span>
-            {{ $t('gen.negativePatterns') }}
+            {{ t('negTitle') }}
           </h4>
           <div class="pattern-list">
             <div 
@@ -132,11 +132,11 @@
               </div>
               <div class="pattern-stats-grid">
                 <div class="stats-item">
-                  <span class="stats-lbl">{{ $t('gen.support') }}</span>
+                  <span class="stats-lbl">{{ t('support') }}</span>
                   <span class="stats-val monospace">{{ pat.support }}</span>
                 </div>
                 <div class="stats-item right-align">
-                  <span class="stats-lbl">{{ $t('gen.freq') }}</span>
+                  <span class="stats-lbl">{{ t('freq') }}</span>
                   <span class="stats-val monospace">{{ pat.total_pattern_count }}</span>
                 </div>
               </div>
@@ -150,18 +150,19 @@
     <div v-if="bigImageSrc" class="img-modal-overlay" @click="bigImageSrc = null">
       <div class="img-modal-content">
         <img :src="bigImageSrc" alt="Big Overview" class="modal-big-img" />
-        <p class="modal-hint">{{ $t('gen.modalHint') }}</p>
+        <p class="modal-hint">{{ t('closeModal') }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import * as echarts from 'echarts'
+import { useLang } from '../composables/useLang.js'
 
-const { t } = useI18n()
+const { t, currentLang } = useLang()
+
 
 const props = defineProps({
   activePattern: {
@@ -173,6 +174,7 @@ const props = defineProps({
 const emit = defineEmits(['select-pattern'])
 
 const overviewData = ref({})
+const bigImageSrc = ref(null)
 const topPositive = ref([])
 const topNegative = ref([])
 
@@ -182,25 +184,21 @@ const shapChartRef = ref(null)
 let fitChart = null
 let shapChart = null
 
-const defaultSteps = computed(() => [
-  t('gen.stepOriginal'),
-  t('gen.stepOvSGTR'),
-  t('gen.stepGSpan'),
-  t('gen.stepPatternCount'),
-  t('gen.stepXGBoost'),
-  t('gen.stepTreeSHAP')
-])
-
 const formatNum = (val, fixed = 3) => {
   if (val === undefined || val === null) return 'N/A'
   return parseFloat(val).toFixed(fixed)
 }
 
+// 方法链步骤：中文模式固定使用字典中文步骤，英文模式优先外部 JSON 的 method_chain
+const methodSteps = computed(() => {
+  if (currentLang.value === 'zh') return t('defaultSteps')
+  return overviewData.value?.method_chain || t('defaultSteps')
+})
+
 const handleImgError = (e) => {
-  // 若图片缺失，在容器内添加优雅的降级文字标记，满足不伪造数据的原则
   const el = e.target.parentElement
   el.classList.add('missing-figure')
-  el.innerHTML = `<span class="fig-missing-tip">⚠️ ${t('gen.figMissing')}<br/>(File Missing)</span>`
+  el.innerHTML = `<span class="fig-missing-tip">⚠️ ${t('loading')}</span>`
 }
 
 const viewBigImage = (src) => {
@@ -219,7 +217,6 @@ const getNodeX = (nodeId, nodes, layoutType) => {
     return [50, 25, 75][index] || 50
   }
   if (layoutType === 'center_linked_pair') {
-    // 假设 node 1 是中心节点，两端均布
     return [20, 50, 80][index] || 50
   }
   return [25, 50, 75][index] || 50
@@ -236,38 +233,57 @@ const getNodeY = (nodeId, nodes, layoutType) => {
   return [40, 45, 50][index] || 45
 }
 
-onMounted(async () => {
-  // 1. 读取基本的指标大盘
-  try {
-    const r1 = await fetch('/cases_data/model_training_overview.json')
-    overviewData.value = await r1.json()
-  } catch (e) {
-    console.error("Error reading model overview json:", e)
+const translateFeatureDisplayName = (name) => {
+  if (!name) return ''
+  if (currentLang.value === 'en') return name
+  const dict = {
+    'car': '车辆',
+    'plant': '植物',
+    'street': '街道',
+    'vehicle': '交通工具',
+    'bench': '座椅',
+    'sidewalk': '人行道',
+    'tree': '树木',
+    'building': '建筑',
+    'road': '道路',
+    'fence': '围栏',
+    'grass': '草皮',
+    'wall': '墙体',
+    'sky': '天空',
+    'person': '行人',
+    'motorbike': '摩托车',
+    'bicycle': '自行车',
+    'lamp': '路灯',
+    'sign': '标识牌',
+    'window': '窗户',
+    'door': '门',
+    'vegetation': '植被',
+    'pole': '电线杆',
+    'animal': '动物',
+    'bag': '包袋',
+    'coat': '外套',
+    'house': '房屋',
+    'jean': '牛仔裤',
+    'tire': '轮胎',
+    'umbrella': '雨伞',
+    'wheel': '车轮'
   }
+  let translated = name
+  Object.keys(dict).forEach(key => {
+    const regex = new RegExp(`\\b${key}\\b`, 'gi')
+    translated = translated.replace(regex, dict[key])
+  })
+  return translated
+}
 
-  // 2. 读取排行榜正向和负向模式
-  try {
-    const r2 = await fetch('/cases_data/top_positive_patterns.json')
-    const posList = await r2.json()
-    topPositive.value = posList.slice(0, 10)
-  } catch (e) {
-    console.error("Error reading top positive patterns:", e)
-  }
-
-  try {
-    const r3 = await fetch('/cases_data/top_negative_patterns.json')
-    const negList = await r3.json()
-    topNegative.value = negList.slice(0, 10)
-  } catch (e) {
-    console.error("Error reading top negative patterns:", e)
-  }
-
+const renderCharts = async () => {
   // 3. 动态绘制预测拟合散点图 (ECharts Scatter)
   try {
     const rFit = await fetch('/cases_data/fit_predictions.json')
     const fitData = await rFit.json()
     
     if (fitChartRef.value) {
+      if (fitChart) fitChart.dispose()
       fitChart = echarts.init(fitChartRef.value)
       
       const allVals = fitData.flatMap(d => d)
@@ -290,11 +306,13 @@ onMounted(async () => {
           borderWidth: 1,
           textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit' },
           formatter: (params) => {
-            return `${t('gen.trueScore')}: <b>${params.value[0].toFixed(2)}</b><br/>${t('gen.predScore')}: <b>${params.value[1].toFixed(2)}</b>`
+            const labelTrue = currentLang.value === 'en' ? 'True Score' : '真实得分'
+            const labelPred = currentLang.value === 'en' ? 'Fitted Pred' : '预测评分'
+            return `${labelTrue}: <b>${params.value[0].toFixed(2)}</b><br/>${labelPred}: <b>${params.value[1].toFixed(2)}</b>`
           }
         },
         xAxis: {
-          name: 'True Score',
+          name: currentLang.value === 'en' ? 'True Score' : '真实得分',
           nameLocation: 'middle',
           nameGap: 24,
           min: minVal,
@@ -304,7 +322,7 @@ onMounted(async () => {
           splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }
         },
         yAxis: {
-          name: 'Fitted Prediction',
+          name: currentLang.value === 'en' ? 'Fitted Prediction' : '拟合评分',
           nameLocation: 'middle',
           nameGap: 28,
           min: minVal,
@@ -339,7 +357,7 @@ onMounted(async () => {
             label: {
               show: true,
               position: 'end',
-              formatter: t('gen.idealLine'),
+              formatter: currentLang.value === 'en' ? 'y = x Ideal' : 'y = x 理想线',
               color: 'rgba(232, 85, 78, 0.7)',
               fontSize: 9,
               fontFamily: 'Outfit',
@@ -361,10 +379,11 @@ onMounted(async () => {
     
     // 取前 20，并倒序让最大的显示在最上方
     const top20 = shapData.slice(0, 20).reverse()
-    const yData = top20.map(d => `${d.feature_display_name} (${d.feature_name})`)
+    const yData = top20.map(d => `${translateFeatureDisplayName(d.feature_display_name)} (${d.feature_name})`)
     const xData = top20.map(d => d.mean_abs_shap)
     
     if (shapChartRef.value) {
+      if (shapChart) shapChart.dispose()
       shapChart = echarts.init(shapChartRef.value)
       
       const option = {
@@ -385,14 +404,16 @@ onMounted(async () => {
           textStyle: { color: '#fff', fontSize: 11, fontFamily: 'Outfit' },
           formatter: (params) => {
             const p = params[0]
-            return `${t('gen.featurePattern')}: <b>${p.name}</b><br/>${t('gen.meanSHAP')}: <span style="color:#36c8ff;font-family:monospace;font-weight:bold">${p.value.toFixed(4)}</span>`
+            const title = currentLang.value === 'en' ? 'Feature Pattern' : '特征模式'
+            const shapLabel = currentLang.value === 'zh' ? 'SHAP 贡献绝对均值' : 'Mean |SHAP|'
+            return `${title}: <b>${p.name}</b><br/>${shapLabel}: <span style="color:#36c8ff;font-family:monospace;font-weight:bold">${p.value.toFixed(4)}</span>`
           }
         },
         xAxis: {
           type: 'value',
-          name: 'Mean |SHAP| (Feature Importance)',
+          name: currentLang.value === 'en' ? 'Mean |SHAP|' : 'SHAP 贡献绝对均值',
           nameLocation: 'middle',
-          nameGap: 22,
+          nameGap: 24,
           axisLabel: { color: 'rgba(255,255,255,0.6)', fontSize: 9, fontFamily: 'Outfit' },
           axisLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } },
           splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }
@@ -406,14 +427,16 @@ onMounted(async () => {
             fontFamily: 'Outfit',
             width: 190,
             overflow: 'truncate',
-            align: 'right'
+            align: 'right',
+            interval: 0,
+            formatter: (value, index) => index % 2 === 0 ? value : ''
           },
           axisLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } },
           splitLine: { show: false }
         },
         series: [
           {
-            name: 'Mean SHAP',
+            name: currentLang.value === 'zh' ? 'SHAP 均值' : 'Mean SHAP',
             type: 'bar',
             data: xData,
             barWidth: '60%',
@@ -434,9 +457,43 @@ onMounted(async () => {
   } catch (e) {
     console.error("Error drawing shap importance bar chart:", e)
   }
+}
+
+onMounted(async () => {
+  // 1. 读取基本的指标大盘
+  try {
+    const r1 = await fetch('/cases_data/model_training_overview.json')
+    overviewData.value = await r1.json()
+  } catch (e) {
+    console.error("Error reading model overview json:", e)
+  }
+
+  // 2. 读取排行榜正向和负向模式
+  try {
+    const r2 = await fetch('/cases_data/top_positive_patterns.json')
+    const posList = await r2.json()
+    topPositive.value = posList.slice(0, 10)
+  } catch (e) {
+    console.error("Error reading top positive patterns:", e)
+  }
+
+  try {
+    const r3 = await fetch('/cases_data/top_negative_patterns.json')
+    const negList = await r3.json()
+    topNegative.value = negList.slice(0, 10)
+  } catch (e) {
+    console.error("Error reading top negative patterns:", e)
+  }
+
+  await renderCharts()
 
   // 5. 监听 resize 窗口缩放
   window.addEventListener('resize', handleResize)
+})
+
+// 监听语言变化，自动重绘图表
+watch(currentLang, () => {
+  renderCharts()
 })
 
 const handleResize = () => {

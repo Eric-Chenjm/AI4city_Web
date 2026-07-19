@@ -2,15 +2,15 @@
   <div class="region-map-container" :class="{ 'no-border': !bordered }">
     <div class="map-header" v-if="bordered">
       <div class="map-title-group">
-        <span class="section-tag">REGION</span>
-        <h2 class="map-title">FOUR QUADRANT CLASSIFICATION</h2>
-        <span class="indicator-badge">EXPLICIT × IMPLICIT</span>
+        <span class="section-tag">{{ t('rmTag') }}</span>
+        <h2 class="map-title">{{ t('rmTitle') }}</h2>
+        <span class="indicator-badge">{{ t('explicitImplicit') }}</span>
       </div>
     </div>
     <div class="map-body">
       <div ref="mapChart" class="map-chart"></div>
       <div class="region-legend">
-        <div class="legend-title">QUADRANTS</div>
+        <div class="legend-title">{{ t('rmQuadrants') }}</div>
         <div class="legend-list">
           <div class="legend-item" v-for="(item, index) in quadrantStats" :key="index"
                :class="{ active: activeQuadrant === item.code }"
@@ -29,14 +29,14 @@
               <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
               <path d="M3 3v5h5"/>
             </svg>
-            RESET
+            {{ t('rmReset') }}
           </div>
         </div>
       </div>
     </div>
     <div class="map-footer" v-if="bordered">
-      <div class="axis-label x-label">EXPLICIT INDICATORS &rarr;</div>
-      <div class="axis-label y-label">IMPLICIT &uarr;</div>
+      <div class="axis-label x-label">{{ t('rmXAxis') }}</div>
+      <div class="axis-label y-label">{{ t('rmYAxis') }}</div>
     </div>
   </div>
 </template>
@@ -44,6 +44,9 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import * as echarts from 'echarts'
+import { useLang } from '../composables/useLang.js'
+
+const { t, currentLang } = useLang()
 
 const props = defineProps({
   regionData: { type: Object, default: null },
@@ -62,10 +65,10 @@ const mapReady = ref(false)
 const viewAdjusted = ref(false)
 
 const quadrants = [
-  { code: 'HH', label: 'High Explicit · High Implicit', color: 'rgba(0, 91, 172, 0.7)', borderColor: 'rgba(0, 91, 172, 1)' },
-  { code: 'HL', label: 'High Explicit · Low Implicit', color: 'rgba(184, 116, 42, 0.6)', borderColor: 'rgba(184, 116, 42, 0.9)' },
-  { code: 'LH', label: 'Low Explicit · High Implicit', color: 'rgba(0, 181, 216, 0.7)', borderColor: 'rgba(0, 181, 216, 1)' },
-  { code: 'LL', label: 'Low Explicit · Low Implicit', color: 'rgba(84, 86, 90, 0.5)', borderColor: 'rgba(84, 86, 90, 0.8)' }
+  { code: 'HH', labelKey: 'quadrantQ1', color: 'rgba(0, 91, 172, 0.7)', borderColor: 'rgba(0, 91, 172, 1)' },
+  { code: 'HL', labelKey: 'quadrantQ4', color: 'rgba(184, 116, 42, 0.6)', borderColor: 'rgba(184, 116, 42, 0.9)' },
+  { code: 'LH', labelKey: 'quadrantQ2', color: 'rgba(0, 181, 216, 0.7)', borderColor: 'rgba(0, 181, 216, 1)' },
+  { code: 'LL', labelKey: 'quadrantQ3', color: 'rgba(84, 86, 90, 0.5)', borderColor: 'rgba(84, 86, 90, 0.8)' }
 ]
 
 const quadrantStats = computed(() => {
@@ -74,6 +77,7 @@ const quadrantStats = computed(() => {
     const feature = props.regionData.features.find(f => f.properties.quadrant_code === q.code)
     return {
       ...q,
+      label: t(q.labelKey),
       gridCount: feature ? feature.properties.grid_count : 0,
       area: feature ? feature.properties.area_km2 : 0
     }
@@ -197,9 +201,9 @@ const updateMap = () => {
         if (data && data.properties) {
           const propsData = data.properties
           return `<strong>${propsData.quadrant_zh || propsData.quadrant_en}</strong><br/>
-            <span style="opacity:0.7">Code: ${propsData.quadrant_code}</span><br/>
-            Grid Count: ${propsData.grid_count}<br/>
-            Area: ${propsData.area_km2} km²`
+            <span style="opacity:0.7">${t('rmTipCode')}: ${propsData.quadrant_code}</span><br/>
+            ${t('rmTipGrids')}: ${propsData.grid_count}<br/>
+            ${t('rmTipArea')}: ${propsData.area_km2} km²`
         }
         return null
       }
@@ -324,6 +328,7 @@ watch(() => props.regionData, () => { if (mapReady.value) updateMap() }, { deep:
 watch(() => props.activeQuadrant, () => { if (mapReady.value) updateMap() })
 watch(() => props.mapBounds, () => { if (mapReady.value) updateMap() }, { deep: true })
 watch(() => props.boundaryCoords, () => { if (mapReady.value) updateMap() }, { deep: true })
+watch(currentLang, () => { if (mapReady.value) updateMap() })
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)

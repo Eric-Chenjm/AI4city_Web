@@ -2,9 +2,9 @@
   <div class="samples-section" :class="{ 'no-border': !bordered }">
     <div class="section-header" v-if="bordered">
       <div class="section-title-group">
-        <span class="section-tag">SAMPLES</span>
-        <h2 class="section-title">{{ $t('analyze.streetDataSamples') }}</h2>
-        <span class="section-count">{{ allSamples.length }} {{ $t('common.total') }}</span>
+        <span class="section-tag">{{ t('sgTag') }}</span>
+        <h2 class="section-title">{{ t('trainingDataSamples') }}</h2>
+        <span class="section-count">{{ allSamples.length }} {{ t('totalBadge') }}</span>
       </div>
     </div>
     <div class="samples-body">
@@ -32,9 +32,9 @@
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n'
+import { useLang } from '../composables/useLang.js'
 
-const { t } = useI18n()
+const { t } = useLang()
 
 defineProps({
   allSamples: { type: Array, default: () => [] },

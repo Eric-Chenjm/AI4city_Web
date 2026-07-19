@@ -1,8 +1,8 @@
 <template>
   <div class="stat-list">
     <div class="panel-header">
-      <span class="section-tag">STATISTICS</span>
-      <h3 class="panel-title">INDICATOR ANALYSIS</h3>
+      <span class="section-tag">{{ t('statisticsTag') }}</span>
+      <h3 class="panel-title">{{ t('indicatorAnalysisTitle') }}</h3>
     </div>
     
     <div v-if="currentIndicator" class="indicator-header">
@@ -10,8 +10,8 @@
         {{ currentIndicator.type === 'explicit' ? '◈' : '◉' }}
       </div>
       <div class="indicator-info">
-        <h4 class="indicator-name">{{ currentIndicator.name }}</h4>
-        <span class="indicator-desc">{{ currentIndicator.desc }}</span>
+        <h4 class="indicator-name">{{ t(currentIndicator.name) }}</h4>
+        <span class="indicator-desc">{{ t(currentIndicator.desc) }}</span>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         :style="{ animationDelay: (i * 0.1) + 's' }"
       >
         <div class="stat-header">
-          <span class="stat-label">{{ stat.label }}</span>
+          <span class="stat-label">{{ t(stat.label) }}</span>
           <span class="stat-icon" v-html="stat.icon"></span>
         </div>
         <div class="stat-value-group">
@@ -42,15 +42,15 @@
 
     <div class="stats-summary">
       <div class="summary-row">
-        <span class="summary-label">DATA POINTS</span>
-        <span class="summary-value">900+ grids</span>
+        <span class="summary-label">{{ t('dataPoints') }}</span>
+        <span class="summary-value">900+ {{ t('gridsUnit') }}</span>
       </div>
       <div class="summary-row">
-        <span class="summary-label">STUDY AREA</span>
-        <span class="summary-value">Central Shanghai</span>
+        <span class="summary-label">{{ t('studyArea') }}</span>
+        <span class="summary-value">{{ t('centralShanghai') }}</span>
       </div>
       <div class="summary-row">
-        <span class="summary-label">RESOLUTION</span>
+        <span class="summary-label">{{ t('resolution') }}</span>
         <span class="summary-value">500m × 500m</span>
       </div>
     </div>
@@ -59,6 +59,9 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
 
 const props = defineProps({
   statistics: {

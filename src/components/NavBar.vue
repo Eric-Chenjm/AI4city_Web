@@ -3,19 +3,7 @@
     <div class="navbar-container">
       <div class="navbar-logo">
         <img class="logo-icon" src="../assets/dcd19cd3718b.png" alt="Logo" />
-        <span class="logo-text">INNOVATION GRAVITY FIELD</span>
-      </div>
-      <div class="lang-switch">
-        <button
-          class="lang-btn"
-          :class="{ active: locale === 'en' }"
-          @click="locale = 'en'; localStorage.setItem('locale', 'en')"
-        >EN</button>
-        <button
-          class="lang-btn"
-          :class="{ active: locale === 'zh' }"
-          @click="locale = 'zh'; localStorage.setItem('locale', 'zh')"
-        >中</button>
+        <span class="logo-text">{{ t('INNOVATION GRAVITY FIELD') }}</span>
       </div>
       <div class="navbar-links">
         <router-link 
@@ -25,9 +13,17 @@
           class="nav-link"
           :class="{ active: $route.path === link.path }"
         >
-          {{ $t(link.nameKey) }}
+          {{ t(link.key) }}
         </router-link>
       </div>
+
+      <!-- 语言切换按钮 -->
+      <button class="lang-toggle" @click="toggleLang" :title="currentLang === 'en' ? 'Switch to Chinese' : '切换英文'">
+        <span class="lang-option" :class="{ 'lang-active': currentLang === 'zh' }">中</span>
+        <span class="lang-divider">|</span>
+        <span class="lang-option" :class="{ 'lang-active': currentLang === 'en' }">EN</span>
+      </button>
+
       <button class="mobile-menu-btn" @click="toggleMobileMenu">
         <span class="menu-icon">{{ isMobileMenuOpen ? '✕' : '☰' }}</span>
       </button>
@@ -40,7 +36,7 @@
         class="mobile-link"
         @click="isMobileMenuOpen = false"
       >
-        {{ $t(link.nameKey) }}
+        {{ t(link.key) }}
       </router-link>
     </div>
   </nav>
@@ -49,20 +45,23 @@
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useLang } from '../composables/useLang.js'
 
+const { toggleLang: useLangToggle, currentLang, t } = useLang()
 const { locale } = useI18n()
 
 const isMobileMenuOpen = ref(false)
 
 const navLinks = [
-  { nameKey: 'nav.compare', path: '/above' },
-  { nameKey: 'nav.generate', path: '/generate' },
-  { nameKey: 'nav.analyze', path: '/analysis' },
-  { nameKey: 'nav.method', path: '/method' }
+  { key: 'navCompare', path: '/above' },
+  { key: 'navGenerate', path: '/generate' },
+  { key: 'navAnalyze', path: '/analysis' },
+  { key: 'navMethod', path: '/method' }
 ]
 
-const toggleLocale = () => {
-  locale.value = locale.value === 'en' ? 'zh' : 'en'
+const toggleLang = () => {
+  useLangToggle()
+  locale.value = currentLang.value
   localStorage.setItem('locale', locale.value)
 }
 
@@ -181,6 +180,46 @@ const toggleMobileMenu = () => {
   border-radius: 1px;
 }
 
+/* ── 语言切换按钮 ───────────────────────────────── */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 91, 172, 0.08);
+  border: 1px solid rgba(0, 91, 172, 0.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-left: 10px;
+}
+
+.lang-toggle:hover {
+  background: rgba(0, 91, 172, 0.2);
+  border-color: rgba(0, 91, 172, 0.7);
+}
+
+.lang-option {
+  font-family: 'Syncopate', 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.25s ease;
+  user-select: none;
+}
+
+.lang-option.lang-active {
+  color: #36c8ff;
+}
+
+.lang-divider {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 11px;
+  user-select: none;
+}
+
+/* ── Mobile ─────────────────────────────────────── */
 .mobile-menu-btn {
   display: none;
   background: none;
@@ -230,15 +269,8 @@ const toggleMobileMenu = () => {
     letter-spacing: 2px;
   }
 
-  .lang-switch {
-    order: 1;
-    margin-left: auto;
-    margin-right: 10px;
-  }
-
-  .lang-btn {
-    font-size: 10px;
-    padding: 3px 6px;
+  .lang-toggle {
+    padding: 4px 10px;
   }
 }
 </style>

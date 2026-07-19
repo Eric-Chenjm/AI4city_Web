@@ -19,7 +19,7 @@
       >
         <div class="metric-header">
           <span class="metric-indicator" :class="item.type"></span>
-          <span class="metric-label">{{ item.name }}</span>
+          <span class="metric-label">{{ t(item.name) }}</span>
         </div>
         
         <div class="metric-value-row">
@@ -29,20 +29,24 @@
           <span class="metric-value" :class="item.type">
             {{ Math.abs(item.value) }}
           </span>
-          <span class="metric-unit">{{ item.unit || '个' }}</span>
+          <span class="metric-unit">{{ t(item.unit || 'unitItem') }}</span>
         </div>
 
         <div class="metric-badge" :class="item.type">
-          {{ item.type === 'add' ? '空间实体增加' : '空间实体压制/消减' }}
+          {{ item.type === 'add' ? t('entityAdd') : t('entityRemove') }}
         </div>
         
-        <p class="metric-desc">{{ item.desc }}</p>
+        <p class="metric-desc">{{ t(item.desc) }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
+
 defineProps({
   objectsDelta: {
     type: Array,

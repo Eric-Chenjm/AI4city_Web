@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="method-page" ref="containerRef">
     <!-- Progress Nav -->
     <nav class="progress-nav">
@@ -80,6 +80,7 @@
       </div>
       <div class="chapter-content">
         <div class="chapter-header">
+          <span class="theme-title">{{ $t('method.detectorTitle') }}</span>
           <span class="chapter-tag">{{ $t('method.chapterTwo') }}</span>
           <h1 class="chapter-title">{{ $t('method.indicatorSystem') }}</h1>
           <p class="chapter-desc">{{ $t('method.chapterTwoDesc') }}</p>
@@ -142,6 +143,7 @@
       </div>
       <div class="chapter-content">
         <div class="chapter-header">
+          <span class="theme-title">{{ $t('method.decoderTitle') }}</span>
           <span class="chapter-tag">{{ $t('method.chapterThree') }}</span>
           <h1 class="chapter-title">{{ $t('method.phaseOne') }}</h1>
           <p class="chapter-desc">{{ $t('method.chapterThreeDesc') }}</p>
@@ -207,9 +209,6 @@
               <h3 class="tech-card-title">{{ $t('method.spatialClustering') }}</h3>
             </div>
             <div ref="scatterChart" class="scatter-chart" @click="handleScatterClick"></div>
-            <div class="algo-note">
-              <p><strong>{{ $t('method.whyDBSCAN') }}</strong> {{ $t('method.dbscanDesc') }}</p>
-            </div>
           </div>
         </div>
       </div>
@@ -222,6 +221,7 @@
       </div>
       <div class="chapter-content">
         <div class="chapter-header">
+          <span class="theme-title">{{ $t('method.generatorTitle') }}</span>
           <span class="chapter-tag">{{ $t('method.chapterFour') }}</span>
           <h1 class="chapter-title">{{ $t('method.phaseTwo') }}</h1>
           <p class="chapter-desc">{{ $t('method.chapterFourDesc') }}</p>
@@ -763,6 +763,17 @@ onUnmounted(() => {
 .chapter-header {
   text-align: center;
   margin-bottom: 40px;
+}
+
+.theme-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+  text-shadow: 0 0 20px rgba(0, 91, 172, 0.3);
 }
 
 .chapter-tag {
@@ -1341,6 +1352,9 @@ onUnmounted(() => {
   width: 120px;
   height: 80px;
   background: rgba(0, 0, 0, 0.3);
+  background-image: url('../assets/scene.png');
+  background-size: cover;
+  background-position: center;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -1348,6 +1362,7 @@ onUnmounted(() => {
 }
 
 .island-shape {
+  display: none;
   width: 60px;
   height: 24px;
   background: radial-gradient(ellipse, var(--gold-dim), transparent);

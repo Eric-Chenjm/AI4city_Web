@@ -3,7 +3,7 @@
     <!-- Section Nav -->
     <nav class="section-nav">
       <div class="nav-brand">
-        <span class="brand-tag">COMPARISON</span>
+        <span class="brand-tag">{{ t('navBrand') }}</span>
       </div>
       <div class="nav-dots">
         <button
@@ -31,21 +31,21 @@
       </div>
       <div class="hero-content">
         <div class="hero-title-wrapper">
-          <h1 class="hero-title">{{ $t('above.heroTitle') }}</h1>
-          <h2 class="hero-subtitle">{{ $t('above.heroSubtitle') }}</h2>
+          <h1 class="hero-title">{{ t('heroTitle') }}</h1>
+          <h2 class="hero-subtitle">{{ t('heroSubtitle') }}</h2>
         </div>
-        <p class="hero-desc">{{ $t('above.heroDesc') }}</p>
+        <p class="hero-desc">{{ t('heroDesc') }}</p>
       </div>
       <button class="explore-btn" @click="scrollToScreen(1)">
-        <span>{{ $t('above.startExploring') }}</span>
+        <span>{{ t('exploreBtn') }}</span>
         <span class="arrow">↓</span>
       </button>
     </section>
 
     <section class="screen screen-2" ref="section1">
       <div class="gallery-header">
-        <h2 class="section-title">{{ $t('above.comparisonGallery') }}</h2>
-        <p class="section-desc">{{ $t('above.beforeVsAfter') }}</p>
+        <h2 class="section-title">{{ t('screensTitle') }}</h2>
+        <p class="section-desc">{{ t('screensDesc') }}</p>
       </div>
       <div class="gallery-scroll" ref="galleryScroll">
         <div class="gallery-track">
@@ -58,13 +58,13 @@
             <div class="comparison-slider" ref="sliderRefs">
               <div class="slider-container">
                 <div class="before-image">
-                  <img :src="item.primary" alt="Before" draggable="false" />
+                  <img :src="item.primary" :alt="t('BEFORE')" draggable="false" />
                 </div>
-                <div 
+                <div
                   class="after-image"
                   :style="{ clipPath: `inset(0 0 0 ${sliderPositions[index]}%)` }"
                 >
-                  <img :src="item.optimized" alt="After" draggable="false" />
+                  <img :src="item.optimized" :alt="t('AFTER')" draggable="false" />
                 </div>
                 <div 
                   class="slider-bar"
@@ -100,28 +100,28 @@
       <div class="scene-container">
         <canvas ref="canvasRef"></canvas>
         <div class="legend-panel">
-          <h4>{{ $t('above.zoneLegend') }}</h4>
+          <h4>{{ t('sceneLegendTitle') }}</h4>
           <div class="legend-items">
             <div class="legend-item">
               <span class="legend-color crimson"></span>
-              <span>{{ $t('above.coreInnovation') }}</span>
+              <span>{{ t('legendCore') }}</span>
             </div>
             <div class="legend-item">
               <span class="legend-color blue"></span>
-              <span>{{ $t('above.toBeActivated') }}</span>
+              <span>{{ t('legendActivated') }}</span>
             </div>
             <div class="legend-item">
               <span class="legend-color purple"></span>
-              <span>{{ $t('above.potentialTrigger') }}</span>
+              <span>{{ t('legendTrigger') }}</span>
             </div>
             <div class="legend-item">
               <span class="legend-color gray"></span>
-              <span>{{ $t('above.underDevelopment') }}</span>
+              <span>{{ t('legendDevelopment') }}</span>
             </div>
           </div>
         </div>
         <div class="scene-hint">
-          <span>{{ $t('above.dragToRotate') }}</span>
+          <span>{{ t('sceneHint') }}</span>
         </div>
       </div>
     </section>
@@ -154,34 +154,33 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { useLang } from '../composables/useLang.js'
 
-const { t } = useI18n()
+const { t, currentLang } = useLang()
 
 const canvasRef = ref(null)
 const radarCanvas = ref(null)
 const galleryScroll = ref(null)
+const section0 = ref(null)
+const section1 = ref(null)
+const section2 = ref(null)
 const sliderRefs = ref([])
 const currentIndex = ref(0)
 const sliderPositions = ref([50, 50, 50, 50, 50, 50])
 const isDragging = ref(false)
 const dragIndex = ref(0)
 
-const section0 = ref(null)
-const section1 = ref(null)
-const section2 = ref(null)
-
 const activeSection = ref(0)
 const scrollProgress = ref(0)
 
-const sections = [
-  { label: 'HERO' },
-  { label: 'GALLERY' },
-  { label: '3D SCENE' }
-]
+const sections = computed(() => [
+  { label: t('navHero') },
+  { label: t('navGallery') },
+  { label: t('navScene') }
+])
 
 const scrollToSection = (index) => {
   const refs = [section0, section1, section2]
@@ -191,48 +190,48 @@ const scrollToSection = (index) => {
 let scene, camera, renderer, controls
 let animationId
 
-const comparisonData = ref([
+const comparisonData = computed(() => [
   {
     id: 1,
     primary: '/gallery/primary/picture_2026_07_17_17_46_53_937.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_46_53_937_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 01',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 01' : '街景对比 01',
+    description: t('screensDesc')
   },
   {
     id: 2,
     primary: '/gallery/primary/picture_2026_07_17_17_51_25_295.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_51_25_295_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 02',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 02' : '街景对比 02',
+    description: t('screensDesc')
   },
   {
     id: 3,
     primary: '/gallery/primary/picture_2026_07_17_17_52_11_783.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_52_11_783_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 03',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 03' : '街景对比 03',
+    description: t('screensDesc')
   },
   {
     id: 4,
     primary: '/gallery/primary/picture_2026_07_17_17_53_34_537.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_53_34_537_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 04',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 04' : '街景对比 04',
+    description: t('screensDesc')
   },
   {
     id: 5,
     primary: '/gallery/primary/picture_2026_07_17_17_54_50_704.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_17_54_50_704_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 05',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 05' : '街景对比 05',
+    description: t('screensDesc')
   },
   {
     id: 6,
     primary: '/gallery/primary/picture_2026_07_17_18_07_26_046.jpg',
     optimized: '/gallery/optimized/picture_2026_07_17_18_07_26_046_street_lock_v2_optimized.png',
-    title: 'STREET SCENE 06',
-    description: 'Before vs AIGC Restoration'
+    title: currentLang.value === 'en' ? 'STREET SCENE 06' : '街景对比 06',
+    description: t('screensDesc')
   }
 ])
 
@@ -857,26 +856,26 @@ const handleResize = () => {
   }
 }
 
-onMounted(() => {
-  const container = document.querySelector('.scroll-container')
-  if (container) {
-    container.addEventListener('scroll', () => {
-      const scrollTop = container.scrollTop
-      const scrollHeight = container.scrollHeight - container.clientHeight
-      scrollProgress.value = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
+let scrollContainer = null
+const handleContainerScroll = () => {
+  if (!scrollContainer) return
+  const scrollTop = scrollContainer.scrollTop
+  const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight
+  scrollProgress.value = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
 
-      const sectionRefs = [section0, section1, section2]
-      for (let i = 0; i < sectionRefs.length; i++) {
-        const rect = sectionRefs[i].value?.getBoundingClientRect()
-        if (rect) {
-          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-            activeSection.value = i
-            break
-          }
-        }
-      }
-    })
+  const sectionRefs = [section0, section1, section2]
+  for (let i = 0; i < sectionRefs.length; i++) {
+    const rect = sectionRefs[i].value?.getBoundingClientRect()
+    if (rect && rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+      activeSection.value = i
+      break
+    }
   }
+}
+
+onMounted(() => {
+  scrollContainer = document.querySelector('.scroll-container')
+  scrollContainer?.addEventListener('scroll', handleContainerScroll)
 
   nextTick(() => {
     // 使用 IntersectionObserver 延迟到第三屏 canvas 进入视口才初始化
@@ -897,30 +896,28 @@ onMounted(() => {
   window.addEventListener('resize', handleResize)
 
   // Gallery autoplay: start when screen-2 is visible
-    const screen2 = section1.value
-    if (screen2) {
-      galleryObserver = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          startAutoplay()
-        } else {
-          stopAutoplay()
-        }
-      }, { threshold: 0.3 })
-      galleryObserver.observe(screen2)
-    }
+  if (section1.value) {
+    galleryObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        startAutoplay()
+      } else {
+        stopAutoplay()
+      }
+    }, { threshold: 0.3 })
+    galleryObserver.observe(section1.value)
+  }
 
-    // 3D scene camera flyover: trigger when screen-3 is visible
-    const screen3 = section2.value
-    if (screen3) {
-      scene3Observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          playCameraFlyover()
-        } else {
-          resetCameraView()
-        }
-      }, { threshold: 0.3 })
-      scene3Observer.observe(screen3)
-    }
+  // 3D scene camera flyover: trigger when screen-3 is visible
+  if (section2.value) {
+    scene3Observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        playCameraFlyover()
+      } else {
+        resetCameraView()
+      }
+    }, { threshold: 0.3 })
+    scene3Observer.observe(section2.value)
+  }
 
   // Pause autoplay on mouse hover, resume on leave
   if (galleryScroll.value) {
@@ -943,6 +940,7 @@ onUnmounted(() => {
 
   galleryScroll.value?.removeEventListener('scroll', handleGalleryScroll)
   galleryScroll.value?.removeEventListener('mouseenter', stopAutoplay)
+  scrollContainer?.removeEventListener('scroll', handleContainerScroll)
   window.removeEventListener('resize', handleResize)
   
   if (animationId) {
@@ -1082,6 +1080,21 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background-image: url('../assets/scene.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 22, 40, 0.3);
+  z-index: 1;
 }
 
 .grid-lines {
@@ -1106,6 +1119,7 @@ onUnmounted(() => {
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index: 2;
 }
 
 .particle {
@@ -1158,7 +1172,7 @@ onUnmounted(() => {
 
 .hero-subtitle {
   font-family: 'Syncopate', sans-serif;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 300;
   color: #005BAC;
   letter-spacing: 8px;
@@ -1179,21 +1193,22 @@ onUnmounted(() => {
   bottom: 120px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 16px 32px;
+  padding: 12px 24px;
   background: linear-gradient(135deg, #005BAC, #004A8C);
   border: none;
   border-radius: 40px;
   color: #0a1628;
   font-family: 'Syncopate', sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   transition: all 0.3s ease;
   box-shadow: 0 10px 30px rgba(0, 91, 172, 0.3);
+  z-index: 10;
 }
 
 .explore-btn:hover {

@@ -3,7 +3,7 @@
     <!-- Section Nav -->
     <nav class="section-nav">
       <div class="nav-brand">
-        <span class="brand-tag">{{ $t('generate.structure') }}</span>
+        <span class="brand-tag">{{ t('genNavBrand') }}</span>
       </div>
       <div class="nav-dots">
         <button
@@ -27,14 +27,15 @@
 
     <header class="page-header" ref="sectionOverview">
       <div class="header-line"></div>
-      <h1 class="page-title">{{ $t('generate.title') }}</h1>
-      <p class="page-subtitle">{{ $t('generate.subtitle') }}</p>
+      <h1 class="page-title section-title">{{ t('sceneGeneratorTitle') }}</h1>
+      <h1 class="page-title">{{ t('pageTitle') }}</h1>
+      <p class="page-subtitle">{{ t('pageSubtitle') }}</p>
       <div class="header-line"></div>
     </header>
 
     <!-- 顶层全局提示与缺失文件警报 -->
     <div v-if="missingFilesManifest.length > 0" class="missing-warning-banner">
-      <span class="warning-title">{{ $t('generate.dataIntegrityWarning') }}</span>
+      <span class="warning-title">⚠️ {{ t('integrityAlert') }}</span>
       <div class="warning-scroll-box">
         <span v-for="(msg, i) in missingFilesManifest" :key="i" class="warning-item">
           {{ msg }}
@@ -44,20 +45,20 @@
 
     <div v-if="isLoading" class="global-loading">
       <div class="loader-hex"></div>
-      <span class="loading-lbl">{{ $t('generate.initializing') }}</span>
+      <span class="loading-lbl">{{ t('initializingDocker') }}</span>
     </div>
 
     <div v-else class="dashboard-main-layout">
       <!-- 第一部分: 模型训练结果总览 -->
       <ModelTrainingOverview
-        ref="sectionComparison"
+        ref="sectionTraining"
         :activePattern="activePattern"
         @select-pattern="handleSelectPattern"
       />
 
       <!-- 第二部分: GPS 案例分类检索 -->
       <GpsCaseSelector
-        ref="sectionIndicators"
+        ref="sectionGps"
         :cases="casesList"
         :activeCaseId="activeCaseId"
         @select-case="handleSelectCase"
@@ -65,8 +66,8 @@
 
       <!-- 第三部分: 单图优化证据链 -->
       <SingleCaseEvidenceChain
-        ref="sectionAnalysis"
         v-if="activeCaseId"
+        ref="sectionEvidence"
         :caseId="activeCaseId"
         :activePattern="activePattern"
         @select-node="handleSelectNode"
@@ -76,37 +77,31 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import ModelTrainingOverview from '../components/ModelTrainingOverview.vue'
 import GpsCaseSelector from '../components/GpsCaseSelector.vue'
 import SingleCaseEvidenceChain from '../components/SingleCaseEvidenceChain.vue'
+import { useLang } from '../composables/useLang.js'
 
-const { t } = useI18n()
+const { t } = useLang()
 
-const isLoading = ref(true)
-const casesList = ref([])
-const activeCaseId = ref(null)
-const activePattern = ref(null)
-const missingFilesManifest = ref([])
-
+// ── Section Nav ──
 const sectionOverview = ref(null)
-const sectionComparison = ref(null)
-const sectionIndicators = ref(null)
-const sectionAnalysis = ref(null)
-
+const sectionTraining = ref(null)
+const sectionGps = ref(null)
+const sectionEvidence = ref(null)
 const activeSection = ref(0)
 const scrollProgress = ref(0)
 
 const sections = computed(() => [
-  { label: t('generate.overview') },
-  { label: t('generate.comparison') },
-  { label: t('generate.indicators') },
-  { label: t('generate.analysis') }
+  { label: t('genNavOverview') },
+  { label: t('genNavTraining') },
+  { label: t('genNavGps') },
+  { label: t('genNavEvidence') }
 ])
 
 const scrollToSection = (index) => {
-  const refs = [sectionOverview, sectionComparison, sectionIndicators, sectionAnalysis]
+  const refs = [sectionOverview, sectionTraining, sectionGps, sectionEvidence]
   const target = refs[index]?.value
   if (!target) return
   const el = target.$el || target
@@ -118,18 +113,24 @@ const handlePageScroll = () => {
   const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
   scrollProgress.value = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
 
-  const sectionRefs = [sectionOverview, sectionComparison, sectionIndicators, sectionAnalysis]
+  const sectionRefs = [sectionOverview, sectionTraining, sectionGps, sectionEvidence]
   for (let i = sectionRefs.length - 1; i >= 0; i--) {
     const target = sectionRefs[i].value
-    if (!target) continue
-    const el = target.$el || target
+    const el = target?.$el || target
+    if (!el) continue
     const rect = el.getBoundingClientRect()
-    if (rect.top <= 160) {
+    if (rect && rect.top <= 160) {
       activeSection.value = i
       break
     }
   }
 }
+
+const isLoading = ref(true)
+const casesList = ref([])
+const activeCaseId = ref(null)
+const activePattern = ref(null)
+const missingFilesManifest = ref([])
 
 // 选定案例
 const handleSelectCase = (caseId) => {
@@ -368,6 +369,12 @@ onUnmounted(() => {
   text-shadow: 0 0 10px rgba(123, 97, 255, 0.2);
 }
 
+.section-title {
+  font-size: 32px;
+  margin-bottom: 16px;
+  letter-spacing: 3px;
+}
+
 .page-subtitle {
   font-family: var(--font-body);
   font-size: 13px;
@@ -462,5 +469,107 @@ onUnmounted(() => {
 @keyframes pulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
+}
+
+/* Section Nav */
+.section-nav {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  background: rgba(10, 22, 40, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 91, 172, 0.15);
+}
+
+.section-nav .nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.section-nav .brand-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #005BAC;
+  background: rgba(0, 91, 172, 0.1);
+  border: 1px solid rgba(0, 91, 172, 0.3);
+  padding: 4px 12px;
+  border-radius: 3px;
+  letter-spacing: 2px;
+}
+
+.section-nav .nav-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.section-nav .nav-dot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .dot-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-marker {
+  background: #005BAC;
+  box-shadow: 0 0 10px rgba(0, 91, 172, 0.3);
+  transform: scale(1.3);
+}
+
+.section-nav .dot-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.section-nav .nav-dot.active .dot-label {
+  color: #005BAC;
+}
+
+.section-nav .nav-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-nav .nav-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #005BAC, #004A8C);
+  transition: width 0.3s ease;
+}
+
+/* 锚点防遮挡 */
+.page-header,
+.dashboard-main-layout > * {
+  scroll-margin-top: 140px;
 }
 </style>
