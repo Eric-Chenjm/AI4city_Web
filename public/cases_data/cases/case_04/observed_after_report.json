@@ -1,72 +1,220 @@
 {
-  "case_id": "20260718_street_lock_v2_04_picture_2026_07_17_17_53_34_537",
+  "case_id": "progressive_v2_public_space_01_l03",
   "scores": {
-    "before": 4.370246410369873,
-    "planned": 4.565615653991699,
-    "observed": 4.276207447052002,
-    "observed_minus_before": -0.0940389633178711
+    "before": 5.394323825836182,
+    "planned": 5.959456443786621,
+    "observed": 6.035214424133301,
+    "observed_minus_before": 0.6408905982971191
   },
   "graph_delta": {
     "labels_added": [
       "bicycle",
-      "cafe table",
-      "motorcycle",
+      "person",
       "table"
     ],
     "labels_removed": [
-      "crowd",
+      "canopy",
+      "fence",
       "gate",
-      "hedge"
+      "motorcycle",
+      "planter",
+      "truck",
+      "whiteboard"
     ],
-    "before_node_count": 30,
-    "observed_node_count": 34,
+    "before_node_count": 42,
+    "observed_node_count": 32,
     "before_edge_count": 150,
     "observed_edge_count": 150
   },
   "mapped_actions": [
     {
-      "action_id": "action_05bc62b90a17",
+      "action_id": "action_882a75df964c",
       "action_type": "weaken_or_replace_negative_pattern",
       "feature_name": "pattern_876",
       "pattern_short": "building - sidewalk - tree",
-      "before_count": 4.0,
+      "before_count": 3.0,
       "planned_count": 0.0,
       "reason": "active pattern has negative XGBoost contribution",
       "related_node_ids": [
-        "node_1ac8ddb1be45",
-        "node_1c3c7359abeb",
-        "node_21b091b80779",
-        "node_555455622170",
-        "node_56d35fc8b554",
-        "node_669e4cd49171",
-        "node_67a691543858",
-        "node_797550ae524e",
-        "node_8175b9a03413",
-        "node_94ac2cb53c1c",
-        "node_99bbe77f7c7d",
-        "node_ddef03ce64ab",
-        "node_f9afd2aa0ef2"
+        "node_00bfa68d7700",
+        "node_27940eff2bd0",
+        "node_2fe10f31cd19",
+        "node_882f16e8000a",
+        "node_93333ed0b90f",
+        "node_9c1905b3c947",
+        "node_a93f6edf191a",
+        "node_c085d5044e45",
+        "node_d468eb815385",
+        "node_fe10ad6bcc24"
       ],
       "related_edge_ids": [
-        "edge_76b1ebb365f9",
-        "edge_d21c0c0d5e00",
-        "edge_a6b4e73103e4",
-        "edge_8f0a551a2234",
-        "edge_5700ed58f3e9",
-        "edge_ac28019ea0bc",
-        "edge_33e8c8b0f6b7",
-        "edge_ef0d04d75033",
-        "edge_556e425a017f",
-        "edge_be9d6f01b581",
-        "edge_70cb3e7ec9b2",
-        "edge_51c77b1038e0",
-        "edge_672a946a9487",
-        "edge_3c4b0ff3062b",
-        "edge_42de8f3185e6"
+        "edge_8f316ac0cd3e",
+        "edge_fbbf4739dffe",
+        "edge_ae77d504a652",
+        "edge_e6e5c574016c"
       ]
     },
     {
-      "action_id": "action_75bea1c308c6",
+      "action_id": "action_84110f6bfc68",
+      "action_type": "weaken_or_replace_negative_pattern",
+      "feature_name": "pattern_335",
+      "pattern_short": "bench - sidewalk - building",
+      "before_count": 3.0,
+      "planned_count": 0.0,
+      "reason": "active pattern has negative XGBoost contribution",
+      "related_node_ids": [
+        "node_27940eff2bd0",
+        "node_3d0a4499ddc9",
+        "node_882f16e8000a",
+        "node_8d55a09068cf",
+        "node_98d6335ce845",
+        "node_c085d5044e45",
+        "node_ddc310ab9900",
+        "node_fe10ad6bcc24"
+      ],
+      "related_edge_ids": [
+        "edge_1737bb60b14c",
+        "edge_684f5411fb91",
+        "edge_ce71f5d39424",
+        "edge_e085748840dd",
+        "edge_028be37e17a4"
+      ]
+    },
+    {
+      "action_id": "action_534a566f9b2d",
+      "action_type": "weaken_or_replace_negative_pattern",
+      "feature_name": "pattern_76",
+      "pattern_short": "bench - tree - tree",
+      "before_count": 1.0,
+      "planned_count": 0.0,
+      "reason": "active pattern has negative XGBoost contribution",
+      "related_node_ids": [
+        "node_00bfa68d7700",
+        "node_2fe10f31cd19",
+        "node_3d0a4499ddc9",
+        "node_8d55a09068cf",
+        "node_93333ed0b90f",
+        "node_98d6335ce845",
+        "node_9c1905b3c947",
+        "node_a93f6edf191a",
+        "node_d468eb815385",
+        "node_ddc310ab9900"
+      ],
+      "related_edge_ids": [
+        "edge_72095a548499",
+        "edge_12aa8f763c15",
+        "edge_08b0fde9cdf7",
+        "edge_e8ae5de5a297"
+      ]
+    },
+    {
+      "action_id": "action_8c6df540d751",
+      "action_type": "weaken_or_replace_negative_pattern",
+      "feature_name": "pattern_2",
+      "pattern_short": "bench - building - tree",
+      "before_count": 1.0,
+      "planned_count": 0.0,
+      "reason": "active pattern has negative XGBoost contribution",
+      "related_node_ids": [
+        "node_00bfa68d7700",
+        "node_27940eff2bd0",
+        "node_2fe10f31cd19",
+        "node_3d0a4499ddc9",
+        "node_882f16e8000a",
+        "node_8d55a09068cf",
+        "node_93333ed0b90f",
+        "node_98d6335ce845",
+        "node_9c1905b3c947",
+        "node_a93f6edf191a",
+        "node_d468eb815385",
+        "node_ddc310ab9900",
+        "node_fe10ad6bcc24"
+      ],
+      "related_edge_ids": [
+        "edge_05fc4cd70495"
+      ]
+    },
+    {
+      "action_id": "action_e099d2712044",
+      "action_type": "weaken_or_replace_negative_pattern",
+      "feature_name": "pattern_884",
+      "pattern_short": "street - tree - tree",
+      "before_count": 1.0,
+      "planned_count": 0.0,
+      "reason": "active pattern has negative XGBoost contribution",
+      "related_node_ids": [
+        "node_00bfa68d7700",
+        "node_2fe10f31cd19",
+        "node_93333ed0b90f",
+        "node_9c1905b3c947",
+        "node_a93f6edf191a",
+        "node_d468eb815385",
+        "node_e3c584494a69"
+      ],
+      "related_edge_ids": [
+        "edge_ae5768ba281f",
+        "edge_6bc517ef86b6",
+        "edge_4e09ab5b3bbd",
+        "edge_2f09204472bf",
+        "edge_0e9d7dec9fa8",
+        "edge_31fa451ff0dd",
+        "edge_5eefe596dce6",
+        "edge_18d89333fc76",
+        "edge_342d2565e885",
+        "edge_48934011c004",
+        "edge_b0ddb878afed",
+        "edge_72095a548499",
+        "edge_49b9bc4479e3",
+        "edge_0214442c358e",
+        "edge_41aefe33e6e8",
+        "edge_562909708f77",
+        "edge_50e955a89f27",
+        "edge_b297960b8f49",
+        "edge_4bf6759c748d",
+        "edge_513002a34da1",
+        "edge_08b0fde9cdf7",
+        "edge_4791698f7832",
+        "edge_c7c52f90050e",
+        "edge_7821ae12eb72",
+        "edge_975a48a4a33e",
+        "edge_596d752a77c6",
+        "edge_40077352f9c7",
+        "edge_184a7bf42c21",
+        "edge_c69007f11fa7"
+      ]
+    },
+    {
+      "action_id": "action_07d035bb4fb6",
+      "action_type": "weaken_or_replace_negative_pattern",
+      "feature_name": "pattern_29",
+      "pattern_short": "bench - tree - building",
+      "before_count": 1.0,
+      "planned_count": 0.0,
+      "reason": "active pattern has negative XGBoost contribution",
+      "related_node_ids": [
+        "node_00bfa68d7700",
+        "node_27940eff2bd0",
+        "node_2fe10f31cd19",
+        "node_3d0a4499ddc9",
+        "node_882f16e8000a",
+        "node_8d55a09068cf",
+        "node_93333ed0b90f",
+        "node_98d6335ce845",
+        "node_9c1905b3c947",
+        "node_a93f6edf191a",
+        "node_d468eb815385",
+        "node_ddc310ab9900",
+        "node_fe10ad6bcc24"
+      ],
+      "related_edge_ids": [
+        "edge_72095a548499",
+        "edge_12aa8f763c15",
+        "edge_08b0fde9cdf7",
+        "edge_e8ae5de5a297"
+      ]
+    },
+    {
+      "action_id": "action_a59f7ebb588f",
       "action_type": "weaken_or_replace_negative_pattern",
       "feature_name": "pattern_472",
       "pattern_short": "building - tree - street",
@@ -74,119 +222,101 @@
       "planned_count": 0.0,
       "reason": "active pattern has negative XGBoost contribution",
       "related_node_ids": [
-        "node_1c3c7359abeb",
-        "node_216f34c6cd7a",
-        "node_555455622170",
-        "node_56d35fc8b554",
-        "node_67a691543858",
-        "node_797550ae524e",
-        "node_8175b9a03413",
-        "node_8219e3abfc9c",
-        "node_94ac2cb53c1c",
-        "node_99bbe77f7c7d",
-        "node_f9afd2aa0ef2"
+        "node_00bfa68d7700",
+        "node_27940eff2bd0",
+        "node_2fe10f31cd19",
+        "node_882f16e8000a",
+        "node_93333ed0b90f",
+        "node_9c1905b3c947",
+        "node_a93f6edf191a",
+        "node_d468eb815385",
+        "node_e3c584494a69",
+        "node_fe10ad6bcc24"
       ],
       "related_edge_ids": [
-        "edge_4d4f19974780",
-        "edge_39ea7532491a",
-        "edge_746b75db0541",
-        "edge_eda29a28e109",
-        "edge_eae7e5e5ab15",
-        "edge_6bb26bb01faa",
-        "edge_9dbc07c590e8",
-        "edge_cf017fab7036",
-        "edge_90482844a5db",
-        "edge_55c19293d849",
-        "edge_a77bddde89c6",
-        "edge_5822362fcd4a",
-        "edge_0fe21d097709",
-        "edge_234a7aac409e"
+        "edge_456a705430d2",
+        "edge_2f09204472bf",
+        "edge_e02e47f05cd6",
+        "edge_18d89333fc76",
+        "edge_28fd677db3ad",
+        "edge_9082be581340",
+        "edge_660fb7be7d2d",
+        "edge_b3bb31d11029",
+        "edge_fdfe149567bf",
+        "edge_a39d0e3e396d",
+        "edge_d404d81aef6f",
+        "edge_40077352f9c7",
+        "edge_2dc4c206ef41"
       ]
     },
     {
-      "action_id": "action_2b75d7f12ef2",
+      "action_id": "action_c3c5f963d399",
       "action_type": "weaken_or_replace_negative_pattern",
       "feature_name": "pattern_468",
       "pattern_short": "building - street - sidewalk",
-      "before_count": 3.0,
+      "before_count": 1.0,
       "planned_count": 0.0,
       "reason": "active pattern has negative XGBoost contribution",
       "related_node_ids": [
-        "node_1ac8ddb1be45",
-        "node_1c3c7359abeb",
-        "node_216f34c6cd7a",
-        "node_21b091b80779",
-        "node_56d35fc8b554",
-        "node_669e4cd49171",
-        "node_67a691543858",
-        "node_797550ae524e",
-        "node_8219e3abfc9c",
-        "node_94ac2cb53c1c",
-        "node_ddef03ce64ab",
-        "node_f9afd2aa0ef2"
+        "node_27940eff2bd0",
+        "node_882f16e8000a",
+        "node_c085d5044e45",
+        "node_e3c584494a69",
+        "node_fe10ad6bcc24"
       ],
       "related_edge_ids": [
-        "edge_4d4f19974780",
-        "edge_39ea7532491a",
-        "edge_746b75db0541",
-        "edge_eda29a28e109",
-        "edge_eae7e5e5ab15",
-        "edge_6bb26bb01faa",
-        "edge_9dbc07c590e8",
-        "edge_55c19293d849",
-        "edge_a77bddde89c6",
-        "edge_5822362fcd4a",
-        "edge_0fe21d097709",
-        "edge_234a7aac409e"
+        "edge_2f09204472bf",
+        "edge_18d89333fc76",
+        "edge_40077352f9c7"
       ]
     },
     {
-      "action_id": "action_aaba0a24a0dc",
+      "action_id": "action_ab9a62aae1e4",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "maker_lab_frontage",
-      "prompt_fragment_id": "prompt_c578ea7ed34e",
+      "prompt_fragment_id": "prompt_0e1842a2f861",
       "related_node_ids": [
-        "node_bc82397ed62c"
+        "node_f5b5286ce228"
       ],
       "related_edge_ids": [],
-      "description": "maker_lab_frontage (transparent maker lab): add a realistic visible maker/co-working interior connected to the existing building, wall, door, or window edge."
+      "description": "maker_lab_frontage (transparent maker lab): add a realistic visible maker/co-working interior connected to existing building, wall, door, or window edges."
     },
     {
-      "action_id": "action_98d0e32c0849",
+      "action_id": "action_09de540e3025",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "prototype_display",
-      "prompt_fragment_id": "prompt_c83cc827ea5f",
+      "prompt_fragment_id": "prompt_007a8cfe3ab2",
       "related_node_ids": [
-        "node_f39f0906a15e"
+        "node_4a71099ee708"
       ],
       "related_edge_ids": [],
-      "description": "prototype_display (prototype display wall): add one realistic display zone with abstract diagrams, small models, or material samples anchored to the existing wall/building frontage."
+      "description": "prototype_display (prototype display wall): add one realistic display zone with abstract diagrams, small models, or material samples anchored to a wall/building frontage or public node."
     },
     {
-      "action_id": "action_da46b8ad57a0",
+      "action_id": "action_299106b9c61e",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "collaboration_seating",
-      "prompt_fragment_id": "prompt_406bcb1d616a",
+      "prompt_fragment_id": "prompt_e56a94e2bb85",
       "related_node_ids": [
-        "node_2a494ec40f94"
+        "node_05191c65479f"
       ],
       "related_edge_ids": [],
-      "description": "collaboration_seating (modular bench/worktable): add realistic modular seating and a worktable near existing trees, sidewalk, or building entrance."
+      "description": "collaboration_seating (modular bench/worktable): add realistic modular seating and a worktable near existing trees, sidewalk, entrance, or public edge."
     },
     {
-      "action_id": "action_4de6d3068609",
+      "action_id": "action_4d5d7ec5cca5",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "smart_bench",
-      "prompt_fragment_id": "prompt_985e6df0294a",
+      "prompt_fragment_id": "prompt_e431bba7d98c",
       "related_node_ids": [
-        "node_f94bf3f88add"
+        "node_be3997334a2d"
       ],
       "related_edge_ids": [],
-      "description": "smart_bench (charging smart bench): add one realistic smart bench with subtle charging details near the public path or shaded edge."
+      "description": "smart_bench (charging smart bench): add one realistic smart bench with subtle charging details near a public path or shaded edge."
     },
     {
       "action_id": "action_e29601d718af",
@@ -201,41 +331,344 @@
       "description": "rain_garden (native rain-garden planting): add native planting that links tree/plant nodes to seating and stormwater edge."
     },
     {
-      "action_id": "action_2a5ca4c4e26f",
+      "action_id": "action_e34788fd62fb",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "micro_mobility_dock",
-      "prompt_fragment_id": "prompt_7c37bf09ca2a",
+      "prompt_fragment_id": "prompt_399c92ce94e6",
       "related_node_ids": [
-        "node_45815c83adea"
+        "node_d1ac212e387f"
       ],
       "related_edge_ids": [],
-      "description": "micro_mobility_dock (bike/scooter dock): add a compact micro-mobility dock at the street or entrance edge without blocking circulation."
+      "description": "micro_mobility_dock (bike/scooter dock): add a compact micro-mobility dock at the street, entrance, or public-space edge without blocking circulation."
     },
     {
-      "action_id": "action_a5b9cfd7074c",
+      "action_id": "action_f9ee9ce59cff",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "community_screen",
-      "prompt_fragment_id": "prompt_0604bb930e4e",
+      "prompt_fragment_id": "prompt_97ff906fa200",
       "related_node_ids": [
-        "node_c62f76ff0d0f"
+        "node_03f45809364a"
       ],
       "related_edge_ids": [],
-      "description": "community_screen (interactive community screen): add one screen or panel with abstract graphics only, supporting prototype discussion and public information."
+      "description": "community_screen (interactive community screen): add one restrained screen or panel with abstract graphics only, supporting prototype discussion and public information."
     },
     {
-      "action_id": "action_c0a79f806a4e",
+      "action_id": "action_088b6e48ea30",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "facade_depth_system",
+      "prompt_fragment_id": "prompt_c31b3d6988b4",
+      "related_node_ids": [
+        "node_2840ef37530a"
+      ],
+      "related_edge_ids": [],
+      "description": "facade_depth_system (3D facade/spatial interface): use wall thickness, doorway depth, canopy, window reveal, platform edge, and ground-plane connection to make the update read as a real three-dimensional spatial scene."
+    },
+    {
+      "action_id": "action_8de07502c77e",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "color_block_wayfinding",
+      "prompt_fragment_id": "prompt_81eadc558829",
+      "related_node_ids": [
+        "node_d380063c75ae"
+      ],
+      "related_edge_ids": [],
+      "description": "color_block_wayfinding (reversible color accents): add restrained colored blocks on paving, movable furniture, display plinths, or privacy-safe panels to clarify activity zones without readable text or changing building mass."
+    },
+    {
+      "action_id": "action_b02786f67d02",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "sparse_activity_scene",
+      "prompt_fragment_id": "prompt_977e6666d1b4",
+      "related_node_ids": [
+        "node_a0083f4a3fc5"
+      ],
+      "related_edge_ids": [],
+      "description": "sparse_activity_scene (limited human activity): add a small believable activity scene with no more than 5 people total, such as discussion, prototype viewing, resting, or slow-mobility arrival."
+    },
+    {
+      "action_id": "action_ce1bdb0ed54d",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "outdoor_collaboration_field",
+      "prompt_fragment_id": "prompt_a9fcdef077c0",
+      "related_node_ids": [
+        "node_cd828e49aa3f"
+      ],
+      "related_edge_ids": [],
+      "description": "outdoor_collaboration_field (public work/learning zone): add realistic modular tables or benches for small group discussion, outdoor learning, and prototype exchange."
+    },
+    {
+      "action_id": "action_2a1834aab57b",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "shaded_public_node",
+      "prompt_fragment_id": "prompt_319fddfe6aab",
+      "related_node_ids": [
+        "node_215f139bfbaf"
+      ],
+      "related_edge_ids": [],
+      "description": "shaded_public_node (tree/canopy relation): strengthen shade with seating, rain-garden planting, and comfortable gathering around existing trees or open edges."
+    },
+    {
+      "action_id": "action_e93b02210c82",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "public_demo_micro_stage",
+      "prompt_fragment_id": "prompt_3e825bd1f35e",
+      "related_node_ids": [
+        "node_532963301b55"
+      ],
+      "related_edge_ids": [],
+      "description": "public_demo_micro_stage (prototype demonstration): add a low-key public demonstration/display zone integrated with the plaza or path, not a formal stage."
+    },
+    {
+      "action_id": "action_2a6d3ad4a602",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "slow_mobility_threshold",
+      "prompt_fragment_id": "prompt_a16065be8b21",
+      "related_node_ids": [
+        "node_bda852d470d7"
+      ],
+      "related_edge_ids": [],
+      "description": "slow_mobility_threshold (bike/scooter dock and wayfinding): add a compact micro-mobility and wayfinding node that does not block walking space."
+    },
+    {
+      "action_id": "action_ac60047b1fb0",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "public_furniture_palette",
+      "prompt_fragment_id": "prompt_96a7e381a616",
+      "related_node_ids": [
+        "node_a1151588ab5a"
+      ],
+      "related_edge_ids": [],
+      "description": "public_furniture_palette (diverse street furniture): vary furniture forms according to the public-space background, combining long timber benches, concrete seat blocks, slim steel-frame worktables, planter edges, movable stools, shaded meeting tables, and low information/display plinths."
+    },
+    {
+      "action_id": "action_05d551a95616",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "public_material_coherence",
+      "prompt_fragment_id": "prompt_ba0d4581735b",
+      "related_node_ids": [
+        "node_80baadf9b957"
+      ],
+      "related_edge_ids": [],
+      "description": "public_material_coherence (context-specific materials): use durable paving-compatible materials such as light precast concrete, warm timber, brushed or dark steel, perforated metal shade elements, planting beds, and subtle glass/display surfaces that match the existing buildings and open ground."
+    },
+    {
+      "action_id": "action_68abb95f8422",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "diverse_street_furniture_materials",
+      "prompt_fragment_id": "prompt_251bd83415f5",
+      "related_node_ids": [
+        "node_17fff6c52957"
+      ],
+      "related_edge_ids": [],
+      "description": "diverse_street_furniture_materials (function-matched furniture): use varied but coherent street furniture materials and forms matched to the background, circulation, shade, and innovation-community use."
+    },
+    {
+      "action_id": "action_96ec8ece072d",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "contextual_facade_material_forms",
+      "prompt_fragment_id": "prompt_c56d3b1f3143",
+      "related_node_ids": [
+        "node_3faadf9e5e4b"
+      ],
+      "related_edge_ids": [],
+      "description": "contextual_facade_material_forms (facade material/form diversity): diversify facade or boundary treatment with context-specific materials, depth, openings, screens, shelves, canopies, and planted edges where the existing scene supports them."
+    },
+    {
+      "action_id": "action_801957b7f825",
       "action_type": "weaken_or_remove_scene_graph_relation",
-      "pattern_short": "closed_boundary",
-      "prompt_fragment_id": "prompt_ada141f31a87",
+      "pattern_short": "vehicle_area",
+      "prompt_fragment_id": "prompt_66e0e666988a",
       "related_node_ids": [],
       "related_edge_ids": [],
-      "description": "closed_boundary (wall/fence): partially open or visually soften the closed boundary; do not erase the historic industrial fabric."
+      "description": "vehicle_area (car/vehicle): reduce dominant parked or service vehicles and reconstruct a slow, pedestrian-first innovation-community edge."
+    },
+    {
+      "action_id": "action_53d83bf62370",
+      "action_type": "weaken_or_remove_scene_graph_relation",
+      "pattern_short": "closed_boundary",
+      "prompt_fragment_id": "prompt_5f6a2fb6ffa4",
+      "related_node_ids": [],
+      "related_edge_ids": [],
+      "description": "closed_boundary (wall/fence): soften the closed boundary and selectively open it as an accessible innovation-community interface."
+    },
+    {
+      "action_id": "action_524d91cda6c4",
+      "action_type": "weaken_or_remove_scene_graph_relation",
+      "pattern_short": "empty_or_passive_open_space",
+      "prompt_fragment_id": "prompt_0fc392e492ca",
+      "related_node_ids": [],
+      "related_edge_ids": [],
+      "description": "empty_or_passive_open_space: reduce empty pass-through feeling and avoid over-building the open public space."
     }
   ],
   "notes": [
     "Observed graph is produced by rerunning OvSGTR on the generated optimized image when available.",
     "Planned graph is synthesized from update plan when no model-generated planned scene graph exists."
-  ]
+  ],
+  "defects": [
+    {
+      "pattern_name": "pattern_876",
+      "description": "Negative pattern [building - sidewalk - tree] active in before scene (count 3.0); reason: active pattern has negative XGBoost contribution"
+    },
+    {
+      "pattern_name": "pattern_335",
+      "description": "Negative pattern [bench - sidewalk - building] active in before scene (count 3.0); reason: active pattern has negative XGBoost contribution"
+    },
+    {
+      "pattern_name": "pattern_76",
+      "description": "Negative pattern [bench - tree - tree] active in before scene (count 1.0); reason: active pattern has negative XGBoost contribution"
+    },
+    {
+      "pattern_name": "pattern_2",
+      "description": "Negative pattern [bench - building - tree] active in before scene (count 1.0); reason: active pattern has negative XGBoost contribution"
+    },
+    {
+      "pattern_name": "pattern_884",
+      "description": "Negative pattern [street - tree - tree] active in before scene (count 1.0); reason: active pattern has negative XGBoost contribution"
+    },
+    {
+      "pattern_name": "pattern_29",
+      "description": "Negative pattern [bench - tree - building] active in before scene (count 1.0); reason: active pattern has negative XGBoost contribution"
+    },
+    {
+      "pattern_name": "pattern_472",
+      "description": "Negative pattern [building - tree - street] active in before scene (count 1.0); reason: active pattern has negative XGBoost contribution"
+    },
+    {
+      "pattern_name": "pattern_468",
+      "description": "Negative pattern [building - street - sidewalk] active in before scene (count 1.0); reason: active pattern has negative XGBoost contribution"
+    }
+  ],
+  "actions": [
+    {
+      "pattern_name": null,
+      "action": "maker_lab_frontage",
+      "description": "maker_lab_frontage (transparent maker lab): add a realistic visible maker/co-working interior connected to existing building, wall, door, or window edges."
+    },
+    {
+      "pattern_name": null,
+      "action": "prototype_display",
+      "description": "prototype_display (prototype display wall): add one realistic display zone with abstract diagrams, small models, or material samples anchored to a wall/building frontage or public node."
+    },
+    {
+      "pattern_name": null,
+      "action": "collaboration_seating",
+      "description": "collaboration_seating (modular bench/worktable): add realistic modular seating and a worktable near existing trees, sidewalk, entrance, or public edge."
+    },
+    {
+      "pattern_name": null,
+      "action": "smart_bench",
+      "description": "smart_bench (charging smart bench): add one realistic smart bench with subtle charging details near a public path or shaded edge."
+    },
+    {
+      "pattern_name": null,
+      "action": "rain_garden",
+      "description": "rain_garden (native rain-garden planting): add native planting that links tree/plant nodes to seating and stormwater edge."
+    },
+    {
+      "pattern_name": null,
+      "action": "micro_mobility_dock",
+      "description": "micro_mobility_dock (bike/scooter dock): add a compact micro-mobility dock at the street, entrance, or public-space edge without blocking circulation."
+    },
+    {
+      "pattern_name": null,
+      "action": "community_screen",
+      "description": "community_screen (interactive community screen): add one restrained screen or panel with abstract graphics only, supporting prototype discussion and public information."
+    },
+    {
+      "pattern_name": null,
+      "action": "facade_depth_system",
+      "description": "facade_depth_system (3D facade/spatial interface): use wall thickness, doorway depth, canopy, window reveal, platform edge, and ground-plane connection to make the update read as a real three-dimensional spatial scene."
+    },
+    {
+      "pattern_name": null,
+      "action": "color_block_wayfinding",
+      "description": "color_block_wayfinding (reversible color accents): add restrained colored blocks on paving, movable furniture, display plinths, or privacy-safe panels to clarify activity zones without readable text or changing building mass."
+    },
+    {
+      "pattern_name": null,
+      "action": "sparse_activity_scene",
+      "description": "sparse_activity_scene (limited human activity): add a small believable activity scene with no more than 5 people total, such as discussion, prototype viewing, resting, or slow-mobility arrival."
+    },
+    {
+      "pattern_name": null,
+      "action": "outdoor_collaboration_field",
+      "description": "outdoor_collaboration_field (public work/learning zone): add realistic modular tables or benches for small group discussion, outdoor learning, and prototype exchange."
+    },
+    {
+      "pattern_name": null,
+      "action": "shaded_public_node",
+      "description": "shaded_public_node (tree/canopy relation): strengthen shade with seating, rain-garden planting, and comfortable gathering around existing trees or open edges."
+    },
+    {
+      "pattern_name": null,
+      "action": "public_demo_micro_stage",
+      "description": "public_demo_micro_stage (prototype demonstration): add a low-key public demonstration/display zone integrated with the plaza or path, not a formal stage."
+    },
+    {
+      "pattern_name": null,
+      "action": "slow_mobility_threshold",
+      "description": "slow_mobility_threshold (bike/scooter dock and wayfinding): add a compact micro-mobility and wayfinding node that does not block walking space."
+    },
+    {
+      "pattern_name": null,
+      "action": "public_furniture_palette",
+      "description": "public_furniture_palette (diverse street furniture): vary furniture forms according to the public-space background, combining long timber benches, concrete seat blocks, slim steel-frame worktables, planter edges, movable stools, shaded meeting tables, and low information/display plinths."
+    },
+    {
+      "pattern_name": null,
+      "action": "public_material_coherence",
+      "description": "public_material_coherence (context-specific materials): use durable paving-compatible materials such as light precast concrete, warm timber, brushed or dark steel, perforated metal shade elements, planting beds, and subtle glass/display surfaces that match the existing buildings and open ground."
+    },
+    {
+      "pattern_name": null,
+      "action": "diverse_street_furniture_materials",
+      "description": "diverse_street_furniture_materials (function-matched furniture): use varied but coherent street furniture materials and forms matched to the background, circulation, shade, and innovation-community use."
+    },
+    {
+      "pattern_name": null,
+      "action": "contextual_facade_material_forms",
+      "description": "contextual_facade_material_forms (facade material/form diversity): diversify facade or boundary treatment with context-specific materials, depth, openings, screens, shelves, canopies, and planted edges where the existing scene supports them."
+    },
+    {
+      "pattern_name": null,
+      "action": "vehicle_area",
+      "description": "vehicle_area (car/vehicle): reduce dominant parked or service vehicles and reconstruct a slow, pedestrian-first innovation-community edge."
+    },
+    {
+      "pattern_name": null,
+      "action": "closed_boundary",
+      "description": "closed_boundary (wall/fence): soften the closed boundary and selectively open it as an accessible innovation-community interface."
+    },
+    {
+      "pattern_name": null,
+      "action": "empty_or_passive_open_space",
+      "description": "empty_or_passive_open_space: reduce empty pass-through feeling and avoid over-building the open public space."
+    }
+  ],
+  "outcomes": [
+    {
+      "pattern_name": "labels_added",
+      "description": "Entities added: bicycle, person, table"
+    },
+    {
+      "pattern_name": "labels_removed",
+      "description": "Entities suppressed: canopy, fence, gate, motorcycle, planter, truck, whiteboard"
+    }
+  ],
+  "planned_gain": 0.5651,
+  "actual_gain": 0.6409
 }

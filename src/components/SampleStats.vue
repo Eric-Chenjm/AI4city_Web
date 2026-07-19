@@ -7,10 +7,10 @@
       </div>
     </div>
     <div class="stats-body">
-      <!-- Radar Chart -->
-      <div class="radar-section">
-        <div class="sub-label">{{ t('ssMedians') }}</div>
-        <div ref="radarChart" class="radar-chart"></div>
+      <!-- Pie Chart -->
+      <div class="pie-section">
+        <div class="sub-label">{{ t('ssAreaDist') }}</div>
+        <div ref="pieChart" class="pie-chart"></div>
       </div>
 
       <!-- Quadrant Stats -->
@@ -239,7 +239,7 @@ watch(() => [props.samples, props.regionData], () => {
 
 // 监听语言变化，自动重绘图表
 watch(currentLang, () => {
-  if (chartInstance) updateRadar()
+  if (chartInstance) updatePie()
 })
 
 onMounted(() => {
@@ -312,6 +312,7 @@ onUnmounted(() => {
   padding: 10px;
   cursor: pointer;
   transition: all 0.2s;
+  min-width: 0;
 }
 
 .quadrant-stat-card:hover {
@@ -351,6 +352,10 @@ onUnmounted(() => {
   font-size: 9px;
   color: rgba(255, 255, 255, 0.4);
   margin-left: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .qs-metrics {

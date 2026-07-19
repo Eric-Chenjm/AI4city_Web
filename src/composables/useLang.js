@@ -69,11 +69,11 @@ const messages = {
 
     // ── GpsCaseSelector ──────────────────────────────────────────
     row02Title:      'GPS Case Directory',
-    gpsSiteLegend:   'EXIF Geolocation sites in Fuxing Island',
+    gpsSiteLegend:   'Surveyed GPS sites in/around Fuxing Island',
     waterfront:      'Waterfront',
     publicSpace:     'Public Space',
-    heritage:        'Heritage',
-    temporary:       'Temporary',
+    heritage:        'Old Factory',
+    temporary:       'Idle Structure',
     gpsType:         'Type:',
 
     // ── GeneratePage ──────────────────────────────────────────────
@@ -91,14 +91,14 @@ const messages = {
     entityRemove:    'Spatial Entity Suppressed/Reduced',
 
     // ── GPS Cases Translation ─────────────────────────────────────
-    '杨树浦滨水绿带过渡点 (滨水空间 02)': 'Yangshupu Waterfront Greenbelt (Waterfront 02)',
-    '复兴岛运河滨水休闲步道 (滨水空间 03)': 'Fuxing Island Canal Promenade (Waterfront 03)',
-    '厂房转角开放式漫步小广场 (公共空间 04)': 'Open Corner Pedestrian Plaza (Public Space 04)',
-    '定海路社区生活混合型街道 (公共空间 05)': 'Dinghai Road Mixed Community Street (Public Space 05)',
-    '国棉九厂老厂房红砖围墙界面 (景观/工业遗存 01)': 'Cotton Mill No.9 Red-brick Wall Facade (Heritage 01)',
-    '复兴岛老旧厂房修缮保护立面 (景观/工业遗存 08)': 'Fuxing Island Factory Facade Restoration (Heritage 08)',
-    '厂区外行道绿地口袋休憩点 (临时构筑 06)': 'Roadside Pocket Green Space (Temporary 06)',
-    '老街角非正式集市与售货摊区 (临时构筑 07)': 'Informal Market Street Corner (Temporary 07)',
+    '复兴岛南运河滨水步道段 (滨水空间 01)': 'Fuxing Island South Canal Waterfront Trail (Waterfront 01)',
+    '运河东岸滨水绿地衔接节点 (滨水空间 02)': 'Canal East Bank Waterfront Green Node (Waterfront 02)',
+    '定海路社区生活型街道界面 (公共空间 03)': 'Dinghai Road Community Street Interface (Public Space 03)',
+    '街坊转角口袋广场 (公共空间 04)': 'Neighborhood Corner Pocket Plaza (Public Space 04)',
+    '国棉九厂红砖厂房沿街立面 (老旧厂房 05)': 'Guomian No.9 Mill Red-brick Facade (Old Factory 05)',
+    '复兴岛锯齿形厂房修缮立面 (老旧厂房 06)': 'Fuxing Island Sawtooth Factory Facade (Old Factory 06)',
+    '船台旧址闲置塔吊构筑 (闲置构筑物 07)': 'Idle Crane Structure at Old Slipway (Idle Structure 07)',
+    '岛西闲置水塔与配套构筑群 (闲置构筑物 08)': 'Idle Water Tower & Auxiliary Structures (Idle Structure 08)',
 
     // ── AbovePage ─────────────────────────────────────────────────
     heroTitle:       'FUXING ISLAND',
@@ -187,6 +187,7 @@ const messages = {
     pfStat4:         'SPATIAL RESOLUTION',
     sgTag:           'SAMPLES',
     ssQuadrantAnalysis: 'QUADRANT ANALYSIS',
+    ssAreaDist:      'QUADRANT AREA DISTRIBUTION',
     ssMedians:       'EXPLICIT × IMPLICIT MEDIANS',
     ssBreakdown:     'REGION BREAKDOWN',
     ssGridCount:     'GRID COUNT',
@@ -446,11 +447,11 @@ const messages = {
 
     // ── GpsCaseSelector ──────────────────────────────────────────
     row02Title:      'GPS 案例空间分类检索',
-    gpsSiteLegend:   '复兴岛老旧厂房实测 EXIF 地理点位',
+    gpsSiteLegend:   '复兴岛及周边实测/标定空间点位',
     waterfront:      '滨水空间',
     publicSpace:     '公共空间',
-    heritage:        '景观/工业遗存',
-    temporary:       '临时构筑',
+    heritage:        '老旧厂房',
+    temporary:       '闲置构筑物',
     gpsType:         '类型:',
 
     // ── GeneratePage ──────────────────────────────────────────────
@@ -552,6 +553,7 @@ const messages = {
     pfStat4:         '空间分辨率',
     sgTag:           '样本',
     ssQuadrantAnalysis: '象限分析',
+    ssAreaDist:      '象限面积分布',
     ssMedians:       '显性 × 隐性中位数',
     ssBreakdown:     '区域明细',
     ssGridCount:     '格网数量',
@@ -641,6 +643,10 @@ const messages = {
     'delivery vehicle': '配送车辆',
     'modular booth': '模块化展亭',
     'temporary booth': '临时摊位',
+    'laptop': '笔记本电脑',
+    'mural': '壁画',
+    'sign board': '标识牌',
+    'display board': '展示板',
     'maker_lab_frontage': '创客实验室界面',
     'prototype_display': '原型展示',
     'collaboration_seating': '协作座椅区',

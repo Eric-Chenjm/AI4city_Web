@@ -67,8 +67,8 @@ export default {
     spaceTypeCategories: '四大城市空间类别',
     waterfront: '滨水空间',
     publicSpace: '公共空间',
-    heritage: '景观/工业遗存',
-    temporary: '临时构筑',
+    heritage: '老旧厂房',
+    temporary: '闲置构筑物',
     type: '类型',
     // SingleCaseEvidenceChain
     evidenceChainTitle: '单图空间设计评估与优化证据链',

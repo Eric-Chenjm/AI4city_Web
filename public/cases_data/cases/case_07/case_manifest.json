@@ -1,50 +1,50 @@
 {
-  "case_id": "20260718_street_lock_v2_07_picture_2026_07_17_18_07_45_342",
+  "case_id": "water_idle_v2_idle_structure_04",
   "schema_version": "step3-frontend-case-v1",
-  "case_root": "20260718_street_lock_v2_07_picture_2026_07_17_18_07_45_342",
-  "created_at": "2026-07-17T21:15:38.886519+00:00",
+  "case_root": "water_idle_v2_idle_structure_04",
+  "created_at": "2026-07-18T21:01:31.372974+00:00",
   "photo": {
     "before_image": "cases_data/cases/case_07/before.jpg",
     "observed_image": "cases_data/cases/case_07/observed.png",
-    "capture_time": "2026-07-17T18:07:45.342",
+    "capture_time": null,
     "exif_datetime": null,
     "gps": {
-      "lat": 31.282778,
-      "lng": 121.55741499999999
+      "lat": 31.28186,
+      "lng": 121.55902
     },
     "image_size": {
-      "width": 3840,
-      "height": 2160
+      "width": 4096,
+      "height": 3072
     }
   },
   "scores": {
-    "before": 5.5966105461120605,
-    "planned": 5.974225044250488,
-    "observed": 5.767159938812256
+    "before": 4.528528213500977,
+    "planned": 4.55458927154541,
+    "observed": 5.647961139678955
   },
   "artifacts": {
-    "report_md": "20260718_street_lock_v2_07_picture_2026_07_17_18_07_45_342/05_report/scene_update_report.md",
-    "report_json": "20260718_street_lock_v2_07_picture_2026_07_17_18_07_45_342/05_report/scene_update_report.json",
-    "prompt_json": "20260718_street_lock_v2_07_picture_2026_07_17_18_07_45_342/05_report/image2_prompt.json",
-    "graph_ui": "20260718_street_lock_v2_07_picture_2026_07_17_18_07_45_342/08_frontend_data/graph_ui.json",
-    "trace_index": "20260718_street_lock_v2_07_picture_2026_07_17_18_07_45_342/08_frontend_data/trace_index.json",
-    "waterfalls": "20260718_street_lock_v2_07_picture_2026_07_17_18_07_45_342/08_frontend_data/waterfalls.json",
-    "observed_after_report": "20260718_street_lock_v2_07_picture_2026_07_17_18_07_45_342/08_frontend_data/observed_after_report.json"
+    "report_md": "water_idle_v2_idle_structure_04/05_report/scene_update_report.md",
+    "report_json": "water_idle_v2_idle_structure_04/05_report/scene_update_report.json",
+    "prompt_json": "water_idle_v2_idle_structure_04/05_report/image2_prompt.json",
+    "graph_ui": "water_idle_v2_idle_structure_04/08_frontend_data/graph_ui.json",
+    "trace_index": "water_idle_v2_idle_structure_04/08_frontend_data/trace_index.json",
+    "waterfalls": "water_idle_v2_idle_structure_04/08_frontend_data/waterfalls.json",
+    "observed_after_report": "water_idle_v2_idle_structure_04/08_frontend_data/observed_after_report.json"
   },
   "graph_counts": {
     "before": {
-      "node_count": 45,
+      "node_count": 47,
       "edge_count": 150,
       "source_triplet_count": 150
     },
     "planned": {
-      "node_count": 52,
-      "edge_count": 157,
-      "synthetic_node_count": 7,
-      "action_count": 14
+      "node_count": 64,
+      "edge_count": 167,
+      "synthetic_node_count": 17,
+      "action_count": 23
     },
     "observed": {
-      "node_count": 47,
+      "node_count": 38,
       "edge_count": 150,
       "source_triplet_count": 150
     }

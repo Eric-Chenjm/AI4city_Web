@@ -1,225 +1,36 @@
 {
-  "case_id": "20260718_street_lock_v2_05_picture_2026_07_17_17_54_50_704",
+  "case_id": "facade3d_v2_old_factory_01",
   "scores": {
-    "before": 4.657975196838379,
-    "planned": 4.795925617218018,
-    "observed": 4.764533042907715,
-    "observed_minus_before": 0.10655784606933594
+    "before": 4.337137699127197,
+    "planned": 4.337137699127197,
+    "observed": 6.068821430206299,
+    "observed_minus_before": 1.7316837310791016
   },
   "graph_delta": {
     "labels_added": [
-      "table"
+      "bush",
+      "chair",
+      "hedge",
+      "person",
+      "table",
+      "tree"
     ],
     "labels_removed": [
-      "crowd",
+      "delivery vehicle",
+      "door",
       "entrance",
-      "person",
-      "scooter",
-      "wall",
-      "whiteboard",
-      "window"
+      "fence",
+      "gate",
+      "kiosk",
+      "shade structure",
+      "truck"
     ],
-    "before_node_count": 24,
-    "observed_node_count": 22,
+    "before_node_count": 44,
+    "observed_node_count": 25,
     "before_edge_count": 150,
     "observed_edge_count": 150
   },
   "mapped_actions": [
-    {
-      "action_id": "action_59f255f8468f",
-      "action_type": "weaken_or_replace_negative_pattern",
-      "feature_name": "pattern_472",
-      "pattern_short": "building - tree - street",
-      "before_count": 3.0,
-      "planned_count": 0.0,
-      "reason": "active pattern has negative XGBoost contribution",
-      "related_node_ids": [
-        "node_2ea3205d493a",
-        "node_41fdbd6e9616",
-        "node_a341d34e938e",
-        "node_c174bb459852",
-        "node_d30439bdc3b1",
-        "node_dba9a8d31ea3",
-        "node_f1df629a655b",
-        "node_f54a414fccc4"
-      ],
-      "related_edge_ids": [
-        "edge_5a6e5ae9ca23",
-        "edge_96e895062b36",
-        "edge_d269777f27a1",
-        "edge_49098cd9a3c1",
-        "edge_1d4b65a76c6d",
-        "edge_d526d3c10a56",
-        "edge_7e998fbb412b",
-        "edge_eb3469e3ad80",
-        "edge_33905701a751",
-        "edge_353890099415",
-        "edge_27bd7ebfda2e",
-        "edge_323a6649cb6c",
-        "edge_ea960fe5fac9",
-        "edge_aae719e93044",
-        "edge_d52d39dcfadd",
-        "edge_dadcc5ac0d2d",
-        "edge_a87bb446cbf8",
-        "edge_788870c91a3d",
-        "edge_68fe8f19a780",
-        "edge_828c1407668b",
-        "edge_7c9c89e29f18",
-        "edge_d5db7ca0a623",
-        "edge_102682c4aa53",
-        "edge_c8269c1544fa",
-        "edge_5f425fe5e740",
-        "edge_4c23c3014013"
-      ]
-    },
-    {
-      "action_id": "action_46bfb947a2ae",
-      "action_type": "weaken_or_replace_negative_pattern",
-      "feature_name": "pattern_633",
-      "pattern_short": "building - tree - person",
-      "before_count": 1.0,
-      "planned_count": 0.0,
-      "reason": "active pattern has negative XGBoost contribution",
-      "related_node_ids": [
-        "node_2ea3205d493a",
-        "node_3620dcd3fd7c",
-        "node_41fdbd6e9616",
-        "node_a341d34e938e",
-        "node_d30439bdc3b1",
-        "node_dba9a8d31ea3",
-        "node_f1df629a655b",
-        "node_f54a414fccc4"
-      ],
-      "related_edge_ids": [
-        "edge_5a6e5ae9ca23",
-        "edge_96e895062b36",
-        "edge_d269777f27a1",
-        "edge_49098cd9a3c1",
-        "edge_1d4b65a76c6d",
-        "edge_d526d3c10a56",
-        "edge_7e998fbb412b",
-        "edge_eb3469e3ad80",
-        "edge_33905701a751",
-        "edge_353890099415",
-        "edge_27bd7ebfda2e",
-        "edge_323a6649cb6c",
-        "edge_ea960fe5fac9",
-        "edge_aae719e93044",
-        "edge_d52d39dcfadd",
-        "edge_dadcc5ac0d2d",
-        "edge_a87bb446cbf8",
-        "edge_788870c91a3d",
-        "edge_68fe8f19a780",
-        "edge_828c1407668b",
-        "edge_7c9c89e29f18",
-        "edge_d5db7ca0a623",
-        "edge_102682c4aa53",
-        "edge_c8269c1544fa",
-        "edge_5f425fe5e740",
-        "edge_4c23c3014013"
-      ]
-    },
-    {
-      "action_id": "action_f9928c8f0f7a",
-      "action_type": "weaken_or_replace_negative_pattern",
-      "feature_name": "pattern_876",
-      "pattern_short": "building - sidewalk - tree",
-      "before_count": 2.0,
-      "planned_count": 0.0,
-      "reason": "active pattern has negative XGBoost contribution",
-      "related_node_ids": [
-        "node_2ea3205d493a",
-        "node_41fdbd6e9616",
-        "node_a341d34e938e",
-        "node_d30439bdc3b1",
-        "node_dba9a8d31ea3",
-        "node_e80baca9250d",
-        "node_f1df629a655b",
-        "node_f54a414fccc4"
-      ],
-      "related_edge_ids": [
-        "edge_685dfb244f7c",
-        "edge_e95ba765bf27",
-        "edge_39d53a14f845"
-      ]
-    },
-    {
-      "action_id": "action_5b54f982c9b7",
-      "action_type": "weaken_or_replace_negative_pattern",
-      "feature_name": "pattern_6314",
-      "pattern_short": "person - tree - sidewalk",
-      "before_count": 1.0,
-      "planned_count": 0.0,
-      "reason": "active pattern has negative XGBoost contribution",
-      "related_node_ids": [
-        "node_2ea3205d493a",
-        "node_3620dcd3fd7c",
-        "node_41fdbd6e9616",
-        "node_e80baca9250d",
-        "node_f54a414fccc4"
-      ],
-      "related_edge_ids": [
-        "edge_12948722a105",
-        "edge_07572ba56a80"
-      ]
-    },
-    {
-      "action_id": "action_e756d0be451e",
-      "action_type": "weaken_or_replace_negative_pattern",
-      "feature_name": "pattern_6317",
-      "pattern_short": "person - tree - tree",
-      "before_count": 1.0,
-      "planned_count": 0.0,
-      "reason": "active pattern has negative XGBoost contribution",
-      "related_node_ids": [
-        "node_2ea3205d493a",
-        "node_3620dcd3fd7c",
-        "node_41fdbd6e9616",
-        "node_f54a414fccc4"
-      ],
-      "related_edge_ids": [
-        "edge_12948722a105",
-        "edge_07572ba56a80"
-      ]
-    },
-    {
-      "action_id": "action_3a2cf81c629a",
-      "action_type": "weaken_or_replace_negative_pattern",
-      "feature_name": "pattern_6369",
-      "pattern_short": "person - sidewalk - tree",
-      "before_count": 1.0,
-      "planned_count": 0.0,
-      "reason": "active pattern has negative XGBoost contribution",
-      "related_node_ids": [
-        "node_2ea3205d493a",
-        "node_3620dcd3fd7c",
-        "node_41fdbd6e9616",
-        "node_e80baca9250d",
-        "node_f54a414fccc4"
-      ],
-      "related_edge_ids": [
-        "edge_6224d2f74908"
-      ]
-    },
-    {
-      "action_id": "action_2a8186ae88a5",
-      "action_type": "weaken_or_replace_negative_pattern",
-      "feature_name": "pattern_6340",
-      "pattern_short": "person - sidewalk - tree",
-      "before_count": 1.0,
-      "planned_count": 0.0,
-      "reason": "active pattern has negative XGBoost contribution",
-      "related_node_ids": [
-        "node_2ea3205d493a",
-        "node_3620dcd3fd7c",
-        "node_41fdbd6e9616",
-        "node_e80baca9250d",
-        "node_f54a414fccc4"
-      ],
-      "related_edge_ids": [
-        "edge_6224d2f74908"
-      ]
-    },
     {
       "action_id": "action_cb4980acc130",
       "action_type": "weaken_or_replace_negative_pattern",
@@ -229,69 +40,68 @@
       "planned_count": 0.0,
       "reason": "active pattern has negative XGBoost contribution",
       "related_node_ids": [
-        "node_a341d34e938e",
-        "node_c174bb459852",
-        "node_d30439bdc3b1",
-        "node_dba9a8d31ea3",
-        "node_e80baca9250d",
-        "node_f1df629a655b"
+        "node_2d1a4a44ad51",
+        "node_3b583db4230f",
+        "node_43e540676288",
+        "node_68791c8986e2",
+        "node_74693e529833",
+        "node_a80979bab450",
+        "node_de932bf4a441"
       ],
       "related_edge_ids": [
-        "edge_1d4b65a76c6d",
-        "edge_aae719e93044",
-        "edge_a87bb446cbf8",
-        "edge_7c9c89e29f18",
-        "edge_102682c4aa53",
-        "edge_5f425fe5e740"
+        "edge_bc103e034e8e",
+        "edge_b7e96872136a",
+        "edge_c16de15c3a34",
+        "edge_2a632011d8eb"
       ]
     },
     {
-      "action_id": "action_aaba0a24a0dc",
+      "action_id": "action_ab9a62aae1e4",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "maker_lab_frontage",
-      "prompt_fragment_id": "prompt_c578ea7ed34e",
+      "prompt_fragment_id": "prompt_0e1842a2f861",
       "related_node_ids": [
-        "node_bc82397ed62c"
+        "node_f5b5286ce228"
       ],
       "related_edge_ids": [],
-      "description": "maker_lab_frontage (transparent maker lab): add a realistic visible maker/co-working interior connected to the existing building, wall, door, or window edge."
+      "description": "maker_lab_frontage (transparent maker lab): add a realistic visible maker/co-working interior connected to existing building, wall, door, or window edges."
     },
     {
-      "action_id": "action_98d0e32c0849",
+      "action_id": "action_09de540e3025",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "prototype_display",
-      "prompt_fragment_id": "prompt_c83cc827ea5f",
+      "prompt_fragment_id": "prompt_007a8cfe3ab2",
       "related_node_ids": [
-        "node_f39f0906a15e"
+        "node_4a71099ee708"
       ],
       "related_edge_ids": [],
-      "description": "prototype_display (prototype display wall): add one realistic display zone with abstract diagrams, small models, or material samples anchored to the existing wall/building frontage."
+      "description": "prototype_display (prototype display wall): add one realistic display zone with abstract diagrams, small models, or material samples anchored to a wall/building frontage or public node."
     },
     {
-      "action_id": "action_da46b8ad57a0",
+      "action_id": "action_299106b9c61e",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "collaboration_seating",
-      "prompt_fragment_id": "prompt_406bcb1d616a",
+      "prompt_fragment_id": "prompt_e56a94e2bb85",
       "related_node_ids": [
-        "node_2a494ec40f94"
+        "node_05191c65479f"
       ],
       "related_edge_ids": [],
-      "description": "collaboration_seating (modular bench/worktable): add realistic modular seating and a worktable near existing trees, sidewalk, or building entrance."
+      "description": "collaboration_seating (modular bench/worktable): add realistic modular seating and a worktable near existing trees, sidewalk, entrance, or public edge."
     },
     {
-      "action_id": "action_4de6d3068609",
+      "action_id": "action_4d5d7ec5cca5",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "smart_bench",
-      "prompt_fragment_id": "prompt_985e6df0294a",
+      "prompt_fragment_id": "prompt_e431bba7d98c",
       "related_node_ids": [
-        "node_f94bf3f88add"
+        "node_be3997334a2d"
       ],
       "related_edge_ids": [],
-      "description": "smart_bench (charging smart bench): add one realistic smart bench with subtle charging details near the public path or shaded edge."
+      "description": "smart_bench (charging smart bench): add one realistic smart bench with subtle charging details near a public path or shaded edge."
     },
     {
       "action_id": "action_e29601d718af",
@@ -306,50 +116,214 @@
       "description": "rain_garden (native rain-garden planting): add native planting that links tree/plant nodes to seating and stormwater edge."
     },
     {
-      "action_id": "action_2a5ca4c4e26f",
+      "action_id": "action_e34788fd62fb",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "micro_mobility_dock",
-      "prompt_fragment_id": "prompt_7c37bf09ca2a",
+      "prompt_fragment_id": "prompt_399c92ce94e6",
       "related_node_ids": [
-        "node_45815c83adea"
+        "node_d1ac212e387f"
       ],
       "related_edge_ids": [],
-      "description": "micro_mobility_dock (bike/scooter dock): add a compact micro-mobility dock at the street or entrance edge without blocking circulation."
+      "description": "micro_mobility_dock (bike/scooter dock): add a compact micro-mobility dock at the street, entrance, or public-space edge without blocking circulation."
     },
     {
-      "action_id": "action_a5b9cfd7074c",
+      "action_id": "action_f9ee9ce59cff",
       "action_type": "add_or_strengthen_scene_graph_node",
       "feature_name": null,
       "pattern_short": "community_screen",
-      "prompt_fragment_id": "prompt_0604bb930e4e",
+      "prompt_fragment_id": "prompt_97ff906fa200",
       "related_node_ids": [
-        "node_c62f76ff0d0f"
+        "node_03f45809364a"
       ],
       "related_edge_ids": [],
-      "description": "community_screen (interactive community screen): add one screen or panel with abstract graphics only, supporting prototype discussion and public information."
+      "description": "community_screen (interactive community screen): add one restrained screen or panel with abstract graphics only, supporting prototype discussion and public information."
     },
     {
-      "action_id": "action_3f692b58923e",
+      "action_id": "action_088b6e48ea30",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "facade_depth_system",
+      "prompt_fragment_id": "prompt_c31b3d6988b4",
+      "related_node_ids": [
+        "node_2840ef37530a"
+      ],
+      "related_edge_ids": [],
+      "description": "facade_depth_system (3D facade/spatial interface): use wall thickness, doorway depth, canopy, window reveal, platform edge, and ground-plane connection to make the update read as a real three-dimensional spatial scene."
+    },
+    {
+      "action_id": "action_8864f19ca0e3",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "adaptive_reuse_facade",
+      "prompt_fragment_id": "prompt_bea17379a3df",
+      "related_node_ids": [
+        "node_28ef3daf191e"
+      ],
+      "related_edge_ids": [],
+      "description": "adaptive_reuse_facade (factory facade activation): add realistic transparent or semi-transparent maker/coworking frontage attached to the existing factory wall, door, or window line."
+    },
+    {
+      "action_id": "action_62a5734fb6b2",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "industrial_wall_display",
+      "prompt_fragment_id": "prompt_c28a4d9b6cb6",
+      "related_node_ids": [
+        "node_eb92b23cf53a"
+      ],
+      "related_edge_ids": [],
+      "description": "industrial_wall_display (prototype/material wall): convert part of the existing wall or facade into a restrained prototype display and material sample interface, without fake readable text."
+    },
+    {
+      "action_id": "action_d5180c33618b",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "three_dimensional_threshold",
+      "prompt_fragment_id": "prompt_d6cab24a4c6d",
+      "related_node_ids": [
+        "node_4741f122a169"
+      ],
+      "related_edge_ids": [],
+      "description": "three_dimensional_threshold (canopy/porch/entrance depth): add a physically buildable semi-outdoor entrance porch, shallow canopy, or recessed workspace edge that shows depth from ground to facade."
+    },
+    {
+      "action_id": "action_6537638e8d9f",
+      "action_type": "add_or_strengthen_scene_graph_node",
+      "feature_name": null,
+      "pattern_short": "visible_maker_interior",
+      "prompt_fragment_id": "prompt_795c5d4524a0",
+      "related_node_ids": [
+        "node_a44e25644cf9"
+      ],
+      "related_edge_ids": [],
+      "description": "visible_maker_interior (inside-outside connection): reveal a modest maker lab or shared studio behind existing openings, keeping the original industrial structure legible."
+    },
+    {
+      "action_id": "action_801957b7f825",
       "action_type": "weaken_or_remove_scene_graph_relation",
       "pattern_short": "vehicle_area",
-      "prompt_fragment_id": "prompt_d1b4725b8c3a",
+      "prompt_fragment_id": "prompt_66e0e666988a",
       "related_node_ids": [],
       "related_edge_ids": [],
-      "description": "vehicle_area (car/vehicle): reduce dominant parked or service vehicles and naturally reconstruct a slow shared public edge."
+      "description": "vehicle_area (car/vehicle): reduce dominant parked or service vehicles and reconstruct a slow, pedestrian-first innovation-community edge."
     },
     {
-      "action_id": "action_855858d497ab",
+      "action_id": "action_53d83bf62370",
       "action_type": "weaken_or_remove_scene_graph_relation",
       "pattern_short": "closed_boundary",
-      "prompt_fragment_id": "prompt_e583e689b404",
+      "prompt_fragment_id": "prompt_5f6a2fb6ffa4",
       "related_node_ids": [],
       "related_edge_ids": [],
-      "description": "closed_boundary (wall/fence): partially open or visually soften the closed boundary; do not erase the historic industrial fabric."
+      "description": "closed_boundary (wall/fence): soften the closed boundary and selectively open it as an accessible innovation-community interface."
+    },
+    {
+      "action_id": "action_7550a43c7793",
+      "action_type": "weaken_or_remove_scene_graph_relation",
+      "pattern_short": "inactive_factory_facade",
+      "prompt_fragment_id": "prompt_7c8168fef025",
+      "related_node_ids": [],
+      "related_edge_ids": [],
+      "description": "inactive_factory_facade: reduce blank, sealed, or purely storage-like facade behavior while preserving industrial texture and existing geometry."
     }
   ],
   "notes": [
     "Observed graph is produced by rerunning OvSGTR on the generated optimized image when available.",
     "Planned graph is synthesized from update plan when no model-generated planned scene graph exists."
-  ]
+  ],
+  "defects": [
+    {
+      "pattern_name": "pattern_468",
+      "description": "Negative pattern [building - street - sidewalk] active in before scene (count 1.0); reason: active pattern has negative XGBoost contribution"
+    }
+  ],
+  "actions": [
+    {
+      "pattern_name": null,
+      "action": "maker_lab_frontage",
+      "description": "maker_lab_frontage (transparent maker lab): add a realistic visible maker/co-working interior connected to existing building, wall, door, or window edges."
+    },
+    {
+      "pattern_name": null,
+      "action": "prototype_display",
+      "description": "prototype_display (prototype display wall): add one realistic display zone with abstract diagrams, small models, or material samples anchored to a wall/building frontage or public node."
+    },
+    {
+      "pattern_name": null,
+      "action": "collaboration_seating",
+      "description": "collaboration_seating (modular bench/worktable): add realistic modular seating and a worktable near existing trees, sidewalk, entrance, or public edge."
+    },
+    {
+      "pattern_name": null,
+      "action": "smart_bench",
+      "description": "smart_bench (charging smart bench): add one realistic smart bench with subtle charging details near a public path or shaded edge."
+    },
+    {
+      "pattern_name": null,
+      "action": "rain_garden",
+      "description": "rain_garden (native rain-garden planting): add native planting that links tree/plant nodes to seating and stormwater edge."
+    },
+    {
+      "pattern_name": null,
+      "action": "micro_mobility_dock",
+      "description": "micro_mobility_dock (bike/scooter dock): add a compact micro-mobility dock at the street, entrance, or public-space edge without blocking circulation."
+    },
+    {
+      "pattern_name": null,
+      "action": "community_screen",
+      "description": "community_screen (interactive community screen): add one restrained screen or panel with abstract graphics only, supporting prototype discussion and public information."
+    },
+    {
+      "pattern_name": null,
+      "action": "facade_depth_system",
+      "description": "facade_depth_system (3D facade/spatial interface): use wall thickness, doorway depth, canopy, window reveal, platform edge, and ground-plane connection to make the update read as a real three-dimensional spatial scene."
+    },
+    {
+      "pattern_name": null,
+      "action": "adaptive_reuse_facade",
+      "description": "adaptive_reuse_facade (factory facade activation): add realistic transparent or semi-transparent maker/coworking frontage attached to the existing factory wall, door, or window line."
+    },
+    {
+      "pattern_name": null,
+      "action": "industrial_wall_display",
+      "description": "industrial_wall_display (prototype/material wall): convert part of the existing wall or facade into a restrained prototype display and material sample interface, without fake readable text."
+    },
+    {
+      "pattern_name": null,
+      "action": "three_dimensional_threshold",
+      "description": "three_dimensional_threshold (canopy/porch/entrance depth): add a physically buildable semi-outdoor entrance porch, shallow canopy, or recessed workspace edge that shows depth from ground to facade."
+    },
+    {
+      "pattern_name": null,
+      "action": "visible_maker_interior",
+      "description": "visible_maker_interior (inside-outside connection): reveal a modest maker lab or shared studio behind existing openings, keeping the original industrial structure legible."
+    },
+    {
+      "pattern_name": null,
+      "action": "vehicle_area",
+      "description": "vehicle_area (car/vehicle): reduce dominant parked or service vehicles and reconstruct a slow, pedestrian-first innovation-community edge."
+    },
+    {
+      "pattern_name": null,
+      "action": "closed_boundary",
+      "description": "closed_boundary (wall/fence): soften the closed boundary and selectively open it as an accessible innovation-community interface."
+    },
+    {
+      "pattern_name": null,
+      "action": "inactive_factory_facade",
+      "description": "inactive_factory_facade: reduce blank, sealed, or purely storage-like facade behavior while preserving industrial texture and existing geometry."
+    }
+  ],
+  "outcomes": [
+    {
+      "pattern_name": "labels_added",
+      "description": "Entities added: bush, chair, hedge, person, table, tree"
+    },
+    {
+      "pattern_name": "labels_removed",
+      "description": "Entities suppressed: delivery vehicle, door, entrance, fence, gate, kiosk, shade structure, truck"
+    }
+  ],
+  "planned_gain": 0.0,
+  "actual_gain": 1.7317
 }

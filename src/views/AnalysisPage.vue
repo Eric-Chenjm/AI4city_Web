@@ -888,7 +888,7 @@ onUnmounted(() => {
 
 .card-body {
   display: grid;
-  grid-template-columns: 55% 1px 45%;
+  grid-template-columns: minmax(0, 55fr) 1px minmax(0, 45fr);
   gap: 20px;
   flex: 1;
   min-height: 0;

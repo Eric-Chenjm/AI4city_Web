@@ -89,7 +89,7 @@
             </div>
           </div>
 
-          <!-- 临时构筑 -->
+          <!-- 闲置构筑物 -->
           <div class="space-category-block">
             <h5 class="cat-header"><span class="cat-icon temporary"></span>{{ t('temporary') }}</h5>
             <div class="cat-list">

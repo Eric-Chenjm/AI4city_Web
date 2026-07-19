@@ -1,16 +1,16 @@
 {
-  "case_id": "20260718_street_lock_v2_06_picture_2026_07_17_18_07_26_046",
+  "case_id": "progressive_v2_old_factory_01_l03",
   "schema_version": "step3-frontend-case-v1",
-  "case_root": "20260718_street_lock_v2_06_picture_2026_07_17_18_07_26_046",
-  "created_at": "2026-07-17T21:15:38.674801+00:00",
+  "case_root": "progressive_v2_old_factory_01_l03",
+  "created_at": "2026-07-18T21:01:15.868802+00:00",
   "photo": {
     "before_image": "cases_data/cases/case_06/before.jpg",
     "observed_image": "cases_data/cases/case_06/observed.png",
-    "capture_time": "2026-07-17T18:07:26.046",
+    "capture_time": "2026-07-17T17:54:50.704",
     "exif_datetime": null,
     "gps": {
-      "lat": 31.282795,
-      "lng": 121.557608
+      "lat": 31.286761,
+      "lng": 121.557575
     },
     "image_size": {
       "width": 3840,
@@ -18,33 +18,33 @@
     }
   },
   "scores": {
-    "before": 5.380159378051758,
-    "planned": 5.784107685089111,
-    "observed": 5.099822521209717
+    "before": 4.657975196838379,
+    "planned": 4.795925617218018,
+    "observed": 5.488047122955322
   },
   "artifacts": {
-    "report_md": "20260718_street_lock_v2_06_picture_2026_07_17_18_07_26_046/05_report/scene_update_report.md",
-    "report_json": "20260718_street_lock_v2_06_picture_2026_07_17_18_07_26_046/05_report/scene_update_report.json",
-    "prompt_json": "20260718_street_lock_v2_06_picture_2026_07_17_18_07_26_046/05_report/image2_prompt.json",
-    "graph_ui": "20260718_street_lock_v2_06_picture_2026_07_17_18_07_26_046/08_frontend_data/graph_ui.json",
-    "trace_index": "20260718_street_lock_v2_06_picture_2026_07_17_18_07_26_046/08_frontend_data/trace_index.json",
-    "waterfalls": "20260718_street_lock_v2_06_picture_2026_07_17_18_07_26_046/08_frontend_data/waterfalls.json",
-    "observed_after_report": "20260718_street_lock_v2_06_picture_2026_07_17_18_07_26_046/08_frontend_data/observed_after_report.json"
+    "report_md": "progressive_v2_old_factory_01_l03/05_report/scene_update_report.md",
+    "report_json": "progressive_v2_old_factory_01_l03/05_report/scene_update_report.json",
+    "prompt_json": "progressive_v2_old_factory_01_l03/05_report/image2_prompt.json",
+    "graph_ui": "progressive_v2_old_factory_01_l03/08_frontend_data/graph_ui.json",
+    "trace_index": "progressive_v2_old_factory_01_l03/08_frontend_data/trace_index.json",
+    "waterfalls": "progressive_v2_old_factory_01_l03/08_frontend_data/waterfalls.json",
+    "observed_after_report": "progressive_v2_old_factory_01_l03/08_frontend_data/observed_after_report.json"
   },
   "graph_counts": {
     "before": {
-      "node_count": 41,
+      "node_count": 24,
       "edge_count": 150,
       "source_triplet_count": 150
     },
     "planned": {
-      "node_count": 48,
-      "edge_count": 157,
-      "synthetic_node_count": 7,
-      "action_count": 13
+      "node_count": 42,
+      "edge_count": 168,
+      "synthetic_node_count": 18,
+      "action_count": 29
     },
     "observed": {
-      "node_count": 39,
+      "node_count": 33,
       "edge_count": 150,
       "source_triplet_count": 150
     }

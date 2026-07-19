@@ -67,8 +67,8 @@ export default {
     spaceTypeCategories: 'SPACE TYPE CATEGORIES',
     waterfront: 'Waterfront',
     publicSpace: 'Public Space',
-    heritage: 'Landscape / Heritage',
-    temporary: 'Temporary Structure',
+    heritage: 'Old Factory',
+    temporary: 'Idle Structure',
     type: 'Type',
     // SingleCaseEvidenceChain
     evidenceChainTitle: 'Case Optimization Evidence Chain',

@@ -1,151 +1,151 @@
 {
-  "title": "AIGC 城市设计评估与推演大盘案例目录 (V2)",
+  "title": "AIGC 城市设计评估与推演大盘案例目录 (V3)",
   "count": 8,
+  "missing_files_manifest": [],
   "cases": [
     {
-      "case_id": "case_02",
-      "case_name": "杨树浦滨水绿带过渡点 (滨水空间 02)",
-      "case_name_en": "Yangshupu Waterfront Green Belt Transition (Waterfront 02)",
+      "case_id": "case_01",
+      "case_name": "复兴岛南运河滨水步道段 (滨水空间 01)",
+      "case_name_en": "Fuxing Island South Canal Waterfront Trail (Waterfront 01)",
       "type": "waterfront",
       "type_zh": "滨水空间",
-      "description": "老旧工业船坞外的防汛墙改造步道，包含沿河木栈道与绿化缓冲带。",
+      "description": "运河南段近江口的滨水慢行步道，驳岸栏杆与铺装老旧，优化重点为安全防护、雨水花园与亲水视线通廊。",
       "gps": {
-        "lat": 31.285932972222223,
-        "lng": 121.55776897222222
+        "lat": 31.273359,
+        "lng": 121.556765
       },
       "scores": {
-        "before": 4.9143781661987305,
-        "planned": 5.320359706878662,
-        "observed": 5.135045051574707
+        "before": 4.649534225463867,
+        "planned": 4.789539337158203,
+        "observed": 5.86418342590332
+      },
+      "manifest_url": "cases_data/cases/case_01/case_manifest.json"
+    },
+    {
+      "case_id": "case_02",
+      "case_name": "运河东岸滨水绿地衔接节点 (滨水空间 02)",
+      "case_name_en": "Canal East Bank Waterfront Green Node (Waterfront 02)",
+      "type": "waterfront",
+      "type_zh": "滨水空间",
+      "description": "滨水绿带与慢行道的衔接节点，绿化层次单一、缺少停留设施，优化重点为复合绿化、休憩座椅与微出行停靠。",
+      "gps": {
+        "lat": 31.273643,
+        "lng": 121.556989
+      },
+      "scores": {
+        "before": 4.784565448760986,
+        "planned": 4.809571743011475,
+        "observed": 5.43431282043457
       },
       "manifest_url": "cases_data/cases/case_02/case_manifest.json"
     },
     {
       "case_id": "case_03",
-      "case_name": "复兴岛运河滨水休闲步道 (滨水空间 03)",
-      "case_name_en": "Fuxing Island Canal Waterfront Leisure Trail (Waterfront 03)",
-      "type": "waterfront",
-      "type_zh": "滨水空间",
-      "description": "慢行绿道与驳岸硬质铺装的连接处，主要进行视线拓宽及自行车道规整。",
+      "case_name": "定海路社区生活型街道界面 (公共空间 03)",
+      "case_name_en": "Dinghai Road Community Street Interface (Public Space 03)",
+      "type": "public",
+      "type_zh": "公共空间",
+      "description": "社区生活型街道，沿街界面连续但车辆占道、街道家具缺失，优化重点为步行优先、协作座椅与小微公共空间植入。",
       "gps": {
-        "lat": 31.28592,
-        "lng": 121.55776999999999
+        "lat": 31.28542,
+        "lng": 121.55821
       },
       "scores": {
-        "before": 5.261580467224121,
-        "planned": 5.846905708312988,
-        "observed": 5.483072280883789
+        "before": 5.052372932434082,
+        "planned": 5.366322040557861,
+        "observed": 5.97133207321167
       },
       "manifest_url": "cases_data/cases/case_03/case_manifest.json"
     },
     {
       "case_id": "case_04",
-      "case_name": "厂房转角开放式漫步小广场 (公共空间 04)",
-      "case_name_en": "Factory Corner Open Strolling Plaza (Public 04)",
+      "case_name": "街坊转角口袋广场 (公共空间 04)",
+      "case_name_en": "Neighborhood Corner Pocket Plaza (Public Space 04)",
       "type": "public",
       "type_zh": "公共空间",
-      "description": "厂区转角退界形成的多功能微型集散广场，常有非机动车无序停放。",
+      "description": "街坊转角退界形成的口袋广场，铺装破损、功能单一，优化重点为复合绿化、社区屏幕与雨水花园的复合植入。",
       "gps": {
-        "lat": 31.286311,
-        "lng": 121.55733897222223
+        "lat": 31.28634,
+        "lng": 121.55731
       },
       "scores": {
-        "before": 4.370246410369873,
-        "planned": 4.565615653991699,
-        "observed": 4.276207447052002
+        "before": 5.394323825836182,
+        "planned": 5.959456443786621,
+        "observed": 6.035214424133301
       },
       "manifest_url": "cases_data/cases/case_04/case_manifest.json"
     },
     {
       "case_id": "case_05",
-      "case_name": "定海路社区生活混合型街道 (公共空间 05)",
-      "case_name_en": "Dinghai Road Community Mixed-Use Street (Public 05)",
-      "type": "public",
-      "type_zh": "公共空间",
-      "description": "沿街界面活跃，集聚小型便利店、餐饮及生活配套，人车混行特征显著。",
-      "gps": {
-        "lat": 31.286760972222226,
-        "lng": 121.55757497222221
-      },
-      "scores": {
-        "before": 4.657975196838379,
-        "planned": 4.795925617218018,
-        "observed": 4.764533042907715
-      },
-      "manifest_url": "cases_data/cases/case_05/case_manifest.json"
-    },
-    {
-      "case_id": "case_01",
-      "case_name": "国棉九厂老厂房红砖围墙界面 (景观/工业遗存 01)",
-      "case_name_en": "Guomian No.9 Factory Red Brick Wall (Heritage 01)",
+      "case_name": "国棉九厂红砖厂房沿街立面 (老旧厂房 05)",
+      "case_name_en": "Guomian No.9 Mill Red-brick Facade (Old Factory 05)",
       "type": "heritage",
-      "type_zh": "景观/工业遗存",
-      "description": "历史红砖厂房外的沿街立面，存在首层盲墙过长、视线压迫及人行道狭窄问题。",
+      "type_zh": "老旧厂房",
+      "description": "历史红砖厂房沿街立面，首层盲墙过长、视线压迫，优化重点为立面深度系统、展示橱窗与工业历史小品植入。",
       "gps": {
-        "lat": 31.283155999999998,
-        "lng": 121.55801497222222
+        "lat": 31.283156,
+        "lng": 121.558015
       },
       "scores": {
         "before": 4.337137699127197,
         "planned": 4.337137699127197,
-        "observed": 4.949960231781006
+        "observed": 6.068821430206299
       },
-      "manifest_url": "cases_data/cases/case_01/case_manifest.json"
-    },
-    {
-      "case_id": "case_08",
-      "case_name": "复兴岛老旧厂房修缮保护立面 (景观/工业遗存 08)",
-      "case_name_en": "Fuxing Island Old Factory Restoration Facade (Heritage 08)",
-      "type": "heritage",
-      "type_zh": "景观/工业遗存",
-      "description": "典型锯齿形老厂房立面修缮区，优化重点在沿街增设工业历史小品及景观橱窗。",
-      "gps": {
-        "lat": 31.282073999999998,
-        "lng": 121.55889599999999
-      },
-      "scores": {
-        "before": 5.337686061859131,
-        "planned": 5.643215656280518,
-        "observed": 5.151193141937256
-      },
-      "manifest_url": "cases_data/cases/case_08/case_manifest.json"
+      "manifest_url": "cases_data/cases/case_05/case_manifest.json"
     },
     {
       "case_id": "case_06",
-      "case_name": "厂区外行道绿地口袋休憩点 (临时构筑 06)",
-      "case_name_en": "Factory Street Green Pocket Rest Area (Temporary 06)",
-      "type": "temporary",
-      "type_zh": "临时构筑",
-      "description": "利用道路退让带改造的带状微绿地，计划增设临时装配式遮雨廊架及公共桌椅。",
+      "case_name": "复兴岛锯齿形厂房修缮立面 (老旧厂房 06)",
+      "case_name_en": "Fuxing Island Sawtooth Factory Facade (Old Factory 06)",
+      "type": "heritage",
+      "type_zh": "老旧厂房",
+      "description": "典型锯齿形老厂房修缮区，优化重点为材质更新、色彩导视与沿街开放界面的活化改造。",
       "gps": {
-        "lat": 31.282795,
-        "lng": 121.557608
+        "lat": 31.286761,
+        "lng": 121.557575
       },
       "scores": {
-        "before": 5.380159378051758,
-        "planned": 5.784107685089111,
-        "observed": 5.099822521209717
+        "before": 4.657975196838379,
+        "planned": 4.795925617218018,
+        "observed": 5.488047122955322
       },
       "manifest_url": "cases_data/cases/case_06/case_manifest.json"
     },
     {
       "case_id": "case_07",
-      "case_name": "老街角非正式集市与售货摊区 (临时构筑 07)",
-      "case_name_en": "Old Street Corner Informal Market & Vendors (Temporary 07)",
+      "case_name": "船台旧址闲置塔吊构筑 (闲置构筑物 07)",
+      "case_name_en": "Idle Crane Structure at Old Slipway (Idle Structure 07)",
       "type": "temporary",
-      "type_zh": "临时构筑",
-      "description": "包含临时移动餐车、可折叠遮阳伞及临时展示棚架，优化目标在于规范非正式建构物。",
+      "type_zh": "闲置构筑物",
+      "description": "造船旧址留存的闲置塔吊构筑物，长期闲置缺乏维护，优化重点为结构加固、观景化改造与夜景照明。",
       "gps": {
-        "lat": 31.282778,
-        "lng": 121.55741499999999
+        "lat": 31.28186,
+        "lng": 121.55902
       },
       "scores": {
-        "before": 5.5966105461120605,
-        "planned": 5.974225044250488,
-        "observed": 5.767159938812256
+        "before": 4.528528213500977,
+        "planned": 4.55458927154541,
+        "observed": 5.647961139678955
       },
       "manifest_url": "cases_data/cases/case_07/case_manifest.json"
+    },
+    {
+      "case_id": "case_08",
+      "case_name": "岛西闲置水塔与配套构筑群 (闲置构筑物 08)",
+      "case_name_en": "Idle Water Tower & Auxiliary Structures (Idle Structure 08)",
+      "type": "temporary",
+      "type_zh": "闲置构筑物",
+      "description": "岛西侧闲置水塔及配套小型构筑群，界面封闭，优化重点为可进入性改造、立面活化与周边微空间织补。",
+      "gps": {
+        "lat": 31.28468,
+        "lng": 121.55638
+      },
+      "scores": {
+        "before": 4.117732048034668,
+        "planned": 4.355391979217529,
+        "observed": 5.21879243850708
+      },
+      "manifest_url": "cases_data/cases/case_08/case_manifest.json"
     }
-  ],
-  "missing_files_manifest": []
+  ]
 }

@@ -137,12 +137,12 @@
           <div v-if="activeState === 'before'" class="report-section">
             <h5 class="report-sub">{{ t('defectDiagnosis') }}</h5>
             <ul class="report-list">
-              <li 
-                v-for="(item, i) in reportContent.defects" 
+              <li
+                v-for="(item, i) in reportContent.defects"
                 :key="i"
                 :class="{ highlighted: isTextHighlighted(item.pattern_name) }"
               >
-                <strong>[{{ item.pattern_name }}]</strong>: {{ item.description }}
+                <strong>[{{ item.pattern_name }}]</strong>: {{ translateDefectDesc(item.description) }}
               </li>
             </ul>
           </div>
@@ -150,12 +150,12 @@
           <div v-else-if="activeState === 'planned'" class="report-section">
             <h5 class="report-sub">{{ t('plannedActions') }}</h5>
             <ul class="report-list">
-              <li 
-                v-for="(item, i) in reportContent.actions" 
+              <li
+                v-for="(item, i) in reportContent.actions"
                 :key="i"
                 :class="{ highlighted: isTextHighlighted(item.pattern_name) }"
               >
-                <strong>[{{ item.action }}]</strong>: {{ item.description }}
+                <strong>[{{ translateActionName(item.action) }}]</strong>: {{ translateActionDesc(item) }}
               </li>
             </ul>
           </div>
@@ -167,12 +167,12 @@
               {{ t('actualGain') }} <span class="score green">+{{ formatNum(reportContent.actual_gain) }}</span>
             </div>
             <ul class="report-list">
-              <li 
-                v-for="(item, i) in reportContent.outcomes" 
+              <li
+                v-for="(item, i) in reportContent.outcomes"
                 :key="i"
                 :class="{ highlighted: isTextHighlighted(item.pattern_name) }"
               >
-                <strong>[{{ item.pattern_name }}]</strong>: {{ item.description }}
+                <strong>[{{ translateOutcomeName(item.pattern_name) }}]</strong>: {{ translateOutcomeDesc(item.description) }}
               </li>
             </ul>
           </div>
@@ -190,6 +190,7 @@ import { ref, watch, onMounted, nextTick } from 'vue'
 import cytoscape from 'cytoscape'
 import Plotly from 'plotly.js-dist-min'
 import { useLang } from '../composables/useLang.js'
+import { actionZh } from '../data/reportZh.js'
 
 const { t, currentLang } = useLang()
 
@@ -230,6 +231,42 @@ const formatNum = (val) => {
 const translatePatternShort = (s) => {
   if (!s) return ''
   return currentLang.value === 'en' ? s : s.split('-').map(w => t(w.trim())).join(' - ')
+}
+
+// 报告描述翻译：defects 模板 "Negative pattern [a - b - c] active ... (count N); reason: ..."
+const translateDefectDesc = (desc) => {
+  if (currentLang.value === 'en' || !desc) return desc
+  const m = desc.match(/^Negative pattern \[(.+?)\] active in before scene \(count ([\d.]+)\); reason: (.+)$/)
+  if (!m) return desc
+  return `负向模式 [${translatePatternShort(m[1])}] 在现状场景中处于激活状态（数量 ${m[2]}）；原因：该激活模式对 XGBoost 评分为负向贡献`
+}
+
+// 报告描述翻译：actions 查表（key 为 action/pattern_short）
+const translateActionName = (action) => {
+  if (currentLang.value === 'en' || !action) return action
+  return actionZh[action]?.name || action
+}
+const translateActionDesc = (item) => {
+  if (currentLang.value === 'en') return item.description
+  return actionZh[item.action]?.desc || item.description
+}
+
+// 报告描述翻译：outcomes 模板 "Entities added: a, b, c" / "Entities suppressed: ..."
+const translateOutcomeDesc = (desc) => {
+  if (currentLang.value === 'en' || !desc) return desc
+  const m = desc.match(/^Entities (added|suppressed): (.+)$/)
+  if (!m) return desc
+  const head = m[1] === 'added' ? '新增实体' : '抑制实体'
+  const items = m[2].split(',').map(w => t(w.trim())).join('、')
+  return `${head}：${items}`
+}
+
+// outcomes 的 pattern_name 为 labels_added / labels_removed
+const translateOutcomeName = (name) => {
+  if (currentLang.value === 'en' || !name) return name
+  if (name === 'labels_added') return '新增实体'
+  if (name === 'labels_removed') return '抑制实体'
+  return name
 }
 
 const changeState = (state) => {
