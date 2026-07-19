@@ -34,6 +34,15 @@ Urban renewal has long suffered from a gap between **quantitative diagnosis** an
 
 ---
 
+## 🖼️ Exhibition Poster · 学术展板
+
+<div align="center">
+  <img src="docs/images/poster_01.jpg" alt="Exhibition Poster — Fuxing Island Innovation Gravity Field (1/2)" width="100%">
+  <img src="docs/images/poster_02.jpg" alt="Exhibition Poster — Fuxing Island Innovation Gravity Field (2/2)" width="100%">
+</div>
+
+---
+
 ## ✨ Highlights · 核心亮点
 
 | # | Highlight | 要点 |
