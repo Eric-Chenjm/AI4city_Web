@@ -194,50 +194,17 @@ const scrollToSection = (index) => {
 let scene, camera, renderer, controls
 let animationId
 
-const comparisonData = computed(() => [
-  {
-    id: 1,
-    primary: '/gallery/primary/picture_2026_07_17_17_46_53_937.jpg',
-    optimized: '/gallery/optimized/picture_2026_07_17_17_46_53_937_street_lock_v2_optimized.png',
-    title: currentLang.value === 'en' ? 'STREET SCENE 01' : '街景对比 01',
+const galleryIndices = ['001', '002', '006', '008', '019', '020', '021', '033', '034', '051', '053', '057', '063', '065', '067']
+
+const comparisonData = computed(() =>
+  galleryIndices.map((idx, i) => ({
+    id: i + 1,
+    primary: `/gallery/primary/${idx}_before.jpg`,
+    optimized: `/gallery/optimized/${idx}_after.png`,
+    title: currentLang.value === 'en' ? `STREET SCENE ${String(i + 1).padStart(2, '0')}` : `街景对比 ${String(i + 1).padStart(2, '0')}`,
     description: t('screensDesc')
-  },
-  {
-    id: 2,
-    primary: '/gallery/primary/picture_2026_07_17_17_51_25_295.jpg',
-    optimized: '/gallery/optimized/picture_2026_07_17_17_51_25_295_street_lock_v2_optimized.png',
-    title: currentLang.value === 'en' ? 'STREET SCENE 02' : '街景对比 02',
-    description: t('screensDesc')
-  },
-  {
-    id: 3,
-    primary: '/gallery/primary/picture_2026_07_17_17_52_11_783.jpg',
-    optimized: '/gallery/optimized/picture_2026_07_17_17_52_11_783_street_lock_v2_optimized.png',
-    title: currentLang.value === 'en' ? 'STREET SCENE 03' : '街景对比 03',
-    description: t('screensDesc')
-  },
-  {
-    id: 4,
-    primary: '/gallery/primary/picture_2026_07_17_17_53_34_537.jpg',
-    optimized: '/gallery/optimized/picture_2026_07_17_17_53_34_537_street_lock_v2_optimized.png',
-    title: currentLang.value === 'en' ? 'STREET SCENE 04' : '街景对比 04',
-    description: t('screensDesc')
-  },
-  {
-    id: 5,
-    primary: '/gallery/primary/picture_2026_07_17_17_54_50_704.jpg',
-    optimized: '/gallery/optimized/picture_2026_07_17_17_54_50_704_street_lock_v2_optimized.png',
-    title: currentLang.value === 'en' ? 'STREET SCENE 05' : '街景对比 05',
-    description: t('screensDesc')
-  },
-  {
-    id: 6,
-    primary: '/gallery/primary/picture_2026_07_17_18_07_26_046.jpg',
-    optimized: '/gallery/optimized/picture_2026_07_17_18_07_26_046_street_lock_v2_optimized.png',
-    title: currentLang.value === 'en' ? 'STREET SCENE 06' : '街景对比 06',
-    description: t('screensDesc')
-  }
-])
+  }))
+)
 
 const getParticleStyle = (index) => {
   const left = (index * 7) % 100
