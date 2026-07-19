@@ -7,10 +7,10 @@
       </div>
     </div>
     <div class="stats-body">
-      <!-- Pie Chart -->
-      <div class="pie-section">
-        <div class="sub-label">{{ t('ssAreaDist') }}</div>
-        <div ref="pieChart" class="pie-chart"></div>
+      <!-- Radar Chart -->
+      <div class="radar-section">
+        <div class="sub-label">{{ t('ssMedians') }}</div>
+        <div ref="radarChart" class="radar-chart"></div>
       </div>
 
       <!-- Quadrant Stats -->
@@ -239,7 +239,7 @@ watch(() => [props.samples, props.regionData], () => {
 
 // 监听语言变化，自动重绘图表
 watch(currentLang, () => {
-  if (chartInstance) updatePie()
+  if (chartInstance) updateRadar()
 })
 
 onMounted(() => {

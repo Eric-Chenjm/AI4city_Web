@@ -8,7 +8,8 @@
         <span v-if="activeLayer !== 'implicit' && currentIndicator" class="indicator-badge">{{ t('shmIndicator').toUpperCase() }}: {{ t(currentIndicator.name).toUpperCase() }}</span>
       </div>
     </div>
-    <div ref="mapChart" class="map-chart">
+    <div class="map-chart-wrapper">
+      <div ref="mapChart" class="map-chart"></div>
       <div v-if="mapLoading" class="map-overlay">
         <div class="map-spinner"></div>
         <span>{{ t('mapLoading') }}</span>
@@ -435,7 +436,7 @@ onUnmounted(() => {
   border-style: dashed;
 }
 
-.map-chart {
+.map-chart-wrapper {
   width: 100%;
   aspect-ratio: 1 / 1;
   min-height: 420px;
@@ -443,6 +444,11 @@ onUnmounted(() => {
   border-radius: 8px;
   overflow: hidden;
   position: relative;
+}
+
+.map-chart {
+  width: 100%;
+  height: 100%;
 }
 
 .map-overlay {
@@ -539,7 +545,7 @@ onUnmounted(() => {
 }
 
 @media (max-width: 1200px) {
-  .map-chart {
+  .map-chart-wrapper {
     min-height: 380px;
   }
 }

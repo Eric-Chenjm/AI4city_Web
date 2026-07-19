@@ -8,7 +8,8 @@
       </div>
     </div>
     <div class="map-body">
-      <div ref="mapChart" class="map-chart">
+      <div class="map-chart-wrapper">
+        <div ref="mapChart" class="map-chart"></div>
         <div v-if="mapLoading" class="map-overlay">
           <div class="map-spinner"></div>
           <span>{{ t('mapLoading') }}</span>
@@ -426,13 +427,18 @@ onUnmounted(() => {
   min-height: 0;
 }
 
-.map-chart {
+.map-chart-wrapper {
   flex: 1;
   min-width: 0;
   min-height: 280px;
   border-radius: 8px;
   overflow: hidden;
   position: relative;
+}
+
+.map-chart {
+  width: 100%;
+  height: 100%;
 }
 
 .map-overlay {
@@ -631,7 +637,7 @@ onUnmounted(() => {
 }
 
 @media (max-width: 1200px) {
-  .map-chart {
+  .map-chart-wrapper {
     min-height: 280px;
   }
 }
