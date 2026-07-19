@@ -186,7 +186,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, nextTick } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import cytoscape from 'cytoscape'
 import Plotly from 'plotly.js-dist-min'
 import { useLang } from '../composables/useLang.js'
@@ -221,6 +221,7 @@ const reportContent = ref(null)
 
 // Cytoscape 和 Plotly 实例变量
 let cy = null
+let cyResizeObserver = null
 
 const formatNum = (val) => {
   if (val === undefined || val === null) return '0.00'
@@ -421,6 +422,7 @@ const mockDiagnosticReport = () => {
 
 // Cytoscape.js 场景关系网络渲染
 const renderCytoscape = () => {
+  if (cy) { cy.destroy(); cy = null }
   const container = document.getElementById('cy-container')
   if (!container || !graphUiData.value?.graphs?.[activeState.value]) return
   
@@ -565,6 +567,13 @@ const renderCytoscape = () => {
     const node = evt.target
     emit('select-node', node.data('rawLabel'))
   })
+
+  if (!cyResizeObserver) {
+    cyResizeObserver = new ResizeObserver(() => {
+      if (cy) { cy.resize(); cy.fit(undefined, 24) }
+    })
+    cyResizeObserver.observe(container)
+  }
 }
 
 // Plotly.js SHAP 贡献度瀑布图渲染
@@ -690,6 +699,11 @@ watch(currentLang, () => {
 
 onMounted(() => {
   fetchCaseAssets()
+})
+
+onBeforeUnmount(() => {
+  cyResizeObserver?.disconnect()
+  cy?.destroy()
 })
 </script>
 
@@ -907,6 +921,16 @@ onMounted(() => {
   transform: translateX(-50%);
 }
 
+.slider-handle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+}
+
 .slider-line {
   width: 100%;
   height: 100%;
@@ -1068,5 +1092,7 @@ onMounted(() => {
   .evidence-grid {
     grid-template-columns: 1fr;
   }
+
+  .cytoscape-container { height: 320px; }
 }
 </style>

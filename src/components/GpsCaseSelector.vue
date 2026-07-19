@@ -745,6 +745,13 @@ onMounted(() => {
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 768px) {
+  .map-photo-container { height: 300px; }
+  .photo-frame { width: 140px; }
+  .cat-list { grid-template-columns: 1fr; }
+  .space-categories { height: auto; max-height: none; overflow-y: visible; }
+}
 </style>
 
 <style>

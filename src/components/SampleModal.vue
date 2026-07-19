@@ -367,13 +367,20 @@ onUnmounted(() => {
   .modal-body {
     grid-template-columns: 1fr;
   }
-  
+
   .modal-image-section {
     height: 250px;
   }
-  
+
   .radar-container {
     height: 220px;
+  }
+
+  .modal-content {
+    width: calc(100vw - 24px);
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
   }
 }
 </style>

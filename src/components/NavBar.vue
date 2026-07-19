@@ -28,17 +28,19 @@
         <span class="menu-icon">{{ isMobileMenuOpen ? '✕' : '☰' }}</span>
       </button>
     </div>
-    <div v-if="isMobileMenuOpen" class="mobile-menu">
-      <router-link 
-        v-for="link in navLinks" 
-        :key="link.path"
-        :to="link.path"
-        class="mobile-link"
-        @click="isMobileMenuOpen = false"
-      >
-        {{ t(link.key) }}
-      </router-link>
-    </div>
+    <Transition name="mobile-menu">
+      <div v-show="isMobileMenuOpen" class="mobile-menu">
+        <router-link
+          v-for="link in navLinks"
+          :key="link.path"
+          :to="link.path"
+          class="mobile-link"
+          @click="isMobileMenuOpen = false"
+        >
+          {{ t(link.key) }}
+        </router-link>
+      </div>
+    </Transition>
   </nav>
 </template>
 
@@ -89,7 +91,7 @@ const toggleMobileMenu = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
+  height: var(--navbar-h);
 }
 
 .navbar-logo {
@@ -251,26 +253,33 @@ const toggleMobileMenu = () => {
   color: #005BAC;
 }
 
+.mobile-menu-enter-active, .mobile-menu-leave-active { transition: opacity 0.2s ease; }
+.mobile-menu-enter-from, .mobile-menu-leave-to { opacity: 0; }
+
 @media (max-width: 768px) {
   .navbar-links {
     display: none;
   }
-  
+
   .mobile-menu-btn {
     display: block;
   }
-  
+
   .mobile-menu {
     display: block;
   }
-  
-  .logo-text {
-    font-size: 14px;
-    letter-spacing: 2px;
-  }
+
+  .navbar-container { padding: 0 12px; }
+  .navbar-logo { gap: 8px; }
+  .logo-icon { width: 44px; height: 44px; }
+  .logo-text { font-size: 12px; letter-spacing: 1px; white-space: nowrap; }
 
   .lang-toggle {
     padding: 4px 10px;
   }
+}
+
+@media (max-width: 480px) {
+  .logo-text { display: none; }
 }
 </style>

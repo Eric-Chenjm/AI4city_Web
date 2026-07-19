@@ -571,6 +571,7 @@ onUnmounted(() => {
   --font-body: 'Outfit', sans-serif;
   
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-primary);
   color: var(--text-primary);
   padding: 136px 40px 40px;
@@ -581,7 +582,7 @@ onUnmounted(() => {
 /* Section Nav */
 .section-nav {
   position: fixed;
-  top: 80px;
+  top: var(--navbar-h);
   left: 0;
   right: 0;
   z-index: 100;
@@ -955,9 +956,13 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
-  .analysis-page { padding: 136px 20px 20px; }
+  .analysis-page { padding: 110px 16px 20px; }
   .page-title { font-size: 24px; }
   .data-source-bar { flex-direction: column; align-items: flex-start; }
   .source-divider { width: 100%; height: 1px; }
+  .section-nav { padding: 10px 16px; }
+  .nav-dots { display: none; }
+  .stats-section, .spatial-section, .chart-section, .pipeline-section, .region-samples-section { scroll-margin-top: 120px; }
+  .region-samples-card { padding: 16px; }
 }
 </style>

@@ -14,6 +14,7 @@
   --text-muted: #718096;
   --border-color: rgba(0, 91, 172, 0.2);
   --border-light: rgba(255, 255, 255, 0.1);
+  --navbar-h: 80px;
 }
 
 * {
@@ -73,4 +74,8 @@ code, pre, .mono-font {
 
 button, a {
   font-family: inherit;
+}
+
+@media (max-width: 768px) {
+  :root { --navbar-h: 64px; }
 }

@@ -161,6 +161,10 @@ import { useLang } from '../composables/useLang.js'
 
 const { t, currentLang } = useLang()
 
+// 移动端快照：瓦片数/pixelRatio/autoplay 均按加载时断点一次性决定，旋转屏不切换
+const isMobileView = window.innerWidth <= 768
+const camStartPos = isMobileView ? [0, 14, 18] : [0, 10, 14]
+
 const canvasRef = ref(null)
 const radarCanvas = ref(null)
 const galleryScroll = ref(null)
@@ -393,21 +397,22 @@ const initThreeScene = async () => {
   scene.background = new THREE.Color(0x050a14)
   
   camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
-  camera.position.set(0, 10, 14)
-  
-  renderer = new THREE.WebGLRenderer({ 
-    canvas: canvasRef.value, 
+  camera.position.set(...camStartPos)
+
+  renderer = new THREE.WebGLRenderer({
+    canvas: canvasRef.value,
     antialias: true
     // 注意：不使用 alpha: true，避免与 scene.background 冲突导致透明白化
   })
   renderer.setSize(width, height)
-  renderer.setPixelRatio(window.devicePixelRatio)
-  
+  renderer.setPixelRatio(isMobileView ? Math.min(window.devicePixelRatio, 1.5) : window.devicePixelRatio)
+
   controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = true
   controls.dampingFactor = 0.05
   controls.minDistance = 2
   controls.maxDistance = 40
+  if (isMobileView) controls.enablePan = false
   
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
   scene.add(ambientLight)
@@ -494,8 +499,9 @@ const initThreeScene = async () => {
         const centerTy = Math.floor(centerPy)
         
         // ±15 半径 → 31×31 = 961 张，浏览器异步加载，不阻塞渲染
-        for (let tx = centerTx - 15; tx <= centerTx + 15; tx++) {
-          for (let ty = centerTy - 15; ty <= centerTy + 15; ty++) {
+        const tileRadius = isMobileView ? 5 : 15
+        for (let tx = centerTx - tileRadius; tx <= centerTx + tileRadius; tx++) {
+          for (let ty = centerTy - tileRadius; ty <= centerTy + tileRadius; ty++) {
             const posX = (tx + 0.5 - centerPx) * scale
             const posZ = (ty + 0.5 - centerPy) * scale
             
@@ -743,7 +749,7 @@ const resetCameraView = () => {
   hasFlown = false
   controls.enabled = true
   cameraAnim.active = false
-  camera.position.set(0, 10, 14)
+  camera.position.set(...camStartPos)
   controls.target.set(0, 0, 0)
   controls.update()
 }
@@ -896,15 +902,17 @@ onMounted(() => {
   window.addEventListener('resize', handleResize)
 
   // Gallery autoplay: start when screen-2 is visible
-  if (section1.value) {
-    galleryObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        startAutoplay()
-      } else {
-        stopAutoplay()
-      }
-    }, { threshold: 0.3 })
-    galleryObserver.observe(section1.value)
+  if (!isMobileView) {
+    if (section1.value) {
+      galleryObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          startAutoplay()
+        } else {
+          stopAutoplay()
+        }
+      }, { threshold: 0.3 })
+      galleryObserver.observe(section1.value)
+    }
   }
 
   // 3D scene camera flyover: trigger when screen-3 is visible
@@ -920,16 +928,18 @@ onMounted(() => {
   }
 
   // Pause autoplay on mouse hover, resume on leave
-  if (galleryScroll.value) {
-    galleryScroll.value.addEventListener('mouseenter', stopAutoplay)
-    galleryScroll.value.addEventListener('mouseleave', () => {
-      // Only restart if screen-2 is still visible
-      if (section1.value) {
-        const rect = section1.value.getBoundingClientRect()
-        const visible = rect.top < window.innerHeight && rect.bottom > 0
-        if (visible) startAutoplay()
-      }
-    })
+  if (!isMobileView) {
+    if (galleryScroll.value) {
+      galleryScroll.value.addEventListener('mouseenter', stopAutoplay)
+      galleryScroll.value.addEventListener('mouseleave', () => {
+        // Only restart if screen-2 is still visible
+        if (section1.value) {
+          const rect = section1.value.getBoundingClientRect()
+          const visible = rect.top < window.innerHeight && rect.bottom > 0
+          if (visible) startAutoplay()
+        }
+      })
+    }
   }
 })
 
@@ -955,7 +965,8 @@ onUnmounted(() => {
 
 <style scoped>
 .scroll-container {
-  height: calc(100vh - 80px);
+  height: calc(100vh - var(--navbar-h));
+  height: calc(100dvh - var(--navbar-h));
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
@@ -964,7 +975,7 @@ onUnmounted(() => {
 /* Section Nav */
 .section-nav {
   position: fixed;
-  top: 80px;
+  top: var(--navbar-h);
   left: 0;
   right: 0;
   z-index: 100;
@@ -1058,7 +1069,8 @@ onUnmounted(() => {
 }
 
 .screen {
-  height: calc(100vh - 80px);
+  height: calc(100vh - var(--navbar-h));
+  height: calc(100dvh - var(--navbar-h));
   width: 100%;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -1347,6 +1359,16 @@ onUnmounted(() => {
   -webkit-tap-highlight-color: transparent;
 }
 
+.slider-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+}
+
 .slider-handle {
   width: 40px;
   height: 40px;
@@ -1576,45 +1598,71 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
+  .scroll-container { scroll-snap-type: none; }
+
+  .screen-2 {
+    height: auto;
+    min-height: calc(100vh - var(--navbar-h));
+    min-height: calc(100dvh - var(--navbar-h));
+  }
+
+  .section-nav { padding: 10px 16px; }
+
+  .nav-dots { display: none; }
+
+  .scene-hint { display: none; }
+
   .hero-title {
     font-size: 36px;
     letter-spacing: 6px;
   }
-  
+
   .hero-subtitle {
     font-size: 16px;
     letter-spacing: 4px;
   }
-  
+
   .hero-desc {
     font-size: 14px;
     padding: 0 20px;
   }
-  
+
   .explore-btn {
-    right: 20px;
     bottom: 40px;
     padding: 12px 24px;
   }
-  
+
   .section-title {
     font-size: 24px;
   }
-  
+
   .comparison-item {
-    width: 90vw;
+    width: 100%;
   }
-  
+
   .score-value {
     font-size: 64px;
   }
-  
+
   .legend-panel {
-    right: 20px;
-    bottom: 20px;
-    padding: 12px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 10px 12px;
   }
-  
+
+  .legend-panel h4 { font-size: 11px; margin-bottom: 8px; }
+
+  .legend-items { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+
+  .gallery-indicators .indicator { padding: 14px; background-clip: content-box; }
+
+  .particle:nth-child(n+21) { display: none; }
+
   .enter-btn {
     padding: 16px 32px;
     font-size: 14px;

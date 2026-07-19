@@ -215,6 +215,7 @@ onUnmounted(() => {
   --font-body: 'Outfit', sans-serif;
 
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 96px 32px 40px;
   position: relative;
   overflow-x: hidden;
@@ -226,7 +227,7 @@ onUnmounted(() => {
 /* Section Nav */
 .section-nav {
   position: fixed;
-  top: 80px;
+  top: var(--navbar-h);
   left: 0;
   right: 0;
   z-index: 100;
@@ -471,105 +472,17 @@ onUnmounted(() => {
   50% { opacity: 1; }
 }
 
-/* Section Nav */
-.section-nav {
-  position: fixed;
-  top: 80px;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 32px;
-  background: rgba(10, 22, 40, 0.85);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 91, 172, 0.15);
-}
-
-.section-nav .nav-brand {
-  display: flex;
-  align-items: center;
-}
-
-.section-nav .brand-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  color: #005BAC;
-  background: rgba(0, 91, 172, 0.1);
-  border: 1px solid rgba(0, 91, 172, 0.3);
-  padding: 4px 12px;
-  border-radius: 3px;
-  letter-spacing: 2px;
-}
-
-.section-nav .nav-dots {
-  display: flex;
-  gap: 8px;
-}
-
-.section-nav .nav-dot {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px 10px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-.section-nav .nav-dot:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.section-nav .dot-marker {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.35);
-  transition: all 0.3s ease;
-}
-
-.section-nav .nav-dot.active .dot-marker {
-  background: #005BAC;
-  box-shadow: 0 0 10px rgba(0, 91, 172, 0.3);
-  transform: scale(1.3);
-}
-
-.section-nav .dot-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.35);
-  letter-spacing: 1px;
-  transition: color 0.3s ease;
-}
-
-.section-nav .nav-dot.active .dot-label {
-  color: #005BAC;
-}
-
-.section-nav .nav-progress-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.section-nav .nav-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #005BAC, #004A8C);
-  transition: width 0.3s ease;
-}
-
 /* 锚点防遮挡 */
 .page-header,
 .dashboard-main-layout > * {
   scroll-margin-top: 140px;
+}
+
+@media (max-width: 768px) {
+  .generate-page { padding: 80px 16px 32px; }
+  .page-title, .section-title { font-size: 20px; }
+  .section-nav { padding: 10px 16px; }
+  .nav-dots { display: none; }
+  .page-header, .dashboard-main-layout > * { scroll-margin-top: 120px; }
 }
 </style>

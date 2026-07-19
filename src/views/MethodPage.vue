@@ -619,7 +619,8 @@ onUnmounted(() => {
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
 
-  height: calc(100vh - 80px);
+  height: calc(100vh - var(--navbar-h));
+  height: calc(100dvh - var(--navbar-h));
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
@@ -632,7 +633,7 @@ onUnmounted(() => {
 /* Progress Nav */
 .progress-nav {
   position: fixed;
-  top: 80px;
+  top: var(--navbar-h);
   left: 0;
   right: 0;
   z-index: 100;
@@ -723,7 +724,8 @@ onUnmounted(() => {
 
 /* Chapter */
 .chapter {
-  height: calc(100vh - 80px);
+  height: calc(100vh - var(--navbar-h));
+  height: calc(100dvh - var(--navbar-h));
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
@@ -1789,5 +1791,13 @@ onUnmounted(() => {
   .llm-example { grid-template-columns: 1fr; }
   .example-image { width: 100%; height: 140px; }
   .gen-pipeline { grid-template-columns: 1fr; }
+  .method-page { scroll-snap-type: none; }
+  .chapter {
+    height: auto;
+    min-height: calc(100vh - var(--navbar-h));
+    min-height: calc(100dvh - var(--navbar-h));
+  }
+  .indicator-column { max-height: none; overflow-y: visible; }
+  .chapter-number { font-size: 96px; }
 }
 </style>

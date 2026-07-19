@@ -637,6 +637,11 @@ onBeforeUnmount(() => {
     align-items: stretch;
     gap: 16px;
   }
+
+  .patterns-grid { grid-template-columns: 1fr; }
+  .chart-wrapper { height: 260px; }
+  .fit-chart-container { height: 220px; }
+  .big-stats-row { flex-wrap: wrap; }
 }
 
 .metric-sub-card {
