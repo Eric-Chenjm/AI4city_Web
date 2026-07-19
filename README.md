@@ -313,7 +313,7 @@ If you use this platform or its datasets in academic work, please cite the softw
 @software{fuxingdao_innovation_gravity_field,
   title   = {Fuxing Island · Innovation Gravity Field: An AIGC Decision-Support
              Platform for Urban Renewal (AI4Cities)},
-  author  = {{AI4Cities Research Team}},
+  author  = {Cao, Zhan and Wu, Cai and Chen, Jiaming},
   year    = {2026},
   url     = {https://github.com/Eric-Chenjm/AI4city_Web},
   note    = {Vue 3 + Vite static SPA; dual-dimension indicator system (15 explicit +
