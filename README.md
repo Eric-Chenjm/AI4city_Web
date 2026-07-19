@@ -28,7 +28,7 @@ Urban renewal has long suffered from a gap between **quantitative diagnosis** an
 
 **EN.** We present an end-to-end, evidence-chained pipeline that couples a **dual-dimension indicator system** (15 explicit physical + 6 implicit perceptual measures) with **scene-graph spatial inference** (OvSGTR → gSpan → XGBoost → TreeSHAP) and **AIGC counterfactual generation**, producing auditable *Before / Planned / Observed* evidence for every design intervention. The methodology is trained and validated on **Shanghai's central city** (4,435 grids at 500 m × 500 m resolution) and generalized to **Fuxing Island** as a four-zone innovation activation strategy.
 
-**中文.** 城市更新长期存在「量化诊断」与「设计行动」之间的断层：规划者能测量城市，却难以追溯空间为何低效、干预建成后会呈现何种面貌。本平台以**显/隐双维指标体系**（15 项显性物理指标 + 6 项隐性感知指标）为诊断基底，串联 **OvSGTR 场景图空间推理 → gSpan 频繁子图挖掘 → XGBoost 空间打分 → TreeSHAP 贡献归因**方法链，并以 **AIGC 反事实生成**输出可追溯、可复现、可审计的 **Before / Planned / Observed 三态证据链**。方法在上海市中心城区（4,435 个格网、500 m × 500 m 分辨率）完成训练与验证，并泛化应用于复兴岛四大更新分区。
+城市更新长期存在「量化诊断」与「设计行动」之间的断层：规划者能测量城市，却难以追溯空间为何低效、干预建成后会呈现何种面貌。本平台以**显/隐双维指标体系**（15 项显性物理指标 + 6 项隐性感知指标）为诊断基底，串联 **OvSGTR 场景图空间推理 → gSpan 频繁子图挖掘 → XGBoost 空间打分 → TreeSHAP 贡献归因**方法链，并以 **AIGC 反事实生成**输出可追溯、可复现、可审计的 **Before / Planned / Observed 三态证据链**。方法在上海市中心城区（4,435 个格网、500 m × 500 m 分辨率）完成训练与验证，并泛化应用于复兴岛四大更新分区。
 
 > **Positioning:** an academic-grade, fully client-side decision-support system — every dataset ships with the repository; the only runtime network dependencies are CartoDB basemap tiles and Google Fonts.
 
@@ -61,7 +61,7 @@ The platform is organized as four routes, each mapping to one stage of the resea
 | **Analyze** | `/analysis` | Talent Demand Detector — data intelligence dashboard | **21 indicators** (15 explicit + 6 implicit) rendered as ECharts geo custom polygons on a locally registered Shanghai map; live MEAN/STD/HIGH/LOW statistics; histogram / trend / quartile / donut chart suites; ResNet18 perception pipeline view; **four-quadrant region map** with click-linked detail cards; 16 sampled street-view training samples with six-dimension radar profiles |
 | **Method** | `/method` | Five-chapter methodology narrative | Research framework → indicator system (15 explicit + 6 implicit) → technical implementation (LLM/VLM scoring + DBSCAN clustering) → AIGC generation (6-node evidence chain) → generalization to Fuxing Island's four zones |
 
-**中文.** 四页面各司其职：**Above** 承担落地展示（对比画廊 + Three.js 三维场景）；**Generate** 承担模型与案例推理（训练概览 + GPS 案例 + 三态证据链）；**Analyze** 承担数据智能（21 指标格网大屏 + 四象限诊断 + 样本雷达）；**Method** 承担方法论叙事（五章节，vue-i18n 驱动）。
+四页面各司其职：**Above** 承担落地展示（对比画廊 + Three.js 三维场景）；**Generate** 承担模型与案例推理（训练概览 + GPS 案例 + 三态证据链）；**Analyze** 承担数据智能（21 指标格网大屏 + 四象限诊断 + 样本雷达）；**Method** 承担方法论叙事（五章节，vue-i18n 驱动）。
 
 ---
 
@@ -75,7 +75,7 @@ The platform is organized as four routes, each mapping to one stage of the resea
 >
 > The implicit perceptual measures are aggregated from six-dimensional semantic vectors extracted by vision/large language models from street-view imagery, capturing the human-centered interaction qualities of each place.
 
-**中文.** 显性维度刻画「空间结构」（用地、密度、可达性等 15 项），隐性维度刻画「人本感知」（场所认同、创新氛围、空间意象、科技渗透、工作效率、工作幸福感 6 项），与问卷量表一一对应。
+显性维度刻画「空间结构」（用地、密度、可达性等 15 项），隐性维度刻画「人本感知」（场所认同、创新氛围、空间意象、科技渗透、工作效率、工作幸福感 6 项），与问卷量表一一对应。
 
 <details>
 <summary><b>Full indicator list · 完整指标清单（15 显性 + 6 隐性）</b></summary>
@@ -127,7 +127,7 @@ Multi-task regression head — transfer learning (FC 512 → 6, MSE loss)
 Interpolated onto 500 m × 500 m grids (EPSG:4549)
 ```
 
-**中文.** 13,000 张街景图像经 ImageNet 预训练、冻结主干的 ResNet18 提取 512 维嵌入，再由多任务回归头（FC 512→6，MSE 损失）迁移学习得到六维隐性指标，插值至 500 m 格网（EPSG:4549 坐标系）。
+13,000 张街景图像经 ImageNet 预训练、冻结主干的 ResNet18 提取 512 维嵌入，再由多任务回归头（FC 512→6，MSE 损失）迁移学习得到六维隐性指标，插值至 500 m 格网（EPSG:4549 坐标系）。
 
 ### 3. Interpretable Spatial Scoring · 可解释空间打分方法链
 
@@ -147,7 +147,7 @@ Scene Image → OvSGTR Scene Graph → gSpan Frequent Subgraph Mining
 
 **EN.** Rather than a black-box regressor, we featurize each scene as counts of 221 frequent subgraph patterns mined by gSpan from OvSGTR scene graphs. XGBoost learns the mapping from pattern counts to spatial scores, and TreeSHAP attributes every prediction back to individual subgraph patterns — producing ranked positive/negative spatial-pattern leaderboards (Top-10 each, with mean SHAP value, support, frequency, and SVG subgraph icons) that designers can inspect and act upon.
 
-**中文.** 我们不使用黑盒回归：每个场景被表征为 OvSGTR 场景图中 221 个 gSpan 频繁子图模式的计数向量，XGBoost 学习「模式计数 → 空间得分」映射，TreeSHAP 将每次预测归因至具体子图模式，产出正/负向空间模式排行榜（各 Top10，含 SHAP 均值、support、频数与 SVG 子图图标），供设计者审查与操作。
+我们不使用黑盒回归：每个场景被表征为 OvSGTR 场景图中 221 个 gSpan 频繁子图模式的计数向量，XGBoost 学习「模式计数 → 空间得分」映射，TreeSHAP 将每次预测归因至具体子图模式，产出正/负向空间模式排行榜（各 Top10，含 SHAP 均值、support、频数与 SVG 子图图标），供设计者审查与操作。
 
 ### 4. Four-Quadrant Diagnosis · 四象限诊断
 
@@ -168,7 +168,7 @@ Scene Image → OvSGTR Scene Graph → gSpan Frequent Subgraph Mining
 
 The **HH region** covers **1,099 grids (270.114 km²)**. Clicking any quadrant in the dashboard reveals per-quadrant detail cards (grid count, area, dimension medians) and six-dimension radar profiles of the 16 sampled training sites (4 per quadrant), each with georeferenced street-view imagery and hundred-scale scoring bars.
 
-**中文.** 以三分位阈值交叉显性/隐性两维，得到 HH（双高）/ LH（感性）/ LL（双低）/ HL（理性）四象限类型学；类别为研究区**相对分布**而非绝对标准，该声明已作为学术元数据写入 GeoJSON。HH 区共 1,099 个格网、270.114 km²。
+以三分位阈值交叉显性/隐性两维，得到 HH（双高）/ LH（感性）/ LL（双低）/ HL（理性）四象限类型学；类别为研究区**相对分布**而非绝对标准，该声明已作为学术元数据写入 GeoJSON。HH 区共 1,099 个格网、270.114 km²。
 
 ### 5. Three-State AIGC Evidence Chain · 三态证据链
 
@@ -184,7 +184,7 @@ ORIGINAL → STRUCTURE → TRAIN → EDIT → GENERATE → EVALUATE
 
 Each case directory contains exactly **8 files** (`before.jpg`, `observed.png`, `optimized.png`, `case_manifest.json`, `graph_ui.json`, `waterfalls.json`, `observed_after_report.json`, `trace_index.json`). When a report is missing, the UI degrades by rule-based synthesis under an explicit **"no fabrication"** constraint (enforced in code comments). Three validation cases quantify observed gains: **+38% density, +45% green cover, +60% diversity**.
 
-**中文.** 8 个 GPS 案例（滨水 ×2 / 公共空间 ×2 / 老旧厂房 ×2 / 闲置构筑物 ×2）均具备可审计的三态链：Before 缺陷诊断（检测框叠加 + 语义图 + 诊断报告）、Planned 反事实计划（20 余种优化动作、三类动作体系、AIGC 提示语片段与预测增益，如 4.650→4.790）、Observed 实景对比（滑块对比与实测得分，如 →5.864，同时报告 planned_gain 与 actual_gain）。每案例目录固定 8 个文件；报告缺失时按规则降级生成，代码层明确「不得伪造」。三个验证案例量化增益：密度 +38%、绿覆率 +45%、多样性 +60%。
+8 个 GPS 案例（滨水 ×2 / 公共空间 ×2 / 老旧厂房 ×2 / 闲置构筑物 ×2）均具备可审计的三态链：Before 缺陷诊断（检测框叠加 + 语义图 + 诊断报告）、Planned 反事实计划（20 余种优化动作、三类动作体系、AIGC 提示语片段与预测增益，如 4.650→4.790）、Observed 实景对比（滑块对比与实测得分，如 →5.864，同时报告 planned_gain 与 actual_gain）。每案例目录固定 8 个文件；报告缺失时按规则降级生成，代码层明确「不得伪造」。三个验证案例量化增益：密度 +38%、绿覆率 +45%、多样性 +60%。
 
 ---
 
@@ -202,7 +202,7 @@ Each case directory contains exactly **8 files** (`before.jpg`, `observed.png`, 
 | Performance | Route-level code splitting; Three.js initializes only when scrolled into view (IntersectionObserver); asynchronous tile loading; Cytoscape ≤ 32 nodes; trend charts sampled to ≤ 50 points; rAF-throttled drag interactions | 路由级代码分割、到屏初始化、异步瓦片、节点/采样上限、rAF 节流 |
 | Visual system | `#0a1628` deep-space blue base · `#005BAC` primary blue · `#00B5D8` cyan · `#B8742A` copper; glassmorphism cards; Syncopate / JetBrains Mono / Outfit typefaces | 深蓝 + 主蓝 + 青 + 铜四色体系，毛玻璃卡片 |
 
-**中文小结.** 平台为纯前端静态 SPA，无后端；全部数据以静态资产随仓库发布。工程取舍以数据与科研可复现性为准绳：双语、测地学、容错、性能与移动端均有显式策略。
+平台为纯前端静态 SPA，无后端；全部数据以静态资产随仓库发布。工程取舍以数据与科研可复现性为准绳：双语、测地学、容错、性能与移动端均有显式策略。
 
 ---
 
@@ -328,7 +328,7 @@ This project is released under the **MIT License**. See [LICENSE](LICENSE) for d
 
 **EN.** We thank the open-source communities behind Vue, Vite, Three.js, ECharts, Cytoscape, Plotly, and MapLibre GL; CARTO for the `dark_nolabels` basemap tiles; and Google Fonts for the Syncopate / JetBrains Mono / Outfit typefaces. We are equally grateful to the authors of OvSGTR, gSpan, XGBoost, TreeSHAP, ResNet, and DBSCAN — the methodological pillars on which this platform stands.
 
-**中文.** 感谢 Vue、Vite、Three.js、ECharts、Cytoscape、Plotly、MapLibre GL 开源社区；感谢 CARTO 提供的 `dark_nolabels` 瓦片底图与 Google Fonts 字体服务；感谢 OvSGTR、gSpan、XGBoost、TreeSHAP、ResNet、DBSCAN 等方法学基石的原作者。
+感谢 Vue、Vite、Three.js、ECharts、Cytoscape、Plotly、MapLibre GL 开源社区；感谢 CARTO 提供的 `dark_nolabels` 瓦片底图与 Google Fonts 字体服务；感谢 OvSGTR、gSpan、XGBoost、TreeSHAP、ResNet、DBSCAN 等方法学基石的原作者。
 
 <div align="center">
 
