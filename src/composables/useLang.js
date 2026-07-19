@@ -11,6 +11,7 @@ const messages = {
     navGenerate:  'GENERATE',
     navAnalyze:   'ANALYZE',
     navMethod:    'METHOD',
+    logoText:     'INNOVATION GRAVITY FIELD',
 
     // ── ModelTrainingOverview ────────────────────────────────────
     row01Title:     'Model Training & Pattern Overview',
@@ -383,10 +384,11 @@ const messages = {
 
   zh: {
     // ── NavBar ──────────────────────────────────────────────────
-    navCompare:   'Above',
+    navCompare:   '首页',
     navGenerate:  '生成',
     navAnalyze:   '分析',
     navMethod:    '方法',
+    logoText:     '创新引力场',
 
     // ── ModelTrainingOverview ────────────────────────────────────
     row01Title:     '模型训练与频繁模式总览',
@@ -822,6 +824,7 @@ export function useLang() {
 
   const toggleLang = () => {
     state.lang = state.lang === 'en' ? 'zh' : 'en'
+    localStorage.setItem('locale', state.lang)
   }
 
   const setLang = (l) => {

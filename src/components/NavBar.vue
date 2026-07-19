@@ -3,7 +3,7 @@
     <div class="navbar-container">
       <div class="navbar-logo">
         <img class="logo-icon" src="../assets/dcd19cd3718b.png" alt="Logo" />
-        <span class="logo-text">{{ t('INNOVATION GRAVITY FIELD') }}</span>
+        <span class="logo-text">{{ t('logoText') }}</span>
       </div>
       <div class="navbar-links">
         <router-link 
