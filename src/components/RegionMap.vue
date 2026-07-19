@@ -8,7 +8,16 @@
       </div>
     </div>
     <div class="map-body">
-      <div ref="mapChart" class="map-chart"></div>
+      <div ref="mapChart" class="map-chart">
+        <div v-if="mapLoading" class="map-overlay">
+          <div class="map-spinner"></div>
+          <span>{{ t('mapLoading') }}</span>
+        </div>
+        <div v-else-if="mapError" class="map-overlay">
+          <span>{{ t('mapLoadError') }}</span>
+          <button class="map-retry-btn" @click="registerMapAndInit">{{ t('mapRetry') }}</button>
+        </div>
+      </div>
       <div class="region-legend">
         <div class="legend-title">{{ t('rmQuadrants') }}</div>
         <div class="legend-list">
@@ -45,6 +54,7 @@
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import * as echarts from 'echarts'
 import { useLang } from '../composables/useLang.js'
+import { loadShanghaiMap } from '../utils/mapLoader.js'
 
 const { t, currentLang } = useLang()
 
@@ -62,6 +72,8 @@ const emit = defineEmits(['quadrant-click'])
 const mapChart = ref(null)
 let chartInstance = null
 const mapReady = ref(false)
+const mapLoading = ref(true)
+const mapError = ref(false)
 const viewAdjusted = ref(false)
 
 const quadrants = [
@@ -304,15 +316,18 @@ const handleResize = () => {
 }
 
 const registerMapAndInit = async () => {
+  mapLoading.value = true
+  mapError.value = false
   try {
-    const shanghaiJson = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/310000_full.json').then(r => r.json())
+    const shanghaiJson = await loadShanghaiMap()
     echarts.registerMap('shanghai', shanghaiJson)
     mapReady.value = true
-    nextTick(() => {
-      updateMap()
-    })
+    nextTick(() => updateMap())
   } catch (e) {
-    console.warn('Failed to load shanghai map:', e)
+    mapError.value = true
+    console.warn('上海地图数据加载失败', e)
+  } finally {
+    mapLoading.value = false
   }
 }
 
@@ -417,6 +432,55 @@ onUnmounted(() => {
   min-height: 280px;
   border-radius: 8px;
   overflow: hidden;
+  position: relative;
+}
+
+.map-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(10, 22, 40, 0.85);
+  backdrop-filter: blur(4px);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+}
+
+.map-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(0, 91, 172, 0.2);
+  border-top-color: #005BAC;
+  border-radius: 50%;
+  animation: map-spin 0.8s linear infinite;
+}
+
+@keyframes map-spin {
+  to { transform: rotate(360deg); }
+}
+
+.map-retry-btn {
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.map-retry-btn:hover {
+  border-color: #005BAC;
+  color: #005BAC;
 }
 
 .region-legend {

@@ -215,6 +215,11 @@ defineEmits(['select'])
   .samples-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .sample-image-wrapper {
+    flex: none;
+    aspect-ratio: 4 / 3;
+  }
 }
 
 @media (max-width: 768px) {

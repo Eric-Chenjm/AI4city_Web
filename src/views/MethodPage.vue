@@ -1799,5 +1799,19 @@ onUnmounted(() => {
   }
   .indicator-column { max-height: none; overflow-y: visible; }
   .chapter-number { font-size: 96px; }
+  .llm-pipeline {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .pipeline-arrow {
+    align-self: center;
+    transform: rotate(90deg);
+    margin: 16px 0;
+  }
+  .theme-title {
+    font-size: 22px;
+    letter-spacing: 2px;
+  }
 }
 </style>

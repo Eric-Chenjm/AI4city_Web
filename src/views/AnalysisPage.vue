@@ -957,7 +957,7 @@ onUnmounted(() => {
 
 @media (max-width: 768px) {
   .analysis-page { padding: 110px 16px 20px; }
-  .page-title { font-size: 24px; }
+  .page-title { font-size: 24px; letter-spacing: 2px; }
   .data-source-bar { flex-direction: column; align-items: flex-start; }
   .source-divider { width: 100%; height: 1px; }
   .section-nav { padding: 10px 16px; }
